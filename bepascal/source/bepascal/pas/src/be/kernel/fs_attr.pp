@@ -11,14 +11,11 @@ uses
 
 type
   attr_info = record
-    at_type : Longint; // uint32 type 
+    at_type : Longword; // uint32 type 
     size    : off_t;   // off_t size
   end;
 
-// Note: in the following methods, I used: integer (32 bits) = int (?? bits)
-// Please confirm/fix this.
-
-// I also renamed the 'type' parameter to attype (attribute type)
+// I renamed the 'type' parameter to attype (attribute type)
 
 function fs_read_attr(fd : Integer; const attribute : PChar; attype : Longword;
                       pos : off_t; buf : Pointer; count : size_t)
