@@ -28,8 +28,8 @@ type
   private
   public
     constructor Create; override;
-    constructor Create(mime_sig : PChar; aTeam : TTeam_id; perr : PStatus_t); 
-    constructor Create(handler : THandler; looper : TLooper; perr : PStatus_t);
+    constructor Create(mime_sig : PChar; aTeam : TTeam_id; var err : TStatus_t); 
+    constructor Create(handler : THandler; looper : TLooper; var err : TStatus_t);
     constructor Create(from : TMessenger);
     destructor Destroy; override;
     function IsTargetLocal : boolean;
@@ -59,8 +59,8 @@ type
   end;
 
 function BMessenger_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
-function BMessenger_Create(AObject : TBeObject; mime_sig : PChar; team : TTeam_id; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
-function BMessenger_Create(AObject : TBeObject; handler : THandler; looper : TLooper; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
+function BMessenger_Create(AObject : TBeObject; mime_sig : PChar; team : TTeam_id; var err : TStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
+function BMessenger_Create(AObject : TBeObject; handler : THandler; looper : TLooper; var err : TStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
 function BMessenger_Create(AObject : TBeObject; from : TMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
 procedure BMessenger_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_Free';
 function BMessenger_IsTargetLocal(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_IsTargetLocal';
@@ -100,14 +100,14 @@ begin
   BMessenger_Create(Self);
 end;
 
-constructor TMessenger.Create(mime_sig : PChar; aTeam : TTeam_id; perr : PStatus_t);
+constructor TMessenger.Create(mime_sig : PChar; aTeam : TTeam_id; var err : TStatus_t);
 begin
-  CPlusObject := BMessenger_Create(Self, mime_sig, aTeam, perr);
+  CPlusObject := BMessenger_Create(Self, mime_sig, aTeam, err);
 end;
 
-constructor TMessenger.Create(handler : THandler; looper : TLooper; perr : PStatus_t);
+constructor TMessenger.Create(handler : THandler; looper : TLooper; var err : TStatus_t);
 begin
-  CPlusObject := BMessenger_Create(Self, handler, looper, perr);
+  CPlusObject := BMessenger_Create(Self, handler, looper, err);
 end;
 
 constructor TMessenger.Create(from : TMessenger);
