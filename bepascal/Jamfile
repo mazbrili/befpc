@@ -1,3 +1,23 @@
+#   BePascal - A pascal wrapper around the BeOS API
+#    Copyright (C) 2002-2003 Olivier Coursiere                                        
+#                            Matt Emson
+#                            Eric Jourde                                              
+#                            Oscar Lesta
+#                                                                                
+#    This library is free software; you can redistribute it and/or               
+#    modify it under the terms of the GNU Library General Public                 
+#    License as published by the Free Software Foundation; either                
+#    version 2 of the License, or (at your option) any later version.            
+#                                                                                
+#    This library is distributed in the hope that it will be useful,             
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of              
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU           
+#    Library General Public License for more details.                            
+#                                                                                
+#    You should have received a copy of the GNU Library General Public           
+#    License along with this library; if not, write to the Free                  
+#    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA   
+
 SubDir BEPASCAL_TOP ;
 
 # Force creation of target's directories BEFORE the building of libbepascal.so
@@ -7,12 +27,27 @@ SubInclude BEPASCAL_TOP source ;
 
 # set the distribution dir
 DISTRIB_DIR = distrib ;
+LIBBEPASCAL_INSTALL_DIR = /boot/home/config/lib ;
 
-# make all distribution files. We recursively add all files in those directories except the ones in
-# CVS subdirectories
-MakeZip pas_sources.zip : source/bepascal/pas ;
-MakeZip cpp_sources.zip : source/bepascal/cpp ;
-MakeZip bin_bepascal.zip : source/bepascal/pas lib ;
-MakeZip demos.zip : demos ;
-MakeZip docs.zip : docs ;
+rule MakeDistribs
+{
+	MkDir $(DISTRIB_DIR) ;
+	# copy libbepascal.so in lib
+	Bulk lib : libbepascal.so ;
+	Depends all :  ;
+	# binary files like libbepascal.so are needed to build bin_bepascal.zip
+	Depends bin_bepascal.zip : libbepascal.so ;
+	# make all distribution files. We recursively add all files in those directories except the ones in
+	# CVS subdirectories
+	MakeZip pas_sources.zip : source/bepascal/pas ;
+	MakeZip cpp_sources.zip : source/bepascal/cpp ;
+	MakeZip bin_bepascal.zip : source/bepascal/pas lib ;
+	MakeZip demos.zip : demos ;
+	MakeZip docs.zip : docs ;
+}
 
+# Install libbepascal.so in LIBBEPASCAL_INSTALL_DIR (/boot/home/config/lib)
+InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libbepascal.so ;
+
+# Make distribution files
+MakeDistribs ;
