@@ -46,6 +46,11 @@ type
   	B_PLAIN_BORDER,
   	B_FANCY_BORDER,
   	B_NO_BORDER);
+  
+  TButton_width = (
+    B_WIDTH_AS_USUAL,
+    B_WIDTH_FROM_WIDSET,
+    B_WIDTH_FROM_LABEL);
 
 function ui_color(which : Tcolor_which) : Trgb_color; cdecl; external 'be' name 'ui_color__F11color_which';
 function Ttint_color(color : Trgb_color; which :Tcolor_which) : Trgb_color;cdecl; external 'be' name 'tint_color__FG9rgb_colorf';
