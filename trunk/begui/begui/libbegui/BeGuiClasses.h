@@ -16,6 +16,7 @@
 #include <PopUpMenu.h>
 #include <Menu.h>
 #include <CheckBox.h>
+#include <kernel/OS.h>
 #include "MList.h"
 
 ////////////////////////////////////////////////////////////////////
@@ -322,10 +323,12 @@ protected:
   MGUIList *fForms; 
   bool fTerminating;
 public:
-  MApplication();
-  MApplication(MForm* mainForm);
+  MApplication(const char* signature = "application/x-vnd.beguiapp");
   virtual ~MApplication();
+  virtual thread_id Run(void); 
   virtual void Terminate(void);
+  virtual void RefsReceived(BMessage *message);
+  virtual void MessageReceived(BMessage *message);
   virtual MForm* AddForm(BRect ClientArea, BString name, bool showForm = false);
   virtual MForm* GetMainForm(void){ return fMainForm; };
   virtual bool Terminating(void){ return fTerminating; };
