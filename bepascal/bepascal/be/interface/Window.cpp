@@ -91,6 +91,26 @@ void BWindow_Hide(TCPlusObject Window)
 	reinterpret_cast<BWindow*>(Window)->Hide();
 }
 
+void BWindow_AddChild(BWindow* Window, BView* aView, BView* sibling)
+{
+	Window->AddChild(aView, sibling);
+}
+
+bool BWindow_RemoveChild(BWindow* Window, BView* aView)
+{
+	return Window->RemoveChild(aView);
+}
+
+BView* BWindow_ChildAt(BWindow* Window, int32 index)
+{
+	return Window->ChildAt(index);
+}
+
+int32 BWindow_CountChildren(BWindow* Window, void)
+{
+	return Window->CountChildren();
+}
+
 #if defined(__cplusplus)
 }
 #endif

@@ -42,7 +42,7 @@ begin
   WriteLn('Message reçue');
 end;
 
-procedure Handler_MessageReceived_hook_func(Handler : THandler; aMessage : TCPlusObject);
+procedure Handler_MessageReceived_hook_func(Handler : THandler; aMessage : TCPlusObject); cdecl;
 var
   Message : TMessage;
 begin
