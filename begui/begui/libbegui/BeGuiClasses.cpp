@@ -1,12 +1,16 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.1.1.1 2002-03-31 10:36:16 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.2 2002-04-12 23:32:56 memson Exp $
   
-  $Revision: 1.1.1.1 $
+  $Revision: 1.2 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.1.1.1  2002/03/31 10:36:16  memson
+
+  initial import into sourceforge
+
   Revision 1.19  2002/03/26 13:28:51  memson
 
-  added in combobox su[pport - flawed at the moment.
+  added in combobox support - flawed at the moment.
 
   Revision 1.18  2002/03/14 22:31:41  memson
 
@@ -99,8 +103,10 @@
 #define BEGUI_EXPORTS 1
 
 #include "MList.h"
+#include "MFile.h"
 #include "BeGuiClasses.h"
 #include <stdio.h>
+#include <storage/Path.h>
 
 //clik - control click
 #define ClickMessage  'clik'
@@ -788,8 +794,8 @@ void MButton::Draw(BRect updateArea)
 
 //Application Class...
 
-MApplication::MApplication(): 
-    BApplication("application/x-vnd.beguiapp"),
+MApplication::MApplication(const char* signature): 
+    BApplication(signature),
     MEventPlugin()
 {
   BRect tmpRect;
@@ -797,36 +803,76 @@ MApplication::MApplication():
   BString formname = "main";
   
   fMainForm = new MForm(tmpRect);
-  fMainForm->Show();  
+  //fMainForm->Show();  
   
   fForms = new MGUIList();
   fForms->AddItem(new MGUIListItem(formname, fMainForm));
   
   fTerminating = false; //controls the act of shutting down
 
-  DoCreate( dynamic_cast<BControl*>(this) );
-}
-
-MApplication::MApplication(MForm* mainForm): 
-    BApplication("application/x-vnd.beguiapp"),
-    MEventPlugin()
-{
-  BString formname = "main";
-    
-  fMainForm = mainForm;
-  fMainForm->Show();
-  
-  fForms = new MGUIList();
-  fForms->AddItem(new MGUIListItem(formname, fMainForm));
-  
-  fTerminating = false; //controls the act of shutting down
-  
   DoCreate( dynamic_cast<BControl*>(this) );
 }
 
 MApplication::~MApplication()
 {
   DoDestroy( dynamic_cast<BControl*>(this) );
+}
+
+thread_id MApplication::Run(void)
+{
+  if (fMainForm != NULL) fMainForm->Show();
+  
+  return BApplication::Run();
+  
+}
+
+void MApplication::RefsReceived(BMessage *message)
+{
+  if (message->what == SAVE_PANEL_MESSAGE){
+    printf("\nSave\n");
+  }
+}
+
+void MApplication::MessageReceived(BMessage *message)
+{
+  void *pointer;
+  MFilePanel *filepanel;
+  entry_ref ref;
+  const char *name;
+  BPath path;
+  BEntry entry;
+  status_t err = B_OK;
+  
+  if (message->what == SAVE_PANEL_MESSAGE || message->what == OPEN_PANEL_MESSAGE){
+    printf("\nSave\n");
+    if ( (err = message->FindRef("directory", &ref)) != B_OK ) {
+      printf("failed to find dir, error %d\n", err);
+      return;
+    }
+    if ( (err = message->FindString("name", &name)) != B_OK ){
+      printf("failed to find filename, error %d\n", err);
+      return;    
+    }
+    
+    if ( (err = entry.SetTo(&ref)) != B_OK ){
+      printf("failed to create entr from path, error %d\n", err);
+      return;
+    }
+    
+    entry.GetPath(&path);
+    path.Append(name);
+    
+    printf( "%s\n", path.Path() );
+    
+    if (message->FindPointer("source", &pointer) == B_OK){
+      printf("works1\n");
+      if ((filepanel =  reinterpret_cast<MFilePanel*>(pointer)) != NULL){
+        printf("works2\n");
+        filepanel->DoExecute( path );
+      }  
+    }
+  }
+
 }
 
 void MApplication::Terminate(void)
@@ -963,16 +1009,18 @@ bool MForm::QuitRequested()
 
 void MForm::UpdateBounds(void)
 {
-  fClientArea = this->Bounds();
+  //fClientArea = this->Bounds();
 }
 
 void  MForm::setWidth(float w)
 {
   float h = fClientArea.Height();
   
-  this->ResizeTo(h, w);
+  fClientArea.Set(fClientArea.left, fClientArea.top, fClientArea.left + w, fClientArea.top + h);
   
-  UpdateBounds();
+  this->ResizeTo(w, h);
+  
+  //UpdateBounds();
   
 }
 
@@ -980,9 +1028,11 @@ void  MForm::setHeight(float h)
 {
   float w = fClientArea.Width();
   
-  this->ResizeTo(h, w);
+  fClientArea.Set(fClientArea.left, fClientArea.top, fClientArea.left + w, fClientArea.top + h);
   
-  UpdateBounds();
+  this->ResizeTo(w, h);
+  
+  //UpdateBounds();
 }
 
 float MForm::getWidth(void)
@@ -1101,6 +1151,7 @@ void MCanvas::KeyUp(const char *bytes, int32 numBytes)
 void MCanvas::MouseDown(BPoint pt)
 {
   BPoint point;
+  int32 buttons = 0;
 
   BView::MouseDown(pt);
   
@@ -1108,17 +1159,22 @@ void MCanvas::MouseDown(BPoint pt)
     fOnMouseDown( this, pt.x, pt.y );
   }
   
-  if (fPopUpMenu != NULL){
-    point = pt;
-    ConvertToScreen(&point);
-    BMenuItem *mni = fPopUpMenu->Go(point, true);
+  Looper()->CurrentMessage()->FindInt32("buttons", &buttons);
+  
+  
+  if (buttons == B_SECONDARY_MOUSE_BUTTON) {
+    if (fPopUpMenu != NULL){
+      point = pt;
+      ConvertToScreen(&point);
+      BMenuItem *mni = fPopUpMenu->Go(point, true);
     
-    if (mni){
-      MMenuItem *mmni = dynamic_cast<MMenuItem*>(mni);
-      if(mmni){
-        mmni->DoMenuClick(mmni);
-      } 
-    }
+      if (mni){
+        MMenuItem *mmni = dynamic_cast<MMenuItem*>(mni);
+        if(mmni){
+          mmni->DoMenuClick(mmni);
+        } 
+      }
+    } 
   }
 }
 

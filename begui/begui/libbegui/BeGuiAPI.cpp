@@ -1,9 +1,13 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.2 2002-04-02 20:42:15 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.3 2002-04-12 23:32:56 memson Exp $
   
-  $Revision: 1.2 $
+  $Revision: 1.3 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.2  2002/04/02 20:42:15  memson
+
+  updated for Eric
+
   Revision 1.1.1.1  2002/03/31 10:36:07  memson
 
   initial import into sourceforge
@@ -181,6 +185,28 @@ MMemo* MForm_AddMMemo(MForm *form, float left, float top, float right, float bot
 MMemo* MForm_AddMMemo(MForm *form, int32 left, int32 top, int32 right, int32 bottom, char *caption){
   BRect btnRect(left, top, right, bottom);
   return form->Canvas()->AddMemo(btnRect, caption);
+}
+
+int32 MForm_getWidth(MForm *frm){
+  return 0;
+}
+
+int32 MForm_getHeight(MForm *frm){
+  return 0;
+}
+
+void MForm_setWidth(MForm *frm, int32 value){
+  if (frm->Lock()) {
+    frm->setWidth(value);
+    frm->Unlock();
+  }
+}
+
+void MForm_setHeight(MForm *frm, int32 value){
+   if (frm->Lock()) {
+     frm->setHeight(value);
+     frm->Unlock();
+   }
 }
 
 ///
@@ -497,6 +523,20 @@ void GenericAlert(const char *message){
   
   alert = new BAlert("Info", message, "OK");
   alert->Go();
+}
+
+#include <Beep.h>
+
+status_t be_beep(){
+  return beep();
+}
+
+status_t be_system_beep(const char * event_name){
+  return system_beep(event_name);
+}
+
+status_t be_add_system_beep_event(const char * event_name, uint32 flags){
+  return add_system_beep_event(event_name, flags);
 }
 
 /////////////////////////////////////////

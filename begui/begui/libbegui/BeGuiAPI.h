@@ -60,6 +60,10 @@ void MForm_AttachDrawDispatcher(MForm *form, drawAction_Message msg);
 void MForm_Show(MForm *frm);
 void MForm_Hide(MForm *frm);
 void MForm_AddPopUpMenu(MForm *frm, MPopUpMenu *mni);
+int32 MForm_getWidth(MForm *frm);
+int32 MForm_getHeight(MForm *frm);
+void MForm_setWidth(MForm *frm, int32 value);
+void MForm_setHeight(MForm *frm, int32 value);
 
 //button
 MButton* MButton_Create(float left, float top, float right, float bottom, char *caption);
@@ -135,6 +139,10 @@ bool  MCheckBox_Checked(MCheckBox *cbx);
 uint32 GetBaseMessage(void);
 uint32 GetNextMessage(void);
 void GenericAlert(const char *message);
+
+status_t be_beep();
+status_t be_system_beep(const char * event_name);
+status_t be_add_system_beep_event(const char * event_name, uint32 flags);
 
 #ifdef __cplusplus
 } 
