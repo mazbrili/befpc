@@ -1,7 +1,8 @@
 /*  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2003 Olivier Coursiere
-                       Eric Jourde
-                       Oscar Lesta
+    Copyright (C) 2003-2004 Olivier Coursiere
+                            Eric Jourde
+                            Oscar Lesta
+                            Mika Lindqvist
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -25,10 +26,10 @@
 #include "looper.h"
 #include <beobj.h>
 
-/*----------------------------------------------------------------*/
-/*----- BAlert class ---------------------------------------------*/
+//--- BAlert class -------------------------------------------------------------
 
-class BPAlert : public BAlert, public BPWindow // Is this OK? or should be public virtual?
+class BPAlert : public BAlert, public BPWindow
+// Is this OK? or should be public virtual?
 {
 public:
 					BPAlert(TPasObject PasObject,
@@ -52,11 +53,11 @@ public:
 
 //virtual				~BAlert();
 
-/* Archiving */
+// Archiving
 static	BArchivable	*Instantiate(BMessage *data);
 //virtual	status_t	Archive(BMessage *data, bool deep = true) const;
 	
-/* BAlert guts */
+// BAlert guts
 		void		SetShortcut(int32 button_index, char key);
 		char		Shortcut(int32 button_index) const;
 
@@ -112,8 +113,8 @@ virtual	void		_ReservedAlert3();
 		uint32			_reserved[4];
 */
 };
-/*-------------------------------------------------------------*/
-/*-------------------------------------------------------------*/
+
+//------------------------------------------------------------------------------
 
 BPAlert::BPAlert(TPasObject PasObject,
 				const char *title,
@@ -222,7 +223,7 @@ BPAlert::Quit(void)
 bool
 BPAlert::QuitRequested(void)
 {
-	BAlert::QuitRequested();
+	return BAlert::QuitRequested();
 }
 
 
