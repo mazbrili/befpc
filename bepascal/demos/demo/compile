@@ -3,6 +3,6 @@ if [ ! -d units ]
   then mkdir units
 fi
 
-ppc386 -FE./ -FU./units ./sources/main.pp -oBPDemo
+ppc386 -FE./ -FU./units ./sources/main.pp -oBPDemo -g -gl
 mergeres ./sources/Resource.rsrc BPDemo
 mimeset BPDemo
