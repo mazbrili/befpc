@@ -48,12 +48,10 @@ var
 
 procedure TLooper.DispatchMessage(aMessage : TMessage; aTarget : THandler);
 begin
-  WriteLn('Looper.DispatchMessage');
 end;
 
 function TLooper.QuitRequested() : boolean;
 begin
-  WriteLn('Looper.QuitRequested');
   Result := True;
 end;
 
@@ -75,7 +73,6 @@ var
   Message : TMessage;
   Target : THandler;
 begin
-  WriteLn('Hook DispatchMessage !');
   Message := TMessage.Wrap(aMessage);
   try
     Target := THandler.Wrap(aTarget);
@@ -91,7 +88,6 @@ end;
 
 function Looper_QuitRequested_hook_func(Looper : TLooper) : boolean; cdecl;
 begin
-  WriteLn('Hook QuitRequested !');
   if Looper <> nil then
     Result := Looper.QuitRequested();
 end;

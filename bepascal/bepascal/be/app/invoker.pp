@@ -133,23 +133,18 @@ end;
 
 function TInvoker.SetTarget(h : THandler; loop : TLooper) : TStatus_t;
 begin
-  WriteLn('Start of SetTarget');
   if loop <> nil then
   begin
-    WriteLn('Différent de nil');
     Result := BInvoker_SetTarget(CPlusObject, h.CPlusObject, loop.CPlusObject);
   end
   else if h <> nil then
   begin
-    WriteLn('Egale de nil');  
 //    Result := BInvoker_SetTarget(CPlusObject, h.CPlusObject, nil);   
   end
   else
   begin  
-    WriteLn('nil et nil');
     Result := BInvoker_SetTarget(CPlusObject, nil, nil);
   end;
-  WriteLn('End of SetTarget');
 end;
 
 function TInvoker.SetTarget(aMessenger : TMessenger) : TStatus_t;

@@ -39,9 +39,11 @@ var
   
 procedure THandler.MessageReceived(aMessage : TMessage);
 begin
+{$IFDEF DEBUG}
   WriteLn(ClassName + '.MessageReceived');
   WriteLn('Message reçue');
   aMessage.PrintToStream;
+{$ENDIF}
 end;
 
 procedure Handler_MessageReceived_hook_func(Handler : THandler; aMessage : TCPlusObject); cdecl;
@@ -49,7 +51,9 @@ var
   Message : TMessage;
 begin
   try
+{$IFDEF DEBUG}
     WriteLn('Hook MessageReceived !');
+{$ENDIF}
     Message := TMessage.Wrap(aMessage);
     try
       if Handler <> nil then
@@ -60,7 +64,9 @@ begin
   except
     on e : exception do
     begin
+{$IFDEF DEBUG}
       WriteLn(e.Message + 'Handler_MessageReceived');
+{$ENDIF}
     end;
   end
 end;

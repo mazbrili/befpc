@@ -55,7 +55,7 @@ void BPWindow::MessageReceived(BMessage *message)
 {
 	MessageReceived_hookCall(message);
 	BWindow::MessageReceived(message);
-	message->PrintToStream();
+//	message->PrintToStream();
 }
 
 void BPWindow::DispatchMessage(BMessage *message, BHandler *target)

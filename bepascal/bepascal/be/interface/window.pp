@@ -462,8 +462,7 @@ end;
 
 procedure TWindow.DispatchMessage(message : TMessage; handler : THandler);
 begin
-  WriteLn(ClassName);
-  message.PrintToStream;
+
 end;
 
 procedure TWindow.MessageReceived(message : TMessage);
