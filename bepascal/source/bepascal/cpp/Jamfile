@@ -119,7 +119,8 @@ LIBPATHS =  ;
 # Additional paths to look for system headers
 #	These use the form: #include <header>
 #	source file directories are NOT auto-included here
-SYSTEM_INCLUDE_PATHS = $(SEARCH_SOURCE)/include/be/app 
+SYSTEM_INCLUDE_PATHS = . 
+                       $(SEARCH_SOURCE)/include/be/app 
                        $(SEARCH_SOURCE)/include/be/bepas_kernel
                        $(SEARCH_SOURCE)/include/be/interface
                        $(SEARCH_SOURCE)/include/be/support
@@ -161,7 +162,7 @@ DEBUGGER =  ;
 COMPILER_FLAGS =  ;
 
 # Specify additional linker flags
-LINKER_FLAGS =  ;
+LINKER_FLAGS on libbepascal.so =  ;
 
 # (for TYPE == DRIVER only) Specify desired location of driver in the /dev
 #	hierarchy. Used by the driverinstall rule. E.g., DRIVER_PATH = video/usb will
