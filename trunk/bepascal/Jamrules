@@ -1,0 +1,36 @@
+rule UserObject 
+{
+	switch $(2)
+	{
+		case *.pp : fpc $(1) : $(2) ;
+	}
+}
+
+rule fpc
+{
+	echo $(1) ;
+	echo $(2) ;
+	Depends $(1) : $(2) ;
+	PPUFILES += $(2)u ;
+	Clean clean : $(2)u ;
+	echo $(2)u ;
+	echo $(LOCATE_TARGET) ;
+	echo $(PPUFILES) ;
+}
+
+actions fpc
+{
+	fpc -g -S2 $(2)
+}
+
+rule MakeZip 
+{
+	Depends all : $(1) ;
+	Clean clean : $(DISTRIB_DIR)/$(1) ;
+}
+
+actions MakeZip
+{
+	mkdir $(DISTRIB_DIR)
+	zip $(DISTRIB_DIR)/$(1) -r $(2)
+}
