@@ -43,6 +43,8 @@ class BPControl : public BControl, virtual public BPView
 		virtual void AttachedToWindow(void);
 		virtual void SetEnabled(bool enabled);
 		virtual void SetValue(int32 value);
+		virtual void SetEnabled_hookCall(bool enabled);
+		virtual void SetValue_hookCall(int32 value);
 	private:
 };
 

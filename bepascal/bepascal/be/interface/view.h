@@ -56,6 +56,22 @@ class BPView : public BView, public virtual BPHandler
 		virtual void WindowActivated(bool active);
 		virtual void Draw_hookCall(BRect updateRect);		
 		virtual void AttachedToWindow_hookCall(void);		
+		virtual void AllAttached_hookCall(void);
+		virtual void AllDetached_hookCall(void);
+		virtual void DetachedFromWindow_hookCall(void);
+		virtual void DrawAfterChildren_hookCall(BRect updateRect);
+		virtual void FrameMoved_hookCall(BPoint parentPoint);
+		virtual void FrameResized_hookCall(float width, float height);
+		virtual void GetPreferredSize_hookCall(float *width, float *height);
+		virtual void ResizeToPreferred_hookCall(void);
+		virtual void KeyDown_hookCall(const char *bytes, int32 numBytes);
+		virtual void KeyUp_hookCall(const char *bytes, int32 numBytes);
+		virtual void MouseDown_hookCall(BPoint point);
+		virtual void MouseMoved_hookCall(BPoint point, uint32 transit, const BMessage *message);
+		virtual void MouseUp_hookCall(BPoint point);
+		virtual void Pulse_hookCall(void);
+//		virtual void TargetedByScrollView_hookCall(BScrollView *scroller);
+		virtual void WindowActivated_hookCall(bool active);		
 	private:	
 };
 

@@ -106,6 +106,16 @@ const
   B_DRAW_ON_CHILDREN		: Cardinal = $00400000;//23;
   _B_RESERVED7_				: Cardinal = $00200000;//22;
 
+  B_FONT_FAMILY_AND_STYLE	= 1;
+  B_FONT_SIZE				= 2;
+  B_FONT_SHEAR				= 4;
+  B_FONT_ROTATION			= 8;
+  B_FONT_SPACING     		= 16;
+  B_FONT_ENCODING			= 32;
+  B_FONT_FACE				= 64;
+  B_FONT_FLAGS				= 128;
+  B_FONT_ALL				= 255;
+  
 implementation
 
 var

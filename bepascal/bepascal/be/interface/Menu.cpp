@@ -31,8 +31,6 @@ BPMenu::BPMenu(TPasObject PasObject, const char *name, float width, float height
           BPHandler(PasObject),
           BPasObject(PasObject)
 {
-	BMenuItem *item = new BMenuItem("Bonjour", new BMessage(7887));
-	AddItem(item);
 }
 
 BPMenu::BPMenu(TPasObject PasObject, BMessage *archive)
@@ -49,6 +47,117 @@ BPMenu::BPMenu(TPasObject PasObject, BRect frame, const char *name, uint32 resiz
           BPHandler(PasObject),
           BPasObject(PasObject)
 {
+}
+
+void BPMenu::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BMenu::MessageReceived(message);
+}
+
+void BPMenu::AllAttached(void)
+{
+//	AllAttached_hookCall(message);
+}
+
+void BPMenu::AttachedToWindow(void)
+{
+	BMenu::AttachedToWindow();
+//	AttachedToWindow_hookCall();	
+}
+
+void BPMenu::AllDetached(void)
+{
+//	View_AllDetached_hook(GetPasObject());
+}
+
+void BPMenu::DetachedFromWindow(void)
+{
+//	View_DetachedFromWindow_hook(GetPasObject());
+}
+
+void BPMenu::Draw(BRect updateRect)
+{
+	BMenu::Draw(updateRect);
+	Draw_hookCall(updateRect);	
+}
+
+void BPMenu::DrawAfterChildren(BRect updateRect)
+{
+//	View_DrawAfterChildren_hook(GetPasObject(), &updateRect);
+}
+
+void BPMenu::FrameMoved(BPoint parentPoint)
+{
+//	View_FrameMoved_hook(GetPasObject(), &parentPoint);
+}
+
+void BPMenu::FrameResized(float width, float height)
+{
+//	View_FrameResized_hook(GetPasObject(), width, height);
+}
+
+void BPMenu::GetPreferredSize(float *width, float *height)
+{
+//	View_GetPreferredSize_hook(GetPasObject(), width, height);
+}
+
+void BPMenu::ResizeToPreferred(void)
+{
+//	View_ResizeToPreferred_hook(GetPasObject());
+}
+
+void BPMenu::KeyDown(const char *bytes, int32 numBytes)
+{
+//	View_KeyDown_hook(GetPasObject(), bytes, numBytes);
+}
+
+void BPMenu::KeyUp(const char *bytes, int32 numBytes)
+{
+//	View_KeyUp_hook(GetPasObject(), bytes, numBytes);
+}
+
+void BPMenu::MouseDown(BPoint point)
+{
+//	View_MouseDown_hook(GetPasObject(), &point);
+}
+
+void BPMenu::MouseMoved(BPoint point, uint32 transit, const BMessage *message)
+{
+//	View_MouseMoved_hook(GetPasObject(), &point, transit, &message);
+}
+
+void BPMenu::MouseUp(BPoint point)
+{
+//	View_MouseUp_hook(GetPasObject(), &point);
+}
+
+void BPMenu::Pulse(void)
+{
+//	View_Pulse_hook(GetPasObject());
+}
+
+//void BPMenu::TargetedByScrollView(BScrollView *scroller)
+//{
+//	View_TargetedByScrollView(GetPasObject(), scroller);
+//}
+
+void BPMenu::WindowActivated(bool active)
+{
+//	View_WindowActivated_hook(GetPasObject(), active);
+}
+
+void BPMenu::SetEnabled(bool enabled)
+{
+}
+
+void BPMenu::SetValue(int32 value)
+{
+}
+
+void BPMenu::MakeDefault(bool)
+{
+
 }
 
 #if defined(__cplusplus)

@@ -14,7 +14,7 @@ class BPMenuBar : public BMenuBar, virtual public BPMenu
 		BPMenuBar(TPasObject PasObject, const char *name, float width, float height);
 		BPMenuBar(TPasObject PasObject, BMessage *archive);
 		BPMenuBar(TPasObject PasObject, BRect frame, const char *name, uint32 resizingMode, uint32 flags, menu_layout layout, bool resizeToFit);
-/*		virtual void MessageReceived(BMessage *message);
+		virtual void MessageReceived(BMessage *message);
 		virtual void Draw(BRect updateRect);
 		virtual void AttachedToWindow(void);
 		virtual void MakeDefault(bool flag);
@@ -36,7 +36,7 @@ class BPMenuBar : public BMenuBar, virtual public BPMenu
 		virtual void Pulse(void);
 //		virtual void TargetedByScrollView(BScrollView *scroller);
 		virtual void SetEnabled(bool enabled);
-		virtual void SetValue(int32 value);*/
+		virtual void SetValue(int32 value);
 	private:
 };
 

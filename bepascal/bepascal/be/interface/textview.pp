@@ -21,21 +21,21 @@ unit textview;
 interface
 
 uses
-  beobj, interfacedefs,view,Message, Archivable, SupportDefs, Rect, Handler;
-
-{type
+     beobj, view, message, archivable, SupportDefs, rect, list,
+  handler, messenger,interfacedefs,font,graphicdefs;
+type
   Ttext_run = Record
-    offset : Integer;
-    font TFont; 
+    offset : LongInt;
+    font : TFont; 
     color : Trgb_color;
 end;
 
 type
   Ttext_run_array = Record
-    count : Integer;
-     runs : Ttext_run runs;
+    count : LongInt;
+     runs : Array[1..1] of Ttext_run ;
   end;
-}  
+  
 type
 Tundo_state =(undo_state_nil,
 	B_UNDO_UNAVAILABLE,
@@ -70,15 +70,15 @@ type
     function ResolveSpecifier(message : TMessage; index : integer; specifier : TMessage; form : integer; properti : PChar) : THandler;
     function GetSupportedSuites(data : TMessage) : TStatus_t;
     function Perform(d : TPerform_code; arg : Pointer) : TStatus_t;
-{    procedure SetText(inText : PChar; inRuns :  Ttext_tun_array);
-    procedure SetText(inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
-    procedure SetText(inFile : TFile; startOffset : integer; inLength : integer; inRuns :  Ttext_tun_array);
-    procedure Insert(inText : PChar; inRuns :  Ttext_tun_array);
-    procedure Insert(inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
-    procedure Insert(startOffset : integer; inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
-}    procedure Delete;
+    procedure SetText(inText : PChar; var inRuns :  Ttext_run_array);
+    procedure SetText(inText : PChar; inLength : integer; var inRuns :  Ttext_run_array);
+//    procedure SetText(inFile : TFile; startOffset : integer; inLength : integer; var inRuns :  Ttext_run_array);
+    procedure Insert(inText : PChar; var inRuns :  Ttext_run_array);
+    procedure Insert(inText : PChar; inLength : integer; var inRuns :  Ttext_run_array);
+    procedure Insert(startOffset : integer; inText : PChar; inLength : integer;var  inRuns :  Ttext_run_array);
+    procedure Delete;
     procedure Delete(startOffset : integer; endOffset : integer);
-    function Text : PChar;
+    function aText : PChar;
     function TextLength : integer;
     procedure GetText(offset : integer; length : integer; buffer : PChar);
     function ByteAt(offset : integer) :  PChar;
@@ -94,11 +94,13 @@ type
     procedure Select(startOffset : integer; endOffset : integer);
     procedure SelectAll;
 //    procedure GetSelection(outStart : integer; outEnd : integer);
-{    procedure SetFontAndColor(inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color);
-    procedure SetFontAndColor(startOffset : integer; endOffset : integer; inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color);
+    procedure SetFontAndColor(inFont :  TFont; inMode : Cardinal; var inColor :  TRGB_color);
+    procedure SetFontAndColor(inFont :  TFont; inMode : Cardinal);
+    procedure SetFontAndColor(inFont :  TFont);
+    procedure SetFontAndColor(startOffset : Cardinal; endOffset : Cardinal; inFont :  TFont; inMode : Cardinal; var inColor :  Trgb_color);
     procedure GetFontAndColor(inOffset : integer; outFont :  TFont; outColor : Trgb_color);
     procedure GetFontAndColor(outFont :  TFont; outMode :  integer; outColor : Trgb_color; outEqColor : boolean);
-   procedure SetRunArray(startOffset : integer; endOffset : integer; inRuns :  Ttext_tun_array);
+{   procedure SetRunArray(startOffset : integer; endOffset : integer; inRuns :  Ttext_tun_array);
     function RunArray(startOffset : integer; endOffset : integer; outSize : ^integer) : Ttext_run_array;
 }    function LineAt(offset : integer) : integer;
     function LineAt(point : TPoint) : integer;
@@ -176,12 +178,12 @@ procedure BTextView_MessageReceived(AObject : TCPlusObject; message : TCPlusObje
 function BTextView_ResolveSpecifier(AObject : TCPlusObject; message : TCPlusObject; index : integer; specifier : TCPlusObject; form : integer; properti : PChar) : THandler; cdecl; external BePascalLibName name 'BTextView_ResolveSpecifier';
 function BTextView_GetSupportedSuites(AObject : TCPlusObject; data : TCPlusObject) : TStatus_t; cdecl; external BePascalLibName name 'BTextView_GetSupportedSuites';
 function BTextView_Perform(AObject : TCPlusObject; d : TPerform_code; arg : Pointer) : TStatus_t; cdecl; external BePascalLibName name 'BTextView_Perform';
-//procedure BTextView_SetText(AObject : TCPlusObject; inText : PChar; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_SetText';
-//procedure BTextView_SetText(AObject : TCPlusObject; inText : PChar; inLength : integer; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_SetText';
+procedure BTextView_SetText(AObject : TCPlusObject; inText : PChar;var inRuns :  Ttext_run_array); cdecl; external BePascalLibName name 'BTextView_SetText';
+procedure BTextView_SetText(AObject : TCPlusObject; inText : PChar; inLength : integer;var inRuns :  Ttext_run_array); cdecl; external BePascalLibName name 'BTextView_SetText_1';
 //procedure BTextView_SetText(AObject : TCPlusObject; inFile : TFile; startOffset : integer; inLength : integer; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_SetText';
-//procedure BTextView_Insert(AObject : TCPlusObject; inText : PChar; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_Insert';
-//procedure BTextView_Insert(AObject : TCPlusObject; inText : PChar; inLength : integer; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_Insert';
-//procedure BTextView_Insert(AObject : TCPlusObject; startOffset : integer; inText : PChar; inLength : integer; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_Insert';
+procedure BTextView_Insert(AObject : TCPlusObject; inText : PChar;var inRuns :  Ttext_run_array); cdecl; external BePascalLibName name 'BTextView_Insert';
+procedure BTextView_Insert(AObject : TCPlusObject; inText : PChar; inLength : integer;var inRuns :  Ttext_run_array); cdecl; external BePascalLibName name 'BTextView_Insert_1';
+procedure BTextView_Insert(AObject : TCPlusObject; startOffset : integer; inText : PChar; inLength : integer;var inRuns :  Ttext_run_array); cdecl; external BePascalLibName name 'BTextView_Insert_2';
 procedure BTextView_Delete(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_Delete';
 procedure BTextView_Delete(AObject : TCPlusObject; startOffset : integer; endOffset : integer); cdecl; external BePascalLibName name 'BTextView_Delete';
 function BTextView_Text(AObject : TCPlusObject) : PChar; cdecl; external BePascalLibName name 'BTextView_Text';
@@ -200,10 +202,12 @@ function BTextView_AcceptsDrop(AObject : TCPlusObject; inMessage : TCPlusObject)
 procedure BTextView_Select(AObject : TCPlusObject; startOffset : integer; endOffset : integer); cdecl; external BePascalLibName name 'BTextView_Select';
 procedure BTextView_SelectAll(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_SelectAll';
 //procedure BTextView_GetSelection(AObject : TCPlusObject; outStart : ^integer; outEnd : ^integer); cdecl; external BePascalLibName name 'BTextView_GetSelection';
-//procedure BTextView_SetFontAndColor(AObject : TCPlusObject; inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor';
-//procedure BTextView_SetFontAndColor(AObject : TCPlusObject; startOffset : integer; endOffset : integer; inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor';
-//procedure BTextView_GetFontAndColor(AObject : TCPlusObject; inOffset : integer; outFont :  TFont; outColor : Trgb_color); cdecl; external BePascalLibName name 'BTextView_GetFontAndColor';
-//procedure BTextView_GetFontAndColor(AObject : TCPlusObject; outFont :  TFont; outMode :  integer; outColor : Trgb_color; outEqColor : boolean); cdecl; external BePascalLibName name 'BTextView_GetFontAndColor';
+procedure BTextView_SetFontAndColor(AObject : TCPlusObject; inFont :  TCPlusObject; inMode : Cardinal; var inColor :  Trgb_color); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor';
+procedure BTextView_SetFontAndColor(AObject : TCPlusObject; inFont :  TCPlusObject; inMode : Cardinal); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor';
+procedure BTextView_SetFontAndColor(AObject : TCPlusObject; inFont :  TCPlusObject); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor';
+procedure BTextView_SetFontAndColor(AObject : TCPlusObject; startOffset : cardinal; endOffset : cardinal; inFont :  TCPlusObject; inMode : Cardinal; var inColor :  Trgb_color); cdecl; external BePascalLibName name 'BTextView_SetFontAndColor_1';
+procedure BTextView_GetFontAndColor(AObject : TCPlusObject; inOffset : cardinal; outFont :  TCPlusObject; outColor : Trgb_color); cdecl; external BePascalLibName name 'BTextView_GetFontAndColor';
+procedure BTextView_GetFontAndColor(AObject : TCPlusObject; outFont :  TCPlusObject; outMode :  integer; outColor : Trgb_color; outEqColor : boolean); cdecl; external BePascalLibName name 'BTextView_GetFontAndColor';
 //procedure BTextView_SetRunArray(AObject : TCPlusObject; startOffset : integer; endOffset : integer; inRuns :  Ttext_tun_array); cdecl; external BePascalLibName name 'BTextView_SetRunArray';
 //function BTextView_RunArray(AObject : TCPlusObject; startOffset : integer; endOffset : integer; outSize : ^integer) : Ttext_run_array; cdecl; external BePascalLibName name 'BTextView_RunArray';
 function BTextView_LineAt(AObject : TCPlusObject; offset : integer) : integer; cdecl; external BePascalLibName name 'BTextView_LineAt';
@@ -379,7 +383,6 @@ end;
 
 procedure  TTextView.KeyDown(bytes : PChar; numBytes : integer);
 begin
-  writeln(self.countlines);
   //BTextView_KeyDown(CPlusObject, bytes, numBytes);
 end;
 
@@ -400,12 +403,14 @@ end;
 
 procedure  TTextView.MessageReceived(message : TMessage);
 begin
+  inherited;
 //  BTextView_MessageReceived(CPlusObject, message.CPlusObject);
 end;
 
 function  TTextView.ResolveSpecifier(message : TMessage; index : integer; specifier : TMessage; form : integer; properti : PChar) : THandler;
 begin
   //Result := BTextView_ResolveSpecifier(CPlusObject, message.CPlusObject, index, specifier.CPlusObject, form, properti);
+  
 end;
 
 function  TTextView.GetSupportedSuites(data : TMessage) : TStatus_t;
@@ -418,36 +423,36 @@ begin
   Result := BTextView_Perform(CPlusObject, d, arg);
 end;
 
-{procedure  TTextView.SetText(inText : PChar; inRuns :  Ttext_tun_array);
+procedure  TTextView.SetText(inText : PChar; var inRuns :  Ttext_run_array);
 begin
   BTextView_SetText(CPlusObject, inText, inRuns);
 end;
 
-procedure  TTextView.SetText(inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
+procedure  TTextView.SetText(inText : PChar; inLength : integer; var inRuns :  Ttext_run_array);
 begin
   BTextView_SetText(CPlusObject, inText, inLength, inRuns);
 end;
 
-procedure  TTextView.SetText(inFile : TFile; startOffset : integer; inLength : integer; inRuns :  Ttext_tun_array);
+{procedure  TTextView.SetText(inFile : TFile; startOffset : integer; inLength : integer; inRuns :  Ttext_run_array);
 begin
   BTextView_SetText(CPlusObject, inFile.CPlusObject, startOffset, inLength, inRuns);
 end;
-
-procedure  TTextView.Insert(inText : PChar; inRuns :  Ttext_tun_array);
+}
+procedure  TTextView.Insert(inText : PChar;var inRuns :  Ttext_run_array);
 begin
   BTextView_Insert(CPlusObject, inText, inRuns);
 end;
 
-procedure  TTextView.Insert(inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
+procedure  TTextView.Insert(inText : PChar; inLength : integer; var inRuns :  Ttext_run_array);
 begin
   BTextView_Insert(CPlusObject, inText, inLength, inRuns);
 end;
 
-procedure  TTextView.Insert(startOffset : integer; inText : PChar; inLength : integer; inRuns :  Ttext_tun_array);
+procedure  TTextView.Insert(startOffset : integer; inText : PChar; inLength : integer; var inRuns :  Ttext_run_array);
 begin
   BTextView_Insert(CPlusObject, startOffset, inText, inLength, inRuns);
 end;
-}
+
 procedure  TTextView.Delete;
 begin
   BTextView_Delete(CPlusObject);
@@ -458,7 +463,7 @@ begin
   BTextView_Delete(CPlusObject, startOffset, endOffset);
 end;
 
-function  TTextView.Text : PChar;
+function  TTextView.aText : PChar;
 begin
   Result := BTextView_Text(CPlusObject);
 end;
@@ -537,15 +542,25 @@ end;
 begin
   BTextView_GetSelection(CPlusObject, outStart, outEnd);
 end;
-
-procedure  TTextView.SetFontAndColor(inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color);
+}
+procedure  TTextView.SetFontAndColor(inFont :  TFont; inMode : Cardinal; var inColor :  Trgb_color);
 begin
-  BTextView_SetFontAndColor(CPlusObject, inFont, inMode, inColor);
+  BTextView_SetFontAndColor(CPlusObject, inFont.CPlusObject, inMode, inColor);
 end;
 
-procedure  TTextView.SetFontAndColor(startOffset : integer; endOffset : integer; inFont :  TFont; inMode : Cardinal; inColor :  Trgb_color);
+procedure  TTextView.SetFontAndColor(inFont :  TFont; inMode : Cardinal);
 begin
-  BTextView_SetFontAndColor(CPlusObject, startOffset, endOffset, inFont, inMode, inColor);
+  BTextView_SetFontAndColor(CPlusObject, inFont.CPlusObject, inMode);
+end;
+
+procedure  TTextView.SetFontAndColor(inFont :  TFont);
+begin
+  BTextView_SetFontAndColor(CPlusObject, inFont.CPlusObject);
+end;
+
+procedure  TTextView.SetFontAndColor(startOffset : cardinal; endOffset : cardinal; inFont :  TFont; inMode : Cardinal; var inColor :  Trgb_color);
+begin
+  BTextView_SetFontAndColor(CPlusObject, startOffset, endOffset, inFont.CPlusObject, inMode, inColor);
 end;
 
 procedure  TTextView.GetFontAndColor(inOffset : integer; outFont :  TFont; outColor : Trgb_color);
@@ -557,7 +572,7 @@ procedure  TTextView.GetFontAndColor(outFont :  TFont; outMode :  integer; outCo
 begin
   BTextView_GetFontAndColor(CPlusObject, outFont.CPlusObject, outMode, outColor, outEqColor);
 end;
-
+{
 procedure  TTextView.SetRunArray(startOffset : integer; endOffset : integer; inRuns :  Ttext_tun_array);
 begin
   BTextView_SetRunArray(CPlusObject, startOffset, endOffset, inRuns);

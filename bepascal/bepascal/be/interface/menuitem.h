@@ -29,29 +29,7 @@ class BPMenuItem : public BMenuItem, virtual public BPasObject
 		BPMenuItem(TPasObject PasObject, const char *label, BMessage *message, char shortcut = 0, uint32 modifiers = 0); 
 		BPMenuItem(TPasObject PasObject, BMenu *submenu, BMessage *message = NULL);
 		BPMenuItem(TPasObject PasObejct, BMessage *data);
-/*		virtual void MessageReceived(BMessage *message);
-		virtual void Draw(BRect updateRect);
-		virtual void AttachedToWindow(void);
-		virtual void MakeDefault(bool flag);
-		virtual void WindowActivated(bool active);	
-
-		virtual void AllAttached(void);
-		virtual void AllDetached(void);
-		virtual void DetachedFromWindow(void);
-		virtual void DrawAfterChildren(BRect updateRect);
-		virtual void FrameMoved(BPoint parentPoint);
-		virtual void FrameResized(float width, float height);
-		virtual void GetPreferredSize(float *width, float *height);
-		virtual void ResizeToPreferred(void);
-		virtual void KeyDown(const char *bytes, int32 numBytes);
-		virtual void KeyUp(const char *bytes, int32 numBytes);
-		virtual void MouseDown(BPoint point);
-		virtual void MouseMoved(BPoint point, uint32 transit, const BMessage *message);
-		virtual void MouseUp(BPoint point);
-		virtual void Pulse(void);
-//		virtual void TargetedByScrollView(BScrollView *scroller);
-		virtual void SetEnabled(bool enabled);
-		virtual void SetValue(int32 value);*/
+		virtual void Draw(void);
 	private:
 };
 
@@ -60,6 +38,7 @@ class BPSeparatorItem : public BSeparatorItem, virtual public BPMenuItem
 	public:
 		BPSeparatorItem(TPasObject PasObject);
 		BPSeparatorItem(TPasObject PasObject, BMessage *data);
+		virtual void Draw(void);		
 };
 
 #endif /* _MENUITEM_H_ */
