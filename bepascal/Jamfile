@@ -1,0 +1,13 @@
+SubDir BEPASCAL_TOP ;
+
+SubInclude BEPASCAL_TOP source bepascal cpp ;
+SubInclude BEPASCAL_TOP source bepascal pas ;
+
+DISTRIB_DIR = distrib ;
+
+MakeZip pas_sources.zip : source/bepascal/pas ;
+MakeZip cpp_sources.zip : source/bepascal/cpp ;
+MakeZip bin_bepascal.zip : source/bepascal/pas lib ;
+MakeZip demos.zip : demos ;
+MakeZip docs.zip : docs ;
+

@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ ! -d units ]
+  then mkdir units
+fi
+
+ppc386 -FE./ -FU./units ./sources/main.pp -oBPDemo
+mergeres ./sources/Resource.rsrc BPDemo
+mimeset BPCalculator
