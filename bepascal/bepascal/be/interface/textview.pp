@@ -383,6 +383,7 @@ end;
 
 procedure  TTextView.KeyDown(bytes : PChar; numBytes : integer);
 begin
+  //writeln('keydown textview');
   //BTextView_KeyDown(CPlusObject, bytes, numBytes);
 end;
 
