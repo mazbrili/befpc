@@ -16,22 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _RECT_CPP
-#define _RECT_CPP
+#ifndef _RECT_CPP_
+#define _RECT_CPP_
 
 #include <Point.h>
 #include <Rect.h>
 
-#include <beobj.cpp>
-
-class BPRect : public BRect, public BPasObject
-{
-	public:
-		BPRect(TPasObject PasObject);
-		BPRect(TPasObject PasObject, const BRect & rect);
-		BPRect(TPasObject PasObject, float l, float t, float r, float b);
-		BPRect(TPasObject PasObject, BPoint leftTop, BPoint rightBottom);
-};
+#include <rect.h>
+#include <beobj.h>
 
 BPRect::BPRect(TPasObject PasObject) : BRect(), BPasObject(PasObject)
 {
@@ -89,4 +81,4 @@ void BRect_PrintToStream(TCPlusObject rect)
 #endif
 
 
-#endif _RECT_CPP /* _RECT_CPP */
+#endif _RECT_CPP_ /* _RECT_CPP_ */

@@ -19,10 +19,7 @@
 #ifndef _BEOBJ_CPP_
 #define _BEOBJ_CPP_
 
-typedef void* TPasObject;
-typedef void* TCPlusObject;
-
-typedef char *(*BPasObject_GetPasClassName_hook)(TPasObject PasObject);
+#include <beobj.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -33,17 +30,6 @@ BPasObject_GetPasClassName_hook PasObject_GetPasClassName_hook;
 #if defined(__cplusplus)
 }
 #endif
-
-class BPasObject
-{
-	public:
-		BPasObject(TPasObject PasObject);
-		TPasObject GetPasObject(void) const;
-		virtual ~BPasObject(void);
-		char *GetPasClassName(void);
-	private:
-		TPasObject FPasObject;
-};
 
 BPasObject::BPasObject(TPasObject PasObject)
 {

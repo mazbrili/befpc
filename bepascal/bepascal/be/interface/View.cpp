@@ -23,7 +23,9 @@
 
 #include <OS.h>
 
-#include <beobj.cpp>
+#include <handler.h>
+#include <view.h>
+#include <beobj.h>
 
 // definition of callback function in BView
 typedef void (*BView_AllAttached_hook) (TPasObject PasObject);
@@ -85,38 +87,6 @@ BView_WindowActivated_hook View_WindowActivated_hook;
 #if defined(__cplusplus)
 }
 #endif
-
-class BPView : public BView, public virtual BPHandler
-{
-	public:
-		BPView(TPasObject PasObject, 
-			   BRect frame,
-			   const char *name,
-			   uint32 resizingMode,
-			   uint32 flags);
-		BPView(TPasObject PasObject, BMessage *archive);
-//		virtual void DispatchMessage(BMessage *message, BHandler *target);
-//		virtual bool QuitRequested(void);
-		virtual void AllAttached(void);
-		virtual void AttachedToWindow(void);
-		virtual void AllDetached(void);
-		virtual void DetachedFromWindow(void);
-		virtual void Draw(BRect updateRect);
-		virtual void DrawAfterChildren(BRect updateRect);
-		virtual void FrameMoved(BPoint parentPoint);
-		virtual void FrameResized(float width, float height);
-		virtual void GetPreferredSize(float *width, float *height);
-		virtual void ResizeToPreferred(void);
-		virtual void KeyDown(const char *bytes, int32 numBytes);
-		virtual void KeyUp(const char *bytes, int32 numBytes);
-		virtual void MouseDown(BPoint point);
-		virtual void MouseMoved(BPoint point, uint32 transit, const BMessage *message);
-		virtual void MouseUp(BPoint point);
-		virtual void Pulse(void);
-//		virtual void TargetedByScrollView(BScrollView *scroller);
-		virtual void WindowActivated(bool active);
-	private:	
-};
 
 BPView::BPView(TPasObject PasObject, 
 			   BRect frame,

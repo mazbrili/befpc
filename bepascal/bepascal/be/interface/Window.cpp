@@ -23,7 +23,8 @@
 
 #include <OS.h>
 
-#include <beobj.cpp>
+#include <window.h>
+#include <beobj.h>
 
 // definition of callback function in BWindow
 
@@ -36,20 +37,6 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif
-
-class BPWindow : public BWindow, public BPLooper
-{
-	public:
-		BPWindow(TPasObject PasObject, 
-				 BRect frame,
-				 const char *title,
-				 window_type type,
-				 uint32 flags,
-				 uint32 workspaces = B_CURRENT_WORKSPACE);
-//		virtual void DispatchMessage(BMessage *message, BHandler *target);
-//		virtual bool QuitRequested(void);
-	private:	
-};
 
 BPWindow::BPWindow(TPasObject PasObject, 
 				 BRect frame,

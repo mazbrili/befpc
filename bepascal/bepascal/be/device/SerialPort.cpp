@@ -21,7 +21,7 @@
 
 #include "SerialPort.h"
 
-#include <beobj.cpp>
+#include <beobj.h>
 
 #if defined(__cplusplus)
 extern "C" {
