@@ -242,6 +242,20 @@ function beep: status_t; cdecl; external LIBBEGUI name 'beapi_beep';
 function system_beep(event_name:Pchar): status_t; cdecl; external LIBBEGUI name 'beapi_system_beep';
 function add_system_beep_event(event_name:Pchar; flags:uint32):status_t; cdecl; external LIBBEGUI name 'beapi_add_system_beep_event';
 
+//posix
+
+type
+   utsname = record
+     sysname : array[0..31] of char;
+     nodename : array[0..31] of char;
+     release : array[0..31] of char;
+     version : array[0..31] of char;
+     machine : array[0..31] of char;
+   end;
+
+function uname(var name:utsname):longint; cdecl; external LIBROOT;
+
+
 
 implementation
 
