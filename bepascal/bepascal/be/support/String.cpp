@@ -491,9 +491,14 @@ BString &
 BString_Truncate(BString *String, int32 newLength,
                   bool lazy)
 {
-   return String->Truncate(newLength,
-                  lazy);
+#ifdef B_BEOS_VERSION_DANO
+	// Dano's Truncate doesn't have the 'lazy' parameter
+	return String->Truncate(newLength);
+#else
+   return String->Truncate(newLength, lazy);
+#endif
 }
+
 
 
 /*
