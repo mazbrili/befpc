@@ -206,7 +206,7 @@ const
   B_VIEWS_SUPPORT_DRAW_BITMAP      = $1;
   B_BITMAPS_SUPPORT_ATTACHED_VIEWS = $2;
 
-function bitmaps_support_space(space : color_space; support_flags : PLongoword)
+function bitmaps_support_space(space : color_space; support_flags : PLongword)
          : Boolean; cdecl; external 'be' name 'bitmaps_support_space';
 
 // "pixel_chunk" is the native increment from one pixel starting on an integral

@@ -28,7 +28,7 @@ type
   BRadioButton = class(BControl)
   public
 	constructor Create(aframe : BRect; name, aLabel : PChar; message : BMessage;
-	                   resizingMode : Longword {$ifndef VER1_0}= B_FOLLOW_LEFT or B_FOLLOW_TOP{$endif};
+	                   resizingMode_ : Longword {$ifndef VER1_0}= B_FOLLOW_LEFT or B_FOLLOW_TOP{$endif};
 	                   flags : Longword {$ifndef VER1_0}= B_WILL_DRAW or B_NAVIGABLE{$endif}); virtual;
     constructor Create(data : BMessage); override;
     destructor Destroy; override;
@@ -48,7 +48,7 @@ type
     procedure MouseMoved(pt : BPoint; code : Longword; msg : BMessage); override;
     procedure DetachedFromWindow; override;
     procedure FrameMoved(new_position : BPoint); override;
-    procedure FrameResized(new_width, new_height : Single); override;
+    procedure FrameResized(new_width, new_height : Single);// override;
     function ResolveSpecifier(msg : BMessage; index : Longint;
                               specifier : BMessage; form : Longint;
                               properti : PChar) : BHandler;
@@ -72,7 +72,7 @@ procedure BRadioButton_Free(AObject : TCPlusObject);
 function BRadioButton_Instantiate(AObject : TCPlusObject; data : TCPlusObject)
          : BArchivable; cdecl; external BePascalLibName name 'BRadioButton_Instantiate';
 function BRadioButton_Archive(AObject : TCPlusObject; data : TCPlusObject;
-                              deep : boolean) : status_t;
+                              deep : Boolean) : status_t;
          cdecl; external BePascalLibName name 'BRadioButton_Archive';
 procedure BRadioButton_Draw(AObject : TCPlusObject; updateRect : BRect);
           cdecl; external BePascalLibName name 'BRadioButton_Draw';
@@ -81,9 +81,9 @@ procedure BRadioButton_MouseDown(AObject : TCPlusObject; where : BPoint);
 procedure BRadioButton_AttachedToWindow(AObject : TCPlusObject);
           cdecl; external BePascalLibName name 'BRadioButton_AttachedToWindow';
 procedure BRadioButton_KeyDown(AObject : TCPlusObject; bytes : PChar;
-                               numBytes : integer);
+                               numBytes : Longint);
           cdecl; external BePascalLibName name 'BRadioButton_KeyDown';
-procedure BRadioButton_SetValue(AObject : TCPlusObject; value : integer);
+procedure BRadioButton_SetValue(AObject : TCPlusObject; value : Longint);
           cdecl; external BePascalLibName name 'BRadioButton_SetValue';
 procedure BRadioButton_GetPreferredSize(AObject : TCPlusObject; width, height : Single);
           cdecl; external BePascalLibName name 'BRadioButton_GetPreferredSize';
@@ -98,7 +98,7 @@ procedure BRadioButton_WindowActivated(AObject : TCPlusObject; state : Boolean);
 procedure BRadioButton_MouseUp(AObject : TCPlusObject; pt : BPoint);
           cdecl; external BePascalLibName name 'BRadioButton_MouseUp';
 procedure BRadioButton_MouseMoved(AObject : TCPlusObject; pt : BPoint;
-                                  code : Cardinal; msg : TCPlusObject);
+                                  code : Longword; msg : TCPlusObject);
           cdecl; external BePascalLibName name 'BRadioButton_MouseMoved';
 procedure BRadioButton_DetachedFromWindow(AObject : TCPlusObject);
           cdecl; external BePascalLibName name 'BRadioButton_DetachedFromWindow';
@@ -107,8 +107,8 @@ procedure BRadioButton_FrameMoved(AObject : TCPlusObject; new_position : TCPlusO
 procedure BRadioButton_FrameResized(AObject : TCPlusObject; new_width, new_height : Single);
           cdecl; external BePascalLibName name 'BRadioButton_FrameResized';
 function BRadioButton_ResolveSpecifier(AObject : TCPlusObject; msg : TCPlusObject;
-                                       index : integer; specifier : TCPlusObject;
-                                       form : integer; properti : PChar)
+                                       index : Longint; specifier : TCPlusObject;
+                                       form : Longint; properti : PChar)
          : BHandler; cdecl; external BePascalLibName name 'BRadioButton_ResolveSpecifier';
 procedure BRadioButton_MakeFocus(AObject : TCPlusObject; state : Boolean);
           cdecl; external BePascalLibName name 'BRadioButton_MakeFocus';
@@ -124,12 +124,11 @@ function BRadioButton_Perform(AObject : TCPlusObject; d : perform_code; arg : Po
 implementation
 
 constructor BRadioButton.Create(aframe : BRect; name, aLabel : PChar;
-                                message : BMessage; sresizingMode,
-                                sflags : Longword);
+                                message : BMessage; resizingMode_, flags : Longword);
 begin
   CreatePas;
   CPlusObject := BRadioButton_Create(Self, aframe.CPlusObject, name, aLabel,
-                                     message.CPlusObject, sresizingMode, sflags);
+                                     message.CPlusObject, resizingMode_, flags);
 end;
 
 constructor BRadioButton.Create(data : BMessage);
@@ -156,12 +155,12 @@ end;
 
 procedure  BRadioButton.Draw(updateRect : BRect);
 begin
-  BRadioButton_Draw(CPlusObject, updateRect.CPlusObject);
+  BRadioButton_Draw(CPlusObject, updateRect{.CPlusObject});
 end;
 
 procedure  BRadioButton.MouseDown(where : BPoint);
 begin
-  BRadioButton_MouseDown(CPlusObject, where.CPlusObject);
+  BRadioButton_MouseDown(CPlusObject, where{.CPlusObject});
 end;
 
 procedure  BRadioButton.AttachedToWindow;
@@ -169,12 +168,12 @@ begin
   BRadioButton_AttachedToWindow(CPlusObject);
 end;
 
-procedure  BRadioButton.KeyDown(bytes : PChar; numBytes : integer);
+procedure  BRadioButton.KeyDown(bytes : PChar; numBytes : Longint);
 begin
   BRadioButton_KeyDown(CPlusObject, bytes, numBytes);
 end;
 
-procedure  BRadioButton.SetValue(aValue : integer);
+procedure  BRadioButton.SetValue(aValue : Longint);
 begin
   BRadioButton_SetValue(CPlusObject, aValue);
 end;
@@ -206,12 +205,12 @@ end;
 
 procedure  BRadioButton.MouseUp(pt : BPoint);
 begin
-  BRadioButton_MouseUp(CPlusObject, pt.CPlusObject);
+  BRadioButton_MouseUp(CPlusObject, pt{.CPlusObject});
 end;
 
 procedure  BRadioButton.MouseMoved(pt : BPoint; code : Longword; msg : BMessage);
 begin
-  BRadioButton_MouseMoved(CPlusObject, pt.CPlusObject, code, msg);
+  BRadioButton_MouseMoved(CPlusObject, pt{.CPlusObject}, code, msg);
 end;
 
 procedure  BRadioButton.DetachedFromWindow;
@@ -229,9 +228,12 @@ begin
   BRadioButton_FrameResized(CPlusObject, new_width, new_height);
 end;
 
-function  BRadioButton.ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
+function  BRadioButton.ResolveSpecifier(msg : BMessage; index : Longint;
+                                        specifier : BMessage; form : Longint;
+                                        properti : PChar) : BHandler;
 begin
-  Result := BRadioButton_ResolveSpecifier(CPlusObject, msg.CPlusObject, index, specifier.CPlusObject, form, properti);
+  Result := BRadioButton_ResolveSpecifier(CPlusObject, msg.CPlusObject, index,
+                                          specifier.CPlusObject, form, properti);
 end;
 
 procedure  BRadioButton.MakeFocus(state : Boolean);

@@ -44,7 +44,7 @@ type
   BFilePanel = class(TBeObject)
   public
     constructor Create(mode : file_panel_mode; target : BMessenger;
-                       const start_directory : entryref; node_flavors : integer;
+                       const start_directory : entry_ref; node_flavors : integer;
                        allow_multiple_selection : Boolean; message : BMessage;
                        filter : BRefFilter; modal, hide_when_done : Boolean);
     destructor Destroy; override;
@@ -80,7 +80,7 @@ type
 procedure BRefFilter_Filter(AObject : TCPlusObject);
           cdecl; external BePascalLibName name 'BRefFilter_Filter';
 function BFilePanel_Create(AObject : TBeObject; mode : file_panel_mode; target : BMessenger;
-                           const start_directory : entryref; node_flavors : integer;
+                           const start_directory : entry_ref; node_flavors : integer;
                            allow_multiple_selection : Boolean; message : BMessage;
                            filter : BRefFilter; modal, hide_when_done : Boolean)
          : TCPlusObject; cdecl; external BePascalLibName name 'BFilePanel_Create';

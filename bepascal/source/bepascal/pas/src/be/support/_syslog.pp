@@ -17,7 +17,7 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit SysLog;
+unit _syslog;
 
 interface
 
@@ -136,34 +136,34 @@ function setlogmask_thread(mask : Integer) : Integer; cdecl; external kBeLibName
 
 implementation
 
-{$INLINE ON}
+{.$INLINE ON}
 
-function LOG_PRI(p : Integer) : Integer; inline;
+function LOG_PRI(p : Integer) : Integer;// inline;
 begin
   Result := p and LOG_PRIMASK;
 end;
 
-function LOG_MAKEPRI(fac, pri : Integer) : Integer; inline;
+function LOG_MAKEPRI(fac, pri : Integer) : Integer;// inline;
 begin
   Result := (fac shl 3) or (pri);
 end;
 
-function LOG_FAC(p : Integer) : Integer; inline;
+function LOG_FAC(p : Integer) : Integer;// inline;
 begin
   Result := (p and LOG_FACMASK) shr 3;
 end;
 
-function LOG_MASK(pri : Integer) : Integer; inline;
+function LOG_MASK(pri : Integer) : Integer;// inline;
 begin
   Result := (1 shl pri);
 end;
 
-function LOG_UPTO(pri : Integer) : Integer; inline;
+function LOG_UPTO(pri : Integer) : Integer;// inline;
 begin
   Result := (1 shl (pri + 1)) - 1;
 end;
 
-function LOG_OPTIONS(p : Integer) : Integer; inline;
+function LOG_OPTIONS(p : Integer) : Integer;// inline;
 begin
   Result := p and LOG_OPTIONSMASK;
 end;
