@@ -1,5 +1,6 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Olivier Coursiere
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002 - 2003 Olivier Coursiere
+                              Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -21,7 +22,6 @@ When this unit is used in a BePascal project, the SendText function
 in beobj.pp send a "dbug" message to a fdb client.
 When fdblib is not in the project, SendText in beobj just do nothing.
 }
-
 unit fdblib;
 
 interface 
@@ -31,10 +31,10 @@ procedure force;
 implementation
 
 uses
-  appdefs, message, application, messenger, handler, os, supportdefs, beobj;
+  BeObj, Application, Handler, Message, Messenger, OS, SupportDefs;
   
 const
-  B_DEBUG : array[0..3] of Char = ('d', 'b', 'u', 'g');
+  B_DEBUG = 'dbug';
   
 procedure SendMessage(message : BMessage);
 var
@@ -68,7 +68,7 @@ begin
   if be_app <> nil then
   begin
     local := text + #0;
-    message := BMessage.Create(trans(B_DEBUG));
+    message := BMessage.Create(Longword(B_DEBUG));
     try
       message.AddString(PChar('dbstring'), @local[1]);
       SendMessage(message);
@@ -90,7 +90,6 @@ begin
 end;
 }
 
-
 procedure force;
 begin
   writeln('force');
@@ -103,5 +102,4 @@ initialization
 
 finalization
   SendText('App end');
-
 end.
