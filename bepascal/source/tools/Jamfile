@@ -23,3 +23,5 @@ SubDir BEPASCAL_TOP source tools ;
 SubInclude BEPASCAL_TOP source tools stubgen.so ;
 
 SubInclude BEPASCAL_TOP source tools codegen ;
+
+SubInclude BEPASCAL_TOP source tools headertoxml ;
