@@ -697,7 +697,7 @@ end;
 {$ifndef _KERNEL_MODE}
 function _kfind_thread_(const name : PChar) : thread_id; cdecl; external 'root' name '_kfind_thread_';
 {$inline ON} {$asmmode intel}
-function find_thread(const name : PChar) : thread_id; inline;
+function find_thread(const name : PChar) : thread_id; // inline; for 1.9 only ?
 begin
  Result := 0;
   if (name = nil) then
