@@ -100,6 +100,8 @@ void   MMemo_AttachMouseUpDispatcher(MMemo *memo, mouseAction_Message msg);
 void   MMemo_AttachKeyDownDispatcher(MMemo *memo, keyAction_Message msg);
 void   MMemo_AttachKeyUpDispatcher(MMemo *memo, keyAction_Message msg);
 void   MMemo_AttachDrawDispatcher(MMemo *memo, drawAction_Message msg);
+const char* MMemo_Text(MMemo *memo);
+int32 MMemo_TextLength(MMemo *memo); 
 
 //panel
 MPanel* MForm_AddMPanel(MForm* frm, float left, float top, float right, float bottom, char *name);
