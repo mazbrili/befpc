@@ -1,5 +1,6 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Eric Jourde
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002 - 2003 Eric Jourde
+                              Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -15,19 +16,17 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-
 unit BString;
 
 interface
 
 uses
-  beobj, SupportDefs, os;
-  
+  BeObj, SupportDefs, OS;
+
 type
-  TString = class(TBeObject)
-  private
+  BString = class(TBeObject)
   public
-    constructor Create; override; 
+    constructor Create; override;
    // constructor Create(value : PChar); override;
     destructor Destroy; override;
 
@@ -36,29 +35,36 @@ type
    function String_pchar     : PChar;
 
    // Affectation
-   procedure SetTo(value:PChar; lenght : cardinal);
-   procedure SetTo( from: TString);
-   procedure SetTo( value:TString; length1:  cardinal);
-   procedure Adopt( from:TString);
+   procedure SetTo(value : PChar; lenght : cardinal);
+   procedure SetTo(from : TString);
+   procedure SetTo(value : TString; length1 : cardinal);
+   procedure Adopt(from : TString);
   end;
 
+function BString_Create(AObject : TBeObject) : TCPlusObject;
+         cdecl; external BePascalLibName name 'BString_Create';
+function BString_Create(AObject : TBeObject; value : PChar) : TCPlusObject;
+         cdecl; external BePascalLibName name 'BString_Create_1';
+procedure BString_Free(AObject : TCPlusObject);
+          cdecl; external BePascalLibName name 'BString_Free';
+function BString_CountChars(AObject : TCPlusObject) : cardinal;
+         cdecl; external BePascalLibName name 'BString_CountChars';
+function BString_Length(AObject : TCPlusObject) : cardinal;
+         cdecl; external BePascalLibName name 'BString_Length';
+function BString_String(AObject : TCPlusObject) : Pchar;
+         cdecl; external BePascalLibName name 'BString_String';
 
-function  BString_Create(AObject : TBeObject):TCPlusObject; cdecl; external BePascalLibName name 'BString_Create';
-function BString_Create(AObject : TBeObject;value : PChar):TCPlusObject; cdecl; external BePascalLibName name 'BString_Create_1';
-procedure BString_Free(AObject : TCPlusObject);cdecl; external BePascalLibName name 'BString_Free';
-function BString_CountChars(AObject : TCPlusObject): cardinal;cdecl; external BePascalLibName name 'BString_CountChars';
-function BString_Length(AObject : TCPlusObject): cardinal;cdecl; external BePascalLibName name 'BString_Length';
-function BString_String(AObject : TCPlusObject): Pchar;cdecl; external BePascalLibName name 'BString_String';
+procedure BString_SetTo(AObject : TCPlusObject; value : Pchar; length : cardinal);
+          cdecl; external BePascalLibName name 'BString_SetTo';
+procedure BString_SetTo_1(AObject : TCPlusObject; from : TBeObject);
+          cdecl; external BePascalLibName name 'BString_SetTo_1';
+procedure BString_SetTo_2(AObject : TCPlusObject; value : TBeObject; length : cardinal);
+          cdecl; external BePascalLibName name 'BString_SetTo_2';
 
-procedure BString_SetTo(AObject : TCPlusObject;value:Pchar;length:cardinal);cdecl; external BePascalLibName name 'BString_SetTo';
-procedure BString_SetTo_1(AObject : TCPlusObject; from: TBeObject);cdecl; external BePascalLibName name 'BString_SetTo_1';
-procedure BString_SetTo_2(AObject : TCPlusObject; value:TBeObject;length:  cardinal);cdecl; external BePascalLibName name 'BString_SetTo_2';
-
-procedure BString_Adopt(AObject : TCPlusObject; from:TBeObject);cdecl; external BePascalLibName name 'BString_Adopt';
-
+procedure BString_Adopt(AObject : TCPlusObject; from : TBeObject);
+          cdecl; external BePascalLibName name 'BString_Adopt';
 
 {
-
 BString &
 BString_Adopt_1(BString *String, BString &from,
                int32 length)
@@ -71,14 +77,14 @@ BString_SetTo_3(BString *String, char value,
 BString &
 BString_CopyInto(BString *String, BString &into,
                   int32 fromOffset,
-                  int32 length) 
+                  int32 length)
 
 
 void
 BString_CopyInto_1
 (BString *String, char *into,
                   int32 fromOffset,
-                  int32 length) 
+                  int32 length)
 
 
 BString &
@@ -200,124 +206,124 @@ BString_MoveInto_1
                   int32 length)
 
 int
-BString_Compare(BString *String, const BString &value) 
+BString_Compare(BString *String, const BString &value)
 
 int
 BString_Compare_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int
 BString_Compare_2
 (BString *String, const BString &value,
-                 int32 n) 
+                 int32 n)
 
 int
 BString_Compare_3
 (BString *String, const char *value,
-                 int32 n) 
+                 int32 n)
 
 int
-BString_ICompare(BString *String, const BString &value) 
+BString_ICompare(BString *String, const BString &value)
 
 int
 BString_ICompare_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int
 BString_ICompare_2
 (BString *String, const BString &value,
-                  int32 n) 
+                  int32 n)
 
 int
 BString_ICompare_3
 (BString *String, const char *value,
-                  int32 n) 
+                  int32 n)
 
 int32
-BString_FindFirst(BString *String, const BString &value) 
+BString_FindFirst(BString *String, const BString &value)
 
 int32
 BString_FindFirst_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int32
 BString_FindFirst_2
 (BString *String, const BString &value,
-                   int32 fromOffset) 
+                   int32 fromOffset)
 
 int32
 BString_FindFirst_3
 (BString *String, const char *value,
-                   int32 fromOffset) 
+                   int32 fromOffset)
 
 int32
 BString_FindFirst_4
-(BString *String, char value) 
+(BString *String, char value)
 
 int32
 BString_FindFirst_5
 (BString *String, char value,
-                   int32 fromOffset) 
+                   int32 fromOffset)
 
 int32
-BString_FindLast(BString *String, const BString &value) 
+BString_FindLast(BString *String, const BString &value)
 
 int32
 BString_FindLast_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int32
 BString_FindLast_2
 (BString *String, const BString &value,
-                  int32 beforeOffset) 
+                  int32 beforeOffset)
 
 int32
 BString_FindLast_3
 (BString *String, const char *value,
-                  int32 beforeOffset) 
+                  int32 beforeOffset)
 
 int32
 BString_FindLast_4
-(BString *String, char value) 
+(BString *String, char value)
 
 int32
 BString_FindLast_5
 (BString *String, char value,
-                  int32 fromOffset) 
+                  int32 fromOffset)
 
 int32
-BString_IFindFirst(BString *String, const BString &value) 
+BString_IFindFirst(BString *String, const BString &value)
 
 int32
 BString_IFindFirst_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int32
 BString_IFindFirst_2
 (BString *String, const BString &value,
-                    int32 fromOffset) 
+                    int32 fromOffset)
 
 int32
 BString_IFindFirst_3
 (BString *String, const char *value,
-                    int32 fromOffset) 
+                    int32 fromOffset)
 
 int32
-BString_IFindLast(BString *String, const BString &value) 
+BString_IFindLast(BString *String, const BString &value)
 
 int32
 BString_IFindLast_1
-(BString *String, const char *value) 
+(BString *String, const char *value)
 
 int32
 BString_IFindLast_2
 (BString *String, const BString &value,
-                   int32 beforeOffset) 
+                   int32 beforeOffset)
 
 int32
 BString_IFindLast_3
 (BString *String, const char *value,
-                   int32 beforeOffset) 
+                   int32 beforeOffset)
 
 BString &
 BString_ReplaceFirst(BString *String, char replaceThis,
@@ -442,69 +448,64 @@ BString_CharacterDeescape(BString *String, const char *original,
 BString &
 BString_CharacterDeescape_1
 (BString *String, char escapeChar)
-}  
-  
-  
+}
+
 implementation
 
-
-constructor TString.Create; 
+constructor BString.Create;
 begin
   inherited;
   CPlusObject := BString_Create(Self);
 end;
 
-{constructor TString.Create_1(value:PChar); 
+{
+constructor BString.Create_1(value:PChar);
 begin
   inherited;
-  CPlusObject := BString_Create_1(Self,value);
+  CPlusObject := BString_Create_1(Self, value);
 end;
 }
-destructor TString.Destroy; 
+
+destructor BString.Destroy;
 begin
   if CPlusObject <> nil then
     BString_Free(CPlusObject);
   inherited;
-
 end;
 
-function TString.CountChars : integer;
+function BString.CountChars : integer;
 begin
-  result:=BString_CountChars(CPlusObject);
+  Result := BString_CountChars(CPlusObject);
 end;
 
-function TString.length : integer;
+function BString.length : integer;
 begin
-  result:=BString_Length(CPlusObject);
+  Result := BString_Length(CPlusObject);
 end;
 
-function TString.String_pchar     : PChar;
+function BString.String_pchar : PChar;
 begin
-  result:=BString_String(CPlusObject);
+  Result := BString_String(CPlusObject);
 end;
 
-procedure TString.SetTo(value:PChar; lenght : cardinal);
+procedure BString.SetTo(value : PChar; lenght : cardinal);
 begin
   BString_SetTo(CPlusObject,value,lenght);
 end;
 
-
-procedure TString.SetTo( from: TString);
+procedure BString.SetTo(from : TString);
 begin
   BString_SetTo_1(CPlusObject, from);
 end;
 
-procedure TString.SetTo( value:TString;length1:  cardinal);
+procedure BString.SetTo( value : TString; length1 : cardinal);
 begin
-  BString_SetTo_2(CPlusObject, value,length1);
+  BString_SetTo_2(CPlusObject, value, length1);
 end;
 
-procedure TString.Adopt( from:TString);
+procedure BString.Adopt(from : TString);
 begin
   BString_Adopt(CPlusObject, from);
 end;
 
-
-
 end.
-

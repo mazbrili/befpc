@@ -1,6 +1,7 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Olivier Coursiere
-                       Eric Jourde
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002-2003 Olivier Coursiere
+                            Eric Jourde
+                            Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -16,34 +17,47 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-
 unit SupportDefs;
 
 interface
 
 type
-    // Descriptive formats
-  Status_t = Longint;
-  Bigtime_t = int64;
-  Type_code = Cardinal;
-  Perform_code = Cardinal;
   // For Storage kit
   // TODO : move these declarations in a different unit (but which one ?).
   // C++ declarations are in /boot/develop/headers/posix/sys/types.h,
   // not in SupportDefs.h
-  Dev_t = Longint;
-  Off_t = int64;
+  dev_t = Longint;
+  off_t = Int64;
 
-  	// pointer types for FreePascal : to make life easier
-  PStatus_t = ^Status_t;
-  
-  // TODO : import other functions !
+  // import from stddef.h
+  size_t = Longword;
+  ssize_t = Longint;
 
-    // import from stddef.h
-  Size_t = Cardinal;
-  SSize_t = Longint;
-  
+// ------------------
+
+  // Descriptive formats
+  status_t = Longint;
+  bigtime_t = int64;
+  type_code = Longword;
+  perform_code = Longword;
+
+  // pointer types for FreePascal : to make life easier
+  Pstatus_t = ^status_t;
+
+const
+  B_EMPTY_STRING = '';
+
+//----- Atomic functions; old value is returned -----------------
+function atomic_add(var value : Longint; addvalue : Longint) : Longint;
+         cdecl; external 'root' name 'atomic_add';
+function atomic_and(var value : Longint; andvalue : Longint) : Longint;
+         cdecl; external 'root' name 'atomic_and';
+function atomic_or(var value : Longint; orvalue : Longint) : Longint;
+         cdecl; external 'root' name 'atomic_or';
+
+//----- Other stuff ---------------------------------------------
+function get_stack_frame : Pointer; cdecl; external 'root' name 'get_stack_frame';
+
 implementation
-
 
 end.
