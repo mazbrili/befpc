@@ -1,13 +1,11 @@
 unit BeGUI;
 
 {
+$Header: /home/haiku/befpc/begui/begui/imports/pascal/begui.pas,v 1.2 2002-04-02 20:42:15 memson Exp $
 
-$Header $
-
-$Revision $
+$Revision: 1.2 $
   
-$Log $
-
+$Log: not supported by cvs2svn $
 }
 
 interface
@@ -19,13 +17,16 @@ type
   MEditH = pointer;
   MPanelH = pointer;
   MMemoH = pointer;
+  
+  MMenuBarH = pointer;
+  MMenuItemH = pointer;
+  MMenuH = pointer;
 
   uint32 = longword;
   int32  = longint;
 
 var
   Application: MApplicationH;
-
 type
 
    base_Message = procedure (sender:pointer; msg:uint32);cdecl;
@@ -39,6 +40,19 @@ const
   BEGUILIB = 'begui'; //must be in /boot/home/config/lib and /boot/develop/lib/x86 
 
 {$PACKRECORDS C}
+
+ { MenuBar}
+
+// Jourde 01/04/2002 : add menu and menuitems
+ 
+ function BMenuBar_Create( form : MFormh ; caption : pchar) : MMenuBarH; cdecl; external BEGUILIB; 
+ function MMenuItem_Create(caption : pchar): MMenuItemh;cdecl; external BEGUILIB; 
+ function BMenu_Create(caption : Pchar):MmenuH ;cdecl; external BEGUILIB; 
+ procedure BMenuBar_AddItem( menuBar : MMenuBarH; Menu : MMenuH);cdecl; external BEGUILIB; 
+
+ procedure BMenu_AddItem(Menu : MMenuBarH; item : MMenuItemH );cdecl; external BEGUILIB; 
+ procedure MMenuItem_AttachMenuClickDispatcher(Menu: MMenuItemH; msg: mouseAction_Message);cdecl; external BEGUILIB; 
+
 
 
   function MApplication_Create: MApplicationH; cdecl; external BEGUILIB; 

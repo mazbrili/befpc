@@ -1,9 +1,13 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.1.1.1 2002-03-31 10:36:07 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.2 2002-04-02 20:42:15 memson Exp $
   
-  $Revision: 1.1.1.1 $
+  $Revision: 1.2 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.1.1.1  2002/03/31 10:36:07  memson
+
+  initial import into sourceforge
+
   Revision 1.20  2002/03/28 08:41:02  memson
 
   Commited to main tree by the above on behalf of :
@@ -361,7 +365,9 @@ char* MEdit_getText(MEdit* edt){
 }
 
 void  MEdit_setText(MEdit* edt, char* text){
+  edt->LockLooper();
   edt->SetText(text);
+  edt->UnlockLooper();
 }
 
 ///
