@@ -1,3 +1,0 @@
-libstubgen is a shared object that export the stubgen's parser.
-
-stubgen.pp is the pascal unit to use this library.
