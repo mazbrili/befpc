@@ -24,7 +24,7 @@ type
 
   uid_t = Cardinal;     // unsigned int
   gid_t = Cardinal;     // unsigned int
-  umode_t = Cardinal    // unsigned int
+  umode_t = Cardinal;   // unsigned int
   daddr_t = Integer;    // int
 
 // bsd

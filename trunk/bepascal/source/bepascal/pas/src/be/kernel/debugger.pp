@@ -4,10 +4,11 @@ unit debugger;
 interface
 
 uses
-{$ifdef CPUI386}
-  signal,
-{$endif CPUI386}
-  BeBuild, OS, image, SupportDefs;
+{.$ifdef CPUI386}
+//  signal,
+{.$endif CPUI386}
+//  BeBuild,
+  OS, image, SupportDefs;
 
 
 // kernel calls
@@ -162,7 +163,8 @@ type
   general registers. }
 type
   cpu_state = packed record
-    xregs : extended_regs;  // fpu/mmx/xmm registers
+// this one is in posix/signal.h
+//    xregs : extended_regs;  // fpu/mmx/xmm registers
     gs,
     reserved0,
     fs,
@@ -173,7 +175,7 @@ type
     reserved3 : Word;
     edi,
     esi,
-    ebp;
+    ebp,
     esp_res,
     ebx,
     edx,

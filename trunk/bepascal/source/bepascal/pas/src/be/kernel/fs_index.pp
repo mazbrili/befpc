@@ -4,7 +4,9 @@ unit fs_index;
 interface
 
 uses
- BeBuild, SupportDefs, dirent;
+  SupportDefs;
+
+{$I beostypes.inc}
 
 type
   index_info = packed record
@@ -17,9 +19,9 @@ type
   end;
 
 
-function *fs_open_index_dir(device : dev_t) : DIR; cdecl; external 'root' name 'fs_open_index_dir';
+function fs_open_index_dir(device : dev_t) : DIR; cdecl; external 'root' name 'fs_open_index_dir';
 function fs_close_index_dir(var d : DIR) : Integer; cdecl; external 'root' name 'fs_close_index_dir';
-function *fs_read_index_dir(var d : DIR) : dirent; cdecl; external 'root' name 'fs_read_index_dir';
+function fs_read_index_dir(var d : DIR) : dirent; cdecl; external 'root' name 'fs_read_index_dir';
 
 procedure fs_rewind_index_dir(var d : DIR); cdecl; external 'root' name 'fs_rewind_index_dir';
 
