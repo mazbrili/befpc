@@ -1,6 +1,7 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002  Olivier Coursière
-    								     Eric Jourde
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002 - 2003 Olivier Coursière
+                              Eric Jourde
+                              Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -16,81 +17,81 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-
 unit Flattenable;
 
 interface
 
 uses
-  beobj, SupportDefs, os;
+  BeObj, SupportDefs, OS;
 
 type
   BFlattenable = class(TBeObject)
-  private
   public
     constructor Create; override;
     destructor Destroy; override;
 
-  function IsFixedSize : boolean;
-  function TypeCode : Type_code;
-  function 	Flatten( buffer :pointer; size :  ssize_t) : Status_t;
-  function 	AllowsTypeCode( code : Type_code) : boolean;
-  function	Unflatten(c :Type_code ; buf :pointer ;  size: ssize_t) :	Status_t;
- 
+    function IsFixedSize : Boolean;
+    function TypeCode : type_code;
+    function Flatten(buffer : Pointer; size : ssize_t) : status_t;
+    function AllowsTypeCode(code : Type_code) : Boolean;
+    function Unflatten(c : type_code; buf : Pointer; size : ssize_t) : status_t;
  end;
 
+procedure BFlattenable_Free(AObject : TCPlusObject);
+          cdecl; external BePascalLibName name 'BFlattenable_Free';
 
-procedure BFlattenable_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BFlattenable_Free';
-
-function BFlattenable_IsFixedSize(AObject : TCPlusObject) : boolean;cdecl; external BePascalLibName name 'BFlattenable_IsFixedSize';
-function BFlattenable_TypeCode(AObject : TCPlusObject) : Type_code;cdecl; external BePascalLibName name 'BFlattenable_TypeCode';
-function 	BFlattenable_Flatten( AObject : TCPlusObject;buffer :pointer; size :  ssize_t) : Status_t;cdecl; external BePascalLibName name 'BFlattenable_Flatten';
-function 	BFlattenable_AllowsTypeCode( AObject : TCPlusObject;code : Type_code) : boolean;cdecl; external BePascalLibName name 'BFlattenable_AllowsTypeCode';
-function	BFlattenable_Unflatten(AObject : TCPlusObject;c :Type_code ; buf :pointer ;  size: ssize_t) :	Status_t;cdecl; external BePascalLibName name 'BFlattenable_Unflatten';
-
+function BFlattenable_IsFixedSize(AObject : TCPlusObject) : Boolean;
+         cdecl; external BePascalLibName name 'BFlattenable_IsFixedSize';
+function BFlattenable_TypeCode(AObject : TCPlusObject) : type_code;
+         cdecl; external BePascalLibName name 'BFlattenable_TypeCode';
+function BFlattenable_Flatten(AObject : TCPlusObject; buffer : Pointer;
+                              size : ssize_t) : status_t;
+         cdecl; external BePascalLibName name 'BFlattenable_Flatten';
+function BFlattenable_AllowsTypeCode(AObject : TCPlusObject;code : type_code)
+         : boolean;
+         cdecl; external BePascalLibName name 'BFlattenable_AllowsTypeCode';
+function BFlattenable_Unflatten(AObject : TCPlusObject; c : type_code;
+                                buf : Pointer; size : ssize_t) : Status_t;
+         cdecl; external BePascalLibName name 'BFlattenable_Unflatten';
 
 implementation
-
-
 
 constructor BFlattenable.Create;
 begin
   CreatePas;
-  CPlusObject:=self;
+  CPlusObject := self;
 end;
 
-
-destructor BFlattenable.Destroy; 
+destructor BFlattenable.Destroy;
 begin
-   if CPlusObject <> nil then
+  if CPlusObject <> nil then
     BFlattenable_Free(CPlusObject);
   inherited;
 end;
 
-function BFlattenable.IsFixedSize : boolean;
+function BFlattenable.IsFixedSize : Boolean;
 begin
-   result:=BFlattenable_IsFixedSize(CPlusObject);
+  Result := BFlattenable_IsFixedSize(CPlusObject);
 end;
 
-function BFlattenable.TypeCode : Type_code;
+function BFlattenable.TypeCode : type_code;
 begin
-   result:=BFlattenable_TypeCode(CPlusObject);
+  Result := BFlattenable_TypeCode(CPlusObject);
 end;
 
-function 	BFlattenable.Flatten( buffer :pointer; size :  ssize_t) : Status_t;
+function BFlattenable.Flatten(buffer : Pointer; size : ssize_t) : status_t;
 begin
-   result:=BFlattenable_Flatten(CPlusObject,buffer,size);
+  Result := BFlattenable_Flatten(CPlusObject, buffer, size);
 end;
 
-function 	BFlattenable.AllowsTypeCode( code : Type_code) : boolean;
+function BFlattenable.AllowsTypeCode(code : type_code) : Boolean;
 begin
-   result:=BFlattenable_AllowsTypeCode(CPlusObject,code);
+  Result := BFlattenable_AllowsTypeCode(CPlusObject, code);
 end;
 
-function	BFlattenable.Unflatten(c :Type_code ; buf :pointer ;  size: ssize_t) :	Status_t;
+function BFlattenable.Unflatten(c : type_code; buf : Pointer; size : ssize_t) : status_t;
 begin
-   result:=BFlattenable_Unflatten(CPlusObject,c,buf,size);
+  Result := BFlattenable_Unflatten(CPlusObject, c, buf, size);
 end;
-
 
 end.
