@@ -24,6 +24,11 @@ uses
   beobj, storagedefs,SupportDefs;
 
 type
+  Entry_Ref = record
+    device : dev_t;
+    directory : ino_t;
+    name : PChar;
+  end;  
   EntryRef = record
     device : dev_t;
     directory : ino_t;

@@ -28,7 +28,7 @@ type
   private
   public
     destructor Destroy; override;
-	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal); virtual;
+	constructor Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage); override; 
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;
@@ -37,7 +37,7 @@ type
     procedure AttachedToWindow; override;
     procedure KeyDown(bytes : PChar; numBytes : integer); override;
     // Hook functions
-    procedure MakeDefault(state : boolean); virtual;
+    procedure MakeDefault(state : boolean); 
     procedure SetLabel(text : PChar);
     function IsDefault : boolean;
     procedure MessageReceived(msg : BMessage); override;
@@ -51,7 +51,7 @@ type
     function Invoke(msg : BMessage) : Status_t;
     procedure FrameMoved(new_position : BPoint); override;
     procedure FrameResized(new_width : double; new_height : double); override;
-    procedure MakeFocus(state : boolean); override;
+    procedure MakeFocus(state : boolean); 
     procedure AllAttached; override;
     procedure AllDetached; override;
     function ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
@@ -110,10 +110,10 @@ begin
   inherited;
 end;
 
-constructor BButton.Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal);
+constructor BButton.Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BButton_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, resizingMode, flags);
+  CPlusObject := BButton_Create(Self, aframe.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
 end;
 
 constructor BButton.Create(data : BMessage);

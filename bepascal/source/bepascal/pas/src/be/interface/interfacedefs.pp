@@ -296,6 +296,19 @@ type
     B_MENU_ITEM_TEXT_COLOR,            // 7
     B_MENU_SELECTED_ITEM_TEXT_COLOR);  // 8
 
+join_mode =(
+	B_ROUND_JOIN,
+	B_MITER_JOIN,
+	B_BEVEL_JOIN,
+	B_BUTT_JOIN,
+	B_SQUARE_JOIN);
+
+	cap_mode = join_mode;
+var	
+	B_ROUND_CAP,
+	B_BUTT_CAP,
+	B_SQUARE_CAP : join_mode;
+
 function ui_color(which : color_which) : rgb_color; cdecl; external 'be' name 'ui_color__F11color_which';
 function tint_color(color : rgb_color; which : color_which) : rgb_color; cdecl; external 'be' name 'tint_color__FG9rgb_colorf';
 
@@ -318,5 +331,10 @@ const
   B_DISABLED_MARK_TINT        = B_LIGHTEN_2_TINT;
 
 implementation
+
+Initialization
+	B_ROUND_CAP:=B_ROUND_JOIN;
+	B_BUTT_CAP:=B_BUTT_JOIN;
+	B_SQUARE_CAP:=B_SQUARE_JOIN;
 
 end.

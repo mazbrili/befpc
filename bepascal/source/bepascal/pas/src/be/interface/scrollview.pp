@@ -31,7 +31,7 @@ type
     constructor Create(name : pchar;
 								atarget :BView;
 								 resizeMask : longint;
-								flags : longint;
+								sflags : longint;
 								horizontal,
 								vertical : boolean;
 								aborder :border_style ); virtual;
@@ -101,13 +101,13 @@ implementation
 constructor BScrollView.Create(name : pchar;
 								atarget :BView;
 								 resizeMask : longint;
-								flags : longint;
+								sflags : longint;
 								horizontal,
 								vertical : boolean;
 								aborder :border_style ); 
 begin
   CreatePas;
-  CPlusObject := BScrollView_Create(Self,name,atarget.CplusObject,resizeMask,flags,horizontal,vertical,aborder);
+  CPlusObject := BScrollView_Create(Self,name,atarget.CplusObject,resizeMask,sflags,horizontal,vertical,aborder);
 
 end;								
 

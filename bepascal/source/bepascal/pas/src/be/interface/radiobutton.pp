@@ -28,7 +28,7 @@ type
    BRadioButton = class(BControl)
   private
   public
-	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal); virtual;
+	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage); override;
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -49,7 +49,7 @@ type
     procedure FrameMoved(new_position : BPoint); override;
     procedure FrameResized(new_width : double; new_height : double); override;
     function ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
-    procedure MakeFocus(state : boolean); override;
+    procedure MakeFocus(state : boolean); 
     procedure AllAttached; override;
     procedure AllDetached; override;
     function GetSupportedSuites(data : BMessage) : Status_t;
@@ -102,10 +102,10 @@ function BRadioButton_Perform(AObject : TCPlusObject; d : Perform_code; arg : Po
 
 implementation
 
-constructor BRadioButton.Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal);
+constructor BRadioButton.Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BRadioButton_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, resizingMode, flags);
+  CPlusObject := BRadioButton_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
 end;
 
 constructor  BRadioButton.Create(data : BMessage);

@@ -23,7 +23,7 @@ unit Bitmap;
 interface
 
 uses
-  BeObj, Archivable, GraphicDefs, Message, OS, Rect, SupportDefs, View;
+  BeObj, Archivable, GraphicDefs, Message, OS, Rect, SupportDefs,accelerant;
 
 const
   B_BITMAP_CLEAR_TO_WHITE          = $00000001;
@@ -161,7 +161,7 @@ function BBitmap_Bits(AObject : TCPlusObject) : Pointer; cdecl;
   external BePascalLibName name 'BBitmap_Bits';
 
 function BBitmap_BitsLength(AObject : TCPlusObject) : integer; cdecl;
-  external BePascalLibName name 'BBitmap_BitsLength';
+  external BePascalLibName name 'BBitmap_BitsLength_1';
 
 function BBitmap_BytesPerRow(AObject : TCPlusObject) : integer; cdecl;
   external BePascalLibName name 'BBitmap_BytesPerRow';
@@ -255,6 +255,7 @@ implementation
 constructor BBitmap.Create(frame{bounds} : BRect; flags : Cardinal;
 	depth : Color_Space; bytes_per_row : Integer; screenID : Screen_ID);
 begin
+  CreatePas;
   CPlusObject := BBitmap_Create(Self, frame, flags, depth, bytes_per_row,
                                 screenID);
 end;
@@ -264,6 +265,7 @@ end;
 constructor BBitmap.Create(frame{bounds} : BRect; depth : Color_Space;
   accepts_views : Boolean; need_contiguous : Boolean);
 begin
+  CreatePas;
   CPlusObject := BBitmap_Create_1(Self, frame.CPlusObject, depth,
                                   accepts_views, need_contiguous);
 end;
@@ -273,11 +275,13 @@ end;
 constructor BBitmap.Create(source : BBitmap; accepts_views : Boolean;
   need_contiguous : Boolean);
 begin
-  CPlusObject := BBitmap_Create_2(Self, source, accepts_views, need_contiguous);
+   CreatePas;
+ CPlusObject := BBitmap_Create_2(Self, source, accepts_views, need_contiguous);
 end;
 
 constructor BBitmap.Create(data : BMessage);
 begin
+  CreatePas;
   CPlusObject := BBitmap_Create_3(Self, data.CPlusObject);
 end;
 

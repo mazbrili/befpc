@@ -30,7 +30,7 @@ type
   BBox = class(BView)
   private
   public
-    constructor Create(Frame : BRect; Name : PChar; ResizingMode, Flags : Cardinal; BorderStyle : border_style);
+    constructor Create(Frame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
     constructor Create(data : BMessage);
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -106,10 +106,10 @@ function BBox_Perform(AObject : TCPlusObject; d : Perform_code; arg : Pointer) :
 implementation
 
 
-constructor BBox.Create(Frame : BRect; Name : PChar; ResizingMode, Flags : Cardinal; BorderStyle : border_style);
+constructor BBox.Create(Frame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
 begin
   CreatePas;
-  CPlusObject := BBox_Create(Self, Frame.CPlusObject, Name, ResizingMode, Flags, BorderStyle);
+  CPlusObject := BBox_Create(Self, Frame.CPlusObject, Name, sResizingMode, sFlags, BorderStyle);
 end;
 
 constructor BBox.Create(data : BMessage);

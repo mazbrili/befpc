@@ -58,9 +58,9 @@ type
 
     function AddItem(item : bMenuItem) : boolean;
     function AddItem(item : bMenuItem; index : integer) : boolean;
-    function AddItem(item : bMenuItem; frame : BRect) : boolean;
+    function AddItem(item : bMenuItem; aframe : BRect) : boolean;
     function AddItem(menu : BMenu; index : integer) : boolean;
-    function AddItem(menu : BMenu; frame : BRect) : boolean;
+    function AddItem(menu : BMenu; aframe : BRect) : boolean;
     function AddItem(menu : BMenu) : boolean;
 
     function AddList(list : BList; index : integer) : boolean; 
@@ -801,13 +801,13 @@ begin
   Result := BMenu_AddItem_2(CPlusObject, item.CPlusObject, index);
 end;
 
-function BMenu.AddItem(item : bMenuItem; frame : BRect) : boolean;
+function BMenu.AddItem(item : bMenuItem; aframe : BRect) : boolean;
 begin
   SendText('ici');
   SendText('function BMenu.AddItem(item : bMenuItem; frame : BRect) : boolean;');
   frame.PrintToStream;
   SendText('toto');
-  Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, frame.CPlusObject);
+  Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, aframe.CPlusObject);
 end;
 
 function BMenu.AddItem(menu : BMenu) : boolean;
@@ -823,10 +823,10 @@ begin
   Result := BMenu_AddItem_5(CPlusObject, menu.CPlusObject, index);
 end;
 
-function BMenu.AddItem(menu : BMenu; frame : BRect) : boolean;
+function BMenu.AddItem(menu : BMenu; aframe : BRect) : boolean;
 begin
   SendText('function BMenu.AddItem(menu : BMenu; frame : BRect) : boolean;');
-  Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, frame.CPlusObject);
+  Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, aframe.CPlusObject);
 end;
 
 

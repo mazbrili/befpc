@@ -28,7 +28,7 @@ type
   BOutlineListView = class(BListView)
   private
   public
-    constructor Create(frame : BRect; name : pchar; atype : List_view_type; resizeMask: longint; flags : longint); override;
+    constructor Create(aframe : BRect; name : pchar; atype : List_view_type; resizeMask: longint; aflags : longint); override;
     constructor Create(data : BMessage); 
     destructor Destroy;override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -124,10 +124,10 @@ function BOutlineListView_ItemUnderAt(AObject : TCPlusObject; underItem : TCPlus
 implementation
 
 
-constructor BOutlineListView.Create(frame : BRect; name : pchar; atype : list_view_type; resizeMask: longint; flags : longint);
+constructor BOutlineListView.Create(aframe : BRect; name : pchar; atype : list_view_type; resizeMask: longint; aflags : longint);
 begin
   CreatePas;
-  CPlusObject := BOutlineListView_Create(Self,frame.CPlusObject,name,atype,resizeMask,flags);
+  CPlusObject := BOutlineListView_Create(Self,aframe.CPlusObject,name,atype,resizeMask,aflags);
 end;
 
 constructor BOutlineListView.Create(data : BMessage); 

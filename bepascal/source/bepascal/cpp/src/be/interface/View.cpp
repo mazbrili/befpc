@@ -105,7 +105,6 @@ BPView::BPView(TPasObject PasObject, BMessage *archive)
 //	              BPasObject(PasObject)
 {
 }
-
 void BPView::MessageReceived(BMessage *message)
 {
 	BPHandler::MessageReceived_hookCall(message);
@@ -572,6 +571,2057 @@ BView_IsHidden(BView *View)
 {
    return View->IsHidden();
 }
+
+/***********************************************************************
+ *  Method: BView::ConvertToScreen
+ *  Params: BPoint *pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertToScreen(BView *View, BPoint *pt) 
+{
+   View->ConvertToScreen(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToScreen
+ *  Params: BPoint pt
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_ConvertToScreen_1
+(BView *View, BPoint pt) 
+{
+   return View->ConvertToScreen(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromScreen
+ *  Params: BPoint *pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertFromScreen(BView *View, BPoint *pt) 
+{
+   View->ConvertFromScreen(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromScreen
+ *  Params: BPoint pt
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_ConvertFromScreen_1
+(BView *View, BPoint pt) 
+{
+   return View->ConvertFromScreen(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToScreen
+ *  Params: BRect *r
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertToScreen_r(BView *View, BRect *r) 
+{
+   View->ConvertToScreen(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToScreen
+ *  Params: BRect r
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_ConvertToScreen_r_1
+(BView *View, BRect r) 
+{
+   return View->ConvertToScreen(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromScreen
+ *  Params: BRect *r
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertFromScreen_r(BView *View, BRect *r)
+{
+   View->ConvertFromScreen(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromScreen
+ *  Params: BRect r
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_ConvertFromScreen_r_1
+(BView *View, BRect r) 
+{
+   return View->ConvertFromScreen(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToParent
+ *  Params: BPoint *pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertToParent(BView *View, BPoint *pt)
+{
+   View->ConvertToParent(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToParent
+ *  Params: BPoint pt
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_ConvertToParent_1
+(BView *View, BPoint pt) 
+{
+   return View->ConvertToParent(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromParent
+ *  Params: BPoint *pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertFromParent(BView *View, BPoint *pt)
+{
+   View->ConvertFromParent(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromParent
+ *  Params: BPoint pt
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_ConvertFromParent_1
+(BView *View, BPoint pt) 
+{
+   return View->ConvertFromParent(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToParent
+ *  Params: BRect *r
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertToParent_r(BView *View, BRect *r)
+{
+   View->ConvertToParent(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertToParent
+ *  Params: BRect r
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_ConvertToParent_r_1
+(BView *View, BRect r) 
+{
+   return View->ConvertToParent(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromParent
+ *  Params: BRect *r
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ConvertFromParent_r(BView *View, BRect *r) 
+{
+   View->ConvertFromParent(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ConvertFromParent
+ *  Params: BRect r
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_ConvertFromParent_r_1
+(BView *View, BRect r) 
+{
+   return View->ConvertFromParent(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::LeftTop
+ *  Params: 
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_LeftTop(BView *View)
+{
+   return View->LeftTop();
+}
+
+void
+BView_ConstrainClippingRegion(BView *View, BRegion *region)
+{
+   View->ConstrainClippingRegion(region);
+}
+
+
+/***********************************************************************
+ *  Method: BView::BeginRectTracking
+ *  Params: BRect startRect, uint32 style
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_BeginRectTracking(BView *View, BRect startRect, uint32 style)
+{
+   View->BeginRectTracking(startRect, style);
+}
+
+
+/***********************************************************************
+ *  Method: BView::EndRectTracking
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_EndRectTracking(BView *View)
+{
+   View->EndRectTracking();
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetMouse
+ *  Params: BPoint *location, uint32 *buttons, bool checkMessageQueue
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetMouse(BView *View, BPoint *location, uint32 *buttons, bool checkMessageQueue)
+{
+   View->GetMouse(location, buttons, checkMessageQueue);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DragMessage
+ *  Params: BMessage *aMessage, BRect dragRect, BHandler *reply_to
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DragMessage(BView *View, BMessage *aMessage, BRect dragRect, BHandler *reply_to)
+{
+   View->DragMessage(aMessage, dragRect, reply_to);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DragMessage
+ *  Params: BMessage *aMessage, BBitmap *anImage, BPoint offset, BHandler *reply_to
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DragMessage_1
+(BView *View, BMessage *aMessage, BBitmap *anImage, BPoint offset, BHandler *reply_to)
+{
+   View->DragMessage(aMessage, anImage, offset, reply_to);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DragMessage
+ *  Params: BMessage *aMessage, BBitmap *anImage, drawing_mode dragMode, BPoint offset, BHandler *reply_to
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DragMessage_2
+(BView *View, BMessage *aMessage, BBitmap *anImage, drawing_mode dragMode, BPoint offset, BHandler *reply_to)
+{
+   View->DragMessage(aMessage, anImage, dragMode, offset, reply_to);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FindView
+ *  Params: const char *name
+ * Returns: BView *
+ * Effects: 
+ ***********************************************************************/
+BView *
+BView_FindView(BView *View, const char *name) 
+{
+   return View->FindView(name);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Parent
+ *  Params: 
+ * Returns: BView *
+ * Effects: 
+ ***********************************************************************/
+BView *
+BView_Parent(BView *View) 
+{
+   return View->Parent();
+}
+
+
+/***********************************************************************
+ *  Method: BView::Bounds
+ *  Params: 
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_Bounds(BView *View) 
+{
+   return View->Bounds();
+}
+
+
+/***********************************************************************
+ *  Method: BView::Frame
+ *  Params: 
+ * Returns: BRect
+ * Effects: 
+ ***********************************************************************/
+BRect
+BView_Frame(BView *View) 
+{
+   return View->Frame();
+}
+
+
+
+
+/***********************************************************************
+ *  Method: BView::GetClippingRegion
+ *  Params: BRegion *region
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetClippingRegion(BView *View, BRegion *region) 
+{
+   View->GetClippingRegion(region);
+}
+
+
+
+/***********************************************************************
+ *  Method: BView::ClipToPicture
+ *  Params: BPicture *picture, BPoint where, bool sync
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ClipToPicture(BView *View, BPicture *picture, BPoint where, bool sync)
+{
+   View->ClipToPicture(picture, where, sync);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ClipToInversePicture
+ *  Params: BPicture *picture, BPoint where, bool sync
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ClipToInversePicture(BView *View, BPicture *picture, BPoint where, bool sync)
+{
+   View->ClipToInversePicture(picture, where, sync);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetDrawingMode
+ *  Params: drawing_mode mode
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetDrawingMode(BView *View, drawing_mode mode)
+{
+   View->SetDrawingMode(mode);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawingMode
+ *  Params: 
+ * Returns: drawing_mode
+ * Effects: 
+ ***********************************************************************/
+drawing_mode
+BView_DrawingMode(BView *View) 
+{
+   return View->DrawingMode();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetBlendingMode
+ *  Params: source_alpha srcAlpha, alpha_function alphaFunc
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetBlendingMode(BView *View, source_alpha srcAlpha, alpha_function alphaFunc)
+{
+   View->SetBlendingMode(srcAlpha, alphaFunc);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetBlendingMode
+ *  Params: source_alpha *srcAlpha, alpha_function *alphaFunc
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetBlendingMode(BView *View, source_alpha *srcAlpha, alpha_function *alphaFunc) 
+{
+   View->GetBlendingMode(srcAlpha, alphaFunc);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetPenSize
+ *  Params: float size
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetPenSize(BView *View, float size)
+{
+   View->SetPenSize(size);
+}
+
+
+/***********************************************************************
+ *  Method: BView::PenSize
+ *  Params: 
+ * Returns: float
+ * Effects: 
+ ***********************************************************************/
+float
+BView_PenSize(BView *View) 
+{
+   return View->PenSize();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetViewCursor
+ *  Params: const BCursor *cursor, bool sync
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetViewCursor(BView *View, const BCursor *cursor, bool sync)
+{
+   View->SetViewCursor(cursor, sync);
+}
+
+
+
+
+
+
+
+/***********************************************************************
+ *  Method: BView::ClearViewBitmap
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ClearViewBitmap(BView *View)
+{
+   View->ClearViewBitmap();
+}
+
+
+/***********************************************************************
+ *  Method: BView::ClearViewOverlay
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ClearViewOverlay(BView *View)
+{
+   View->ClearViewOverlay();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetHighColor
+ *  Params: rgb_color a_color
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetHighColor(BView *View, rgb_color a_color)
+{
+   View->SetHighColor(a_color);
+}
+
+
+/***********************************************************************
+ *  Method: BView::HighColor
+ *  Params: 
+ * Returns: rgb_color
+ * Effects: 
+ ***********************************************************************/
+rgb_color
+BView_HighColor(BView *View) 
+{
+   return View->HighColor();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetLowColor
+ *  Params: rgb_color a_color
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetLowColor(BView *View, rgb_color a_color)
+{
+   View->SetLowColor(a_color);
+}
+
+
+/***********************************************************************
+ *  Method: BView::LowColor
+ *  Params: 
+ * Returns: rgb_color
+ * Effects: 
+ ***********************************************************************/
+rgb_color
+BView_LowColor(BView *View) 
+{
+   return View->LowColor();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetLineMode
+ *  Params: cap_mode lineCap, join_mode lineJoin, float miterLimit
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetLineMode(BView *View, cap_mode lineCap, join_mode lineJoin, float miterLimit)
+{
+   View->SetLineMode(lineCap, lineJoin, miterLimit);
+}
+
+
+/***********************************************************************
+ *  Method: BView::LineJoinMode
+ *  Params: 
+ * Returns: join_mode
+ * Effects: 
+ ***********************************************************************/
+join_mode
+BView_LineJoinMode(BView *View) 
+{
+   return View->LineJoinMode();
+}
+
+
+/***********************************************************************
+ *  Method: BView::LineCapMode
+ *  Params: 
+ * Returns: cap_mode
+ * Effects: 
+ ***********************************************************************/
+cap_mode
+BView_LineCapMode(BView *View) 
+{
+   return View->LineCapMode();
+}
+
+
+/***********************************************************************
+ *  Method: BView::LineMiterLimit
+ *  Params: 
+ * Returns: float
+ * Effects: 
+ ***********************************************************************/
+float
+BView_LineMiterLimit(BView *View) 
+{
+   return View->LineMiterLimit();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetOrigin
+ *  Params: BPoint pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetOrigin(BView *View, BPoint pt)
+{
+   View->SetOrigin(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetOrigin
+ *  Params: float x, float y
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetOrigin_1
+(BView *View, float x, float y)
+{
+   View->SetOrigin(x, y);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Origin
+ *  Params: 
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_Origin(BView *View) 
+{
+   return View->Origin();
+}
+
+
+/***********************************************************************
+ *  Method: BView::PushState
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_PushState(BView *View)
+{
+   View->PushState();
+}
+
+
+/***********************************************************************
+ *  Method: BView::PopState
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_PopState(BView *View)
+{
+   View->PopState();
+}
+
+
+/***********************************************************************
+ *  Method: BView::MovePenTo
+ *  Params: BPoint pt
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MovePenTo(BView *View, BPoint pt)
+{
+   View->MovePenTo(pt);
+}
+
+
+/***********************************************************************
+ *  Method: BView::MovePenTo
+ *  Params: float x, float y
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MovePenTo_1
+(BView *View, float x, float y)
+{
+   View->MovePenTo(x, y);
+}
+
+
+/***********************************************************************
+ *  Method: BView::MovePenBy
+ *  Params: float x, float y
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MovePenBy(BView *View, float x, float y)
+{
+   View->MovePenBy(x, y);
+}
+
+
+/***********************************************************************
+ *  Method: BView::PenLocation
+ *  Params: 
+ * Returns: BPoint
+ * Effects: 
+ ***********************************************************************/
+BPoint
+BView_PenLocation(BView *View) 
+{
+   return View->PenLocation();
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeLine
+ *  Params: BPoint toPt, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeLine(BView *View, BPoint toPt, pattern p)
+{
+   View->StrokeLine(toPt, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeLine
+ *  Params: BPoint pt0, BPoint pt1, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeLine_1
+(BView *View, BPoint pt0, BPoint pt1, pattern p)
+{
+   View->StrokeLine(pt0, pt1, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::BeginLineArray
+ *  Params: int32 count
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_BeginLineArray(BView *View, int32 count)
+{
+   View->BeginLineArray(count);
+}
+
+
+/***********************************************************************
+ *  Method: BView::AddLine
+ *  Params: BPoint pt0, BPoint pt1, rgb_color col
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_AddLine(BView *View, BPoint pt0, BPoint pt1, rgb_color col)
+{
+   View->AddLine(pt0, pt1, col);
+}
+
+
+/***********************************************************************
+ *  Method: BView::EndLineArray
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_EndLineArray(BView *View)
+{
+   View->EndLineArray();
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokePolygon
+ *  Params: const BPolygon *aPolygon, bool closed, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokePolygon(BView *View, const BPolygon *aPolygon, bool closed, pattern p)
+{
+   View->StrokePolygon(aPolygon, closed, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokePolygon
+ *  Params: const BPoint *ptArray, int32 numPts, bool closed, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokePolygon_1
+(BView *View, const BPoint *ptArray, int32 numPts, bool closed, pattern p)
+{
+   View->StrokePolygon(ptArray, numPts, closed, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokePolygon
+ *  Params: const BPoint *ptArray, int32 numPts, BRect bounds, bool closed, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokePolygon_2
+(BView *View, const BPoint *ptArray, int32 numPts, BRect bounds, bool closed, pattern p)
+{
+   View->StrokePolygon(ptArray, numPts, bounds, closed, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillPolygon
+ *  Params: const BPolygon *aPolygon, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillPolygon(BView *View, const BPolygon *aPolygon, pattern p)
+{
+   View->FillPolygon(aPolygon, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillPolygon
+ *  Params: const BPoint *ptArray, int32 numPts, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillPolygon_1
+(BView *View, const BPoint *ptArray, int32 numPts, pattern p)
+{
+   View->FillPolygon(ptArray, numPts, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillPolygon
+ *  Params: const BPoint *ptArray, int32 numPts, BRect bounds, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillPolygon_2
+(BView *View, const BPoint *ptArray, int32 numPts, BRect bounds, pattern p)
+{
+   View->FillPolygon(ptArray, numPts, bounds, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeTriangle
+ *  Params: BPoint pt1, BPoint pt2, BPoint pt3, BRect bounds, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeTriangle(BView *View, BPoint pt1, BPoint pt2, BPoint pt3, BRect bounds, pattern p)
+{
+   View->StrokeTriangle(pt1, pt2, pt3, bounds, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeTriangle
+ *  Params: BPoint pt1, BPoint pt2, BPoint pt3, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeTriangle_1
+(BView *View, BPoint pt1, BPoint pt2, BPoint pt3, pattern p)
+{
+   View->StrokeTriangle(pt1, pt2, pt3, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillTriangle
+ *  Params: BPoint pt1, BPoint pt2, BPoint pt3, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillTriangle(BView *View, BPoint pt1, BPoint pt2, BPoint pt3, pattern p)
+{
+   View->FillTriangle(pt1, pt2, pt3, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillTriangle
+ *  Params: BPoint pt1, BPoint pt2, BPoint pt3, BRect bounds, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillTriangle_1
+(BView *View, BPoint pt1, BPoint pt2, BPoint pt3, BRect bounds, pattern p)
+{
+   View->FillTriangle(pt1, pt2, pt3, bounds, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeRect
+ *  Params: BRect r, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeRect(BView *View, BRect r, pattern p)
+{
+   View->StrokeRect(r, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillRect
+ *  Params: BRect r, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillRect(BView *View, BRect r, pattern p)
+{
+   View->FillRect(r, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillRegion
+ *  Params: BRegion *a_region, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillRegion(BView *View, BRegion *a_region, pattern p)
+{
+   View->FillRegion(a_region, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::InvertRect
+ *  Params: BRect r
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_InvertRect(BView *View, BRect r)
+{
+   View->InvertRect(r);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeRoundRect
+ *  Params: BRect r, float xRadius, float yRadius, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeRoundRect(BView *View, BRect r, float xRadius, float yRadius, pattern p)
+{
+   View->StrokeRoundRect(r, xRadius, yRadius, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillRoundRect
+ *  Params: BRect r, float xRadius, float yRadius, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillRoundRect(BView *View, BRect r, float xRadius, float yRadius, pattern p)
+{
+   View->FillRoundRect(r, xRadius, yRadius, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeEllipse
+ *  Params: BPoint center, float xRadius, float yRadius, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeEllipse(BView *View, BPoint center, float xRadius, float yRadius, pattern p)
+{
+   View->StrokeEllipse(center, xRadius, yRadius, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeEllipse
+ *  Params: BRect r, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeEllipse_1
+(BView *View, BRect r, pattern p)
+{
+   View->StrokeEllipse(r, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillEllipse
+ *  Params: BPoint center, float xRadius, float yRadius, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillEllipse(BView *View, BPoint center, float xRadius, float yRadius, pattern p)
+{
+   View->FillEllipse(center, xRadius, yRadius, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillEllipse
+ *  Params: BRect r, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillEllipse_1
+(BView *View, BRect r, pattern p)
+{
+   View->FillEllipse(r, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeArc
+ *  Params: BPoint center, float xRadius, float yRadius, float start_angle, float arc_angle, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeArc(BView *View, BPoint center, float xRadius, float yRadius, float start_angle, float arc_angle, pattern p)
+{
+   View->StrokeArc(center, xRadius, yRadius, start_angle, arc_angle, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeArc
+ *  Params: BRect r, float start_angle, float arc_angle, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeArc_1
+(BView *View, BRect r, float start_angle, float arc_angle, pattern p)
+{
+   View->StrokeArc(r, start_angle, arc_angle, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillArc
+ *  Params: BPoint center, float xRadius, float yRadius, float start_angle, float arc_angle, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillArc(BView *View, BPoint center, float xRadius, float yRadius, float start_angle, float arc_angle, pattern p)
+{
+   View->FillArc(center, xRadius, yRadius, start_angle, arc_angle, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillArc
+ *  Params: BRect r, float start_angle, float arc_angle, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillArc_1
+(BView *View, BRect r, float start_angle, float arc_angle, pattern p)
+{
+   View->FillArc(r, start_angle, arc_angle, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeBezier
+ *  Params: BPoint *controlPoints, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeBezier(BView *View, BPoint *controlPoints, pattern p)
+{
+   View->StrokeBezier(controlPoints, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillBezier
+ *  Params: BPoint *controlPoints, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillBezier(BView *View, BPoint *controlPoints, pattern p)
+{
+   View->FillBezier(controlPoints, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StrokeShape
+ *  Params: BShape *shape, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_StrokeShape(BView *View, BShape *shape, pattern p)
+{
+   View->StrokeShape(shape, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::FillShape
+ *  Params: BShape *shape, pattern p
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_FillShape(BView *View, BShape *shape, pattern p)
+{
+   View->FillShape(shape, p);
+}
+
+
+/***********************************************************************
+ *  Method: BView::CopyBits
+ *  Params: BRect src, BRect dst
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_CopyBits(BView *View, BRect src, BRect dst)
+{
+   View->CopyBits(src, dst);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmapAsync
+ *  Params: const BBitmap *aBitmap, BRect srcRect, BRect dstRect
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmapAsync(BView *View, const BBitmap *aBitmap, BRect srcRect, BRect dstRect)
+{
+   View->DrawBitmapAsync(aBitmap, srcRect, dstRect);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmapAsync
+ *  Params: const BBitmap *aBitmap
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmapAsync_1
+(BView *View, const BBitmap *aBitmap)
+{
+   View->DrawBitmapAsync(aBitmap);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmapAsync
+ *  Params: const BBitmap *aBitmap, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmapAsync_2
+(BView *View, const BBitmap *aBitmap, BPoint where)
+{
+   View->DrawBitmapAsync(aBitmap, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmapAsync
+ *  Params: const BBitmap *aBitmap, BRect dstRect
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmapAsync_3
+(BView *View, const BBitmap *aBitmap, BRect dstRect)
+{
+   View->DrawBitmapAsync(aBitmap, dstRect);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmap
+ *  Params: const BBitmap *aBitmap, BRect srcRect, BRect dstRect
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmap(BView *View, const BBitmap *aBitmap, BRect srcRect, BRect dstRect)
+{
+   View->DrawBitmap(aBitmap, srcRect, dstRect);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmap
+ *  Params: const BBitmap *aBitmap
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmap_1
+(BView *View, const BBitmap *aBitmap)
+{
+   View->DrawBitmap(aBitmap);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmap
+ *  Params: const BBitmap *aBitmap, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmap_2
+(BView *View, const BBitmap *aBitmap, BPoint where)
+{
+   View->DrawBitmap(aBitmap, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawBitmap
+ *  Params: const BBitmap *aBitmap, BRect dstRect
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawBitmap_3
+(BView *View, const BBitmap *aBitmap, BRect dstRect)
+{
+   View->DrawBitmap(aBitmap, dstRect);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawChar
+ *  Params: char aChar
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawChar(BView *View, char aChar)
+{
+   View->DrawChar(aChar);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawChar
+ *  Params: char aChar, BPoint location
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawChar_1
+(BView *View, char aChar, BPoint location)
+{
+   View->DrawChar(aChar, location);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawString
+ *  Params: const char *aString, escapement_delta *delta
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawString(BView *View, const char *aString, escapement_delta *delta)
+{
+   View->DrawString(aString, delta);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawString
+ *  Params: const char *aString, BPoint location, escapement_delta *delta
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawString_1
+(BView *View, const char *aString, BPoint location, escapement_delta *delta)
+{
+   View->DrawString(aString, location, delta);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawString
+ *  Params: const char *aString, int32 length, escapement_delta *delta
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawString_2
+(BView *View, const char *aString, int32 length, escapement_delta *delta)
+{
+   View->DrawString(aString, length, delta);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawString
+ *  Params: const char *aString, int32 length, BPoint location, escapement_delta *delta
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawString_3
+(BView *View, const char *aString, int32 length, BPoint location, escapement_delta *delta)
+{
+   View->DrawString(aString, length, location, delta);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetFont
+ *  Params: const BFont *font, uint32 mask
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetFont(BView *View, const BFont *font, uint32 mask)
+{
+   View->SetFont(font, mask);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetFont
+ *  Params: BFont *font
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetFont(BView *View, BFont *font) 
+{
+   View->GetFont(font);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetFont
+ *  Params: BFont *font
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetFont_1
+(BView *View, BFont *font)
+{
+   View->GetFont(font);
+}
+
+
+/***********************************************************************
+ *  Method: BView::TruncateString
+ *  Params: BString *in_out, uint32 mode, float width
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_TruncateString(BView *View, BString *in_out, uint32 mode, float width) 
+{
+   View->TruncateString(in_out, mode, width);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StringWidth
+ *  Params: const char *string
+ * Returns: float
+ * Effects: 
+ ***********************************************************************/
+float
+BView_StringWidth(BView *View, const char *string) 
+{
+   return View->StringWidth(string);
+}
+
+
+/***********************************************************************
+ *  Method: BView::StringWidth
+ *  Params: const char *string, int32 length
+ * Returns: float
+ * Effects: 
+ ***********************************************************************/
+float
+BView_StringWidth_1
+(BView *View, const char *string, int32 length) 
+{
+   return View->StringWidth(string, length);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetStringWidths
+ *  Params: char *stringArray[], int32 lengthArray[], int32 numStrings, float widthArray[]
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetStringWidths(BView *View, char *stringArray[], int32 lengthArray[], int32 numStrings, float widthArray[]) 
+{
+   View->GetStringWidths(stringArray, lengthArray, numStrings, widthArray);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetFontSize
+ *  Params: float size
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetFontSize(BView *View, float size)
+{
+   View->SetFontSize(size);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ForceFontAliasing
+ *  Params: bool enable
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ForceFontAliasing(BView *View, bool enable)
+{
+   View->ForceFontAliasing(enable);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetFontHeight
+ *  Params: font_height *height
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetFontHeight(BView *View, font_height *height) 
+{
+   View->GetFontHeight(height);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Invalidate
+ *  Params: BRect invalRect
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_Invalidate(BView *View, BRect invalRect)
+{
+   View->Invalidate(invalRect);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Invalidate
+ *  Params: const BRegion *invalRegion
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_Invalidate_1
+(BView *View, const BRegion *invalRegion)
+{
+   View->Invalidate(invalRegion);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Invalidate
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_Invalidate_2
+(BView *View)
+{
+   View->Invalidate();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetDiskMode
+ *  Params: char *filename, long offset
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetDiskMode(BView *View, char *filename, long offset)
+{
+   View->SetDiskMode(filename, offset);
+}
+
+
+/***********************************************************************
+ *  Method: BView::BeginPicture
+ *  Params: BPicture *a_picture
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_BeginPicture(BView *View, BPicture *a_picture)
+{
+   View->BeginPicture(a_picture);
+}
+
+
+/***********************************************************************
+ *  Method: BView::AppendToPicture
+ *  Params: BPicture *a_picture
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_AppendToPicture(BView *View, BPicture *a_picture)
+{
+   View->AppendToPicture(a_picture);
+}
+
+
+/***********************************************************************
+ *  Method: BView::EndPicture
+ *  Params: 
+ * Returns: BPicture *
+ * Effects: 
+ ***********************************************************************/
+BPicture *
+BView_EndPicture(BView *View)
+{
+   return View->EndPicture();
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPicture
+ *  Params: const BPicture *a_picture
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPicture(BView *View, const BPicture *a_picture)
+{
+   View->DrawPicture(a_picture);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPicture
+ *  Params: const BPicture *a_picture, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPicture_1
+(BView *View, const BPicture *a_picture, BPoint where)
+{
+   View->DrawPicture(a_picture, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPicture
+ *  Params: const char *filename, long offset, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPicture_2
+(BView *View, const char *filename, long offset, BPoint where)
+{
+   View->DrawPicture(filename, offset, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPictureAsync
+ *  Params: const BPicture *a_picture
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPictureAsync_3
+(BView *View, const BPicture *a_picture)
+{
+   View->DrawPictureAsync(a_picture);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPictureAsync
+ *  Params: const BPicture *a_picture, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPictureAsync_4
+(BView *View, const BPicture *a_picture, BPoint where)
+{
+   View->DrawPictureAsync(a_picture, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::DrawPictureAsync
+ *  Params: const char *filename, long offset, BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_DrawPictureAsync_5
+(BView *View, const char *filename, long offset, BPoint where)
+{
+   View->DrawPictureAsync(filename, offset, where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetEventMask
+ *  Params: uint32 mask, uint32 options
+ * Returns: status_t
+ * Effects: 
+ ***********************************************************************/
+status_t
+BView_SetEventMask(BView *View, uint32 mask, uint32 options)
+{
+   return View->SetEventMask(mask, options);
+}
+
+
+/***********************************************************************
+ *  Method: BView::EventMask
+ *  Params: 
+ * Returns: uint32
+ * Effects: 
+ ***********************************************************************/
+uint32
+BView_EventMask(BView *View)
+{
+   return View->EventMask();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetMouseEventMask
+ *  Params: uint32 mask, uint32 options
+ * Returns: status_t
+ * Effects: 
+ ***********************************************************************/
+status_t
+BView_SetMouseEventMask(BView *View, uint32 mask, uint32 options)
+{
+   return View->SetMouseEventMask(mask, options);
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetFlags
+ *  Params: uint32 flags
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetFlags(BView *View, uint32 flags)
+{
+   View->SetFlags(flags);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Flags
+ *  Params: 
+ * Returns: uint32
+ * Effects: 
+ ***********************************************************************/
+uint32
+BView_Flags(BView *View) 
+{
+   return View->Flags();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetResizingMode
+ *  Params: uint32 mode
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetResizingMode(BView *View, uint32 mode)
+{
+   View->SetResizingMode(mode);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ResizingMode
+ *  Params: 
+ * Returns: uint32
+ * Effects: 
+ ***********************************************************************/
+uint32
+BView_ResizingMode(BView *View) 
+{
+   return View->ResizingMode();
+}
+
+
+/***********************************************************************
+ *  Method: BView::MoveBy
+ *  Params: float dh, float dv
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MoveBy(BView *View, float dh, float dv)
+{
+   View->MoveBy(dh, dv);
+}
+
+
+/***********************************************************************
+ *  Method: BView::MoveTo
+ *  Params: BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MoveTo(BView *View, BPoint where)
+{
+   View->MoveTo(where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::MoveTo
+ *  Params: float x, float y
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MoveTo_1
+(BView *View, float x, float y)
+{
+   View->MoveTo(x, y);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ResizeBy
+ *  Params: float dh, float dv
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ResizeBy(BView *View, float dh, float dv)
+{
+   View->ResizeBy(dh, dv);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ResizeTo
+ *  Params: float width, float height
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ResizeTo(BView *View, float width, float height)
+{
+   View->ResizeTo(width, height);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ScrollBy
+ *  Params: float dh, float dv
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ScrollBy(BView *View, float dh, float dv)
+{
+   View->ScrollBy(dh, dv);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ScrollTo
+ *  Params: BPoint where
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ScrollTo(BView *View, BPoint where)
+{
+   View->ScrollTo(where);
+}
+
+
+/***********************************************************************
+ *  Method: BView::MakeFocus
+ *  Params: bool focusState
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_MakeFocus(BView *View, bool focusState)
+{
+   View->MakeFocus(focusState);
+}
+
+
+/***********************************************************************
+ *  Method: BView::IsFocus
+ *  Params: 
+ * Returns: bool
+ * Effects: 
+ ***********************************************************************/
+bool
+BView_IsFocus(BView *View) 
+{
+   return View->IsFocus();
+}
+
+
+
+
+
+/***********************************************************************
+ *  Method: BView::IsHidden
+ *  Params: const BView *looking_from
+ * Returns: bool
+ * Effects: 
+ ***********************************************************************/
+bool
+BView_IsHidden_1
+(BView *View, const BView *looking_from) 
+{
+   return View->IsHidden(looking_from);
+}
+
+
+/***********************************************************************
+ *  Method: BView::Flush
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_Flush(BView *View) 
+{
+   View->Flush();
+}
+
+
+/***********************************************************************
+ *  Method: BView::Sync
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_Sync(BView *View) 
+{
+   View->Sync();
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetPreferredSize
+ *  Params: float *width, float *height
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_GetPreferredSize(BView *View, float *width, float *height)
+{
+   View->GetPreferredSize(width, height);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ResizeToPreferred
+ *  Params: 
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_ResizeToPreferred(BView *View)
+{
+   View->ResizeToPreferred();
+}
+
+
+/***********************************************************************
+ *  Method: BView::ScrollBar
+ *  Params: orientation posture
+ * Returns: BScrollBar *
+ * Effects: 
+ ***********************************************************************/
+BScrollBar *
+BView_ScrollBar(BView *View, orientation posture) 
+{
+   return View->ScrollBar(posture);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ResolveSpecifier
+ *  Params: BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property
+ * Returns: BHandler *
+ * Effects: 
+ ***********************************************************************/
+BHandler *
+BView_ResolveSpecifier(BView *View, BMessage *msg, int32 index, BMessage *specifier, int32 form, const char *property)
+{
+   return View->ResolveSpecifier(msg, index, specifier, form, property);
+}
+
+
+/***********************************************************************
+ *  Method: BView::GetSupportedSuites
+ *  Params: BMessage *data
+ * Returns: status_t
+ * Effects: 
+ ***********************************************************************/
+status_t
+BView_GetSupportedSuites(BView *View, BMessage *data)
+{
+   return View->GetSupportedSuites(data);
+}
+
+
+/***********************************************************************
+ *  Method: BView::IsPrinting
+ *  Params: 
+ * Returns: bool
+ * Effects: 
+ ***********************************************************************/
+bool
+BView_IsPrinting(BView *View) 
+{
+   return View->IsPrinting();
+}
+
+
+/***********************************************************************
+ *  Method: BView::SetScale
+ *  Params: float scale
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetScale(BView *View, float scale) 
+{
+   View->SetScale(scale);
+}
+
+
 
 #if defined(__cplusplus)
 }

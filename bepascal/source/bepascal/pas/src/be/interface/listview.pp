@@ -35,7 +35,7 @@ type
   BListView = class(BView)
   private
   public
-    constructor Create(frame : BRect; name : pchar; atype : list_view_type; resizeMask: longint; flags : longint); virtual;
+    constructor Create(aframe : BRect; name : pchar; atype : list_view_type; resizeMask: longint; sflags : longint); virtual;
     constructor Create(data : BMessage);
     destructor Destroy;override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -188,10 +188,10 @@ var
 	ListItem_SelectionChanged_hook: Pointer; cvar; external;
 	ListString_InitiateDrag_hook: Pointer; cvar; external;
 
-constructor BListView.Create(frame : BRect; name : pchar; atype : list_view_type; resizeMask: longint; flags : longint);
+constructor BListView.Create(aframe : BRect; name : pchar; atype : list_view_type; resizeMask: longint; sflags : longint);
 begin
   CreatePas;
-  CPlusObject := BListView_Create(Self,frame.CPlusObject,name,atype,resizeMask,flags);
+  CPlusObject := BListView_Create(Self,aframe.CPlusObject,name,atype,resizeMask,sflags);
 end;
 
 constructor BListView.Create(data : BMessage);

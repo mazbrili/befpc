@@ -41,21 +41,10 @@ type
     function SendMessage(a_message : BMessage; reply_to : BMessenger; timeout : Bigtime_t) : Status_t;
     function SendMessage(command : Cardinal; reply : BMessage) : Status_t;
     function SendMessage(a_message : BMessage; reply : BMessage; send_timeout : Bigtime_t; reply_timeout : Bigtime_t) : Status_t;
-//    function operator=(from : BMessenger) : BMessenger;
-//    function operator==(other : BMessenger) : boolean;
+
     function IsValid : boolean;
     function Team : Team_id;
-//    constructor Create(aTeam : Team_id; port : TPort_id; token : integer; preferred : boolean);
-//    procedure InitData(mime_sig : PChar; aTeam : Team_id; perr : PStatus_t);
-//    procedure port_id fPort;
-//    procedure int32 fHandlerToken;
-//    procedure team_id fTeam;
-//    procedure int32 extra0;
-//    procedure int32 extra1;
-//    procedure bool fPreferredTarget;
-//    procedure bool extra2;
-//    procedure bool extra3;
-//    procedure bool extra4;
+
   end;
 
 function BMessenger_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';

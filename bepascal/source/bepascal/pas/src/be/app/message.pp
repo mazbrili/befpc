@@ -21,7 +21,7 @@ unit message;
 interface
 
 uses
-  beobj, supportdefs, typeconstants;
+  beobj, supportdefs, typeconstants,dataio;
   
 const
 	B_NO_SPECIFIER 				= 0;
@@ -75,6 +75,8 @@ type
       function Previous : BMessage;
       function WasDropped : boolean;
 	  property What : Cardinal read GetWhat write SetWhat;
+	  function	Unflatten( stream : BDataIO ):status_t;
+	  
 	end;
 
 function BMessage_Create(AObject : TObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMessage_Create_1';
@@ -109,6 +111,7 @@ function BMessage_IsSourceWaiting(Message : TCPlusObject) : boolean; cdecl; exte
 function BMessage_IsReply(Message : TCPlusObject) : boolean; cdecl; external BePascalLibName;
 function BMessage_Previous(Message : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName;
 function BMessage_WasDropped(Message : TCPlusObject) : boolean; cdecl; external BePascalLibName;
+function	BMessage_Unflatten(Message : TCPlusObject; stream : BDataIO ):status_t;cdecl; external BePascalLibName name 'BMessage_Unflatten';
 
 implementation
 
@@ -277,5 +280,10 @@ function BMessage.WasDropped : boolean;
 begin
   result := BMessage_WasDropped(CPlusObject);
 end;
+
+ function	BMessage.Unflatten( stream : BDataIO ):status_t;
+ begin
+ 	result:=BMessage_Unflatten(CPlusObject,stream);
+ end;
 
 end.

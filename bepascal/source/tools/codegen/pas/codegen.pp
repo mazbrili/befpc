@@ -20,34 +20,45 @@ program codegen;
 {$H+} // use AnsiStrings 
 
 uses
-  dom, xmlread, apireader, typmap, codewrite, SysUtils;
+  dom, xmlread, apireader, typmap, codewrite, SysUtils, OptionReader,
+  getopts;
 
+const
+  SupportedOptions : array[0..2] of TOption = ((Name : 'aoption'; Has_arg : Optional_Argument; Flag : nil; Value : #0), 
+                                               (Name : 'boption'; Has_arg : Optional_Argument; Flag : nil; Value : #0),
+                                               (Name : ''; Has_arg : NO_Argument; Flag : nil; Value : #0));
 var
   aDoc : TXMLDocument;
   HooksDoc : TXMLDocument;
   Classes, Hooks : TDocument;
   SrcGen : TSourceGen;
+  Options : TOptions;
 begin
   if ParamCount > 0 then
   begin
-    ReadXMLFile(aDoc, Paramstr(1));
-    ReadXMLFile(HooksDoc, 'hooks.xml');
-    Classes := TDocument.Create(aDoc);
+    Options := TOptions.Create('a::b::', @SupportedOptions[0]);
     try
-      Hooks := TDocument.Create(HooksDoc);
+      ReadXMLFile(aDoc, Paramstr(1));
+      ReadXMLFile(HooksDoc, 'hooks.xml');
+      Classes := TDocument.Create(aDoc);
       try
-        SrcGen := TSourceGen.Create(Classes, Hooks, StringReplace(Paramstr(1), '.xml', '', []));
+        Hooks := TDocument.Create(HooksDoc);
         try
-          SrcGen.Gen;
-          WriteLn('After gen');
+          SrcGen := TSourceGen.Create(Classes, Hooks, StringReplace(Paramstr(1), '.xml', '', []));
+          try
+            SrcGen.Gen;
+            WriteLn('After gen');
+          finally
+            SrcGen.Free;
+          end;
         finally
-          SrcGen.Free;
+          Hooks.Free;
         end;
       finally
-        Hooks.Free;
+        Classes.Free;
       end;
     finally
-      Classes.Free;
+      Options.Free;
     end;
   end;
 
