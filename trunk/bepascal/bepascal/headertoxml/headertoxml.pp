@@ -37,6 +37,11 @@ uses
   
 const
   Eol = #10;
+
+function Convert(s : string) : string;
+begin
+  Result := StringReplace(s, '&', '&amp;', [rfReplaceAll]);
+end;
   
 type
   TXMLWriter = class(TObject)
@@ -133,13 +138,13 @@ end;
 
 procedure TXMLWriter.StartParam(Elem : PArgument);
 begin
-  FList.Add(Format('<PARAM NAME="%s" TYPE="%s"\>', [Elem^.aName, Elem^.aType]));
+  FList.Add(Format('<PARAM NAME="%s" TYPE="%s"/>', [Elem^.aName, Convert(Elem^.aType)]));
 end;
 
 procedure TXMLWriter.StartResult(aType : PChar);
 begin
   if aType <> nil then
-    FList.Add(Format('<RESULT TYPE="%s"\>', [aType]));
+    FList.Add(Format('<RESULT TYPE="%s"/>', [Convert(aType)]));
 end;
 
 var
@@ -193,8 +198,7 @@ begin
           end;
           XMLWriter.StartResult(Current^.ret_type);          
           XMLWriter.EndFunction;
-        end;
-      XMLWriter.EndFunction;      
+        end; 
       XMLWriter.EndClasse;
       XMLWriter.EndClasses;
     finally
