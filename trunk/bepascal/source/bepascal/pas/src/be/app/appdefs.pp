@@ -1,6 +1,6 @@
 {   BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 - 2003 Olivier Coursiere
-                              Oscar Lesta
+    Copyright (C) 2002-2003 Olivier Coursiere
+                            Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit AppDefs2;
+unit AppDefs;
 
 interface
 
