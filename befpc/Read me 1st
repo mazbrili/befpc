@@ -1,0 +1,26 @@
+BeFPC alpha 1 release.
+
+This archive contains the alpha 1 release source (not official FP rating, my own) of BeFPC, the Free Pascal port to BeOS.
+
+The compiler is 'complete', in so much as it can correctly create executable files from pascal source - it's by no means finished to production levels.
+
+Things are at an experimental stage. No one claims that any of the code included is an example of 'good coding practice'. Please, no flames ;-)
+
+I expect to have a basic, non OO, pascal GUI sollution by the begining/mid of August 2001. This will consist of an expanded 'simpleapp' style affair, but will not be a 'replacement' for the Be API. The bottom line is that until FPC links to C++, we'll never fully get the full benefits of the Be API in apps.
+
+NB. the OO section of FPC is not yet working correctly in this version of the compiler - stay tuned. Work is underway for a version of the compiler that fully supports BeOS. The work is being undertaken by the FP team, take a look periodically at http://www.freepascal.org for more info.
+
+Source: I have no idea if this source compiles at this point. It does in its original form, but I deleted a lot of 'stuff' to make the archive smaller.  The archive is meant only to comply with the GPL that governs the FPC distribution.
+
+Lastly, have fun!!
+
+Matt Emson (BeCL co ordinator)
+memson@sourceforge.com / memsom@interalpha.co.uk 
+
+Disclaimer:
+
+The software is presented 'as is'. No guarentee or assurance is given that the software wont nuke your system, wipe your harddisk and fry your computer. USE THIS SOFTWARE AT YOUR OWN RISK. The author/distributer holds no responsibility for any damage(s) caused through the use or mis-use of this software product to perform its intended purpose, or through any other conduct by the end user/downloader/recipient. NB. the author of this document can't spell for toffee.
+
+Original rights given to the FP team, http://www.freepascal.org 
+
+This software is governed by the GPL and parts by the LGPL
