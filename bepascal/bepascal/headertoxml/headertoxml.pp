@@ -32,6 +32,8 @@ program headertoxml;
 </CLASSES>
 }
 
+{$H+} // use AnsiStrings
+
 uses
   Classes, SysUtils, stubgen;
   
@@ -108,7 +110,10 @@ end;
 
 procedure TXMLWriter.StartClasse(Elem : PSyntaxelem);
 begin
-  FList.Add(Format('<CLASSE NAME="%s">', [Elem^.aName]));
+  if Elem <> nil then
+    FList.Add(Format('<CLASSE NAME="%s">', [Elem^.aName]))
+  else
+    WriteLn('Classe nil');
 end;
 
 procedure TXMLWriter.EndClasse;
@@ -138,7 +143,8 @@ end;
 
 procedure TXMLWriter.StartParam(Elem : PArgument);
 begin
-  FList.Add(Format('<PARAM NAME="%s" TYPE="%s"/>', [Elem^.aName, Convert(Elem^.aType)]));
+  if (Elem^.aType <> 'void') or (Elem^.aName <> '') then
+    FList.Add(Format('<PARAM NAME="%s" TYPE="%s"/>', [Elem^.aName, Convert(Elem^.aType)]));
 end;
 
 procedure TXMLWriter.StartResult(aType : PChar);
@@ -160,9 +166,10 @@ begin
   begin
     WriteLn(Paramstr(1));
     init_tables;
-    s := Paramstr(1);
-    fic := @s[1];    
-    Elem := scan(fic);
+    s := Paramstr(1) + #0;
+    UniqueString(s);
+    fic := PChar(s);    
+    Elem := scan(fic);    
     XMLWriter := TXMLWriter.Create(s);
     try
       XMLWriter.StartClasses;
@@ -171,7 +178,6 @@ begin
       CurrentArg := Elem^.args;
       if CurrentArg <> nil then
       begin
-        WriteLn('Arguments');
         XMLWriter.StartParam(CurrentArg);
         while CurrentArg^.Next <> nil do
         begin
