@@ -21,9 +21,9 @@
 
 #include <Archivable.h>
 
-#include <Message.cpp>
-
-#include <beobj.cpp>
+#include <message.h>
+#include <archivable.h>
+#include <beobj.h>
 
 typedef TCPlusObject (*BArchivable_Instantiate_hook) (BMessage *from);
 typedef status_t (*BArchivable_Archive_hook)(TPasObject PasObject, BMessage *into, bool deep);
@@ -38,19 +38,6 @@ BArchivable_Archive_hook Archivable_Archive_hook;
 #if defined(__cplusplus)
 }
 #endif
-
-class _EXPORT BPArchivable : public BArchivable, private BPasObject
-{
-	public:
-		BPArchivable(TPasObject PasObject);
-		BPArchivable(TPasObject PasObject, BMessage *from);
-		~BPArchivable(void);
-virtual	status_t	Archive(BMessage *into, bool deep = true) const;
-virtual status_t	ArchiveFromPascal(BMessage *into, bool deep = true);
-static	BArchivable	*Instantiate(BMessage *from);
-	
-	private:
-};
 
 BPArchivable::BPArchivable(TPasObject PasObject)
 	: BArchivable(), BPasObject(PasObject)

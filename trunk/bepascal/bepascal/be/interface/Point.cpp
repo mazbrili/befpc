@@ -16,20 +16,14 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _POINT_CPP
-#define _POINT_CPP
+#ifndef _POINT_CPP_
+#define _POINT_CPP_
 
 #include <Point.h>
+#include <Rect.h>
 
-#include <beobj.cpp>
-
-class BPPoint : public BPoint, public BPasObject
-{
-	public:
-		BPPoint(TPasObject PasObject, float x, float y);
-		BPPoint(TPasObject PasObject, const BPoint& point);
-		BPPoint(TPasObject PasObject);
-};
+#include <point.h>
+#include <beobj.h>
 
 BPPoint::BPPoint(TPasObject PasObject, float x, float y) : BPoint(x, y), BPasObject(PasObject)
 {
@@ -87,4 +81,4 @@ void BPoint_Set(TCPlusObject Point, float x, float y)
 #endif
 
 
-#endif _POINT_CPP /* _POINT_CPP */
+#endif _POINT_CPP_ /* _POINT_CPP_ */

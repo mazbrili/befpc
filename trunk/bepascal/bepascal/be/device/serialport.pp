@@ -88,7 +88,7 @@ type
     property ParityMode : TParityMode read GetParityMode write SetParityMode;
   end;
 
-function BSerialPort_Create(AObject : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSerialPort_Create';
+function BSerialPort_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSerialPort_Create';
 procedure BSerialPort_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSerialPort_Free';
 function BSerialPort_Open(AObject : TCPlusObject; portName : PChar) : TStatus_t; cdecl; external BePascalLibName name 'BSerialPort_Open';
 procedure BSerialPort_Close(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSerialPort_Close';

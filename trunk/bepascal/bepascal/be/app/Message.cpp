@@ -24,7 +24,8 @@
 
 #include <SupportDefs.h>
 
-#include <beobj.cpp>
+#include <message.h>
+#include <beobj.h>
 
 #if defined(__cplusplus)
 extern "C" {
@@ -33,17 +34,6 @@ extern "C" {
 #if defined(__cplusplus)
 }
 #endif
-
-class BPMessage;
-
-class BPMessage : public BMessage, private BPasObject
-{
-	public:
-		BPMessage(TPasObject PasObject);
-		BPMessage(TPasObject PasObject, uint32 what);
-		BPMessage(TPasObject PasObject, TCPlusObject message);
-	private:
-};
 
 BPMessage::BPMessage(TPasObject PasObject)
 	: BMessage(), BPasObject(PasObject)

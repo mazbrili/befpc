@@ -20,9 +20,10 @@
 #define _ROSTER_CPP_
 
 #include <Roster.h>
+#include <Message.h>
 
-#include <beobj.cpp>
-#include <Message.cpp>
+#include <beobj.h>
+#include <roster.h>
 
 #if defined(__cplusplus)
 extern "C" {

@@ -21,7 +21,8 @@
 
 #include <Handler.h>
 
-#include <beobj.cpp>
+#include <handler.h>
+#include <beobj.h>
 
 // definition of callback function in BHandler
 
@@ -36,16 +37,6 @@ BHandler_MessageReceived_hook Handler_MessageReceived_hook;
 #if defined(__cplusplus)
 }
 #endif
-
-class BPHandler : public BHandler, public virtual BPasObject
-{
-	public:
-		BPHandler(TPasObject PasObject, const char *name = NULL);
-		BPHandler(TPasObject PasObject, BMessage *archive);
-		virtual ~BPHandler(void);
-		virtual void MessageReceived(BMessage *message);		
-	private:
-};
 
 BPHandler::BPHandler(TPasObject PasObject, const char *name)
 	: BHandler(name), BPasObject(PasObject)

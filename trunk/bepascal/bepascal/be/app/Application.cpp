@@ -21,21 +21,22 @@
 
 #include <Application.h>
 #include <Archivable.h>
-
-#include <Roster.cpp>
 #include <Message.h>
-#include <Archivable.cpp>
-#include <Handler.cpp>
-#include <Looper.cpp>
-#include <Window.cpp>
-#include <View.cpp>
-#include <Point.cpp>
-#include <Rect.cpp>
-#include <SerialPort.cpp>
+
+#include <application.h>
 
 // #include <Control.cpp>
 
-#include <beobj.cpp>
+#include <window.h>
+#include <view.h>
+#include <point.h>
+#include <rect.h>
+
+#include <handler.h>
+#include <looper.h>
+#include <archivable.h>
+#include <message.h>
+#include <beobj.h>
 
 // definition of callback function in BApplication
 typedef void (*BApplication_AppActivated_hook) (TPasObject PasObject, bool active);
@@ -55,19 +56,6 @@ BApplication_ReadyToRun_hook Application_ReadyToRun_hook;
 #if defined(__cplusplus)
 }
 #endif
-
-class BPApplication : public BApplication, public virtual BPLooper
-{
-	public:
-		BPApplication(TPasObject PasObject, const char *signature);
-		BPApplication(TPasObject PasObject, const char *signature, 
-			status_t *error);
-		virtual void AppActivated(bool active);
-		virtual void ReadyToRun(void);
-		virtual bool QuitRequested(void);
-		virtual void MessageReceived(BMessage *message);		
-	private:
-};
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature) 
 	: BApplication(signature), BPLooper(PasObject), BPHandler(PasObject),
