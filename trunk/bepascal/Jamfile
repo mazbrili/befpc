@@ -23,28 +23,50 @@ SubDir BEPASCAL_TOP ;
 # Force creation of target's directories BEFORE the building of libbepascal.so
 Depends libbepascal.so : dirs ;
 
-SubInclude BEPASCAL_TOP source ;
-
 # set the distribution dir
 DISTRIB_DIR = distrib ;
 LIBBEPASCAL_INSTALL_DIR = /boot/home/config/lib ;
 
+# clean SEARCH var when building zip files. if not, some files are imported
+# from source/bepascal/cpp instead, maybe because of the Jam-engine.
+# example : Jamfile
+SEARCH on bin_bepascal.zip = . ;
+SEARCH on pas_sources.zip = . ;
+SEARCH on cpp_sources.zip = . ;
+SEARCH on demos.zip = . ;
+SEARCH on docs.zip = . ;
+
 rule MakeDistribs
 {
-	MkDir $(DISTRIB_DIR) ;
+	MkDir -p $(DISTRIB_DIR) ;
 	# copy libbepascal.so in lib
-	Bulk lib : libbepascal.so ;
-	Bulk lib : libstubgen.so ;
+	Bulk lib : libbepascal.so libstubgen.so ;
 	Depends all :  ;
 	# binary files like libbepascal.so are needed to build bin_bepascal.zip
 	Depends bin_bepascal.zip : libbepascal.so ;
-	# make all distribution files. We recursively add all files in those directories except the ones in
-	# CVS subdirectories
-	MakeZip pas_sources.zip : source/bepascal/pas ;
-	MakeZip cpp_sources.zip : source/bepascal/cpp ;
-	MakeZip bin_bepascal.zip : source/bepascal/pas lib ;
-	MakeZip demos.zip : demos ;
-	MakeZip docs.zip : docs ;
+	# make all distribution files. We recursively add all files 
+	# in those directories except the ones in CVS subdirectories
+	# We also add Jamfiles for building and installing the included
+	# sources
+	MakeZip bin_bepascal.zip :  Readme 
+	                            Jamfile 
+	                            Jamrules 
+	                            source/Jamfile 
+	                            source/bepascal/Jamfile
+	                            source/bepascal/pas 
+	                            lib ;
+	MakeZip pas_sources.zip : Readme 
+	                          Jamfile 
+	                          Jamrules 
+	                          source/bepascal/pas ;
+	MakeZip cpp_sources.zip : Readme 
+	                          Jamfile 
+	                          Jamrules 
+	                          source/bepascal/cpp ;
+	MakeZip demos.zip : Readme 
+	                    demos ;
+	MakeZip docs.zip : Readme 
+	                   docs ;
 }
 
 # Install libbepascal.so in LIBBEPASCAL_INSTALL_DIR (/boot/home/config/lib)
@@ -53,3 +75,5 @@ InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libstubgen.so ;
 
 # Make distribution files
 MakeDistribs ;
+
+SubInclude BEPASCAL_TOP source ;
