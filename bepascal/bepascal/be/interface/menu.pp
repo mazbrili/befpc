@@ -22,7 +22,7 @@ interface
 
 uses
   beobj, view, message, archivable, SupportDefs, rect, list,
-  handler, messenger;
+  handler, messenger, fdblib;
 
 type
   TMenu_Info = record
@@ -791,82 +791,82 @@ end;
 
 function TMenu.AddItem(item : TMenuItem) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(item : TMenuItem) : boolean;');
+  SendText('function TMenu.AddItem(item : TMenuItem) : boolean;');
   Result := BMenu_AddItem_1(CPlusObject, item.CPlusObject);
 end;
 
 function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
+  SendText('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
   Result := BMenu_AddItem_2(CPlusObject, item.CPlusObject, index);
 end;
 
 function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;
 begin
-  WriteLn('ici');
-  WriteLn('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
+  SendText('ici');
+  SendText('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
   frame.PrintToStream;
-  Writeln('toto');
+  SendText('toto');
   Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, frame.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu) : boolean;');
-  WriteLn('Bonjour');
+  SendText('function TMenu.AddItem(menu : TMenu) : boolean;');
+  SendText('Bonjour');
   Result := BMenu_AddItem_4(CPlusObject, menu.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu; index : integer) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
+  SendText('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
   Result := BMenu_AddItem_5(CPlusObject, menu.CPlusObject, index);
 end;
 
 function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
+  SendText('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
   Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, frame.CPlusObject);
 end;
 
 
 {function TMenu.AddItem(item : TMenuItem) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(item : TMenuItem) : boolean;');
+  SendText('function TMenu.AddItem(item : TMenuItem) : boolean;');
   Result := BMenu_AddItem_1(CPlusObject, item.CPlusObject);
 end;
 
 function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
+  SendText('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
   Result := BMenu_AddItem_2(CPlusObject, item.CPlusObject, index);
 end;
 
 function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;
 begin
-  WriteLn('ici');
-  WriteLn('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
+  SendText('ici');
+  SendText('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
   frame.PrintToStream;
-  Writeln('toto');
+  SendText('toto');
   Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, frame.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu) : boolean;');
-  WriteLn('Bonjour');
+  SendText('function TMenu.AddItem(menu : TMenu) : boolean;');
+  SendText('Bonjour');
   Result := BMenu_AddItem_4(CPlusObject, menu.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu; index : integer) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
+  SendText('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
   Result := BMenu_AddItem_5(CPlusObject, menu.CPlusObject, index);
 end;
 
 function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;
 begin
-  WriteLn('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
+  SendText('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
   Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, frame.CPlusObject);
 end;
 }
