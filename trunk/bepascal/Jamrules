@@ -27,23 +27,36 @@ rule UserObject
 	}
 }
 
+# fpcMkObjectDirs <List of Source Files> ;
+#   Makes the necessary sub-directories in the object target directory based
+#   on the sub-directories used for the source files.
+rule fpcMkObjectDirs
+{
+	local dir ;
+	for i in $(1)
+	{
+		dir = [ FDirName $(LOCATE_TARGET) $(i:D) ] ;
+		Depends $(i:S=$(SUFOBJ)) : $(dir) ;
+		MkDir $(dir) ;
+	}
+}
+
 rule fpc
 {
-	echo $(1) ;
-	echo $(2) ;
+	local dir ;
+	dir = $(LOCATE_TARGET:P) ;
+	fpcMkObjectDirs $(2) ;
+	Depends all : $(2) ; 
 	Depends $(1) : $(2) ;
 	PPUFILES += $(2)u ;
 	# try to clean ppu files (don't work yet)
 	Clean clean : $(2)u ;
-	echo $(2)u ;
-	echo $(LOCATE_TARGET) ;
-	echo $(PPUFILES) ;
 }
 
 # call the FreePascal compiler
 actions fpc
 {
-	fpc -FU$(LOCATE_TARGET) -g -S2 $(2)
+	fpc -g -S2 $(2) -FE$(dir) ;
 }
 
 # Make a zip file named $(1) that include (recursively) all files in the directory list $(2), except the ones 
@@ -58,3 +71,368 @@ actions MakeZip
 {
 	zip $(DISTRIB_DIR)/$(1) -r $(2) -x \*CVS\* 
 }
+
+##	OpenBeOS Generic Jamfile Engine v1.0.1
+##	Does all the hard work for the Generic Jamfile
+##	which simply defines the project parameters.
+##	Most of the real work is done in the Jambase
+##	embedded into the jam executable.
+##	
+##	Inspired by the Be Makefile Engine
+##
+##	Supports Generic Jamfile v1.0
+##
+##	Copyright (c) 2002, 2003 Ryan Leavengood
+##	Released under the Terms of the MIT License, see
+##	http://www.opensource.org/licenses/mit-license.html
+
+##  Hacked for BePascal to handle many shared objects in the same source
+##  tree.
+##  
+
+
+##-------------------------------------------------------------------
+## Define some utility rules
+##-------------------------------------------------------------------
+
+# AddResources <Application Name> : <Resource Files> ;
+#   Adds the given resources to the given application.
+rule AddResources
+{
+	Depends $(<) : $(>) ;
+}
+
+actions AddResources
+{
+	$(XRES) -o "$(<)" $(>)
+}
+
+# MimeSet <Application Name> ;
+#   Sets the mime type of the given application to be an application.
+actions MimeSet
+{
+	$(MIMESET) -f "$(<)"
+}
+
+# ProcessLibs <List of Library Names> ;
+#   Prepends -l to any library names that aren't _APP_ or _KERNEL_ or
+#   that don't have .a or .so file extensions.  The result will be given
+#   to the linker so that it links to the right libraries.
+rule ProcessLibs
+{
+	local result ;
+	for i in $(1)
+	{
+		if ( ( $(i) in _APP_ _KERNEL_ ) || ( $(i:S) in .so .a ) )
+		{
+			result += $(i) ;
+		}
+		else
+		{
+			result += -l$(i) ;
+		}
+	}
+	return $(result) ;
+}
+
+# MkObjectDirs <List of Source Files> ;
+#   Makes the necessary sub-directories in the object target directory based
+#   on the sub-directories used for the source files.
+rule MkObjectDirs
+{
+	local dir ;
+	for i in $(1)
+	{
+		dir = [ FDirName $(LOCATE_TARGET) $(i:D) ] ;
+		Depends $(i:S=$(SUFOBJ)) : $(dir) ;
+		MkDir $(dir) ;
+	}
+}
+
+# RmApp <Pseudotarget Name> : <Application Name> ;
+#   Removes the given application file when the given pseudotarget 
+#   is specified.
+rule RmApp
+{
+	Depends $(<) : $(>) ;
+}
+
+actions RmApp
+{
+	rm -rf "$(>)"
+}
+
+# RunApp <Pseudotarget Name> : <Application Name> ;
+#   Runs the given application in the background when the given pseudotarget
+#   is specified.
+rule RunApp
+{
+	Depends $(<) : $(>) ;
+}
+
+actions RunApp
+{
+	"$(>)" &
+}
+
+# InstallDriver1 <Pseudotarget Name> : <Driver File> ;
+#   Installs the given driver in the correct location when the given pseudotarget
+#   is specified.
+rule InstallDriver1
+{
+	Depends $(<) : $(>) ;
+	USER_BIN_PATH on $(<) = /boot/home/config/add-ons/kernel/drivers/bin ;
+	USER_DEV_PATH on $(<) = /boot/home/config/add-ons/kernel/drivers/dev ;
+}
+
+actions InstallDriver1
+{
+	copyattr --data "$(>)" "$(USER_BIN_PATH)/$(>:B)"
+	mkdir -p $(USER_DEV_PATH)/$(DRIVER_PATH)
+	ln -sf "$(USER_BIN_PATH)/$(>:B)" "$(USER_DEV_PATH)/$(DRIVER_PATH)/$(>:B)"
+}
+
+# InstallDriver <Pseudotarget Name> : <Driver File> ;
+#   Installs the given driver in the correct location when the given pseudotarget
+#   is specified, after making sure that this is actually a driver.
+rule InstallDriver
+{
+	if ( $(TYPE) = DRIVER )
+	{
+		InstallDriver1 $(<) : $(>) ;
+	}
+}
+
+# Link <Application Name> : <List of Object Files> ;
+#   Replaces the actions for the default Jam Link rule with one that handles spaces 
+#   in application names.
+actions Link bind NEEDLIBS
+{
+	$(LINK) $(LINKFLAGS) -o "$(<)" $(UNDEFS) $(>) $(NEEDLIBS) $(LINKLIBS)
+}
+
+# BeMain <Application Name> : <List of Source Files> ;
+#   This is the main rule that builds the project.
+rule BeMain
+{
+	local NAME on $(<) = $(<) ;
+	local SRCS on $(<) = $(2) ;
+	local TYPE on $(<) = $(3) ;
+
+
+##-------------------------------------------------------------------
+## Now all the needed variables are defined
+##-------------------------------------------------------------------
+
+# Set the directory where object files and binaries will be created.
+# The pre-defined Jam variable OSPLAT will indicate what platform we 
+# are on (X86 vs PPC, etc.)
+LOCATE_TARGET = obj.$(OSPLAT) ;
+
+# Set some defaults
+if ( ! $(NAME) )
+{
+	ECHO "No NAME defined!" ;
+	NAME = NameThisApp ;
+}
+
+if ( ! $(TYPE) )
+{
+	ECHO "No TYPE defined...defaulting to APP" ;
+	TYPE = APP ;
+#	TYPE = SHARED ;
+}
+
+if ( ! $(SRCS) )
+{
+	ECHO "NO SRCS defined...defaulting to *.cpp in current directory" ;
+	SRCS = [ GLOB . : *.cpp ] ;
+}
+
+if ( ! $(DRIVER_PATH) )
+{
+	DRIVER_PATH = misc ;
+}
+
+# Now handle platform-specific settings
+if ( $(OSPLAT) = X86 )
+{
+	if ( $(TYPE) = DRIVER )
+	{
+		CCFLAGS on $(<) += -D_KERNEL_MODE=1 -no-fpic ;
+		C++FLAGS on $(<) += -D_KERNEL_MODE=1 -no-fpic ;
+	}
+	
+	switch $(OPTIMIZE)
+	{
+		case FULL : OPTIMIZER on $(<) = -O3 ;
+		case SOME : OPTIMIZER on $(<) = -O1 ;
+		case NONE : OPTIMIZER on $(<) = -O0 ;
+		# Default to FULL
+		case * : OPTIMIZER on $(<) = -O3 ;
+	}
+	
+	DEBUG = ;
+	
+	if ( $(DEBUGGER) = TRUE )
+	{
+		DEBUG on $(<) += -g ;
+		OPTIMIZER on $(<) = -O0 ;
+	}
+	
+	CCFLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	C++FLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	
+	if ( $(WARNINGS) = ALL )
+	{		
+		CCFLAGS on $(<) += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
+		C++FLAGS on $(<) += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
+	}
+	else if ( $(WARNINGS) = NONE )
+	{
+		CCFLAGS on $(<) += -w ;
+		C++FLAGS on $(<) += -w ;
+	}
+	
+	LINKFLAGS on $(<) += $(DEBUG) ;
+	
+	# Set linker flags
+	switch $(TYPE)
+	{
+		case APP : LINKFLAGS on $(<) += -Xlinker -soname=_APP_ ;
+		case SHARED : LINKFLAGS on $(<) += -nostart -Xlinker -soname=$(NAME) ;
+		case DRIVER : LINKFLAGS on $(<) += -nostdlib /boot/develop/lib/x86/_KERNEL_ ;
+	}
+} 
+else if ( $(OSPLAT) = PPC ) 
+{
+	switch $(OPTIMIZE)
+	{
+		case FULL : OPTIMIZER on $(<) = -O7 ;
+		case SOME : OPTIMIZER on $(<) = -O3 ;
+		case NONE : OPTIMIZER on $(<) = -O0 ;
+		# Default to FULL
+		case * : OPTIMIZER on $(<) = -O7 ;
+	}
+	
+	DEBUG on $(<) = ;
+	
+	if ( $(DEBUGGER) = TRUE )
+	{
+		DEBUG on $(<) += -g ;
+	}
+	
+	CCFLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	C++FLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	
+	if ( $(WARNINGS) = ALL )
+	{		
+		CCFLAGS on $(<) += -w on -requireprotos ;
+		C++FLAGS on $(<) += -w on -requireprotos ;
+	}
+	else if ( $(WARNINGS) = NONE )
+	{
+		CCFLAGS on $(<) += -w off ;
+		C++FLAGS on $(<) += -w off ;
+	}
+	
+	# Clear the standard environment variable
+	# Now there are no standard libraries to link against
+	BELIBFILES on $(<) = ;
+	
+	# Set linker flags
+	if ( $(TYPE) = SHARED )
+	{
+		LINKFLAGS on $(<) += -xms ;
+	}
+	
+	if ( $(TYPE) = DRIVER )
+	{
+		LINKFLAGS on $(<) += -nodefaults -export all -G 
+			/boot/develop/lib/ppc/glue-noinit.a 
+			/boot/develop/lib/ppc/_KERNEL_ ;
+	}
+	else
+	{
+		LINKFLAGS on $(<) += -export pragma -init _init_routine_ 
+			-term _term_routine_ -lroot 
+			/boot/develop/lib/ppc/glue-noinit.a 
+			/boot/develop/lib/ppc/init_term_dyn.o 
+			/boot/develop/lib/ppc/start_dyn.o ;
+	}
+	
+	if ( $(SYMBOLS) = TRUE )
+	{
+		LINKFLAGS on $(<) += -map $(NAME).xMAP ;
+	}	
+
+	if ( $(DEBUGGER) = TRUE )
+	{
+		LINKFLAGS on $(<) += -g -osym $(NAME).SYM ;
+	}
+} 
+else 
+{
+	EXIT "Your platform is unsupported" ;
+}
+
+# Handle the other settings
+LINKLIBS on $(<) += [ ProcessLibs $(LIBS) ] ;
+for i in $(LIBPATHS)
+{
+	LINKFLAGS on $(<) += -L$(i) ;
+} 
+HDRS += $(SYSTEM_INCLUDE_PATHS) ;
+HDRS on $(<) += $(LOCAL_INCLUDE_PATHS) ;
+CCFLAGS on $(<) += $(COMPILER_FLAGS) ;
+C++FLAGS on $(<) += $(COMPILER_FLAGS) ;
+LINKFLAGS on $(<) += $(LINKER_FLAGS) ;
+
+# Define some tools
+XRES = xres ;
+MIMESET = mimeset ;
+
+# Defining this variable keeps objects from being deleted by the Library
+# rule.  By default the objects are deleted after being archived into 
+# the library.  I prefer they not be.
+KEEPOBJS = true ;
+
+# Set up the driverinstall target...this makes it easy to install drivers 
+# for testing
+Always driverinstall ;
+NotFile driverinstall ;
+InstallDriver driverinstall : $(NAME) ;
+
+# Set up the rmapp target...this removes only the application
+Always rmapp ;
+NotFile rmapp ;
+RmApp rmapp : $(NAME) ;
+
+# Set up the test target...this runs the application in the background
+#Always test ;
+NotFile test ;
+RunApp test : $(NAME) ;
+	MkObjectDirs $(>) ;
+	
+	if ( $(TYPE) = STATIC )
+	{
+		Library $(<) : $(>) ;
+	}
+	else
+	{
+		Main $(<) : $(>) ;
+	}
+	
+	if ( $(RSRCS) ) 
+	{
+		AddResources $(<) : $(RSRCS) ;
+	}
+	
+	MimeSet $(<) ;
+}
+
+##-------------------------------------------------------------------
+## OK, let's build
+##-------------------------------------------------------------------
+
+#BeMain $(NAME) : $(SRCS) ;

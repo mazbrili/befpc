@@ -176,8 +176,7 @@ TCPlusObject BStatusBar_Create(TPasObject PasObject, BRect frame, const char *na
  *  Params: BMessage *data
  * Effects: 
  ***********************************************************************/
-TCPlusObject BStatusBar_Create_1
-(TPasObject PasObject, BMessage *data)
+TCPlusObject BStatusBar_Create_1(TPasObject PasObject, BMessage *data)
 {
 	return new BPStatusBar(PasObject, data);
 }
