@@ -32,6 +32,10 @@ type
   
   // TODO : import other functions !
 
+    // import from stddef.h
+  TSize_t = Cardinal;
+  TSSize_t = Longint;
+  
 implementation
 
 

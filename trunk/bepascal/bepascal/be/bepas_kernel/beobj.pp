@@ -31,6 +31,7 @@ const
 type
 	// BePascal types
   TCPlusObject = Pointer;
+  THandle = Pointer;
   
   TBeObject = class(TObject)
   private

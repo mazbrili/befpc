@@ -86,7 +86,7 @@ BView_WindowActivated_hook View_WindowActivated_hook;
 }
 #endif
 
-class BPView : public BView, public BPHandler
+class BPView : public BView, public virtual BPHandler
 {
 	public:
 		BPView(TPasObject PasObject, 
@@ -94,6 +94,7 @@ class BPView : public BView, public BPHandler
 			   const char *name,
 			   uint32 resizingMode,
 			   uint32 flags);
+		BPView(TPasObject PasObject, BMessage *archive);
 //		virtual void DispatchMessage(BMessage *message, BHandler *target);
 //		virtual bool QuitRequested(void);
 		virtual void AllAttached(void);
@@ -123,7 +124,15 @@ BPView::BPView(TPasObject PasObject,
 			   uint32 resizingMode,
 			   uint32 flags)
 			   : BView(frame, name, resizingMode, flags),
-               BPHandler(PasObject)
+               BPHandler(PasObject),
+               BPasObject(PasObject)
+{
+}
+
+BPView::BPView(TPasObject PasObject, BMessage *archive)
+				: BView(archive),
+                  BPHandler(PasObject),				
+	              BPasObject(PasObject)
 {
 }
 
@@ -423,6 +432,7 @@ BView_Window(BView *View)
 
 
 // TODO : implement hook function 
+
 /***********************************************************************
  *  Method: BView::Draw
  *  Params: BRect updateRect
@@ -436,6 +446,31 @@ BView_Draw(BView *View, BRect updateRect)
 }
 
 // END TODO implement hook function
+
+/***********************************************************************
+ *  Method: BView::SetViewColor
+ *  Params: rgb_color c
+ * Returns: void
+ * Effects: 
+ ***********************************************************************/
+void
+BView_SetViewColor(BView *View, rgb_color c)
+{
+   View->SetViewColor(c);
+}
+
+
+/***********************************************************************
+ *  Method: BView::ViewColor
+ *  Params: 
+ * Returns: rgb_color
+ * Effects: 
+ ***********************************************************************/
+rgb_color
+BView_ViewColor(BView *View)
+{
+   return View->ViewColor();
+}
 
 #if defined(__cplusplus)
 }
