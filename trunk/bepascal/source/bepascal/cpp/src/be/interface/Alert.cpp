@@ -240,7 +240,8 @@ extern "C" {
  */
 TCPlusObject BAlert_Create(TPasObject PasObject, const char *title, const char *text, const char *button1, const char *button2, const char *button3, button_width width, alert_type type)
 {
-	return new BPAlert(PasObject, title, text, button1, button2, button3, width, type);
+//	return new BPAlert(PasObject, title, text, button1, button2, button3, width, type);
+	return new BAlert(title, text, button1, button2, button3, width, type);
 }
 
 
@@ -251,7 +252,8 @@ TCPlusObject BAlert_Create(TPasObject PasObject, const char *title, const char *
 TCPlusObject BAlert_Create_1
 (TPasObject PasObject, const char *title, const char *text, const char *button1, const char *button2, const char *button3, button_width width, button_spacing spacing, alert_type type)
 {
-	return new BPAlert(PasObject, title, text, button1, button2, button3, width, spacing, type);
+//	return new BPAlert(PasObject, title, text, button1, button2, button3, width, spacing, type);
+	return new BAlert(title, text, button1, button2, button3, width, spacing, type);	
 }
 
 /*
@@ -260,7 +262,8 @@ TCPlusObject BAlert_Create_1
  */
 TCPlusObject BAlert_Create_2(TPasObject PasObject, BMessage *data)
 {
-	return new BPAlert(PasObject, data);
+//	return new BPAlert(PasObject, data);
+	return new BAlert(data);	
 }
 
 

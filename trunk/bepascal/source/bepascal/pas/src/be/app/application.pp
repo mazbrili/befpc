@@ -21,7 +21,7 @@ unit Application;
 interface
 
 uses
-  BeObj, Looper, OS, Roster, SupportDefs;
+  BeObj, Looper, OS, Roster, Message, SupportDefs;
 
 type
   BApplication = class(BLooper)
@@ -39,6 +39,10 @@ type
     // Hook functions
     procedure AppActivated(Active : Boolean); virtual;
     procedure ReadyToRun; virtual;
+    procedure RefsReceived(aMessage : BMessage); virtual;
+    procedure ArgvReceived(argc : integer; argv : PPChar); virtual;
+    procedure AboutRequested; virtual;
+    procedure Pulse; virtual;
   end;
 
 function BApplication_Create(AObject : TObject) : TCPlusObject;
@@ -69,11 +73,15 @@ var
 implementation
 
 uses
-  Message, Messenger;
+  Messenger;
 
 var
   Application_AppActivated_hook : Pointer; cvar; external;
   Application_ReadyToRun_hook : Pointer; cvar; external;
+  Application_RefsReceived_hook : Pointer; cvar; external;
+  Application_ArgvReceived_hook : Pointer; cvar; external;
+  Application_AboutRequested_hook : Pointer; cvar; external;
+  Application_Pulse_hook : Pointer; cvar; external;
 
 // start BApplication
 constructor BApplication.Create;
@@ -153,11 +161,58 @@ begin
   end;
 end;
 
+procedure Application_RefsReceived_hook_func(Application : BApplication; aMessage : TCPlusObject); cdecl;
+var
+  Message : BMessage;
+begin
+  Message := BMessage.Wrap(aMessage);
+  try
+    if Application <> nil then
+      Application.RefsReceived(Message);
+  finally
+    Message.UnWrap;
+  end;
+end;
+
+procedure Application_AboutRequested_hook_func(Application : BApplication); cdecl;
+begin
+  if Application <> nil then
+    Application.AboutRequested;
+end;
+
+procedure Application_ArgvReceived_hook_func(Application : BApplication; argc : integer; argv : PPChar); cdecl;
+begin
+  if Application <> nil then
+    Application.ArgvReceived(argc, argv);
+end;
+
+procedure Application_Pulse_hook_func(Application : BApplication); cdecl;
+begin
+  if Application <> nil then
+    Application.Pulse;
+end;
+
 procedure BApplication.ReadyToRun;
 begin
 {$IFDEF DEBUG}
   SendText('Prêt à démarer !');
 {$ENDIF}
+end;
+
+procedure BApplication.RefsReceived(aMessage : BMessage);
+begin
+end;
+
+procedure BApplication.ArgvReceived(argc : integer; argv : PPChar);
+begin
+end;
+
+procedure BApplication.AboutRequested;
+begin
+end;
+
+procedure BApplication.Pulse;
+begin
 end;
 
 procedure BApplication.ShowCursor;
@@ -191,9 +246,17 @@ initialization
   be_app := nil;
   Application_AppActivated_hook := @Application_AppActivated_hook_func;
   Application_ReadyToRun_hook := @Application_ReadyToRun_hook_func;
+  Application_RefsReceived_hook := @Application_RefsReceived_hook_func;
+  Application_AboutRequested_hook := @Application_AboutRequested_hook_func;
+  Application_ArgvReceived_hook := @Application_ArgvReceived_hook_func;
+  Application_Pulse_hook := @Application_Pulse_hook_func;
 
 finalization
   Application_AppActivated_hook := nil;
   Application_ReadyToRun_hook := nil;
+  Application_RefsReceived_hook := nil;
+  Application_AboutRequested_hook := nil;
+  Application_ArgvReceived_hook := nil;
+  Application_Pulse_hook := nil;      
   be_app := nil;
 end.

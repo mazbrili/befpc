@@ -25,7 +25,7 @@ uses
   BeObj, Classes, OS, Entry, StorageDefs, Message, Messenger, Window, SupportDefs;
 
 type
-  BRefFilter = class
+  BRefFilter = class(TBeObject)
   private
   public
     procedure Filter;
@@ -79,10 +79,10 @@ type
 
 procedure BRefFilter_Filter(AObject : TCPlusObject);
           cdecl; external BePascalLibName name 'BRefFilter_Filter';
-function BFilePanel_Create(AObject : TBeObject; mode : file_panel_mode; target : BMessenger;
+function BFilePanel_Create(AObject : TBeObject; mode : file_panel_mode; target : TCPlusObject;
                            const start_directory : entry_ref; node_flavors : integer;
-                           allow_multiple_selection : Boolean; message : BMessage;
-                           filter : BRefFilter; modal, hide_when_done : Boolean)
+                           allow_multiple_selection : Boolean; message : TCPlusObject;
+                           filter : TCPlusObject; modal, hide_when_done : Boolean)
          : TCPlusObject; cdecl; external BePascalLibName name 'BFilePanel_Create';
 
 procedure BFilePanel_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BFilePanel_Free';
@@ -148,9 +148,9 @@ constructor BFilePanel.Create(mode : file_panel_mode; target : BMessenger;
                               hide_when_done : Boolean);
 begin
   CreatePas;
-  CPlusObject := BFilePanel_Create(Self, mode, target, start_directory,
+  CPlusObject := BFilePanel_Create(Self, mode, GetCPlusObj(target), start_directory,
                                    node_flavors, allow_multiple_selection,
-                                   message, filter, modal, hide_when_done);
+                                   GetCPlusObj(message), GetCPlusObj(filter), modal, hide_when_done);
 end;
 
 destructor BFilePanel.Destroy;
