@@ -17,3 +17,21 @@
 #    You should have received a copy of the GNU Library General Public           
 #    License along with this library; if not, write to the Free                  
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA   
+
+Requirements
+
+To use BePascal, you need :
+
+ - the free pascal compiler (fpc). Available at http://www.freepascal.org/down-beos.html.
+ - jam. Available at http://www.freepascal.org/down-beos.html
+
+and this package !
+
+Installation
+
+Jam, fpc and ppc386 should be set in your /boot/home/config/bin.
+
+Then you will have to edit the .fpc.cfg file in /boot/home to add a path to bepascal files :
+
+-Fu<path where you unzip bepascal_all.zip>source/bepascal/pas/src/be/*
+
