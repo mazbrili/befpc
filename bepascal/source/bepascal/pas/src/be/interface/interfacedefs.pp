@@ -143,7 +143,7 @@ type
 
 //----------------------------------------------------------------
 
-  join_mode = (B_ROUND_JOIN, B_MITER_JOIN, B_BEVEL_JOIN, B_BUTT_JOIN, B_SQUARE_JOIN);
+// duplicate  join_mode = (B_ROUND_JOIN, B_MITER_JOIN, B_BEVEL_JOIN, B_BUTT_JOIN, B_SQUARE_JOIN);
 {
   cap_mode = (B_ROUND_CAP = B_ROUND_JOIN,
               B_BUTT_CAP = B_BUTT_JOIN,
