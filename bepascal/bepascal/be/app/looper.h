@@ -37,6 +37,9 @@ class BPLooper : public BLooper, public virtual BPHandler
 		virtual ~BPLooper();
 		virtual void DispatchMessage(BMessage *message, BHandler *target);
 		virtual bool QuitRequested(void);
+		virtual void MessageReceived(BMessage *message);
+		virtual void DispatchMessage_hookCall(BMessage *message, BHandler *target);
+		virtual bool QuitRequested_hookCall(void);		
 	private:	
 };
 

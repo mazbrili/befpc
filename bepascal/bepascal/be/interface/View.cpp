@@ -106,6 +106,12 @@ BPView::BPView(TPasObject PasObject, BMessage *archive)
 {
 }
 
+void BPView::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BView::MessageReceived(message);
+}
+
 void BPView::AllAttached(void)
 {
 	View_AllAttached_hook(GetPasObject());
@@ -113,7 +119,13 @@ void BPView::AllAttached(void)
 
 void BPView::AttachedToWindow(void)
 {
-	View_AttachedToWindow_hook(GetPasObject());	
+	BView::AttachedToWindow();
+	AttachedToWindow_hookCall();	
+}
+
+void BPView::AttachedToWindow_hookCall(void)
+{
+	View_AttachedToWindow_hook(GetPasObject());
 }
 
 void BPView::AllDetached(void)
@@ -129,6 +141,11 @@ void BPView::DetachedFromWindow(void)
 void BPView::Draw(BRect updateRect)
 {
 	BView::Draw(updateRect);
+	Draw_hookCall(updateRect);	
+}
+
+void BPView::Draw_hookCall(BRect updateRect)
+{
 	View_Draw_hook(GetPasObject(), &updateRect);
 }
 

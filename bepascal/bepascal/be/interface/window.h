@@ -13,7 +13,7 @@
 
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    Foundation, Inc., s59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 #ifndef _WINDOW_H_
@@ -36,8 +36,10 @@ class BPWindow : public BWindow, public BPLooper
 				 window_type type,
 				 uint32 flags,
 				 uint32 workspaces = B_CURRENT_WORKSPACE);
-//		virtual void DispatchMessage(BMessage *message, BHandler *target);
-//		virtual bool QuitRequested(void);
+		virtual void MessageReceived(BMessage *message);						 
+		virtual void DispatchMessage(BMessage *message, BHandler *target);
+		virtual bool QuitRequested(void);
+		virtual void WindowActivated(bool active);
 	private:	
 };
 

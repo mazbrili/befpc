@@ -11,7 +11,8 @@ type
                 blue : byte;
                 alpha : byte;
               end;
-
+  TColor_space = Cardinal;
+  
 implementation
 
 initialization

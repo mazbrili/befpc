@@ -147,27 +147,27 @@ end;
 
 procedure TButton.Draw(updateRect : TRect);
 begin
-  BButton_Draw(CPlusObject, updateRect.CPlusObject);
+
 end;
 
 procedure TButton.MouseDown(where : TPoint);
 begin
-  BButton_MouseDown(CPlusObject, where.CPlusObject);
+
 end;
 
 procedure TButton.AttachedToWindow;
 begin
-  BButton_AttachedToWindow(CPlusObject);
+
 end;
 
 procedure TButton.KeyDown(bytes : PChar; numBytes : integer);
 begin
-  BButton_KeyDown(CPlusObject, bytes, numBytes);
+
 end;
 
 procedure TButton.MakeDefault(state : boolean);
 begin
-  BButton_MakeDefault(CPlusObject, state);
+
 end;
 
 procedure TButton.SetLabel(text : PChar);
@@ -188,37 +188,37 @@ end;
 
 procedure TButton.WindowActivated(state : boolean);
 begin
-  BButton_WindowActivated(CPlusObject, state);
+//  BButton_WindowActivated(CPlusObject, state);
 end;
 
 procedure TButton.MouseUp(pt : TPoint);
 begin
-  BButton_MouseUp(CPlusObject, pt.CPlusObject);
+//  BButton_MouseUp(CPlusObject, pt.CPlusObject);
 end;
 
 procedure TButton.MouseMoved(pt : TPoint; code : Cardinal; msg : TMessage);
 begin
-  BButton_MouseMoved(CPlusObject, pt.CPlusObject, code, msg);
+//  BButton_MouseMoved(CPlusObject, pt.CPlusObject, code, msg);
 end;
 
 procedure TButton.DetachedFromWindow;
 begin
-  BButton_DetachedFromWindow(CPlusObject);
+//  BButton_DetachedFromWindow(CPlusObject);
 end;
 
 procedure TButton.SetValue(aValue : integer);
 begin
-  BButton_SetValue(CPlusObject, aValue);
+//  BButton_SetValue(CPlusObject, aValue);
 end;
 
 procedure TButton.GetPreferredSize(width : double; height : double);
 begin
-  BButton_GetPreferredSize(CPlusObject, width, height);
+//  BButton_GetPreferredSize(CPlusObject, width, height);
 end;
 
 procedure TButton.ResizeToPreferred;
 begin
-  BButton_ResizeToPreferred(CPlusObject);
+//  BButton_ResizeToPreferred(CPlusObject);
 end;
 
 function TButton.Invoke(msg : TMessage) : TStatus_t;
@@ -228,12 +228,12 @@ end;
 
 procedure TButton.FrameMoved(new_position : TPoint);
 begin
-  BButton_FrameMoved(CPlusObject, new_position.CPlusObject);
+//  BButton_FrameMoved(CPlusObject, new_position.CPlusObject);
 end;
 
 procedure TButton.FrameResized(new_width : double; new_height : double);
 begin
-  BButton_FrameResized(CPlusObject, new_width, new_height);
+//  BButton_FrameResized(CPlusObject, new_width, new_height);
 end;
 
 procedure TButton.MakeFocus(state : boolean);
@@ -243,12 +243,12 @@ end;
 
 procedure TButton.AllAttached;
 begin
-  BButton_AllAttached(CPlusObject);
+//  BButton_AllAttached(CPlusObject);
 end;
 
 procedure TButton.AllDetached;
 begin
-  BButton_AllDetached(CPlusObject);
+//  BButton_AllDetached(CPlusObject);
 end;
 
 function TButton.ResolveSpecifier(msg : TMessage; index : integer; specifier : TMessage; form : integer; properti : PChar) : THandler;

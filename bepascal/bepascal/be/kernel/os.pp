@@ -20,6 +20,9 @@ unit os;
 
 interface
 
+uses
+  SupportDefs;
+
 const
   B_LOW_LATENCY = 5;
   B_LOW_PRIORITY = 5;
@@ -41,6 +44,48 @@ type
   TSem_id = Longint;
   TThread_id = Longint;
   TTeam_id = Longint;
+
+const
+  B_NO_LOCK       = 0;
+  B_LAZY_LOCK     = 1;
+  B_FULL_LOCK     = 2;
+  B_CONTIGUOUS    = 3;
+  B_LOMEM         = 4;
+  
+  B_ANY_ADDRESS        = 0;
+  B_EXACT_ADDRESS      = 1;
+  B_BASE_ADDRESS       = 2;
+  B_CLONE_ADDRESS      = 3;
+  B_ANY_KERNEL_ADDRESS = 4;
+  
+  B_READ_AREA  = 1;
+  B_WRITE_AREA = 2;
+
+// area  
+type
+  TArea_Info = record
+    area : TArea_id;
+    name : array [0..B_OS_NAME_LENGTH] of char;
+    size : TSize_t;
+    lock : Cardinal;
+    protection : Cardinal;
+    team : TTeam_id;
+    ram_size : Cardinal;
+    copy_count : Cardinal;
+    in_count : Cardinal;
+    out_count : Cardinal;
+    address : Pointer;    
+  end;
+
+// Semaphores
+type
+  TSem_Info = record
+    sem : TSem_id;
+    team : TTeam_id;
+    name : array [0..B_OS_NAME_LENGTH] of char;
+    count : integer;
+    latest_holder : TThread_id;
+  end;
 
 implementation
 
