@@ -45,7 +45,7 @@ type
 //    function operator==(other : TMessenger) : boolean;
     function IsValid : boolean;
     function Team : TTeam_id;
-    constructor Create(aTeam : TTeam_id; port : TPort_id; token : integer; preferred : boolean);
+//    constructor Create(aTeam : TTeam_id; port : TPort_id; token : integer; preferred : boolean);
 //    procedure InitData(mime_sig : PChar; aTeam : TTeam_id; perr : PStatus_t);
 //    procedure port_id fPort;
 //    procedure int32 fHandlerToken;
@@ -67,17 +67,17 @@ function BMessenger_IsTargetLocal(AObject : TCPlusObject) : boolean; cdecl; exte
 function BMessenger_Target(AObject : TCPlusObject; looper : TCplusObject) : THandler; cdecl; external BePascalLibName name 'BMessenger_Target';
 function BMessenger_LockTarget(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_LockTarget';
 //function BMessenger_LockTargetWithTimeout(AObject : TCPlusObject; timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_LockTargetWithTimeout';
-function BMessenger_SendMessage(AObject : TCPlusObject; command : Cardinal; reply_to : THandler) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
-function BMessenger_SendMessage(AObject : TCPlusObject; a_message : TCplusObject; reply_to : TCplusObject; timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
+function BMessenger_SendMessage(AObject : TCPlusObject; command : Cardinal; reply_to : TCPlusObject) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
+function BMessenger_SendMessage_1(AObject : TCPlusObject; a_message : TCplusObject; reply_to : TCplusObject; timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage_1';
 // How to handle this ? (remove the comment to see what to fix)
-//function BMessenger_SendMessage(AObject : TCPlusObject; a_message : TCplusObject; reply_to : TCplusObject; timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
-function BMessenger_SendMessage(AObject : TCPlusObject; command : Cardinal; reply : TCplusObject) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
-function BMessenger_SendMessage(AObject : TCPlusObject; a_message : TCplusObject; reply : TCplusObject; send_timeout : TBigtime_t; reply_timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage';
+function BMessenger_SendMessage_2(AObject : TCPlusObject; a_message : TCplusObject; reply_to : TCplusObject; timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage_2';
+function BMessenger_SendMessage_3(AObject : TCPlusObject; command : Cardinal; reply : TCplusObject) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage_3';
+function BMessenger_SendMessage_4(AObject : TCPlusObject; a_message : TCplusObject; reply : TCplusObject; send_timeout : TBigtime_t; reply_timeout : TBigtime_t) : TStatus_t; cdecl; external BePascalLibName name 'BMessenger_SendMessage_4';
 //function BMessenger_operator=(AObject : TCPlusObject; from : TMessenger) : TMessenger; cdecl; external BePascalLibName name 'BMessenger_operator=';
 //function BMessenger_operator==(AObject : TCPlusObject; other : TMessenger) : boolean; cdecl; external BePascalLibName name 'BMessenger_operator==';
 function BMessenger_IsValid(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_IsValid';
 function BMessenger_Team(AObject : TCPlusObject) : TTeam_id; cdecl; external BePascalLibName name 'BMessenger_Team';
-function BMessenger_Create(AObject : TBeObject; team : TTeam_id; port : TPort_id; token : integer; preferred : boolean) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
+//function BMessenger_Create(AObject : TBeObject; team : TTeam_id; port : TPort_id; token : integer; preferred : boolean) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
 //procedure BMessenger_InitData(AObject : TCPlusObject; mime_sig : PChar; team : TTeam_id; perr : PStatus_t); cdecl; external BePascalLibName name 'BMessenger_InitData';
 //procedure BMessenger_port_id fPort(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_port_id fPort';
 //procedure BMessenger_int32 fHandlerToken(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_int32 fHandlerToken';
@@ -143,22 +143,22 @@ end;
 
 function TMessenger.SendMessage(a_message : TMessage; reply_to : THandler; timeout : TBigtime_t) : TStatus_t;
 begin
-  Result := BMessenger_SendMessage(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
+  Result := BMessenger_SendMessage_1(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
 end;
 
 function TMessenger.SendMessage(a_message : TMessage; reply_to : TMessenger; timeout : TBigtime_t) : TStatus_t;
 begin
-  Result := BMessenger_SendMessage(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
+  Result := BMessenger_SendMessage_2(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
 end;
 
 function TMessenger.SendMessage(command : Cardinal; reply : TMessage) : TStatus_t;
 begin
-  Result := BMessenger_SendMessage(CPlusObject, command, reply.CPlusObject);
+  Result := BMessenger_SendMessage_3(CPlusObject, command, reply.CPlusObject);
 end;
 
 function TMessenger.SendMessage(a_message : TMessage; reply : TMessage; send_timeout : TBigtime_t; reply_timeout : TBigtime_t) : TStatus_t;
 begin
-  Result := BMessenger_SendMessage(CPlusObject, a_message.CPlusObject, reply.CPlusObject, send_timeout, reply_timeout);
+  Result := BMessenger_SendMessage_4(CPlusObject, a_message.CPlusObject, reply.CPlusObject, send_timeout, reply_timeout);
 end;
 
 //function TMessenger.operator=(from : TMessenger) : TMessenger;
@@ -181,10 +181,10 @@ begin
   Result := BMessenger_Team(CPlusObject);
 end;
 
-constructor TMessenger.Create(aTeam : TTeam_id; port : TPort_id; token : integer; preferred : boolean);
-begin
-  CPlusObject := BMessenger_Create(Self, aTeam, port, token, preferred);
-end;
+//constructor TMessenger.Create(aTeam : TTeam_id; port : TPort_id; token : integer; preferred : boolean);
+//begin
+//  CPlusObject := BMessenger_Create(Self, aTeam, port, token, preferred);
+//end;
 
 //procedure TMessenger.InitData(mime_sig : PChar; aTeam : TTeam_id; perr : PStatus_t);
 //begin
