@@ -48,11 +48,15 @@ procedure BApplication_HideCursor(Application : TCPlusObject); cdecl; external B
 procedure BApplication_ShowCursor(Application : TCPlusObject); cdecl; external BePascalLibName;
 function BApplication_Run(Application : TCPlusObject) : TThread_id; cdecl; external BePascalLibName;
 procedure BApplication_Quit(Application : TCPlusObject); cdecl; external BePascalLibName;
+function get_be_app_messenger : TCPlusObject; cdecl; external BePascalLibName name 'get_be_app_messenger';
 
 var
   be_app : TApplication;
 
 implementation
+
+uses
+  Messenger;
 
 var
   Application_AppActivated_hook : Pointer; cvar; external;
@@ -64,6 +68,7 @@ begin
   inherited;
   CPlusObject := BApplication_Create(Self, PChar('application/x-vnd.BePascal'));  
   be_app := Self;
+  be_app_TMessenger := TMessenger.Wrap(be_app_messengerCPlus);
 end;
 
 constructor TApplication.Create(Signature : PChar);
@@ -71,6 +76,7 @@ begin
   inherited Create;	
   CPlusObject := BApplication_Create(Self, Signature);  
   be_app := Self;
+  be_app_TMessenger := TMessenger.Wrap(be_app_messengerCPlus);
 end;
 
 constructor TApplication.Create(Signature : PChar; error : PStatus_t);
@@ -78,12 +84,15 @@ begin
   inherited Create;	
   CPlusObject := BApplication_Create(Self, Signature, error);  
   be_app := Self;
+  be_app_TMessenger := TMessenger.Wrap(be_app_messengerCPlus);
 end;
 
 destructor TApplication.Destroy;
 begin
   if CPlusObject <> nil then
     BApplication_Free(CPlusObject);
+  if Assigned(be_app_TMessenger) then
+    be_app_TMessenger.UnWrap;
   inherited;
 end;
 

@@ -53,6 +53,8 @@ BApplication_ReadyToRun_hook Application_ReadyToRun_hook;
 //BApplication_QuitRequested_hook Application_QuitRequested_hook;
 //BApplication_MessageReceived_hook Application_MessageReceived_hook;
 
+BMessenger *be_app_messengerCPlus;
+
 #if defined(__cplusplus)
 }
 #endif
@@ -61,7 +63,7 @@ BPApplication::BPApplication(TPasObject PasObject, const char *signature)
 	: BApplication(signature), BPHandler(PasObject), BPLooper(PasObject), 
 	BPasObject(PasObject)
 {
-
+	be_app_messengerCPlus = &be_app_messenger;
 }
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature,
@@ -70,6 +72,7 @@ BPApplication::BPApplication(TPasObject PasObject, const char *signature,
 	 BPLooper(PasObject),
 	 BPasObject(PasObject)
 {
+	be_app_messengerCPlus = &be_app_messenger;
 }
 
 void BPApplication::AppActivated(bool active)
