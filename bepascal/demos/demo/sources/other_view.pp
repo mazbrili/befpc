@@ -27,24 +27,24 @@ uses
   Common;
 
 type 
-  Tother_View = class(BView)
-  public
-    constructor Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal); 
+	Tother_View = class(BView)
+	public
+   	constructor Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal); 
 
-    Box1 : BBox;
-    Box2 : BBox;
-    StatusBar1 : BStatusBar;
-    Button1: BButton;    
-    Button2: BButton;    
-    Button3: BButton;    
-    Value : BStringView;
+ 		Box1 : BBox;
+ 		Box2 : BBox;
+ 	  StatusBar1 : BStatusBar;
+   	Button1: BButton;    
+   	Button2: BButton;    
+   	Button3: BButton;    
+   	Value : BStringView;
   end;
 
 implementation
 
-constructor Tother_View.Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
-var
-  aRect2, aRect3 : BRect;  
+constructor Tother_View.Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal);
+Var
+  aRect2,aRect3 : BRect;  
   mess : BMessage;
   rgb : RGB_color;
 begin

@@ -27,25 +27,26 @@ uses
   Common;
 
 type 
-  TButton_View = class(BView)
-  public
-    constructor Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
-    Button1: BButton;
-    Button2: BButton;
-    Button3: BButton;
+	TButton_View = class(BView)
+	public
+   	constructor Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal); 
+   	Button1: BButton;    
+   	Button2: BButton;    
+   	Button3: BButton;    
+   		
+  	ListView1 : BListView;
+ 		ItemString : BStringItem;
+ 		outlineListView : BOutlineListView;
+ 		Box1 : BBox;
+ 		Box2 : BBox;
 
-    ListView1 : BListView;
-    ItemString : BStringItem;
-    outlineListView : BOutlineListView;
-    Box1 : BBox;
-    Box2 : BBox;
   end;
 
 implementation
 
-constructor TButton_View.Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
-var
-  aRect2 : BRect;
+constructor TButton_View.Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal);
+Var
+  aRect2 : BRect;  
   mess : BMessage;
   rgb : RGB_color;
 begin

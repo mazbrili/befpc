@@ -25,35 +25,33 @@ uses
 	archivable, handler,  rect, window, view, graphicdefs, dataio,box, scrollview,
 	invoker, messenger, Control,textview,font,textcontrol,radiobutton,common;
 
+type 
+	TEdit_View = class(BView)
+ 	public
+   	constructor Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal); 
 
-type
-  TEdit_View = class(BView)
-  public
-    constructor Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal); 
-
-    aTextView : BTextView;
-    Edit : BTextControl;
-
-    afont : Bfont;
-    Box1 : BBox;
-    Box2 : BBox;
-    Box3 : BBox;
-    Box4 : BBox;
-    RadioButton1,
-    RadioButton2 : BRadioButton;	
-    RadioButton3,
-    RadioButton4 : BRadioButton;	
-    scroll_vert : BscrollView;
+   	aTextView : BTextView;
+ 		Edit : BTextControl;
+   	
+   	afont : Bfont;
+ 		Box1 : BBox;
+ 		Box2 : BBox;
+		Box3 : BBox;
+ 		Box4 : BBox;
+		RadioButton1,
+		RadioButton2 : BRadioButton;	
+		RadioButton3,
+		RadioButton4 : BRadioButton;	
+		scroll_vert : BscrollView;
   end;
 
 implementation
 
-constructor TEdit_View.Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
+constructor TEdit_View.Create(aframe : BRect; name : PChar; aresizingMode, flags : Cardinal);
 var
-   aRect2,aRect3 : BRect;  
-   mess : BMessage;
-     rgb : RGB_color;
-
+  aRect2,aRect3 : BRect;  
+  mess : BMessage;
+  rgb : RGB_color;
 begin
   inherited;
   SetViewColor(ui_color(B_PANEL_BACKGROUND_COLOR));  
