@@ -3,56 +3,64 @@ The following table shows correspondences between C/C++ and Pascal numerical typ
 References are:
 - FPC Reference guide (v1.0.8).
 - The C Library Reference Guide, by Eric Huss.
+- BeAPI headers.
 
 
 C/C++ <-> BeAPI <-> Pascal
 ==========================
-unsigned char	=	unit8		=	Byte;
-char			=	int8		=	Shortint;
-unsigned int	=	unit16	=	Word;
-short int		=	int16		=	Smallint;
-int			=			=	We use Integer most times for this, but could be Smallint
-unsigned long	=	uint32	=	Longword;
-long			=	int32		=	Longint;
-float			=			=	Single;
-double		=			=	Double;
-long double		=			=	Extended;
+signed char        = int8   = Shortint;
+unsigned char      = unit8  = Byte;
+
+short int          = int16  = Smallint;
+unsigned int       = unit16 = Word;
+
+int                =        = We use Integer most times for this, but could be Smallint
+long               = int32  = Longint;
+unsigned long      = uint32 = Longword;
+long long          = int64  = Int64;
+unsigned long long = uint64 = QWord;
+
+float              =        = Single;
+double             =        = Double;
+long double        =        = Extended;
 
 
 C/C++ Types
 ===========
-Type			Size		Range
+Type          |  Size   |  Range
 ---------------------------------
-unsigned char	8 bits		0 to 255
-char			8 bits		-128 to 127
-unsigned int	16 bits	0 to 65,535
-short int		16 bits	-32,768 to 32,767
-int			16 bits	-32,768 to 32,767
-unsigned long	32 bits	0 to 4,294,967,295
-long			32 bits	-2,147,483,648 to 2,147,483,647
-float			32 bits	1.17549435 * (10^-38) to 3.40282347 * (10^+38)
-double		64 bits	2.2250738585072014 * (10^-308) to 1.7976931348623157 * (10^+308)
-long double		80 bits	3.4 * (10^-4932) to 1.1 * (10^4932)
+unsigned char | 8 bits  | 0 to 255
+char          | 8 bits  | -128 to 127
+unsigned int  | 16 bits | 0 to 65,535
+short int     | 16 bits | -32,768 to 32,767
+int           | 16 bits | -32,768 to 32,767
+unsigned long | 32 bits | 0 to 4,294,967,295
+long          | 32 bits | -2,147,483,648 to 2,147,483,647
+float         | 32 bits | 1.17549435 * (10^-38) to 3.40282347 * (10^+38)
+double        | 64 bits | 2.2250738585072014 * (10^-308) to 1.7976931348623157 * (10^+308)
+long double   | 80 bits | 3.4 * (10^-4932) to 1.1 * (10^4932)
+
 
 FPC Pascal Types
 ================
-Type		Size		Range
------------------------------
-Byte		8 bits		0..255
-ShortInt	8 bits		-128..127
-Word		16 bits	0..65535
-SmallInt	16 bits	-32768..32767
-LongWord	32 bits	0..4294967295
-LongInt	32 bits	-2147483648..2147483647
+Type     | Size    | Range
+---------------------------
+Byte     | 8 bits  | 0..255
+ShortInt | 8 bits  | -128..127
+Word     | 16 bits | 0..65535
+SmallInt | 16 bits | -32768..32767
+LongWord | 32 bits | 0..4294967295
+LongInt  | 32 bits | -2147483648..2147483647
 
-Integer	16/32/64	either smallint, longint or int64		| These two depends on the
-Cardinal	16/32/64	either word, longword or qword	| compiler mode and platform.
+//[*]These two depends on the compiler mode and platform.
+Integer  | 16 32 64 | either smallint, longint or int64
+Cardinal | 16 32 64 | either word, longword or qword
 
-Real		16/32		(depends on the platform)
-Single	32 bits	1.5E-45 .. 3.4E38
-Double	64 bits	5.0E-324 .. 1.7E308
-Extended	80 bits	1.9E-4951 .. 1.1E4932
+Real     | 16/32   | (depends on the platform)
+Single   | 32 bits | 1.5E-45 .. 3.4E38
+Double   | 64 bits | 5.0E-324 .. 1.7E308
+Extended | 80 bits | 1.9E-4951 .. 1.1E4932
 
-Int64		64		-9223372036854775808 .. 9223372036854775807
-QWord	64		0 .. 18446744073709551615
-Comp		64		-2E64+1 .. 2E63-1
+Int64    | 64 bits | -9223372036854775808 .. 9223372036854775807
+QWord    | 64 bits | 0 .. 18446744073709551615
+Comp     | 64 bits | -2E64+1 .. 2E63-1
