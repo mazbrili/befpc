@@ -4,8 +4,7 @@ unit Mime;
 interface
 
 uses
-//  types,
-  BeObj, Bitmap, Entry, Message, Messenger, SupportDefs, StorageDefs, BString;
+  BeObj, Bitmap, Entry, Message, Messenger, SupportDefs, StorageDefs, _String;
 
 function update_mime_info(const path : PChar; recursive : Integer;
                           synchronous : Integer; force : Integer) : Integer;
@@ -27,14 +26,7 @@ type
 
 const
   B_LARGE_ICON = 32;
-  B_MINI_ICON = 16;
-
-{
-class BBitmap;
-class BResources;
-class BAppFileInfo;
-class BMessenger;
-}
+  B_MINI_ICON  = 16;
 
 type
   app_verb = (B_OPEN);
@@ -49,8 +41,11 @@ var
 
 // -------------------------------------------------------------
 const
-  B_META_MIME_CHANGED = 'MMCH';
+  _B_META_MIME_CHANGED = 'MMCH';
+var
+  B_META_MIME_CHANGED : Longword;
 
+const
   B_ICON_CHANGED              = $00000001;
   B_PREFERRED_APP_CHANGED     = $00000002;
   B_ATTR_INFO_CHANGED         = $00000004;
@@ -66,6 +61,7 @@ const
   B_EVERYTHING_CHANGED        : Integer = $FFFFFFFF;
 
 // -------------------------------------------------------------
+(*
 type
   BMimeType = class(TBeObject)
   public
@@ -138,9 +134,10 @@ type
     // Deprecated  Use SetTo instead.
     function SetType(const MIME_type : PChar) : status_t;
   end;
-
+*)
 implementation
 
 initialization
-  B_MIME_STRING_TYPE := _B_MIME_STRING_TYPE;
+  B_MIME_STRING_TYPE  := _B_MIME_STRING_TYPE;
+  B_META_MIME_CHANGED := _B_META_MIME_CHANGED;
 end.
