@@ -249,7 +249,7 @@ procedure BWindow_DisableUpdates(AObject : TCPlusObject); cdecl; external BePasc
 procedure BWindow_EnableUpdates(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_EnableUpdates';
 procedure BWindow_BeginViewTransaction(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_BeginViewTransaction';
 procedure BWindow_EndViewTransaction(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_EndViewTransaction';
-function BWindow_Bounds(AObject : TCPlusObject) : BRect; cdecl; external BePascalLibName name 'BWindow_Bounds';
+function BWindow_Bounds(AObject : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BWindow_Bounds';
 function BWindow_Frame(AObject : TCPlusObject) : BRect; cdecl; external BePascalLibName name 'BWindow_Frame';
 function BWindow_Title(AObject : TCPlusObject) : PChar; cdecl; external BePascalLibName name 'BWindow_Title';
 procedure BWindow_SetTitle(AObject : TCPlusObject; title : PChar); cdecl; external BePascalLibName name 'BWindow_SetTitle';
@@ -718,7 +718,7 @@ end;
 
 function BWindow.Bounds : BRect;
 begin
-  Result := BWindow_Bounds(CPlusObject);
+  Result := BRect.Wrap(BWindow_Bounds(CPlusObject));
 end;
 
 function BWindow.GetFrame : BRect;
