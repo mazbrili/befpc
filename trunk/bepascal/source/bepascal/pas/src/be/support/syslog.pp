@@ -121,12 +121,14 @@ const
 procedure closelog; cdecl; external kBeLibName name 'closelog';
 procedure closelog_team; cdecl; external kBeLibName name 'closelog_team';
 procedure closelog_thread; cdecl; external kBeLibName name 'closelog_thread';
+
 procedure openlog(a : PChar; b, c : Integer); cdecl; external kBeLibName name 'openlog';
 procedure openlog_team(a : PChar; b, c : Integer); cdecl; external kBeLibName name 'openlog_team';
 procedure openlog_thread(a : PChar; b, c : Integer); cdecl; external kBeLibName name 'openlog_thread';
-//procedure syslog(i : Integer; l : PChar; ...);
-//procedure log_team(i : Integer; l : PChar; ...);
-//procedure log_thread(i : Integer; l : PChar; ...);
+
+procedure syslog(i : Integer; l : PChar; args : array of const); cdecl; external kBeLibName name 'syslog';
+procedure log_team(i : Integer; l : PChar; args : array of const); cdecl; external kBeLibName name 'log_team';
+procedure log_thread(i : Integer; l : PChar; args : array of const); cdecl; external kBeLibName name 'log_thread';
 
 function setlogmask(mask : Integer) : Integer; cdecl; external kBeLibName name 'setlogmask';
 function setlogmask_team(mask : Integer) : Integer; cdecl; external kBeLibName name 'setlogmask_team';
