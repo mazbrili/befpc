@@ -1,15 +1,31 @@
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002-2004 Oscar Lesta
+                            Olivier Coursiere                            
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
 unit debugger;
 // Description: kernel interface for a debugger.
 
 interface
 
 uses
-{.$ifdef CPUI386}
-//  signal,
-{.$endif CPUI386}
-//  BeBuild,
-  OS, image, SupportDefs;
-
+{$ifdef CPUI386}
+  signal,
+{$endif CPUI386}
+  {BeBuild,} OS, image, SupportDefs;
 
 // kernel calls
 function install_default_debugger(to_debugger_port : port_id) : status_t;
@@ -21,6 +37,12 @@ function remove_team_debugger(team : team_id) : status_t;
 function debug_thread(thread : thread_id) : status_t;
          cdecl; external 'root' name 'debug_thread';
 
+// undocumented syscall to trace syscalls
+// this function is used to configure the tracing level
+// (see also DEBUG_* const at the end of this file)
+function strace_init(thread : thread_id; flags : Cardinal) : status_t; 
+         cdecl; external 'root' name '_kstrace_init_';
+         
 { per-thread debugging flags (returned by the get_thread_debug_info request to
   the debugging nub) }
 const
@@ -163,8 +185,7 @@ type
   general registers. }
 type
   cpu_state = packed record
-// this one is in posix/signal.h
-//    xregs : extended_regs;  // fpu/mmx/xmm registers
+    xregs : extended_regs;  // fpu/mmx/xmm registers
     gs,
     reserved0,
     fs,
@@ -183,11 +204,11 @@ type
     eax,
     trap_no,                // trap or int number
     error_code,             // trap error code
-    eip         : Longword; // user eip
+    eip         : Cardinal; // user eip
     cs,                     // user cs
     reserved4 : Word;
     eflags,                 // user elfags
-    uesp    : Longword;     // user esp
+    uesp    : Cardinal;     // user esp
     ss,                     // user ss
     reserved5 : Word;
   end;
@@ -361,25 +382,64 @@ type
 
 // union of all stuctures passed to the nub
   to_nub_msg = packed record
-    nub_read_memory              : nub_read_memory_msg;
-    nub_write_memory             : nub_write_memory_msg;
-    nub_run_thread               : nub_run_thread_msg;
-    nub_step_thread              : nub_step_thread_msg;
-    nub_step_over_thread         : nub_step_over_thread_msg;
-    nub_step_out_thread          : nub_step_out_thread_msg;
-    nub_set_breakpoint           : nub_set_breakpoint_msg;
-    nub_clear_breakpoint         : nub_clear_breakpoint_msg;
-    nub_stop_new_threads         : nub_stop_new_threads_msg;
-    nub_get_thread_debug_info    : nub_get_thread_debug_info_msg;
-    nub_acknowlege_image_created : nub_acknowlege_image_created_msg;
-    nub_start_profiler           : nub_start_profiler_msg;
-    nub_stop_profiler            : nub_stop_profiler_msg;
-    nub_set_watchpoint           : nub_set_watchpoint_msg;
-    nub_clear_watchpoint         : nub_clear_watchpoint_msg;
-    nub_stop_on_debug            : nub_stop_on_debug_msg;
-    nub_get_thread_stack_top     : nub_get_thread_stack_top_msg;
-    nub_handoff                  : nub_handoff_msg;
-    nub_get_why_stopped          : nub_get_why_stopped_msg;
+    case Integer of
+      0: (  
+        nub_read_memory              : nub_read_memory_msg;
+        );    
+      1: (          
+        nub_write_memory             : nub_write_memory_msg;
+        );
+      2: (            
+        nub_run_thread               : nub_run_thread_msg;
+        );    
+      3: (        
+        nub_step_thread              : nub_step_thread_msg;
+        );    
+      4: (        
+        nub_step_over_thread         : nub_step_over_thread_msg;
+        );    
+      5: (        
+        nub_step_out_thread          : nub_step_out_thread_msg;
+        );    
+      6: (        
+        nub_set_breakpoint           : nub_set_breakpoint_msg;
+        );
+      7: (            
+        nub_clear_breakpoint         : nub_clear_breakpoint_msg;
+        );
+      8: (            
+        nub_stop_new_threads         : nub_stop_new_threads_msg;
+        );    
+      9: (        
+        nub_get_thread_debug_info    : nub_get_thread_debug_info_msg;
+        );    
+      10: (        
+        nub_acknowlege_image_created : nub_acknowlege_image_created_msg;
+        );    
+      11: (
+        nub_start_profiler           : nub_start_profiler_msg;
+        );
+      12: (            
+        nub_stop_profiler            : nub_stop_profiler_msg;
+        );
+      13: (            
+        nub_set_watchpoint           : nub_set_watchpoint_msg;
+        );
+      14: (            
+        nub_clear_watchpoint         : nub_clear_watchpoint_msg;
+        );
+      15: (            
+        nub_stop_on_debug            : nub_stop_on_debug_msg;
+        );
+      16: (            
+        nub_get_thread_stack_top     : nub_get_thread_stack_top_msg;
+        );
+      17: (            
+        nub_handoff                  : nub_handoff_msg;
+        );
+      18: (            
+        nub_get_why_stopped          : nub_get_why_stopped_msg;
+        );    
   end;
 
 { messages passed to the external debugger
@@ -395,7 +455,8 @@ type
 {$ifdef POWERPC}
     B_PEF_IMAGE_CREATED, // pef image was created
     B_PEF_IMAGE_DELETED, // pef image was deleted
-{$elif CPUI386}
+{$endif}
+{$ifdef CPUI386}
     B_ELF_IMAGE_CREATED, // pe image was created
     B_ELF_IMAGE_DELETED, // pe image was deleted
 {$endif}
@@ -465,15 +526,34 @@ type
 // union of all structures passed to external debugger
 
   to_debugger_msg = packed record
-    thread_stopped    : db_thread_stopped_msg;
-    team_created      : db_team_created_msg;
-    team_deleted      : db_team_deleted_msg;
-    pef_image_created : db_pef_image_created_msg;
-    pef_image_deleted : db_pef_image_deleted_msg;
-    thread_created    : db_thread_created_msg;
-    thread_deleted    : db_thread_deleted_msg;
-    get_profile_info  : db_get_profile_info_msg;
-    syscall_post      : db_syscall_post_msg;
+    case Integer of
+      0: (
+        thread_stopped    : db_thread_stopped_msg;
+        );
+      1: (                
+        team_created      : db_team_created_msg;
+        );
+      2: (                
+        team_deleted      : db_team_deleted_msg;
+        );
+      3: (                
+        pef_image_created : db_pef_image_created_msg;
+        );
+      4: (                
+        pef_image_deleted : db_pef_image_deleted_msg;
+        );
+      5: (                
+        thread_created    : db_thread_created_msg;
+        );
+      6: (                
+        thread_deleted    : db_thread_deleted_msg;
+        );
+      7: (                
+        get_profile_info  : db_get_profile_info_msg;
+        );
+      8: (                
+        syscall_post      : db_syscall_post_msg;
+        );
   end;
 
 {
