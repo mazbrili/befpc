@@ -1,9 +1,18 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.3 2002-04-12 23:32:56 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.4 2002-04-13 00:32:16 memson Exp $
   
-  $Revision: 1.3 $
+  $Revision: 1.4 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.3  2002/04/12 23:32:56  memson
+
+  Added quite a bit.
+
+  Got basic file handling soeted out. Also got the FilePanel's working (see
+  example project)
+
+  Popup menu now only responds to a right click (at last!!)
+
   Revision 1.2  2002/04/02 20:42:15  memson
 
   updated for Eric
@@ -420,6 +429,14 @@ void MMemo_AttachKeyDownDispatcher(MMemo *memo, keyAction_Message msg){
 
 void MMemo_AttachKeyUpDispatcher(MMemo *memo, keyAction_Message msg){
   memo->AttachKeyDownDispatcher(msg);
+}
+
+const char* MMemo_Text(MMemo *memo){
+  return memo->getTextView()->Text();
+}
+
+int32 MMemo_TextLength(MMemo *memo){
+  return memo->getTextView()->TextLength();
 }
 
 ///
