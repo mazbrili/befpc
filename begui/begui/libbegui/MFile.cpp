@@ -58,6 +58,10 @@ status_t MFile_SetSize(MFile* file, off_t size){
   return file->SetSize(size);
 }
 
+status_t MFile_GetSize(MFile* file, off_t *size){
+  return file->GetSize(size);
+}
+
 status_t MFile_SetTo(MFile* file, const char *path, uint32 open_mode){
   return file->SetTo(path, open_mode);
 }

@@ -1,9 +1,18 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.2 2002-04-12 23:32:56 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.3 2002-04-23 18:37:29 memson Exp $
   
-  $Revision: 1.2 $
+  $Revision: 1.3 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.2  2002/04/12 23:32:56  memson
+
+  Added quite a bit.
+
+  Got basic file handling soeted out. Also got the FilePanel's working (see
+  example project)
+
+  Popup menu now only responds to a right click (at last!!)
+
   Revision 1.1.1.1  2002/03/31 10:36:16  memson
 
   initial import into sourceforge
@@ -121,7 +130,6 @@
 ////////////////////////////////////////
 
 ////////////////////////////////////////
-
 // List classes...
 
 //List item for storing GUI classes...
@@ -188,7 +196,6 @@ void MPropertyPlugin::setOwner(BArchivable *AOwner)
 }
 
 //////////////////////////////////////////
-
 // Property Plugin Class...
 
 MMenuPropertyPlugin::MMenuPropertyPlugin(BArchivable *AOwner):
@@ -214,7 +221,6 @@ MPopUpMenu* MMenuPropertyPlugin::getPopUpMenu(void)
 }
 
 //////////////////////////////////////////
-
 // EventPlugin Class... 
 
 MEventPlugin::MEventPlugin()
@@ -254,7 +260,6 @@ void MEventPlugin::DoDestroy(BControl *self)
 }
 
 //////////////////////////////////////////
-
 //
 
 MMenuEventPlugin::MMenuEventPlugin()
@@ -280,7 +285,6 @@ void MMenuEventPlugin::AttachMenuClickDispatcher(base_Message value)
 }
 
 //////////////////////////////////////////
-
 //BasicEventPlugin Class...
 
 MBasicEventPlugin::MBasicEventPlugin():
@@ -321,7 +325,6 @@ void MBasicEventPlugin::DoClick(BControl *self)
 }
 
 //////////////////////////////////////////
-
 //ControlEventPlugin Class...
 
 MControlEventPlugin::MControlEventPlugin():
@@ -390,7 +393,6 @@ void MControlEventPlugin::DoKeyPress(BControl *self, const char *bytes, int32 nu
 }
 
 //////////////////////////////////////////
-
 // Form Event Property
 
 MFormEventPlugin::MFormEventPlugin():
@@ -417,7 +419,6 @@ void MFormEventPlugin::DoClose(BView *self, MCloseAction &closeAction)
 }
 
 //////////////////////////////////////////
-
 //Panel Class...
 
 MPanel::MPanel(BRect ClientArea, char *name):
@@ -433,7 +434,6 @@ void MPanel::Draw(BRect updateArea)
 
 
 //////////////////////////////////////////
-
 //Memo Class...
 
 MMemo::MMemo(char *name):
@@ -547,7 +547,6 @@ void MMemo::Draw(BRect updateArea)
 }
 
 //////////////////////////////////////////
-
 // MComboBox
 
 MCheckBox::MCheckBox(BRect frame, char *name):
@@ -565,7 +564,7 @@ MCheckBox::~MCheckBox()
 
 void MCheckBox::KeyDown(const char *bytes, int32 numBytes)
 {
-  BControl::KeyDown(bytes, numBytes);
+  BCheckBox::KeyDown(bytes, numBytes);
   
   if (fOnKeyDown != NULL){
     fOnKeyDown( this, bytes, numBytes );
@@ -574,7 +573,7 @@ void MCheckBox::KeyDown(const char *bytes, int32 numBytes)
 
 void MCheckBox::KeyUp(const char *bytes, int32 numBytes) 
 {
-  BControl::KeyUp(bytes, numBytes);
+  BCheckBox::KeyUp(bytes, numBytes);
   
   if (fOnKeyUp != NULL){
     fOnKeyUp( this, bytes, numBytes );
@@ -584,7 +583,7 @@ void MCheckBox::KeyUp(const char *bytes, int32 numBytes)
 
 void MCheckBox::MouseDown(BPoint pt)
 {
-  BControl::MouseDown(pt);
+  BCheckBox::MouseDown(pt);
   
   if (fOnMouseDown != NULL){
     fOnMouseDown( this, pt.x, pt.y );
@@ -593,7 +592,7 @@ void MCheckBox::MouseDown(BPoint pt)
 
 void MCheckBox::MouseUp(BPoint pt)
 {
-  BControl::MouseUp(pt);
+  BCheckBox::MouseUp(pt);
   
   if (fOnMouseUp != NULL){
     fOnMouseUp( this, pt.x, pt.y );
@@ -603,7 +602,7 @@ void MCheckBox::MouseUp(BPoint pt)
 
 void MCheckBox::MouseMoved(BPoint pt, uint32 code, const BMessage *msg)
 {
-  BControl::MouseMoved(pt, code, msg);
+  BCheckBox::MouseMoved(pt, code, msg);
   
   if (fOnMouseMove != NULL){
     fOnMouseMove( this, pt.x, pt.y, code, 0 );
@@ -612,7 +611,7 @@ void MCheckBox::MouseMoved(BPoint pt, uint32 code, const BMessage *msg)
 
 void MCheckBox::Draw(BRect updateArea)
 {
-  BControl::Draw(updateArea);
+  BCheckBox::Draw(updateArea);
   
   if (fOnDraw != NULL){
     fOnDraw( this, updateArea.left, updateArea.top, updateArea.right, updateArea.bottom );
@@ -628,10 +627,89 @@ bool MCheckBox::Checked(void)
     return false;
 }
 
+//////////////////////////////////////////
+// MRadioButton
+
+MRadioButton::MRadioButton(BRect frame, char *name):
+  BRadioButton(frame, name, name, new BMessage(ClickMessage)),
+  MControlEventPlugin(),
+  MPropertyPlugin(NULL)
+{
+  DoCreate(dynamic_cast<BControl*>(this));
+}
+
+MRadioButton::~MRadioButton()
+{
+  DoDestroy(dynamic_cast<BControl*>(this));
+}
+
+void MRadioButton::KeyDown(const char *bytes, int32 numBytes)
+{
+  BRadioButton::KeyDown(bytes, numBytes);
+  
+  if (fOnKeyDown != NULL){
+    fOnKeyDown( this, bytes, numBytes );
+  }
+} 
+
+void MRadioButton::KeyUp(const char *bytes, int32 numBytes) 
+{
+  BRadioButton::KeyUp(bytes, numBytes);
+  
+  if (fOnKeyUp != NULL){
+    fOnKeyUp( this, bytes, numBytes );
+  }
+  DoChange(dynamic_cast<BControl*>(this)); //simulate a 'change' event...
+}
+
+void MRadioButton::MouseDown(BPoint pt)
+{
+  BRadioButton::MouseDown(pt);
+  
+  if (fOnMouseDown != NULL){
+    fOnMouseDown( this, pt.x, pt.y );
+  }
+}
+
+void MRadioButton::MouseUp(BPoint pt)
+{
+  BRadioButton::MouseUp(pt);
+  
+  if (fOnMouseUp != NULL){
+    fOnMouseUp( this, pt.x, pt.y );
+  }
+  DoClick(dynamic_cast<BControl*>(this)); //simulate a click event
+}
+
+void MRadioButton::MouseMoved(BPoint pt, uint32 code, const BMessage *msg)
+{
+  BRadioButton::MouseMoved(pt, code, msg);
+  
+  if (fOnMouseMove != NULL){
+    fOnMouseMove( this, pt.x, pt.y, code, 0 );
+  }
+}
+
+void MRadioButton::Draw(BRect updateArea)
+{
+  BRadioButton::Draw(updateArea);
+  
+  if (fOnDraw != NULL){
+    fOnDraw( this, updateArea.left, updateArea.top, updateArea.right, updateArea.bottom );
+  }
+ 
+}
+
+bool MRadioButton::Checked(void)
+{
+  if (this->Value() == B_CONTROL_ON)
+    return true;
+  else
+    return false;
+}
 
 
 //////////////////////////////////////////
-
 //Edit Class...
 
 MEdit::MEdit(char *name):
@@ -712,7 +790,6 @@ void MEdit::Draw(BRect updateArea)
 }
 
 //////////////////////////////////////////
-
 //Button Class...
 
 MButton::MButton(char *name):
@@ -791,7 +868,6 @@ void MButton::Draw(BRect updateArea)
 }
 
 //////////////////////////////////////////
-
 //Application Class...
 
 MApplication::MApplication(const char* signature): 
@@ -831,6 +907,10 @@ void MApplication::RefsReceived(BMessage *message)
   if (message->what == SAVE_PANEL_MESSAGE){
     printf("\nSave\n");
   }
+  
+  if (message->what == OPEN_PANEL_MESSAGE){
+    printf("\nOpen\n");
+  }
 }
 
 void MApplication::MessageReceived(BMessage *message)
@@ -838,39 +918,77 @@ void MApplication::MessageReceived(BMessage *message)
   void *pointer;
   MFilePanel *filepanel;
   entry_ref ref;
-  const char *name;
+  const char *savename;
+  char *openname;
   BPath path;
   BEntry entry;
+  BString tmp;
   status_t err = B_OK;
+  uint32 type;
+  int32 count;
   
-  if (message->what == SAVE_PANEL_MESSAGE || message->what == OPEN_PANEL_MESSAGE){
-    printf("\nSave\n");
+  if (message->what == SAVE_PANEL_MESSAGE){
     if ( (err = message->FindRef("directory", &ref)) != B_OK ) {
-      printf("failed to find dir, error %d\n", err);
+      //printf("failed to find dir, error %d\n", err);
       return;
     }
-    if ( (err = message->FindString("name", &name)) != B_OK ){
-      printf("failed to find filename, error %d\n", err);
+    if ( (err = message->FindString("name", &savename)) != B_OK ){
+      //printf("failed to find filename, error %d\n", err);
       return;    
     }
     
     if ( (err = entry.SetTo(&ref)) != B_OK ){
-      printf("failed to create entr from path, error %d\n", err);
+      //printf("failed to create entr from path, error %d\n", err);
       return;
     }
     
     entry.GetPath(&path);
-    path.Append(name);
+    path.Append(savename);
     
     printf( "%s\n", path.Path() );
     
     if (message->FindPointer("source", &pointer) == B_OK){
-      printf("works1\n");
+      //printf("works1\n");
       if ((filepanel =  reinterpret_cast<MFilePanel*>(pointer)) != NULL){
-        printf("works2\n");
+        //printf("works2\n");
         filepanel->DoExecute( path );
       }  
     }
+  }
+  
+  if (message->what == OPEN_PANEL_MESSAGE){
+    printf("open\n");
+    
+	message->GetInfo("refs", &type, &count);
+	if (type != B_REF_TYPE) {
+	  printf("no refs found\n");
+	  return;
+	}
+	
+	for (int32 i = --count; i >= 0; --i) {
+   	  if ((err = message->FindRef("refs", i, &ref)) == B_OK) {
+        if (message->FindPointer("source", &pointer) == B_OK){
+          printf("works1\n");
+          
+          if ( (err = entry.SetTo(&ref)) != B_OK ){
+            printf("failed to create entr from path, error %d\n", err);
+            return;
+    	  }
+    	  
+    	  entry.GetPath(&path);
+    	  
+          if ((filepanel =  reinterpret_cast<MFilePanel*>(pointer)) != NULL){
+            printf("works2\n");
+            printf( "before event ... %s\n", path.Path() );
+            filepanel->DoExecute( path );
+          }
+        }
+   	  }
+   	  else {
+   	    printf("processing ref %d there was an error %d", i, err);
+   	    return;
+   	  }
+   	}
   }
 
 }
@@ -898,7 +1016,6 @@ MForm* MApplication::AddForm(BRect ClientArea, BString name, bool showForm = fal
 
 
 ////////////////////////////////////////
-
 //Form Class...
 
 MForm::MForm(BRect ClientArea): 
@@ -1081,7 +1198,6 @@ void MForm::setCloseAction(MCloseAction ca)
 }
 
 ////////////////////////////////////////
-
 //Canvas class...
 
 MCanvas::MCanvas(BRect ClientArea, char *name):
@@ -1209,7 +1325,6 @@ void MCanvas::Draw(BRect updateArea)
 }
 
 /////////////////////////////////////////
-
 //MenuItem Class...
 
 MMenuItem::MMenuItem(const char *label):
@@ -1219,7 +1334,6 @@ MMenuItem::MMenuItem(const char *label):
 MMenuItem::~MMenuItem(){}
 
 /////////////////////////////////////////
-
 //PopUpMenu Class...
 
 MPopUpMenu::MPopUpMenu(const char *name):
@@ -1230,8 +1344,8 @@ MPopUpMenu::MPopUpMenu(const char *name):
 }
 
 /////////////////////////////////////////
-
 //Test the Library
+
 CTest::CTest(void){
   FValue = 33;
 }

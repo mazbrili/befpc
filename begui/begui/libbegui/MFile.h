@@ -1,9 +1,18 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/MFile.h,v 1.1 2002-04-12 23:32:56 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/MFile.h,v 1.2 2002-04-23 18:37:29 memson Exp $
   
-  $Revision: 1.1 $
+  $Revision: 1.2 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.1  2002/04/12 23:32:56  memson
+
+  Added quite a bit.
+
+  Got basic file handling soeted out. Also got the FilePanel's working (see
+  example project)
+
+  Popup menu now only responds to a right click (at last!!)
+
   
 */
 
@@ -81,6 +90,7 @@ ssize_t MFile_Write(MFile* file, const void *buffer, size_t size);
 ssize_t MFile_WriteAt(MFile* file, off_t pos, const void *buffer, size_t size); 
 
 status_t MFile_SetSize(MFile* file, off_t size); 
+status_t MFile_GetSize(MFile* file, off_t *size); 
 status_t MFile_SetTo(MFile* file, const char *path, uint32 open_mode);
 
 //use this for both Save and Open Panels...

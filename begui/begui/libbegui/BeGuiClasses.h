@@ -16,6 +16,7 @@
 #include <PopUpMenu.h>
 #include <Menu.h>
 #include <CheckBox.h>
+#include <RadioButton.h>
 #include <kernel/OS.h>
 #include "MList.h"
 
@@ -242,7 +243,23 @@ public:
   virtual void Draw(BRect updateArea);
   virtual bool Checked(void);
   
-};                
+};     
+
+class MRadioButton : public BRadioButton,
+                     public MControlEventPlugin,
+                     public MPropertyPlugin{
+public:
+  MRadioButton(BRect frame, char *name);                    
+  virtual ~MRadioButton();
+  virtual void KeyDown(const char *bytes, int32 numBytes); 
+  virtual void KeyUp(const char *bytes, int32 numBytes); 
+  virtual void MouseDown(BPoint pt); 
+  virtual void MouseUp(BPoint pt); 
+  virtual void MouseMoved(BPoint pt, uint32 code, const BMessage *msg);
+  virtual void Draw(BRect updateArea);
+  virtual bool Checked(void);
+  
+};             
 
 ///////////////////////////////////////////////
 

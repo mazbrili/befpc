@@ -1,9 +1,18 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeTestApp2.cpp,v 1.1 2002-04-12 23:32:56 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeTestApp2.cpp,v 1.2 2002-04-23 18:37:29 memson Exp $
   
-  $Revision: 1.1 $
+  $Revision: 1.2 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.1  2002/04/12 23:32:56  memson
+
+  Added quite a bit.
+
+  Got basic file handling soeted out. Also got the FilePanel's working (see
+  example project)
+
+  Popup menu now only responds to a right click (at last!!)
+
   Revision 1.15  2002/03/26 13:28:51  memson
   added in combobox support - flawed at the moment.
 
@@ -164,12 +173,16 @@ int main(void){
   /* create 2 buttons */
   btn = MButton_Create(5, 25, 30, 20, "test"); 
   btn2 = MButton_Create(5, 50, 30, 30, "test2"); 
-  cbx = MForm_AddMCheckBox((MForm*)frm, 20, 20, 100, 50, "test cbx");
+  cbx = MCheckBox_Create(5, 5, 30, 50, "test cbx");
   
   /* add buttons to main form */
   MForm_AddChild((MForm*)frm, (BControl*)btn);
   MForm_AddChild((MForm*)frm, (BControl*)btn2);
-  //MForm_AddChild((MForm*)frm, (BControl*)cbx);
+  
+  
+  /* create a panel */
+  pnl = MForm_AddMPanel((MForm*)frm, 5, 180, 200, 200, "panel1");
+  MPanel_AddChild((MPanel*)pnl, (BControl*)cbx);
   
   pm = MPopUpMenu_Create("testmenu");
   mni = MMenuItem_Create("Test Item");
@@ -201,9 +214,6 @@ int main(void){
   /* create a memo - like edit, must be done in main form's thread */ 
   edt  = MForm_AddMMemo((MForm*)frm, 30, 100, 150, 150, "test5");
 
-  /* create a panel */
-  //pnl = MForm_AddMPanel((MForm*)frm, 250, 200, 400, 400, "panel1");
-  
   //MForm_Hide((MForm*)frm);
   //MForm_Show((MForm*)frm);
   
