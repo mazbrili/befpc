@@ -22,13 +22,10 @@ unit Alert;
 interface
 
 uses
-  BeObj, Archivable, Button, {InterfaceDefs,} Invoker, Handler,
-  Message, Point, SupportDefs, TextView, Window;
+  BeObj, Archivable, Button, InterfaceDefs, Invoker, Handler,
+  Message, Rect, SupportDefs, TextView, Window;
 
 type
-  // This one belongs to InterfaceDefs unit!
-  TButton_Width = (B_WIDTH_AS_USUAL, B_WIDTH_FROM_WIDEST, B_WIDTH_FROM_LABEL);
-
 { enum for flavors of alert }
 // enum alert_type
   TAlert_Type = (B_EMPTY_ALERT, B_INFO_ALERT, B_IDEA_ALERT, B_WARNING_ALERT,
@@ -152,7 +149,7 @@ end;
 
 constructor TAlert.Create(data : TMessage);
 begin
-  CPlusObject := BAlert_Create_2(Self, data{.CPlusObject});
+  CPlusObject := BAlert_Create_2(Self, data.CPlusObject);
 end;
 
 destructor TAlert.Destroy;
@@ -162,12 +159,12 @@ end;
 
 function TAlert.Instantiate(data : TMessage) : TArchivable;
 begin
-  Result := BAlert_Instantiate(CPlusObject, data{.CPlusObject});
+  Result := BAlert_Instantiate(CPlusObject, data.CPlusObject);
 end;
 
 function TAlert.Archive(data : TMessage; deep : boolean) : TStatus_t;
 begin
-  Result := BAlert_Archive(CPlusObject, data{.CPlusObject}, deep);
+  Result := BAlert_Archive(CPlusObject, data.CPlusObject, deep);
 end;
 
 procedure TAlert.SetShortcut(button_index : integer; key : Char);
@@ -187,12 +184,12 @@ end;
 
 function TAlert.Go(invoker : TInvoker) : TStatus_t;
 begin
-  Result := BAlert_Go(CPlusObject, invoker{.CPlusObject});
+  Result := BAlert_Go(CPlusObject, invoker.CPlusObject);
 end;
 
 procedure TAlert.MessageReceived(an_event : TMessage);
 begin
-  BAlert_MessageReceived(CPlusObject, an_event{.CPlusObject});
+  BAlert_MessageReceived(CPlusObject, an_event.CPlusObject);
 end;
 
 procedure TAlert.FrameResized(new_width : double; new_height : double);
@@ -212,17 +209,17 @@ end;
 
 function TAlert.ResolveSpecifier(msg : TMessage; index : integer; specifier : TMessage; form : integer; properti : PChar) : THandler;
 begin
-  Result := BAlert_ResolveSpecifier(CPlusObject, msg{.CPlusObject}, index, specifier{.CPlusObject}, form, properti);
+  Result := BAlert_ResolveSpecifier(CPlusObject, msg.CPlusObject, index, specifier.CPlusObject, form, properti);
 end;
 
 function TAlert.GetSupportedSuites(data : TMessage) : TStatus_t;
 begin
-  Result := BAlert_GetSupportedSuites(CPlusObject, data{.CPlusObject});
+  Result := BAlert_GetSupportedSuites(CPlusObject, data.CPlusObject);
 end;
 
 procedure TAlert.DispatchMessage(msg : TMessage; handler : THandler);
 begin
-  BAlert_DispatchMessage(CPlusObject, msg{.CPlusObject}, handler{.CPlusObject});
+  BAlert_DispatchMessage(CPlusObject, msg.CPlusObject, handler.CPlusObject);
 end;
 
 procedure TAlert.Quit;
