@@ -3,6 +3,26 @@ program TespApp4;
 uses BeGUI,About,Strings;
 
 
+Type TButton = Class(TObject)
+         private
+              	MButton : pointer;
+        public
+		Top,Left,Width,heitgh : Integer;
+             	Constructor Create(Form : MFormh;aTop,aLeft,aWidth,aheitgh : Integer);
+		//Property OnClick :base_Message Write Click_Action;
+                   Click_action :base_Message;
+End;
+    	PButton = ^TButton;
+
+Constructor TButton.Create(Form : MFormh;aTop,aLeft,aWidth,aheitgh : Integer);
+Begin
+  // GenericAlert(pchar('create'));
+    MButton:=MButton_Create_int32(170,20,190,30, pchar('C'));
+    MForm_AddChild(Form, MButton);
+End;
+
+Var But : TButton;
+
 procedure MenuClick(sender: pointer;  x:double; y:double);
 begin
   if sender <> nil then
@@ -36,6 +56,7 @@ Var
   Mem_Op  : String[20];
   Mem_Operande : integer;
   
+  Check1 : MCheckBoxH;
 
 Const
     Pos_X : Array[1..3] of integer=(20,60,100);
@@ -262,6 +283,12 @@ begin
  
   MainForm := MApplication_GetMainForm(Application);
 
+ Check1:=MCheckBox_Create_int32(250,100,260,110,pchar('toto'));
+ MForm_AddChild(MainForm, Check1);
+  Check1:=MForm_AddMCheckBox_int32( MainForm,250,200,260,210,pchar('toto'));
+// MForm_AddChild(MainForm, Check1);
+ 
+
   mb := BMenuBar_Create(MainForm, pchar('main'));
   Menu_Quit := MMenuItem_Create(pchar('Close'));
   MMenuItem_AttachMenuClickDispatcher(Menu_Quit, @menuClick_Quit);
@@ -276,7 +303,10 @@ begin
   MMenuItem_AttachMenuClickDispatcher(Menu_About, @menuClick_About);
   BMenuBar_AddItem(mb, mnu_Help);  
 
-  Create_Calculator(MainForm);
+  // test Object
+ //but := TButton.Create(MainForm,20,20,30,30);
+
+  //Create_Calculator(MainForm);
   Create_About;
 
   MApplication_Run(Application);

@@ -1,9 +1,14 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.4 2002-04-13 00:32:16 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiAPI.cpp,v 1.5 2002-04-23 18:37:29 memson Exp $
   
-  $Revision: 1.4 $
+  $Revision: 1.5 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.4  2002/04/13 00:32:16  memson
+
+  Added MMemo_Text and MMemo_TextLength. Updated the testfile demo to save
+  text from a MMemo when button clicked.
+
   Revision 1.3  2002/04/12 23:32:56  memson
 
   Added quite a bit.
@@ -196,6 +201,11 @@ MMemo* MForm_AddMMemo(MForm *form, int32 left, int32 top, int32 right, int32 bot
   return form->Canvas()->AddMemo(btnRect, caption);
 }
 
+MMemo* MForm_AddMMemo_int32(MForm *form, int32 left, int32 top, int32 right, int32 bottom, char *caption){
+  BRect btnRect(left, top, right, bottom);
+  return form->Canvas()->AddMemo(btnRect, caption);
+}
+
 int32 MForm_getWidth(MForm *frm){
   return 0;
 }
@@ -205,16 +215,16 @@ int32 MForm_getHeight(MForm *frm){
 }
 
 void MForm_setWidth(MForm *frm, int32 value){
-  if (frm->Lock()) {
+  if (frm->LockLooper()) {
     frm->setWidth(value);
-    frm->Unlock();
+    frm->UnlockLooper();
   }
 }
 
 void MForm_setHeight(MForm *frm, int32 value){
-   if (frm->Lock()) {
+   if (frm->LockLooper()) {
      frm->setHeight(value);
-     frm->Unlock();
+     frm->UnlockLooper();
    }
 }
 
@@ -326,6 +336,56 @@ bool MCheckBox_Checked(MCheckBox *cbx){
 
 ///
 
+MRadioButton* MRadioButton_Create(float left, float top, float right, float bottom, char *caption){
+  BRect btnRect(left, top, right, bottom);  
+
+  return new MRadioButton( btnRect, caption );
+}
+
+MRadioButton* MRadioButton_Create_int32(int32 left, int32 top, int32 right, int32 bottom, char *caption){
+  BRect btnRect(left, top, right, bottom);  
+
+  return new MRadioButton( btnRect, caption );
+}
+
+char* MRadioButton_getCaption(MRadioButton *rbtn){
+  return const_cast<char*>(rbtn->Label());
+}
+
+void MRadioButton_setCaption(MRadioButton *rbtn, char* caption){
+  rbtn->SetLabel(caption);
+}
+
+void MRadioButton_AttachMouseMovedDispatcher(MRadioButton *rbtn, mouseMoved_Message msg){
+  rbtn->AttachMouseMovedDispatcher(msg);
+}
+
+void MRadioButton_AttachMouseDownDispatcher(MRadioButton *rbtn, mouseAction_Message msg){
+  rbtn->AttachMouseDownDispatcher(msg);
+}
+
+void MRadioButton_AttachMouseUpDispatcher(MRadioButton *rbtn, mouseAction_Message msg){
+  rbtn->AttachMouseUpDispatcher(msg);
+}
+
+void MRadioButton_AttachKeyDownDispatcher(MRadioButton *rbtn, keyAction_Message msg){
+  rbtn->AttachKeyDownDispatcher(msg);
+}
+
+void MRadioButton_AttachKeyUpDispatcher(MRadioButton *rbtn, keyAction_Message msg){
+  rbtn->AttachKeyUpDispatcher(msg);
+}
+
+void MRadioButton_AttachDrawDispatcher(MRadioButton *rbtn, drawAction_Message msg){
+  rbtn->AttachDrawDispatcher(msg);
+}
+
+bool MRadioButton_Checked(MRadioButton *rbtn){
+  return rbtn->Checked();
+}
+
+///
+
 void MForm_AttachMouseMovedDispatcher(MForm *form, mouseMoved_Message msg){
   form->Canvas()->AttachMouseMovedDispatcher(msg);
 }
@@ -352,10 +412,10 @@ void MForm_AttachKeyUpDispatcher(MForm *form, keyAction_Message msg){
 
 void MForm_Show(MForm *frm){
   printf("about to lock\n");
-  if (frm->Lock()) {
+  if (frm->LockLooper()) {
     frm->Show();
     printf("after show\n");
-    frm->Unlock();
+    frm->UnlockLooper();
     printf("unlocked\n");
   }
   else printf("lock failed\n");
@@ -400,9 +460,10 @@ char* MEdit_getText(MEdit* edt){
 }
 
 void  MEdit_setText(MEdit* edt, char* text){
-  edt->LockLooper();
-  edt->SetText(text);
-  edt->UnlockLooper();
+  if (edt->LockLooper()){
+    edt->SetText(text);
+    edt->UnlockLooper();
+  }
 }
 
 ///
@@ -439,9 +500,22 @@ int32 MMemo_TextLength(MMemo *memo){
   return memo->getTextView()->TextLength();
 }
 
+void MMemo_SetText(MMemo *memo, char *text){
+  if (memo->LockLooper()){
+    memo->getTextView()->SetText(text);
+    memo->UnlockLooper();
+  }
+}
+
 ///
 
 MCheckBox* MForm_AddMCheckBox(MForm* frm, float left, float top, float right, float bottom, char *name){
+  BRect cbxRect(left, top, right, bottom);  
+
+  return frm->Canvas()->AddCheckBox( cbxRect, name );
+}
+
+MCheckBox* MForm_AddMCheckBox_int32(MForm* frm, int32 left, int32 top, int32 right, int32 bottom, char *name){
   BRect cbxRect(left, top, right, bottom);  
 
   return frm->Canvas()->AddCheckBox( cbxRect, name );
@@ -461,12 +535,17 @@ MPanel* MForm_AddMPanel_int32(MForm* frm, int32 left, int32 top, int32 right, in
   return frm->Canvas()->AddPanel( pnlRect, name );
 }
 
+void MPanel_AddChild(MPanel *panel, BControl* ctrl){
+  panel->AddChild(ctrl);
+}
+
 ///
 
 void MForm_AddPopUpMenu(MForm *frm, MPopUpMenu *mni){
-  frm->Lock();
-  frm->Canvas()->setPopUpMenu(mni);  
-  frm->Unlock();
+  if (frm->LockLooper()){
+    frm->Canvas()->setPopUpMenu(mni);  
+    frm->UnlockLooper();
+  }
 }
 
 MPopUpMenu* MPopUpMenu_Create(const char *name){
@@ -496,10 +575,11 @@ BMenuBar* BMenuBar_Create(MForm* frm, const char *name)
   BRect menuBarRect;
   menuBarRect.Set(0.0, 0.0, 32000.0, MENU_BAR_HEIGHT);
   BMenuBar *mb = new BMenuBar(menuBarRect, "mainmenubar");
-  frm->Lock();
-  frm->ResizeBy(0.0, MENU_BAR_HEIGHT);
-  frm->Canvas()->AddChild(mb);
-  frm->Unlock();
+  if (frm->LockLooper()){
+    frm->ResizeBy(0.0, MENU_BAR_HEIGHT);
+    frm->Canvas()->AddChild(mb);
+    frm->UnlockLooper();
+  }
   return mb;
 }
 
@@ -544,15 +624,15 @@ void GenericAlert(const char *message){
 
 #include <Beep.h>
 
-status_t be_beep(){
+status_t beapi_beep(){
   return beep();
 }
 
-status_t be_system_beep(const char * event_name){
+status_t beapi_system_beep(const char * event_name){
   return system_beep(event_name);
 }
 
-status_t be_add_system_beep_event(const char * event_name, uint32 flags){
+status_t beapi_add_system_beep_event(const char * event_name, uint32 flags){
   return add_system_beep_event(event_name, flags);
 }
 
