@@ -43,24 +43,26 @@ type
   TMenu_Tracking_Hook = function() : TStatus_t; cdecl;
 type
   TMenuItem = class;
-type
   TMenu = class(TView)
   private
   public
-    constructor Create; override;
+//    constructor Create; override;
     constructor Create(title : PChar; width : double; height : double);
+    constructor Create(title : PChar; layout : TMenu_Layout);    
     destructor Destroy; override;
-    constructor Create(data : TMessage);
+//    constructor Create(data : TMessage);
     function Instantiate(data : TMessage) : TArchivable; 
     function Archive(data : TMessage; deep : boolean) : TStatus_t;
     procedure AttachedToWindow; override;
     procedure DetachedFromWindow; override;
+
+    function AddItem(item : TMenuItem) : boolean; virtual;    
     function AddItem(item : TMenuItem; index : integer) : boolean; virtual;
     function AddItem(item : TMenuItem; frame : TRect) : boolean; virtual;
-    function AddItem(menu : TMenu) : boolean; virtual;
-    function AddItem(menu : TMenu; index : integer) : boolean; virtual;
+    function AddItem(menu : TMenu; index : integer) : boolean; virtual;    
     function AddItem(menu : TMenu; frame : TRect) : boolean; virtual;
-    function AddItem(item : TMenuItem) : boolean; virtual;    
+    function AddItem(menu : TMenu) : boolean; virtual;
+
     function AddList(list : TList; index : integer) : boolean; 
     function AddSeparatorItem : boolean;
     function RemoveItem(item : TMenuItem) : boolean;
@@ -206,6 +208,163 @@ type
     procedure bool fAttachAborted;}
   end;
 
+  TMenuItem = class(TBeObject)
+  private
+  public
+    constructor Create; override;
+    constructor Create(aMenu : TMenu; message : TMessage); virtual;
+    constructor Create(data : TMessage); virtual;
+    constructor Create(aLabel : PChar; message : TMessage; aShortcut : Char; modifiers : Cardinal); virtual;    
+    destructor Destroy; override;
+    function Instantiate(data : TMessage) : TArchivable;
+    function Archive(data : TMessage; deep : boolean) : TStatus_t;
+    procedure SetLabel(name : PChar);
+    procedure SetEnabled(state : boolean);
+    procedure SetMarked(state : boolean);
+    procedure SetTrigger(ch : Char);
+    procedure SetShortcut(ch : Char; modifiers : Cardinal);
+//    function aLabel : PChar;
+    function IsEnabled : boolean;
+    function IsMarked : boolean;
+    function Trigger : Char;
+//    function Shortcut(modifiers : Cardinal) : Char;
+    function Submenu : TMenu;
+    function Menu : TMenu;
+    function Frame : TRect;
+{    procedure GetContentSize(width : double; height : double);
+    procedure TruncateLabel(max : double; new_label : PChar);
+    procedure DrawContent;
+    procedure Draw;
+    procedure Highlight(aOn : boolean);
+    function IsSelected : boolean;
+    function ContentLocation : TPoint;
+    procedure _ReservedMenuItem2;
+    procedure _ReservedMenuItem3;
+    procedure _ReservedMenuItem4;
+    constructor Create(MenuItem : TMenuItem);
+    function operator=(MenuItem : TMenuItem) : TMenuItem;
+    procedure InitData;
+    procedure InitMenuData(menu : TMenu);
+    procedure Install(window : TWindow);
+    function Invoke(msg : TMessage) : TStatus_t;
+    procedure Uninstall;
+    procedure SetSuper(super : TMenu);
+    procedure Select(on : boolean);
+    procedure DrawMarkSymbol;
+    procedure DrawShortcutSymbol;
+    procedure DrawSubmenuSymbol;
+    procedure DrawControlChar(control : PChar);
+    procedure SetSysTrigger(ch : Char);
+    procedure char *fLabel;
+    procedure BMenu *fSubmenu;
+    procedure BWindow *fWindow;
+    procedure BMenu *fSuper;
+    procedure BRect fBounds;
+    procedure uint32 fModifiers;
+    procedure float fCachedWidth;
+    procedure int16 fTriggerIndex;
+    procedure char fUserTrigger;
+    procedure char fSysTrigger;
+    procedure char fShortcutChar;
+    procedure bool fMark;
+    procedure bool fEnabled;
+    procedure bool fSelected;
+    procedure uint32 _reserved[4];
+}
+  end;
+type
+  TSeparatorItem = class(TMenuItem)
+  private
+  public
+    constructor Create; override;
+    constructor Create(data : TMessage); override;
+    destructor Destroy; override;
+    function Archive(data : TMessage; deep : boolean) : TStatus_t;
+    function Instantiate(data : TMessage) : TArchivable;
+    procedure SetEnabled(state : boolean);
+{    procedure GetContentSize(width : double; height : double);
+    procedure Draw;
+    procedure _ReservedSeparatorItem1;
+    procedure _ReservedSeparatorItem2;
+    function operator=( : TSeparatorItem) : TSeparatorItem;
+    procedure uint32 _reserved[1];
+}
+  end;
+
+//function BMenuItem_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
+function BMenuItem_Create(AObject : TBeObject; aLabel : PChar; message : TCPlusObject; shortcut : Char; modifiers : Cardinal) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
+function BMenuItem_Create(AObject : TBeObject; menu : TCPlusObject; message : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create_1';
+function BMenuItem_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create_2';
+procedure BMenuItem_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Free';
+function BMenuItem_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BMenuItem_Instantiate';
+function BMenuItem_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BMenuItem_Archive';
+procedure BMenuItem_SetLabel(AObject : TCPlusObject; name : PChar); cdecl; external BePascalLibName name 'BMenuItem_SetLabel';
+procedure BMenuItem_SetEnabled(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BMenuItem_SetEnabled';
+procedure BMenuItem_SetMarked(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BMenuItem_SetMarked';
+procedure BMenuItem_SetTrigger(AObject : TCPlusObject; ch : Char); cdecl; external BePascalLibName name 'BMenuItem_SetTrigger';
+procedure BMenuItem_SetShortcut(AObject : TCPlusObject; ch : Char; modifiers : Cardinal); cdecl; external BePascalLibName name 'BMenuItem_SetShortcut';
+function BMenuItem_Label(AObject : TCPlusObject) : PChar; cdecl; external BePascalLibName name 'BMenuItem_Label';
+function BMenuItem_IsEnabled(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsEnabled';
+function BMenuItem_IsMarked(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsMarked';
+function BMenuItem_Trigger(AObject : TCPlusObject) : Char; cdecl; external BePascalLibName name 'BMenuItem_Trigger';
+function BMenuItem_Shortcut(AObject : TCPlusObject; modifiers : Cardinal) : Char; cdecl; external BePascalLibName name 'BMenuItem_Shortcut';
+function BMenuItem_Submenu(AObject : TCPlusObject) : TMenu; cdecl; external BePascalLibName name 'BMenuItem_Submenu';
+function BMenuItem_Menu(AObject : TCPlusObject) : TMenu; cdecl; external BePascalLibName name 'BMenuItem_Menu';
+function BMenuItem_Frame(AObject : TCPlusObject) : TRect; cdecl; external BePascalLibName name 'BMenuItem_Frame';
+{procedure BMenuItem_GetContentSize(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BMenuItem_GetContentSize';
+procedure BMenuItem_TruncateLabel(AObject : TCPlusObject; max : double; new_label : PChar); cdecl; external BePascalLibName name 'BMenuItem_TruncateLabel';
+procedure BMenuItem_DrawContent(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawContent';
+procedure BMenuItem_Draw(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Draw';
+procedure BMenuItem_Highlight(AObject : TCPlusObject; aOn : boolean); cdecl; external BePascalLibName name 'BMenuItem_Highlight';
+function BMenuItem_IsSelected(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsSelected';
+function BMenuItem_ContentLocation(AObject : TCPlusObject) : TPoint; cdecl; external BePascalLibName name 'BMenuItem_ContentLocation';
+procedure BMenuItem__ReservedMenuItem2(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem2';
+procedure BMenuItem__ReservedMenuItem3(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem3';
+procedure BMenuItem__ReservedMenuItem4(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem4';
+function BMenuItem_Create(AObject : TBeObject;  : TMenuItem) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
+function BMenuItem_operator=(AObject : TCPlusObject;  : TMenuItem) : TMenuItem; cdecl; external BePascalLibName name 'BMenuItem_operator=';
+procedure BMenuItem_InitData(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_InitData';
+procedure BMenuItem_InitMenuData(AObject : TCPlusObject; menu : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_InitMenuData';
+procedure BMenuItem_Install(AObject : TCPlusObject; window : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Install';
+function BMenuItem_Invoke(AObject : TCPlusObject; msg : TCPlusObject) : TStatus_t; cdecl; external BePascalLibName name 'BMenuItem_Invoke';
+procedure BMenuItem_Uninstall(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Uninstall';
+procedure BMenuItem_SetSuper(AObject : TCPlusObject; super : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_SetSuper';
+procedure BMenuItem_Select(AObject : TCPlusObject; on : boolean); cdecl; external BePascalLibName name 'BMenuItem_Select';
+procedure BMenuItem_DrawMarkSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawMarkSymbol';
+procedure BMenuItem_DrawShortcutSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawShortcutSymbol';
+procedure BMenuItem_DrawSubmenuSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawSubmenuSymbol';
+procedure BMenuItem_DrawControlChar(AObject : TCPlusObject; control : PChar); cdecl; external BePascalLibName name 'BMenuItem_DrawControlChar';
+procedure BMenuItem_SetSysTrigger(AObject : TCPlusObject; ch : Char); cdecl; external BePascalLibName name 'BMenuItem_SetSysTrigger';
+procedure BMenuItem_char *fLabel(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char *fLabel';
+procedure BMenuItem_BMenu *fSubmenu(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BMenu *fSubmenu';
+procedure BMenuItem_BWindow *fWindow(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BWindow *fWindow';
+procedure BMenuItem_BMenu *fSuper(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BMenu *fSuper';
+procedure BMenuItem_BRect fBounds(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BRect fBounds';
+procedure BMenuItem_uint32 fModifiers(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_uint32 fModifiers';
+procedure BMenuItem_float fCachedWidth(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_float fCachedWidth';
+procedure BMenuItem_int16 fTriggerIndex(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_int16 fTriggerIndex';
+procedure BMenuItem_char fUserTrigger(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fUserTrigger';
+procedure BMenuItem_char fSysTrigger(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fSysTrigger';
+procedure BMenuItem_char fShortcutChar(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fShortcutChar';
+procedure BMenuItem_bool fMark(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fMark';
+procedure BMenuItem_bool fEnabled(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fEnabled';
+procedure BMenuItem_bool fSelected(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fSelected';
+procedure BMenuItem_uint32 _reserved[4](AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_uint32 _reserved[4]';
+}
+function BSeparatorItem_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSeparatorItem_Create';
+function BSeparatorItem_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSeparatorItem_Create_1';
+procedure BSeparatorItem_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_Free';
+function BSeparatorItem_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BSeparatorItem_Archive';
+function BSeparatorItem_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BSeparatorItem_Instantiate';
+procedure BSeparatorItem_SetEnabled(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BSeparatorItem_SetEnabled';
+procedure BSeparatorItem_GetContentSize(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BSeparatorItem_GetContentSize';
+//procedure BSeparatorItem_Draw(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_Draw';
+{procedure BSeparatorItem__ReservedSeparatorItem1(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem__ReservedSeparatorItem1';
+procedure BSeparatorItem__ReservedSeparatorItem2(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem__ReservedSeparatorItem2';
+function BSeparatorItem_operator=(AObject : TCPlusObject;  : TSeparatorItem) : TSeparatorItem; cdecl; external BePascalLibName name 'BSeparatorItem_operator=';
+procedure BSeparatorItem_uint32 _reserved[1](AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_uint32 _reserved[1]';
+}
+
 //procedure menu_info_float font_size(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_float font_size';
 //procedure menu_info_font_family f_family(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_font_family f_family';
 //procedure menu_info_font_style f_style(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_font_style f_style';
@@ -213,20 +372,21 @@ type
 //procedure menu_info_int32 separator(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_int32 separator';
 //procedure menu_info_bool click_to_open(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_bool click_to_open';
 //procedure menu_info_bool triggers_always_shown(AObject : TCPlusObject); cdecl; external BePascalLibName name 'menu_info_bool triggers_always_shown';
-function BMenu_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create';
-function BMenu_Create(AObject : TBeObject; title : PChar; width : double; height : double) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create';
+//function BMenu_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create';
+function BMenu_Create(AObject : TBeObject; title : PChar; layout : Integer) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create';
+function BMenu_Create(AObject : TBeObject; title : PChar; width : double; height : double) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create_1';
 procedure BMenu_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenu_Free';
-function BMenu_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create';
+function BMenu_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenu_Create_3';
 function BMenu_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BMenu_Instantiate';
 function BMenu_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BMenu_Archive';
 procedure BMenu_AttachedToWindow(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenu_AttachedToWindow';
 procedure BMenu_DetachedFromWindow(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenu_DetachedFromWindow';
-function BMenu_AddItem(AObject : TCPlusObject; item : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem';
-function BMenu_AddItem(AObject : TCPlusObject; item : TCPlusObject; index : integer) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_1';
-function BMenu_AddItem(AObject : TCPlusObject; item : TCPlusObject; frame : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_2';
-function BMenu_AddItem_2(AObject : TCPlusObject; menu : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem';
-function BMenu_AddItem_2(AObject : TCPlusObject; menu : TCPlusObject; index : integer) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem';
-function BMenu_AddItem_2(AObject : TCPlusObject; menu : TCPlusObject; frame : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem';
+function BMenu_AddItem_1(AObject : TCPlusObject; item : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem';
+function BMenu_AddItem_2(AObject : TCPlusObject; item : TCPlusObject; index : integer) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_1';
+function BMenu_AddItem_3(AObject : TCPlusObject; item : TCPlusObject; frame : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_2';
+function BMenu_AddItem_4(AObject : TCPlusObject; menu : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_3';
+function BMenu_AddItem_5(AObject : TCPlusObject; menu : TCPlusObject; index : integer) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_4';
+function BMenu_AddItem_6(AObject : TCPlusObject; menu : TCPlusObject; frame : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddItem_5';
 function BMenu_AddList(AObject : TCPlusObject; list : TCPlusObject; index : integer) : boolean; cdecl; external BePascalLibName name 'BMenu_AddList';
 function BMenu_AddSeparatorItem(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_AddSeparatorItem';
 function BMenu_RemoveItem(AObject : TCPlusObject; item : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenu_RemoveItem';
@@ -537,164 +697,6 @@ procedure BMenu_bool fRedrawAfterSticky(AObject : TCPlusObject); cdecl; external
 procedure BMenu_bool fAttachAborted(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenu_bool fAttachAborted';
 }
 
-type
-  TMenuItem = class(TBeObject)
-  private
-  public
-    constructor Create; override;
-    constructor Create(aMenu : TMenu; message : TMessage); virtual;
-    constructor Create(data : TMessage); virtual;
-    constructor Create(aLabel : PChar; message : TMessage; aShortcut : Char; modifiers : Cardinal); virtual;    
-    destructor Destroy; override;
-    function Instantiate(data : TMessage) : TArchivable;
-    function Archive(data : TMessage; deep : boolean) : TStatus_t;
-    procedure SetLabel(name : PChar);
-    procedure SetEnabled(state : boolean);
-    procedure SetMarked(state : boolean);
-    procedure SetTrigger(ch : Char);
-    procedure SetShortcut(ch : Char; modifiers : Cardinal);
-//    function aLabel : PChar;
-    function IsEnabled : boolean;
-    function IsMarked : boolean;
-    function Trigger : Char;
-//    function Shortcut(modifiers : Cardinal) : Char;
-    function Submenu : TMenu;
-    function Menu : TMenu;
-    function Frame : TRect;
-{    procedure GetContentSize(width : double; height : double);
-    procedure TruncateLabel(max : double; new_label : PChar);
-    procedure DrawContent;
-    procedure Draw;
-    procedure Highlight(aOn : boolean);
-    function IsSelected : boolean;
-    function ContentLocation : TPoint;
-    procedure _ReservedMenuItem2;
-    procedure _ReservedMenuItem3;
-    procedure _ReservedMenuItem4;
-    constructor Create(MenuItem : TMenuItem);
-    function operator=(MenuItem : TMenuItem) : TMenuItem;
-    procedure InitData;
-    procedure InitMenuData(menu : TMenu);
-    procedure Install(window : TWindow);
-    function Invoke(msg : TMessage) : TStatus_t;
-    procedure Uninstall;
-    procedure SetSuper(super : TMenu);
-    procedure Select(on : boolean);
-    procedure DrawMarkSymbol;
-    procedure DrawShortcutSymbol;
-    procedure DrawSubmenuSymbol;
-    procedure DrawControlChar(control : PChar);
-    procedure SetSysTrigger(ch : Char);
-    procedure char *fLabel;
-    procedure BMenu *fSubmenu;
-    procedure BWindow *fWindow;
-    procedure BMenu *fSuper;
-    procedure BRect fBounds;
-    procedure uint32 fModifiers;
-    procedure float fCachedWidth;
-    procedure int16 fTriggerIndex;
-    procedure char fUserTrigger;
-    procedure char fSysTrigger;
-    procedure char fShortcutChar;
-    procedure bool fMark;
-    procedure bool fEnabled;
-    procedure bool fSelected;
-    procedure uint32 _reserved[4];
-}
-  end;
-type
-  TSeparatorItem = class(TMenuItem)
-  private
-  public
-    constructor Create; override;
-    constructor Create(data : TMessage); override;
-    destructor Destroy; override;
-    function Archive(data : TMessage; deep : boolean) : TStatus_t;
-    function Instantiate(data : TMessage) : TArchivable;
-    procedure SetEnabled(state : boolean);
-{    procedure GetContentSize(width : double; height : double);
-    procedure Draw;
-    procedure _ReservedSeparatorItem1;
-    procedure _ReservedSeparatorItem2;
-    function operator=( : TSeparatorItem) : TSeparatorItem;
-    procedure uint32 _reserved[1];
-}
-  end;
-
-function BMenuItem_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
-function BMenuItem_Create(AObject : TBeObject; menu : TCPlusObject; message : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create_1';
-function BMenuItem_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create_2';
-function BMenuItem_Create(AObject : TBeObject; aLabel : PChar; message : TCPlusObject; shortcut : Char; modifiers : Cardinal) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
-procedure BMenuItem_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Free';
-function BMenuItem_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BMenuItem_Instantiate';
-function BMenuItem_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BMenuItem_Archive';
-procedure BMenuItem_SetLabel(AObject : TCPlusObject; name : PChar); cdecl; external BePascalLibName name 'BMenuItem_SetLabel';
-procedure BMenuItem_SetEnabled(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BMenuItem_SetEnabled';
-procedure BMenuItem_SetMarked(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BMenuItem_SetMarked';
-procedure BMenuItem_SetTrigger(AObject : TCPlusObject; ch : Char); cdecl; external BePascalLibName name 'BMenuItem_SetTrigger';
-procedure BMenuItem_SetShortcut(AObject : TCPlusObject; ch : Char; modifiers : Cardinal); cdecl; external BePascalLibName name 'BMenuItem_SetShortcut';
-function BMenuItem_Label(AObject : TCPlusObject) : PChar; cdecl; external BePascalLibName name 'BMenuItem_Label';
-function BMenuItem_IsEnabled(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsEnabled';
-function BMenuItem_IsMarked(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsMarked';
-function BMenuItem_Trigger(AObject : TCPlusObject) : Char; cdecl; external BePascalLibName name 'BMenuItem_Trigger';
-function BMenuItem_Shortcut(AObject : TCPlusObject; modifiers : Cardinal) : Char; cdecl; external BePascalLibName name 'BMenuItem_Shortcut';
-function BMenuItem_Submenu(AObject : TCPlusObject) : TMenu; cdecl; external BePascalLibName name 'BMenuItem_Submenu';
-function BMenuItem_Menu(AObject : TCPlusObject) : TMenu; cdecl; external BePascalLibName name 'BMenuItem_Menu';
-function BMenuItem_Frame(AObject : TCPlusObject) : TRect; cdecl; external BePascalLibName name 'BMenuItem_Frame';
-{procedure BMenuItem_GetContentSize(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BMenuItem_GetContentSize';
-procedure BMenuItem_TruncateLabel(AObject : TCPlusObject; max : double; new_label : PChar); cdecl; external BePascalLibName name 'BMenuItem_TruncateLabel';
-procedure BMenuItem_DrawContent(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawContent';
-procedure BMenuItem_Draw(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Draw';
-procedure BMenuItem_Highlight(AObject : TCPlusObject; aOn : boolean); cdecl; external BePascalLibName name 'BMenuItem_Highlight';
-function BMenuItem_IsSelected(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMenuItem_IsSelected';
-function BMenuItem_ContentLocation(AObject : TCPlusObject) : TPoint; cdecl; external BePascalLibName name 'BMenuItem_ContentLocation';
-procedure BMenuItem__ReservedMenuItem2(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem2';
-procedure BMenuItem__ReservedMenuItem3(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem3';
-procedure BMenuItem__ReservedMenuItem4(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem__ReservedMenuItem4';
-function BMenuItem_Create(AObject : TBeObject;  : TMenuItem) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuItem_Create';
-function BMenuItem_operator=(AObject : TCPlusObject;  : TMenuItem) : TMenuItem; cdecl; external BePascalLibName name 'BMenuItem_operator=';
-procedure BMenuItem_InitData(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_InitData';
-procedure BMenuItem_InitMenuData(AObject : TCPlusObject; menu : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_InitMenuData';
-procedure BMenuItem_Install(AObject : TCPlusObject; window : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Install';
-function BMenuItem_Invoke(AObject : TCPlusObject; msg : TCPlusObject) : TStatus_t; cdecl; external BePascalLibName name 'BMenuItem_Invoke';
-procedure BMenuItem_Uninstall(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_Uninstall';
-procedure BMenuItem_SetSuper(AObject : TCPlusObject; super : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_SetSuper';
-procedure BMenuItem_Select(AObject : TCPlusObject; on : boolean); cdecl; external BePascalLibName name 'BMenuItem_Select';
-procedure BMenuItem_DrawMarkSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawMarkSymbol';
-procedure BMenuItem_DrawShortcutSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawShortcutSymbol';
-procedure BMenuItem_DrawSubmenuSymbol(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_DrawSubmenuSymbol';
-procedure BMenuItem_DrawControlChar(AObject : TCPlusObject; control : PChar); cdecl; external BePascalLibName name 'BMenuItem_DrawControlChar';
-procedure BMenuItem_SetSysTrigger(AObject : TCPlusObject; ch : Char); cdecl; external BePascalLibName name 'BMenuItem_SetSysTrigger';
-procedure BMenuItem_char *fLabel(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char *fLabel';
-procedure BMenuItem_BMenu *fSubmenu(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BMenu *fSubmenu';
-procedure BMenuItem_BWindow *fWindow(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BWindow *fWindow';
-procedure BMenuItem_BMenu *fSuper(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BMenu *fSuper';
-procedure BMenuItem_BRect fBounds(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_BRect fBounds';
-procedure BMenuItem_uint32 fModifiers(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_uint32 fModifiers';
-procedure BMenuItem_float fCachedWidth(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_float fCachedWidth';
-procedure BMenuItem_int16 fTriggerIndex(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_int16 fTriggerIndex';
-procedure BMenuItem_char fUserTrigger(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fUserTrigger';
-procedure BMenuItem_char fSysTrigger(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fSysTrigger';
-procedure BMenuItem_char fShortcutChar(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_char fShortcutChar';
-procedure BMenuItem_bool fMark(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fMark';
-procedure BMenuItem_bool fEnabled(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fEnabled';
-procedure BMenuItem_bool fSelected(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_bool fSelected';
-procedure BMenuItem_uint32 _reserved[4](AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuItem_uint32 _reserved[4]';
-}
-function BSeparatorItem_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSeparatorItem_Create';
-function BSeparatorItem_Create(AObject : TBeObject; data : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSeparatorItem_Create_1';
-procedure BSeparatorItem_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_Free';
-function BSeparatorItem_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BSeparatorItem_Archive';
-function BSeparatorItem_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BSeparatorItem_Instantiate';
-procedure BSeparatorItem_SetEnabled(AObject : TCPlusObject; state : boolean); cdecl; external BePascalLibName name 'BSeparatorItem_SetEnabled';
-procedure BSeparatorItem_GetContentSize(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BSeparatorItem_GetContentSize';
-//procedure BSeparatorItem_Draw(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_Draw';
-{procedure BSeparatorItem__ReservedSeparatorItem1(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem__ReservedSeparatorItem1';
-procedure BSeparatorItem__ReservedSeparatorItem2(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem__ReservedSeparatorItem2';
-function BSeparatorItem_operator=(AObject : TCPlusObject;  : TSeparatorItem) : TSeparatorItem; cdecl; external BePascalLibName name 'BSeparatorItem_operator=';
-procedure BSeparatorItem_uint32 _reserved[1](AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSeparatorItem_uint32 _reserved[1]';
-}
-
 implementation
 
 {procedure PMenu_Info.float font_size;
@@ -732,25 +734,39 @@ begin
   menu_info_bool triggers_always_shown(CPlusObject);
 end;
 }
-constructor TMenu.Create;
+{constructor TMenu.Create;
 begin
-  CPlusObject := BMenu_Create(Self);
+  CPlusObject := BMenu_Create_0(Self);
 end;
+}
 
 constructor TMenu.Create(title : PChar; width : double; height : double);
 begin
   CPlusObject := BMenu_Create(Self, title, width, height);
 end;
 
+constructor TMenu.Create(title : PChar; layout : TMenu_Layout);
+begin
+//  CPlusObject := BMenu_Create(Self, title, 0);
+
+  case layout of
+    B_ITEMS_IN_ROW : CPlusObject := BMenu_Create(Self, title, 0);
+    B_ITEMS_IN_COLUMN : CPlusObject := BMenu_Create(Self, title, 1);
+    B_ITEMS_IN_MATRIX : CPlusObject := BMenu_Create(Self, title, 2);
+  end;
+end;
+
+
 destructor TMenu.Destroy;
 begin
   BMenu_Free(CPlusObject);
 end;
 
-constructor TMenu.Create(data : TMessage);
+{constructor TMenu.Create(data : TMessage);
 begin
   CPlusObject := BMenu_Create(Self, data.CPlusObject);
 end;
+}
 
 function TMenu.Instantiate(data : TMessage) : TArchivable;
 begin
@@ -772,42 +788,88 @@ begin
 //  BMenu_DetachedFromWindow(CPlusObject);
 end;
 
+
 function TMenu.AddItem(item : TMenuItem) : boolean;
 begin
   WriteLn('function TMenu.AddItem(item : TMenuItem) : boolean;');
-  Result := BMenu_AddItem(CPlusObject, item.CPlusObject);
+  Result := BMenu_AddItem_1(CPlusObject, item.CPlusObject);
 end;
 
 function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;
 begin
   WriteLn('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
-  Result := BMenu_AddItem(CPlusObject, item.CPlusObject, index);
+  Result := BMenu_AddItem_2(CPlusObject, item.CPlusObject, index);
 end;
 
 function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;
 begin
   WriteLn('ici');
   WriteLn('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
-  Result := BMenu_AddItem(CPlusObject, item.CPlusObject, frame.CPlusObject);
+  frame.PrintToStream;
+  Writeln('toto');
+  Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, frame.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu) : boolean;
 begin
   WriteLn('function TMenu.AddItem(menu : TMenu) : boolean;');
-  Result := BMenu_AddItem_2(CPlusObject, menu.CPlusObject);
+  WriteLn('Bonjour');
+  Result := BMenu_AddItem_4(CPlusObject, menu.CPlusObject);
 end;
 
 function TMenu.AddItem(menu : TMenu; index : integer) : boolean;
 begin
   WriteLn('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
-  Result := BMenu_AddItem_2(CPlusObject, menu.CPlusObject, index);
+  Result := BMenu_AddItem_5(CPlusObject, menu.CPlusObject, index);
 end;
 
 function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;
 begin
   WriteLn('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
-  Result := BMenu_AddItem_2(CPlusObject, menu.CPlusObject, frame.CPlusObject);
+  Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, frame.CPlusObject);
 end;
+
+
+{function TMenu.AddItem(item : TMenuItem) : boolean;
+begin
+  WriteLn('function TMenu.AddItem(item : TMenuItem) : boolean;');
+  Result := BMenu_AddItem_1(CPlusObject, item.CPlusObject);
+end;
+
+function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;
+begin
+  WriteLn('function TMenu.AddItem(item : TMenuItem; index : integer) : boolean;');
+  Result := BMenu_AddItem_2(CPlusObject, item.CPlusObject, index);
+end;
+
+function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;
+begin
+  WriteLn('ici');
+  WriteLn('function TMenu.AddItem(item : TMenuItem; frame : TRect) : boolean;');
+  frame.PrintToStream;
+  Writeln('toto');
+  Result := BMenu_AddItem_3(CPlusObject, item.CPlusObject, frame.CPlusObject);
+end;
+
+function TMenu.AddItem(menu : TMenu) : boolean;
+begin
+  WriteLn('function TMenu.AddItem(menu : TMenu) : boolean;');
+  WriteLn('Bonjour');
+  Result := BMenu_AddItem_4(CPlusObject, menu.CPlusObject);
+end;
+
+function TMenu.AddItem(menu : TMenu; index : integer) : boolean;
+begin
+  WriteLn('function TMenu.AddItem(menu : TMenu; index : integer) : boolean;');
+  Result := BMenu_AddItem_5(CPlusObject, menu.CPlusObject, index);
+end;
+
+function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;
+begin
+  WriteLn('function TMenu.AddItem(menu : TMenu; frame : TRect) : boolean;');
+  Result := BMenu_AddItem_6(CPlusObject, menu.CPlusObject, frame.CPlusObject);
+end;
+}
 
 function TMenu.AddList(list : TList; index : integer) : boolean;
 begin
@@ -1520,7 +1582,7 @@ end;
 
 constructor TMenuItem.Create;
 begin
-  CPlusObject := BMenuItem_Create(Self);
+//  CPlusObject := BMenuItem_Create(Self);
 end;
 
 constructor TMenuItem.Create(aMenu : TMenu; message : TMessage);

@@ -59,9 +59,9 @@ type
   end;
 
 function BMessenger_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
-function BMessenger_Create(AObject : TBeObject; mime_sig : PChar; team : TTeam_id; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
-function BMessenger_Create(AObject : TBeObject; handler : THandler; looper : TLooper; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
-function BMessenger_Create(AObject : TBeObject; from : TMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
+function BMessenger_Create(AObject : TBeObject; mime_sig : PChar; team : TTeam_id; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
+function BMessenger_Create(AObject : TBeObject; handler : THandler; looper : TLooper; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
+function BMessenger_Create(AObject : TBeObject; from : TMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
 procedure BMessenger_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_Free';
 function BMessenger_IsTargetLocal(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_IsTargetLocal';
 function BMessenger_Target(AObject : TCPlusObject; looper : TCplusObject) : THandler; cdecl; external BePascalLibName name 'BMessenger_Target';

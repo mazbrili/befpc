@@ -33,22 +33,25 @@ void BPMenuBar::MessageReceived(BMessage *message)
 
 void BPMenuBar::AllAttached(void)
 {
+	BMenuBar::AllAttached();
 //	AllAttached_hookCall(message);
 }
 
 void BPMenuBar::AttachedToWindow(void)
 {
 	BMenuBar::AttachedToWindow();
-//	AttachedToWindow_hookCall();	
+	AttachedToWindow_hookCall();	
 }
 
 void BPMenuBar::AllDetached(void)
 {
+	BMenuBar::AllDetached();
 //	View_AllDetached_hook(GetPasObject());
 }
 
 void BPMenuBar::DetachedFromWindow(void)
 {
+	BMenuBar::DetachedFromWindow();
 //	View_DetachedFromWindow_hook(GetPasObject());
 }
 
@@ -60,56 +63,67 @@ void BPMenuBar::Draw(BRect updateRect)
 
 void BPMenuBar::DrawAfterChildren(BRect updateRect)
 {
+	BMenuBar::DrawAfterChildren(updateRect);
 //	View_DrawAfterChildren_hook(GetPasObject(), &updateRect);
 }
 
 void BPMenuBar::FrameMoved(BPoint parentPoint)
 {
+	BMenuBar::FrameMoved(parentPoint);
 //	View_FrameMoved_hook(GetPasObject(), &parentPoint);
 }
 
 void BPMenuBar::FrameResized(float width, float height)
 {
+	BMenuBar::FrameResized(width, height);
 //	View_FrameResized_hook(GetPasObject(), width, height);
 }
 
 void BPMenuBar::GetPreferredSize(float *width, float *height)
 {
+	BMenuBar::GetPreferredSize(width, height);
 //	View_GetPreferredSize_hook(GetPasObject(), width, height);
 }
 
 void BPMenuBar::ResizeToPreferred(void)
 {
+	BMenuBar::ResizeToPreferred();
 //	View_ResizeToPreferred_hook(GetPasObject());
 }
 
 void BPMenuBar::KeyDown(const char *bytes, int32 numBytes)
 {
+	BMenuBar::KeyDown(bytes, numBytes);
 //	View_KeyDown_hook(GetPasObject(), bytes, numBytes);
 }
 
 void BPMenuBar::KeyUp(const char *bytes, int32 numBytes)
 {
+	BMenuBar::KeyUp(bytes, numBytes);
 //	View_KeyUp_hook(GetPasObject(), bytes, numBytes);
 }
 
 void BPMenuBar::MouseDown(BPoint point)
 {
+	BMenuBar::MouseDown(point);
 //	View_MouseDown_hook(GetPasObject(), &point);
 }
 
 void BPMenuBar::MouseMoved(BPoint point, uint32 transit, const BMessage *message)
 {
+	BMenuBar::MouseMoved(point, transit, message);
 //	View_MouseMoved_hook(GetPasObject(), &point, transit, &message);
 }
 
 void BPMenuBar::MouseUp(BPoint point)
 {
+	BMenuBar::MouseUp(point);
 //	View_MouseUp_hook(GetPasObject(), &point);
 }
 
 void BPMenuBar::Pulse(void)
 {
+	BMenuBar::Pulse();
 //	View_Pulse_hook(GetPasObject());
 }
 
@@ -120,15 +134,18 @@ void BPMenuBar::Pulse(void)
 
 void BPMenuBar::WindowActivated(bool active)
 {
+	BMenuBar::WindowActivated(active);
 //	View_WindowActivated_hook(GetPasObject(), active);
 }
 
 void BPMenuBar::SetEnabled(bool enabled)
 {
+	BMenuBar::SetEnabled(enabled);
 }
 
 void BPMenuBar::SetValue(int32 value)
 {
+
 }
 
 void BPMenuBar::MakeDefault(bool flag)
