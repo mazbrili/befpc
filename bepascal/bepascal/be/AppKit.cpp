@@ -20,6 +20,6 @@
 #define _APPKIT_CPP_
 
 #include <Application.cpp>
-#include <Message.cpp>
+#include <message.h>
 
 #endif /* _APPKIT_CPP_ */

@@ -58,15 +58,16 @@ BApplication_ReadyToRun_hook Application_ReadyToRun_hook;
 #endif
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature) 
-	: BApplication(signature), BPLooper(PasObject), BPHandler(PasObject),
+	: BApplication(signature), BPHandler(PasObject), BPLooper(PasObject), 
 	BPasObject(PasObject)
 {
 
 }
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature,
-	 status_t *error) : BApplication(signature, error), BPLooper(PasObject),
+	 status_t *error) : BApplication(signature, error), 
 	 BPHandler(PasObject),
+	 BPLooper(PasObject),
 	 BPasObject(PasObject)
 {
 }
