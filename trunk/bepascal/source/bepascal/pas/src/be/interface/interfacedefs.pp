@@ -32,18 +32,17 @@ type
 	modifiers : Longword;
 	key_states : array[0..15] of Byte;
   end;
-{
+
 const
-  // TODO: widestring these
-  B_UTF8_ELLIPSIS     = '$E2 $80 $A6';
-  B_UTF8_OPEN_QUOTE   = '$E2 $80 $9C';
-  B_UTF8_CLOSE_QUOTE  = '$E2 $80 $9D';
-  B_UTF8_COPYRIGHT    = '$C2 $A9';
-  B_UTF8_REGISTERED   = '$C2 $AE';
-  B_UTF8_TRADEMARK    = '$E2 $84 $A2';
-  B_UTF8_SMILING_FACE = '$E2 $98 $BB';
-  B_UTF8_HIROSHI      = '$E5 $BC $98';
-}
+  B_UTF8_ELLIPSIS     : WideString = #$E2 + #$80 + #$A6;
+  B_UTF8_OPEN_QUOTE   : WideString = #$E2 + #$80 + #$9C;
+  B_UTF8_CLOSE_QUOTE  : WideString = #$E2 + #$80 + #$9D;
+  B_UTF8_COPYRIGHT    : WideString = #$C2 + #$A9;
+  B_UTF8_REGISTERED   : WideString = #$C2 + #$AE;
+  B_UTF8_TRADEMARK    : WideString = #$E2 + #$84 + #$A2;
+  B_UTF8_SMILING_FACE : WideString = #$E2 + #$98 + #$BB;
+  B_UTF8_HIROSHI      : WideString = #$E5 + #$BC + #$98;
+
 //----------------------------------------------------------------
 
 const
@@ -124,6 +123,7 @@ type
 	dieresis_tables,
     tilde_tables : Longword;
   end;
+  Pkey_map = ^key_map;
 
   mouse_map = record
     left,
@@ -143,12 +143,15 @@ type
 
 //----------------------------------------------------------------
 
-// duplicate  join_mode = (B_ROUND_JOIN, B_MITER_JOIN, B_BEVEL_JOIN, B_BUTT_JOIN, B_SQUARE_JOIN);
-{
-  cap_mode = (B_ROUND_CAP = B_ROUND_JOIN,
-              B_BUTT_CAP = B_BUTT_JOIN,
-              B_SQUARE_CAP = B_SQUARE_JOIN);
-}
+  join_mode = (B_ROUND_JOIN, B_MITER_JOIN, B_BEVEL_JOIN, B_BUTT_JOIN, B_SQUARE_JOIN);
+
+  cap_mode = join_mode;
+
+var
+  B_ROUND_CAP,
+  B_BUTT_CAP,
+  B_SQUARE_CAP : join_mode;
+
 const
   B_DEFAULT_MITER_LIMIT = 10.0;
 
@@ -166,13 +169,14 @@ type
 
   alignment = (B_ALIGN_LEFT, B_ALIGN_RIGHT, B_ALIGN_CENTER);
 
-(*
-  vertical_alignment = (
-    B_ALIGN_TOP = 0x10L,
-    B_ALIGN_MIDDLE = 0x20,
-    B_ALIGN_BOTTOM = 0x30,
-    B_ALIGN_NO_VERTICAL = -1L);
-*)
+// vertical_alignment was an enum
+type
+  vertical_alignment = Longint;
+const
+  B_ALIGN_TOP         : Longint = $10;
+  B_ALIGN_MIDDLE      : Longint = $20;
+  B_ALIGN_BOTTOM      : Longint = $30;
+  B_ALIGN_NO_VERTICAL : Longint =  -1;
 
 //----------------------------------------------------------------
 
@@ -209,80 +213,118 @@ const
 //----------------------------------------------------------------
 
 type
-
   bitmap_tiling = (B_TILE_BITMAP_X, B_TILE_BITMAP_Y, B_TILE_BITMAP);
 
-{
-  overlay_options = (
-	B_OVERLAY_FILTER_HORIZONTAL	= 0x00010000,
-	B_OVERLAY_FILTER_VERTICAL	= 0x00020000,
-	B_OVERLAY_MIRROR			= 0x00040000,
-	B_OVERLAY_TRANSFER_CHANNEL	= 0x00080000);
-}
+// overlay_options was an enum
+type
+  overlay_options = Longword;
+const
+  B_OVERLAY_FILTER_HORIZONTAL = $00010000;
+  B_OVERLAY_FILTER_VERTICAL   = $00020000;
+  B_OVERLAY_MIRROR            = $00040000;
+  B_OVERLAY_TRANSFER_CHANNEL  = $00080000;
+
 //----------------------------------------------------------------
 
-  function get_deskbar_frame(frame : BRect) : status_t; cdecl; external 'be' name 'get_deskbar_frame__FP5BRect';
+  function get_deskbar_frame(frame : BRect) : status_t;
+           cdecl; external 'be' name 'get_deskbar_frame__FP5BRect';
 
   function system_colors : color_map; cdecl; external 'be' name 'system_colors__Fv';
 
-  function set_screen_space(index : Longint; res : Longword; stick : Boolean {$ifdef SupDefParm}= true{$endif}) : status_t; cdecl; external 'be' name 'set_screen_space__FlUlb';
+  function set_screen_space(index : Longint; res : Longword;
+                            stick : Boolean {$ifndef VER1_0}= true{$endif})
+           : status_t; cdecl; external 'be' name 'set_screen_space__FlUlb';
 
-  function get_scroll_bar_info(info : scroll_bar_info) : status_t; cdecl; external 'be' name 'get_scroll_bar_info__FP15scroll_bar_info';
-  function set_scroll_bar_info(info : scroll_bar_info) : status_t; cdecl; external 'be' name 'set_scroll_bar_info__FP15scroll_bar_info';
+  function get_scroll_bar_info(info : scroll_bar_info) : status_t;
+           cdecl; external 'be' name 'get_scroll_bar_info__FP15scroll_bar_info';
+  function set_scroll_bar_info(info : scroll_bar_info) : status_t;
+           cdecl; external 'be' name 'set_scroll_bar_info__FP15scroll_bar_info';
 
-  function get_mouse_type(mtype : Longint) : status_t; cdecl; external 'be' name 'get_mouse_type__FPl';
-  function set_mouse_type(mtype : Longint) : status_t; cdecl; external 'be' name 'set_mouse_type__Fl';
-  function get_mouse_map(map : mouse_map) : status_t; cdecl; external 'be' name 'get_mouse_map__FP9mouse_map';
-  function set_mouse_map(map : mouse_map) : status_t; cdecl; external 'be' name 'set_mouse_map__FP9mouse_map';
-  function get_click_speed(speed : bigtime_t) : status_t; cdecl; external 'be' name 'get_click_speed__FPx';
-  function set_click_speed(speed : bigtime_t) : status_t; cdecl; external 'be' name 'set_click_speed__Fx';
-  function get_mouse_speed(speed : Longint) : status_t; cdecl; external 'be' name 'get_mouse_speed__FPl';
-  function set_mouse_speed(speed : Longint) : status_t; cdecl; external 'be' name 'set_mouse_speed__Fl';
-  function get_mouse_acceleration(speed : Longint) : status_t; cdecl; external 'be' name 'get_mouse_acceleration__FPl';
-  function set_mouse_acceleration(speed : Longint) : status_t; cdecl; external 'be' name 'set_mouse_acceleration__Fl';
+  function get_mouse_type(mtype : Longint) : status_t;
+           cdecl; external 'be' name 'get_mouse_type__FPl';
+  function set_mouse_type(mtype : Longint) : status_t;
+           cdecl; external 'be' name 'set_mouse_type__Fl';
+  function get_mouse_map(map : mouse_map) : status_t;
+           cdecl; external 'be' name 'get_mouse_map__FP9mouse_map';
+  function set_mouse_map(map : mouse_map) : status_t;
+           cdecl; external 'be' name 'set_mouse_map__FP9mouse_map';
+  function get_click_speed(speed : bigtime_t) : status_t;
+           cdecl; external 'be' name 'get_click_speed__FPx';
+  function set_click_speed(speed : bigtime_t) : status_t;
+           cdecl; external 'be' name 'set_click_speed__Fx';
+  function get_mouse_speed(speed : Longint) : status_t;
+           cdecl; external 'be' name 'get_mouse_speed__FPl';
+  function set_mouse_speed(speed : Longint) : status_t;
+           cdecl; external 'be' name 'set_mouse_speed__Fl';
+  function get_mouse_acceleration(speed : Longint) : status_t;
+           cdecl; external 'be' name 'get_mouse_acceleration__FPl';
+  function set_mouse_acceleration(speed : Longint) : status_t;
+           cdecl; external 'be' name 'set_mouse_acceleration__Fl';
 
-  function get_key_repeat_rate(rate : Longint) : status_t; cdecl; external 'be' name 'get_key_repeat_rate__FPl';
-  function set_key_repeat_rate(rate : Longint) : status_t; cdecl; external 'be' name 'set_key_repeat_rate__Fl';
-  function get_key_repeat_delay(delay : bigtime_t) : status_t; cdecl; external 'be' name 'get_key_repeat_delay__FPx';
-  function set_key_repeat_delay(delay : bigtime_t) : status_t; cdecl; external 'be' name 'set_key_repeat_delay__Fx';
+  function get_key_repeat_rate(rate : Longint) : status_t;
+           cdecl; external 'be' name 'get_key_repeat_rate__FPl';
+  function set_key_repeat_rate(rate : Longint) : status_t;
+           cdecl; external 'be' name 'set_key_repeat_rate__Fl';
+  function get_key_repeat_delay(delay : bigtime_t) : status_t;
+           cdecl; external 'be' name 'get_key_repeat_delay__FPx';
+  function set_key_repeat_delay(delay : bigtime_t) : status_t;
+           cdecl; external 'be' name 'set_key_repeat_delay__Fx';
 
   function modifiers : Longword; cdecl; external 'be' name 'modifiers__Fv';
-  function get_key_info(var info : key_info) : status_t; cdecl; external 'be' name 'get_key_info__FP8key_info';
-  //procedure get_key_map(key_map **map; char **key_buffer); cdecl; external 'be' name 'get_key_map__FPP7key_mapPPc';
-  function get_keyboard_id(id : Word) : status_t; cdecl; external 'be' name 'get_keyboard_id__FPUs';
-  procedure set_modifier_key(modifier, key : Longword); cdecl; external 'be' name 'set_modifier_key__FUlUl';
-  procedure set_keyboard_locks(modifiers : Longword); cdecl; external 'be' name 'set_keyboard_locks__FUl';
+  function get_key_info(var info : key_info) : status_t;
+           cdecl; external 'be' name 'get_key_info__FP8key_info';
+  procedure get_key_map(var map : Pkey_map; var key_buffer : PChar);
+            cdecl; external 'be' name 'get_key_map__FPP7key_mapPPc';
+  function get_keyboard_id(id : Word) : status_t;
+           cdecl; external 'be' name 'get_keyboard_id__FPUs';
+  procedure set_modifier_key(modifier, key : Longword);
+            cdecl; external 'be' name 'set_modifier_key__FUlUl';
+  procedure set_keyboard_locks(modifiers : Longword);
+            cdecl; external 'be' name 'set_keyboard_locks__FUl';
 
-  function keyboard_navigation_color : rgb_color; cdecl; external 'be' name 'keyboard_navigation_color__Fv';
+  function keyboard_navigation_color : rgb_color;
+           cdecl; external 'be' name 'keyboard_navigation_color__Fv';
 
-  function count_workspaces : Longint; cdecl; external 'be' name 'count_workspaces__Fv';
-  procedure set_workspace_count(count : Longint); cdecl; external 'be' name 'set_workspace_count__Fl';
-  function current_workspace : Longint; cdecl; external 'be' name 'current_workspace__Fv';
-  procedure activate_workspace(workspace : Longint); cdecl; external 'be' name 'activate_workspace__Fl';
+  function count_workspaces : Longint;
+           cdecl; external 'be' name 'count_workspaces__Fv';
+  procedure set_workspace_count(count : Longint);
+            cdecl; external 'be' name 'set_workspace_count__Fl';
+  function current_workspace : Longint;
+           cdecl; external 'be' name 'current_workspace__Fv';
+  procedure activate_workspace(workspace : Longint);
+            cdecl; external 'be' name 'activate_workspace__Fl';
 
   function idle_time : bigtime_t; cdecl; external 'be' name 'idle_time__Fv';
 
-  procedure run_select_printer_panel; cdecl; external 'be' name 'run_select_printer_panel__Fv';
-  procedure run_add_printer_panel; cdecl; external 'be' name 'run_add_printer_panel__Fv';
+  procedure run_select_printer_panel;
+            cdecl; external 'be' name 'run_select_printer_panel__Fv';
+  procedure run_add_printer_panel;
+            cdecl; external 'be' name 'run_add_printer_panel__Fv';
   procedure run_be_about; cdecl; external 'be' name 'run_be_about__Fv';
 
-  procedure set_focus_follows_mouse(follow : Boolean); cdecl; external 'be' name 'set_focus_follows_mouse__Fb';
-  function focus_follows_mouse : Boolean; cdecl; external 'be' name 'focus_follows_mouse__Fv';
+  procedure set_focus_follows_mouse(follow : Boolean);
+            cdecl; external 'be' name 'set_focus_follows_mouse__Fb';
+  function focus_follows_mouse : Boolean;
+           cdecl; external 'be' name 'focus_follows_mouse__Fv';
 
 //----------------------------------------------------------------
 
 type
-  mode_mouse = (B_NORMAL_MOUSE,        // = 0
-	            B_FOCUS_FOLLOWS_MOUSE, // = 1
-                bla,
-	            B_WARP_MOUSE,          // = 3
-                blabla,
-                blablabla,
-                more_blablabla,
-	            B_INSTANT_WARP_MOUSE); // = 7
+  mode_mouse = (
+    B_NORMAL_MOUSE,        // = 0
+    B_FOCUS_FOLLOWS_MOUSE, // = 1
+    bla,
+    B_WARP_MOUSE,          // = 3
+    blabla,
+    blablabla,
+    more_blablabla,
+    B_INSTANT_WARP_MOUSE   // = 7
+  );
 
-  procedure set_mouse_mode(mode : mode_mouse); cdecl; external 'be' name 'set_mouse_mode__F10mode_mouse';
-  function mouse_mode : mode_mouse; cdecl; external 'be' name 'mouse_mode__Fv';
+  procedure set_mouse_mode(mode : mode_mouse);
+            cdecl; external 'be' name 'set_mouse_mode__F10mode_mouse';
+  function mouse_mode : mode_mouse;
+           cdecl; external 'be' name 'mouse_mode__Fv';
 
 type
 // I re-ordered these to match BeAPI's values (BiPolar)
@@ -294,20 +336,8 @@ type
     B_DESKTOP_COLOR,                   // 5
     B_MENU_SELECTION_BACKGROUND_COLOR, // 6
     B_MENU_ITEM_TEXT_COLOR,            // 7
-    B_MENU_SELECTED_ITEM_TEXT_COLOR);  // 8
-
-join_mode =(
-	B_ROUND_JOIN,
-	B_MITER_JOIN,
-	B_BEVEL_JOIN,
-	B_BUTT_JOIN,
-	B_SQUARE_JOIN);
-
-	cap_mode = join_mode;
-var	
-	B_ROUND_CAP,
-	B_BUTT_CAP,
-	B_SQUARE_CAP : join_mode;
+    B_MENU_SELECTED_ITEM_TEXT_COLOR    // 8
+  );
 
 function ui_color(which : color_which) : rgb_color; cdecl; external 'be' name 'ui_color__F11color_which';
 function tint_color(color : rgb_color; which : color_which) : rgb_color; cdecl; external 'be' name 'tint_color__FG9rgb_colorf';
@@ -332,9 +362,8 @@ const
 
 implementation
 
-Initialization
-	B_ROUND_CAP:=B_ROUND_JOIN;
-	B_BUTT_CAP:=B_BUTT_JOIN;
-	B_SQUARE_CAP:=B_SQUARE_JOIN;
-
+initialization
+  B_ROUND_CAP  := B_ROUND_JOIN;
+  B_BUTT_CAP   := B_BUTT_JOIN;
+  B_SQUARE_CAP := B_SQUARE_JOIN;
 end.
