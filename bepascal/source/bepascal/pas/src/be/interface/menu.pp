@@ -22,7 +22,7 @@ interface
 
 uses
   beobj, view, message, archivable, SupportDefs, rect, list,
-  handler, messenger, fdblib;
+  handler, messenger;
 
 type
   Menu_Info = record

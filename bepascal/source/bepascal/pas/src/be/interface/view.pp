@@ -24,7 +24,7 @@ interface
 
 uses
   beobj, handler, rect, os, application, appdefs, message,
-  graphicdefs, fdblib;
+  graphicdefs;
   
 type
 //  TWindow = class(TBeObject);

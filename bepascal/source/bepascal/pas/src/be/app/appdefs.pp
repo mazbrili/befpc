@@ -205,6 +205,8 @@ var
 	B_CONTROL_INVOKED			: Cardinal;
 	B_CONTROL_MODIFIED			: Cardinal;
 
+function trans( S : Array of char): cardinal;
+
 implementation
 
 FUNCTION Power(X,Y:Word):LongInt;

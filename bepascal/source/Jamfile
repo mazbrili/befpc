@@ -21,3 +21,4 @@
 SubDir BEPASCAL_TOP source ;
 
 SubInclude BEPASCAL_TOP source bepascal ;
+SubInclude BEPASCAL_TOP source tools ;

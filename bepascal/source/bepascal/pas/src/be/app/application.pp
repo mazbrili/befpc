@@ -21,7 +21,7 @@ unit Application;
 interface
 
 uses
-  beobj, looper, appdefs, supportdefs, message, os, fdblib,roster;
+  beobj, looper, appdefs, supportdefs, message, os, roster;
 
 type
   BApplication = class(BLooper)

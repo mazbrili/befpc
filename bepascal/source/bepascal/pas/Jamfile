@@ -20,5 +20,9 @@
 
 SubDir BEPASCAL_TOP source bepascal pas ;
 
+#Objects src/be/app/appdefs.pp 
+#        src/be/app/application.pp 
+#        src/be/app/handler.pp ;
+
 
 

@@ -28,8 +28,8 @@ type
   private
   public
     constructor Create; override;
-    constructor Create(mime_sig : PChar; aTeam : Team_id; perr : PStatus_t);
-    constructor Create(handler : BHandler; looper : BLooper; perr : PStatus_t);
+    constructor Create(mime_sig : PChar; aTeam : Team_id; var err : Status_t);
+    constructor Create(handler : BHandler; looper : BLooper; var err : Status_t);
     constructor Create(from : BMessenger);
     destructor Destroy; override;
     function IsTargetLocal : boolean;
@@ -59,9 +59,9 @@ type
   end;
 
 function BMessenger_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
-function BMessenger_Create(AObject : TBeObject; mime_sig : PChar; team : Team_id; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
-function BMessenger_Create(AObject : TBeObject; handler : BHandler; looper : BLooper; perr : PStatus_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
-function BMessenger_Create(AObject : TBeObject; from : BMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
+function BMessenger_Create_1(AObject : TBeObject; mime_sig : PChar; team : Team_id; var err : Status_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
+function BMessenger_Create_2(AObject : TBeObject; handler : BHandler; looper : BLooper; var err : Status_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
+function BMessenger_Create_3(AObject : TBeObject; from : BMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
 procedure BMessenger_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_Free';
 function BMessenger_IsTargetLocal(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_IsTargetLocal';
 function BMessenger_Target(AObject : TCPlusObject; looper : TCplusObject) : BHandler; cdecl; external BePascalLibName name 'BMessenger_Target';
@@ -100,19 +100,19 @@ begin
   BMessenger_Create(Self);
 end;
 
-constructor BMessenger.Create(mime_sig : PChar; aTeam : Team_id; perr : PStatus_t);
+constructor BMessenger.Create(mime_sig : PChar; aTeam : Team_id; var err : Status_t);
 begin
-  CPlusObject := BMessenger_Create(Self, mime_sig, aTeam, perr);
+  CPlusObject := BMessenger_Create_1(Self, mime_sig, aTeam, err);
 end;
 
-constructor BMessenger.Create(handler : BHandler; looper : BLooper; perr : PStatus_t);
+constructor BMessenger.Create(handler : BHandler; looper : BLooper; var err : Status_t);
 begin
-  CPlusObject := BMessenger_Create(Self, handler, looper, perr);
+  CPlusObject := BMessenger_Create_2(Self, handler, looper, err);
 end;
 
 constructor BMessenger.Create(from : BMessenger);
 begin
-  CPlusObject := BMessenger_Create(Self, from);
+  CPlusObject := BMessenger_Create_3(Self, from);
 end;
 
 destructor BMessenger.Destroy;
@@ -147,12 +147,22 @@ end;
 
 function BMessenger.SendMessage(a_message : BMessage; reply_to : BHandler; timeout : Bigtime_t) : Status_t;
 begin
-  Result := BMessenger_SendMessage_1(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
+  if reply_to = nil then
+    Result := BMessenger_SendMessage_1(CPlusObject, a_message.CPlusObject, nil, timeout)
+  else 
+    Result := BMessenger_SendMessage_1(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
 end;
 
 function BMessenger.SendMessage(a_message : BMessage; reply_to : BMessenger; timeout : Bigtime_t) : Status_t;
 begin
-  Result := BMessenger_SendMessage_2(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
+  if reply_to = nil then
+  begin
+    WriteLn('BMessenger.SendMessage');
+    Result := BMessenger_SendMessage_2(CPlusObject, a_message.CPlusObject, nil, timeout);
+    WriteLn('BMessenger.AfterSendMessage');    
+  end
+  else 
+    Result := BMessenger_SendMessage_2(CPlusObject, a_message.CPlusObject, reply_to.CPlusObject, timeout);
 end;
 
 function BMessenger.SendMessage(command : Cardinal; reply : BMessage) : Status_t;

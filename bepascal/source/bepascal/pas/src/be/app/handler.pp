@@ -21,7 +21,7 @@ unit handler;
 interface
 
 uses
-  beobj, archivable, message, fdblib;
+  beobj, archivable, message;
  
 type
   BHandler = class(BArchivable)

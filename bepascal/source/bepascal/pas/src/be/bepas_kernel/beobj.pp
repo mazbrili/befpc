@@ -22,9 +22,6 @@ interface
 
 {$M+}
 
-uses
-  fdblib;
-  
 // FreePascal use ld on BeOS (like on LINUX) to link to libraries.
 // ld use the environment variable BELIBRARIES to find libraries.
 
@@ -49,6 +46,12 @@ type
     property CPlusObject : TCPlusObject read FCPlusObject write FCPlusObject;
   end;
 
+type
+  TSendTextProc = procedure(aText : string);
+
+procedure SendText(aText : string);
+procedure SetSendTextProc(aProc : TSendTextProc);
+
 implementation
 
 uses
@@ -56,7 +59,21 @@ uses
 
 var
   PasObject_GetPasClassName_hook : Pointer; cvar; external;
-  
+  SendTextProc : TSendTextProc;
+
+procedure SendText(aText : string);
+begin
+  if Assigned(SendTextProc) then
+  begin
+    SendTextProc(aText);
+  end;
+end;
+
+procedure SetSendTextProc(aProc : TSendTextProc);
+begin
+  SendTextProc := aProc;
+end;
+ 
 function PasObject_GetPasClassName_hook_func(PasObject : TBeObject) : PChar;
 begin
   if PasObject <> nil then
@@ -120,7 +137,10 @@ end;
 
 initialization
   PasObject_GetPasClassName_hook := @PasObject_GetPasClassName_hook_func;
+  if not Assigned(SendTextProc) then
+    SendTextProc := nil;
   
 finalization
   PasObject_GetPasClassName_hook := nil;
+  
 end.
