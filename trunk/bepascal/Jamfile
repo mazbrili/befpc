@@ -44,7 +44,8 @@ SEARCH on docs.zip = . ;
 
 rule MakeDistribs
 {
-	MkDir -p $(DISTRIB_DIR) ;
+	MkDir $(DISTRIB_DIR) ;
+	
 	# copy libbepascal.so in lib
 	Bulk lib : libbepascal.so libstubgen.so ;
 	# binary files like libbepascal.so are needed to build bin_bepascal.zip
