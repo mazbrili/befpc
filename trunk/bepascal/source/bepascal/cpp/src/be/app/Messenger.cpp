@@ -271,8 +271,6 @@ BMessenger_Team(BMessenger *Messenger)
 //{
 //   Messenger->InitData(mime_sig, team, perr);
 //}
-
-
 #if defined(__cplusplus)
 }
 #endif

@@ -36,7 +36,13 @@ const
 const
   B_OS_NAME_LENGTH = 32;
   B_PAGE_SIZE = 4096;
-  B_INFINITE_TIMEOUT = 9223372036854775807;
+//  B_INFINITE_TIMEOUT = 9223372036854775807; // $7FFFFFFFFFFFFFFF
+
+// workaround because fpc 1.0.* don't support int64 const -> will
+// be changed in fpc 1.1.
+// see initialization section
+var
+  B_INFINITE_TIMEOUT : int64;
   
 type
   Area_id = Longint;
@@ -88,5 +94,14 @@ type
   end;
 
 implementation
+
+uses
+  SysUtils;
+  
+initialization
+// workaround because fpc 1.0.* don't support int64 const -> will
+// be changed in fpc 1.1.
+//  B_INFINITE_TIMEOUT := 9223372036854775807;
+  B_INFINITE_TIMEOUT := int64($7FFFFFFF) shl 32 + int64($FFFFFFFF);
 
 end.

@@ -34,6 +34,7 @@ rule MakeDistribs
 	MkDir $(DISTRIB_DIR) ;
 	# copy libbepascal.so in lib
 	Bulk lib : libbepascal.so ;
+	Bulk lib : libstubgen.so ;
 	Depends all :  ;
 	# binary files like libbepascal.so are needed to build bin_bepascal.zip
 	Depends bin_bepascal.zip : libbepascal.so ;
@@ -48,6 +49,7 @@ rule MakeDistribs
 
 # Install libbepascal.so in LIBBEPASCAL_INSTALL_DIR (/boot/home/config/lib)
 InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libbepascal.so ;
+InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libstubgen.so ;
 
 # Make distribution files
 MakeDistribs ;

@@ -43,7 +43,7 @@ rule fpc
 # call the FreePascal compiler
 actions fpc
 {
-	fpc -g -S2 $(2)
+	fpc -FU$(LOCATE_TARGET) -g -S2 $(2)
 }
 
 # Make a zip file named $(1) that include (recursively) all files in the directory list $(2), except the ones 
