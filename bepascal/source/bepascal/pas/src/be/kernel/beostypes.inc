@@ -11,26 +11,26 @@ uint32	perform_code;
 type
 // from <types.h> ---------------------------------------------------
   blkcnt_t = Int64;     // long long
-  blksize_t = Smallint; // int
+  blksize_t = Integer;  // int
   fsblkcnt_t = Int64;   // long long
   fsfilcnt_t = Int64;   // long long
   ino_t = Int64;        // long long
-  cnt_t = Smallint;     // int
-  mode_t = Word;        // unsigned int
-  nlink_t = Smallint;   // int
+  cnt_t = Integer;      // int
+  mode_t = Cardinal;    // unsigned int
+  nlink_t = Integer;    // int
   dev_t = Longint;      // long
   off_t = Int64;        // long long
   pid_t = Longint;      // long
 
-  uid_t = Word;       // unsigned int
-  gid_t = Word;       // unsigned int
-  umode_t = Word;     // unsigned int
-  daddr_t = Smallint; // int
+  uid_t = Cardinal;     // unsigned int
+  gid_t = Cardinal;     // unsigned int
+  umode_t = Cardinal    // unsigned int
+  daddr_t = Integer;    // int
 
 // bsd
   u_char = Byte;     // unsigned char
   u_short = Word;    // unsigned short
-  u_int = Smallint;  // unsigned int
+  u_int = Integer;   // unsigned int
   u_long = Longword; // unsigned long
 
 // sysv
@@ -57,7 +57,7 @@ type
   end;
 
   DIR = record
-    fd : Smallint;
+    fd : Integer; // int
     ent : dirent;
   end;
 
