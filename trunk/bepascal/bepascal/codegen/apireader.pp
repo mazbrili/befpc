@@ -25,6 +25,9 @@ interface
 uses
   Classes, SysUtils, xmlread, dom;
   
+const
+  ImportFuncString =  ' cdecl; external BePascalLibName name ''%s_%s'';';
+
 type
   TNode = class(TObject)
   private
@@ -92,6 +95,7 @@ type
   private
     FResultType : TResultType;
     FClasse : TClasse;
+    BodyPas : string;
     function GetParam(Index : integer) : TParam;
   protected
   public
@@ -100,6 +104,10 @@ type
     function IsConstructor : boolean;
     function IsDestructor : boolean;
     function HasParams : boolean;
+    function ProcName : string;
+    function ProcNameInObject : string;    
+    function SelfParam : string;
+    function SelfParamImpl : string;
     procedure Start; override;
     procedure Ends; override;    
     property ResultType : TResultType read FResultType;
@@ -111,13 +119,16 @@ type
   protected
     function GetType : string;
   public
+    function IsObject : boolean;
     property Typ : string read GetType;
   end;
   TParam = class(TTypedItem)
   private
+    FFunction : TFunction;
   protected
   public
     procedure Middle; override;
+    property ParentFunction : TFunction read FFunction;
   end;
   TResultType = class(TNode)
   private
@@ -372,6 +383,7 @@ begin
       if Node.ChildNodes.Item[i].Attributes.GetNamedItem('NAME') <> nil then
       begin
         aParam := TParam.Create(Node.ChildNodes.Item[i]);
+        aParam.FFunction := Self;
         WriteLn('Param : ' + aParam.Name + '; ' + 'Type : ' + aParam.Typ);
         List.AddObject(aParam.Name, aParam);
       end
@@ -412,6 +424,42 @@ begin
   Result := (Count > 0);
 end;
 
+function TFunction.ProcName : string;
+begin
+  if IsConstructor then
+    Result := 'Create'
+  else if IsDestructor then
+    Result := 'Free'
+  else
+    Result := Name;
+end;
+
+function TFunction.ProcNameInObject : string;
+begin
+  if IsConstructor then
+    Result := 'Create'
+  else if IsDestructor then
+    Result := 'Destroy'
+  else
+    Result := Name;
+end;
+
+function TFunction.SelfParam : string;
+begin
+  if IsConstructor then
+    Result := '(AObject : TBeObject; '
+  else
+    Result := '(AObject : TCPlusObject; '
+end;
+
+function TFunction.SelfParamImpl : string;
+begin
+  if IsConstructor then
+    Result := '(Self, '
+  else
+    Result := '(CPlusObject, '
+end;
+
 procedure TFunction.Start;
 var
   EndChar : string;
@@ -424,49 +472,101 @@ begin
   with SourceWriter.InterfacePas do
   begin
     if IsConstructor then
-      Add(Format('    constructor %s%s', [Name, EndChar]))
+      Add(Format('    constructor %s%s', [ProcNameInObject, EndChar]))
     else if IsDestructor then
-      Add(Format('    destructor %s%s', [Name, EndChar]))
+      Add(Format('    destructor %s%s', [ProcNameInObject, EndChar]))
     else if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
       Add(Format('    procedure %s%s', [Name, EndChar]))
     else
       Add(Format('    function %s%s', [Name, EndChar]));
   end;
+    // Import of C functions
+  with SourceWriter.ImportFuncsPas do
+  begin
+    if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+      Add(Format('procedure %s_%s%s', [Classe.Name, ProcName, SelfParam]))
+    else
+      Add(Format('function %s_%s%s', [Classe.Name, ProcName, SelfParam]));
+  end;
+  with SourceWriter.ImplementationPas do
+  begin
+    if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+      Add(Format('procedure %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]))
+    else
+      Add(Format('function %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]));    
+  end;
+  //Body
+    if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+      BodyPas := Format('  %s_%s%s', [Classe.Name, ProcName, SelfParamImpl])
+    else
+      BodyPas := Format('  %s_%s%s', [Classe.Name, ProcName, SelfParamImpl]);
 end;
 
 procedure TFunction.Ends;
 var
-  s : string;
   EndChar : string;
-begin
-  WriteLn('Function ends');
-  if hasParams then
+  procedure DeleteLastSep(List : TStringList);
+  var
+    s : string;
   begin
-    EndChar := ')';
-    with SourceWriter.InterfacePas do
-    begin
-      // Delete the last '; '
-      s := Strings[Count - 1];
-      System.Delete(s, Length(s) - 1, 2);
-      Strings[Count - 1] := s;
-    end;
-  end
-  else
-  begin
-    EndChar := '';
+    // Delete the last '; '
+    s := List.Strings[List.Count - 1];
+    System.Delete(s, Length(s) - 1, 2);
+    List.Strings[List.Count - 1] := s; 
   end;
-  with SourceWriter.InterfacePas do
+  procedure AddLastSep(List : TStringList);
+  var
+    s : string;
   begin
     if not((ResultType.Typ = '') or (ResultType.Typ = 'void')) then
     begin
       WriteLn(ResultType.Typ);
       WriteLn(Name);
-      s := Format('%s%s : %s;', [Strings[Count - 1], EndChar, CppToPas(ResultType.Typ)]);
-      Strings[Count - 1] := s;
+      s := Format('%s%s : %s;', [List.Strings[List.Count - 1], EndChar, CppToPas(ResultType.Typ)]);
+      List.Strings[List.Count - 1] := s;
     end
     else
-      Strings[Count - 1] := Format('%s%s;', [Strings[Count - 1], EndChar]);
+      List.Strings[List.Count - 1] := Format('%s%s;', [List.Strings[List.Count - 1], EndChar]);
   end;
+var
+  s : string;
+begin
+  WriteLn('Function ends');
+  if hasParams then
+  begin
+    EndChar := ')';
+    DeleteLastSep(SourceWriter.InterfacePas);
+  end
+  else
+  begin
+    EndChar := '';
+  end;
+  AddLastSep(SourceWriter.InterfacePas);
+    // Import C functions
+  EndChar := ')';
+  DeleteLastSep(SourceWriter.ImportFuncsPas);
+  AddLastSep(SourceWriter.ImportFuncsPas);
+  with SourceWriter.ImportFuncsPas do
+  begin
+    s := Format('%s' + ImportFuncString, [Strings[Count - 1], Classe.Name, ProcName]);
+    Strings[Count - 1] := s;
+  end;
+  
+  if hasParams then
+  begin
+    EndChar := ')';
+    DeleteLastSep(SourceWriter.ImplementationPas);
+  end
+  else
+  begin
+    EndChar := '';
+  end;
+  AddLastSep(SourceWriter.ImplementationPas);
+  SourceWriter.ImplementationPas.Add('begin');  
+  System.Delete(BodyPas, Length(BodyPas) - 1, 2);
+  SourceWriter.ImplementationPas.Add(BodyPas + ');');
+  SourceWriter.ImplementationPas.Add('end;');
+  SourceWriter.ImplementationPas.Add('');      
 end;
 
 function TTypedItem.GetType : string;
@@ -474,18 +574,31 @@ begin
   Result := FNode.Attributes.GetNamedItem('TYPE').NodeValue;
 end;
 
+function TTypedItem.IsObject : boolean;
+begin
+  // The first letter is a 'B' -> this is an object !
+  Result := (Typ[1] = 'B');
+end;
+
 procedure TParam.Middle;
-var
-  s : string;
+  procedure WriteParam(List : TStringList);
+  var
+    s : string;
+  begin
+    WriteLn(List.Strings[List.Count - 1]);
+    s := Format('%s%s : %s; ', [List.Strings[List.Count - 1], Name, CppToPas(Typ)]);
+    List.Strings[List.Count - 1] := s;
+    WriteLn(List.Strings[List.Count - 1]);    
+  end;
 begin
   WriteLn('Param Middle');
-  with SourceWriter.InterfacePas do
-  begin
-    WriteLn(Strings[Count - 1]);
-    s := Format('%s%s : %s; ', [Strings[Count - 1], Name, CppToPas(Typ)]);
-    Strings[Count - 1] := s;
-    WriteLn(Strings[Count - 1]);    
-  end;
+  WriteParam(SourceWriter.InterfacePas);
+  WriteParam(SourceWriter.ImportFuncsPas);
+  WriteParam(SourceWriter.ImplementationPas);
+  if IsObject then
+    ParentFunction.BodyPas := Format('%s%s.CPlusObject, ', [ParentFunction.BodyPas, Name])
+  else
+    ParentFunction.BodyPas := Format('%s%s, ', [ParentFunction.BodyPas, Name]);
 end;
 
 function TResultType.GetType : string;
