@@ -1,3 +1,4 @@
+# handle pascal files in the Object rule
 rule UserObject 
 {
 	switch $(2)
@@ -12,17 +13,21 @@ rule fpc
 	echo $(2) ;
 	Depends $(1) : $(2) ;
 	PPUFILES += $(2)u ;
+	# try to clean ppu files (don't work yet)
 	Clean clean : $(2)u ;
 	echo $(2)u ;
 	echo $(LOCATE_TARGET) ;
 	echo $(PPUFILES) ;
 }
 
+# call the FreePascal compiler
 actions fpc
 {
 	fpc -g -S2 $(2)
 }
 
+# Make a zip file named $(1) that include (recursively) all files in the directory list $(2), except the ones 
+# in the CVS subdirectories
 rule MakeZip 
 {
 	Depends all : $(1) ;
@@ -32,5 +37,5 @@ rule MakeZip
 actions MakeZip
 {
 	mkdir $(DISTRIB_DIR)
-	zip $(DISTRIB_DIR)/$(1) -r $(2)
+	zip $(DISTRIB_DIR)/$(1) -r $(2) -x \*CVS\*
 }
