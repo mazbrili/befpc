@@ -444,8 +444,7 @@ BBitmap_Bits(BBitmap *Bitmap)
  *  Descr:
  */
 int32
-BBitmap_BitsLength_1
-(BBitmap *Bitmap)
+BBitmap_BitsLength(BBitmap *Bitmap)
 {
    return Bitmap->BitsLength();
 }
@@ -566,8 +565,7 @@ BBitmap_FindView(BBitmap *Bitmap, const char *view_name)
  *  Descr:
  */
 BView *
-BBitmap_FindView_1
-(BBitmap *Bitmap, BPoint point)
+BBitmap_FindView_1(BBitmap *Bitmap, BPoint point)
 {
    return Bitmap->FindView(point);
 }
