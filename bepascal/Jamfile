@@ -22,9 +22,11 @@ SubDir BEPASCAL_TOP ;
 
 # Force creation of target's directories BEFORE the building of libbepascal.so
 Depends libbepascal.so : dirs ;
+# build libbepascal.so before libstubgen.so
+Depends libstubgen.so : libbepascal.so ;
 
-NOCARE libbepascal.so ;
-NOCARE libstubgen.so ;
+#LEAVES libbepascal.so ;
+#LEAVES libstubgen.so ;
 
 # set the distribution dir
 DISTRIB_DIR = distrib ;
@@ -44,7 +46,6 @@ rule MakeDistribs
 	MkDir -p $(DISTRIB_DIR) ;
 	# copy libbepascal.so in lib
 	Bulk lib : libbepascal.so libstubgen.so ;
-	Depends all :  ;
 	# binary files like libbepascal.so are needed to build bin_bepascal.zip
 	Depends bin_bepascal.zip : libbepascal.so ;
 	# make all distribution files. We recursively add all files 
@@ -73,11 +74,20 @@ rule MakeDistribs
 	                   docs ;
 }
 
+NOTFILE zip ;
+ALWAYS zip ;
+
+rule zip
+{
+	# Make distribution files
+	Depends all : ;
+	Depends all : ;	
+	MakeDistribs ;
+}
+
 # Install libbepascal.so in LIBBEPASCAL_INSTALL_DIR (/boot/home/config/lib)
 InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libbepascal.so ;
 InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libstubgen.so ;
 
-# Make distribution files
-MakeDistribs ;
 
 SubInclude BEPASCAL_TOP source ;

@@ -74,7 +74,7 @@ function BStatusBar_Create(AObject : TBeObject;frame : TCPlusObject;
                                         name : pchar;
 								       slabel : Pchar;
 								       trailing_label : Pchar): TCPlusObject; cdecl; external BePascalLibName name 'BStatusBar_Create';
-function BStatusBar_Create(AObject : TBeObject; data : TCPlusObject): TCPlusObject; cdecl; external BePascalLibName name 'BStatusBar_Create';
+function BStatusBar_Create_1(AObject : TBeObject; data : TCPlusObject): TCPlusObject; cdecl; external BePascalLibName name 'BStatusBar_Create_1';
 procedure BStatusBar_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BStatusBar_Free';
 function BStatusBar_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : BArchivable; cdecl; external BePascalLibName name 'BStatusBar_Instantiate';
 function BStatusBar_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : Status_t; cdecl; external BePascalLibName name 'BStatusBar_Archive';
@@ -114,18 +114,18 @@ function BStatusBar_GetSupportedSuites(AObject : TCPlusObject; data : TCPlusObje
 implementation
 
 constructor BStatusBar.Create(frame : BRect; 
-                                        name : pchar;
-								       alabel : Pchar;
-								       trailing_label : Pchar);
+                              name : pchar;
+                              alabel : Pchar;
+                              trailing_label : Pchar);
 begin
   CreatePas;
-  CPlusObject := BStatusBar_Create(Self,frame.CPlusObject,name,alabel,trailing_label);
+  CPlusObject := BStatusBar_Create(Self, frame.CPlusObject, name, alabel, trailing_label);
 end;
 
 constructor BStatusBar.Create(data : BMessage);
 begin
   CreatePas;
-  CPlusObject := BStatusBar_Create(Self, data.CPlusObject);
+  CPlusObject := BStatusBar_Create_1(Self, data.CPlusObject);
 end;
 
 destructor BStatusBar.Destroy;
