@@ -163,47 +163,47 @@ end;
 
 procedure TMenuBar.Draw(updateRect : TRect);
 begin
-  BMenuBar_Draw(CPlusObject, updateRect.CPlusObject);
+//  BMenuBar_Draw(CPlusObject, updateRect.CPlusObject);
 end;
 
 procedure TMenuBar.AttachedToWindow;
 begin
-  BMenuBar_AttachedToWindow(CPlusObject);
+//  BMenuBar_AttachedToWindow(CPlusObject);
 end;
 
 procedure TMenuBar.DetachedFromWindow;
 begin
-  BMenuBar_DetachedFromWindow(CPlusObject);
+//  BMenuBar_DetachedFromWindow(CPlusObject);
 end;
 
 procedure TMenuBar.MessageReceived(msg : TMessage);
 begin
-  BMenuBar_MessageReceived(CPlusObject, msg.CPlusObject);
+//  BMenuBar_MessageReceived(CPlusObject, msg.CPlusObject);
 end;
 
 procedure TMenuBar.MouseDown(where : TPoint);
 begin
-  BMenuBar_MouseDown(CPlusObject, where.CPlusObject);
+//  BMenuBar_MouseDown(CPlusObject, where.CPlusObject);
 end;
 
 procedure TMenuBar.WindowActivated(state : boolean);
 begin
-  BMenuBar_WindowActivated(CPlusObject, state);
+//  BMenuBar_WindowActivated(CPlusObject, state);
 end;
 
 procedure TMenuBar.MouseUp(where : TPoint);
 begin
-  BMenuBar_MouseUp(CPlusObject, where.CPlusObject);
+//  BMenuBar_MouseUp(CPlusObject, where.CPlusObject);
 end;
 
 procedure TMenuBar.FrameMoved(new_position : TPoint);
 begin
-  BMenuBar_FrameMoved(CPlusObject, new_position.CPlusObject);
+//  BMenuBar_FrameMoved(CPlusObject, new_position.CPlusObject);
 end;
 
 procedure TMenuBar.FrameResized(new_width : double; new_height : double);
 begin
-  BMenuBar_FrameResized(CPlusObject, new_width, new_height);
+//  BMenuBar_FrameResized(CPlusObject, new_width, new_height);
 end;
 
 procedure TMenuBar.Show;
@@ -228,27 +228,27 @@ end;
 
 procedure TMenuBar.ResizeToPreferred;
 begin
-  BMenuBar_ResizeToPreferred(CPlusObject);
+//  BMenuBar_ResizeToPreferred(CPlusObject);
 end;
 
 procedure TMenuBar.GetPreferredSize(width : double; height : double);
 begin
-  BMenuBar_GetPreferredSize(CPlusObject, width, height);
+//  BMenuBar_GetPreferredSize(CPlusObject, width, height);
 end;
 
 procedure TMenuBar.MakeFocus(state : boolean);
 begin
-  BMenuBar_MakeFocus(CPlusObject, state);
+//  BMenuBar_MakeFocus(CPlusObject, state);
 end;
 
 procedure TMenuBar.AllAttached;
 begin
-  BMenuBar_AllAttached(CPlusObject);
+//  BMenuBar_AllAttached(CPlusObject);
 end;
 
 procedure TMenuBar.AllDetached;
 begin
-  BMenuBar_AllDetached(CPlusObject);
+//  BMenuBar_AllDetached(CPlusObject);
 end;
 
 {function TMenuBar.Perform(d : TPerform_code; arg : Pointer) : TStatus_t;

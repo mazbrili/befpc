@@ -47,6 +47,11 @@ BPMenuItem::BPMenuItem(TPasObject PasObject, BMessage *data)
 {
 }
 
+void BPMenuItem::Draw(void)
+{
+	BMenuItem::Draw();
+}
+
 BPSeparatorItem::BPSeparatorItem(TPasObject PasObject)
 		:BSeparatorItem(),
 		BPMenuItem(PasObject, "", NULL),
@@ -60,6 +65,12 @@ BPSeparatorItem::BPSeparatorItem(TPasObject PasObject, BMessage *data)
 		BPasObject(PasObject)
 {
 }
+
+void BPSeparatorItem::Draw(void)
+{
+	BSeparatorItem::Draw();
+}
+
 
 #if defined(__cplusplus)
 extern "C" {

@@ -38,6 +38,14 @@ type
     B_KEYBOARD_NAVIGATION_COLOR ,
     B_DESKTOP_COLOR );
 
+  Torientation =(
+  	B_HORIZONTAL,
+  	B_VERTICAL);
+
+  Tborder_style =(
+  	B_PLAIN_BORDER,
+  	B_FANCY_BORDER,
+  	B_NO_BORDER);
 
 function ui_color(which : Tcolor_which) : Trgb_color; cdecl; external 'be' name 'ui_color__F11color_which';
 function Ttint_color(color : Trgb_color; which :Tcolor_which) : Trgb_color;cdecl; external 'be' name 'tint_color__FG9rgb_colorf';

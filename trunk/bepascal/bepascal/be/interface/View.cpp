@@ -108,11 +108,16 @@ BPView::BPView(TPasObject PasObject, BMessage *archive)
 
 void BPView::MessageReceived(BMessage *message)
 {
-	MessageReceived_hookCall(message);
+	BPHandler::MessageReceived_hookCall(message);
 	BView::MessageReceived(message);
 }
 
 void BPView::AllAttached(void)
+{
+	AllAttached_hookCall();
+}
+
+void BPView::AllAttached_hookCall(void)
 {
 	View_AllAttached_hook(GetPasObject());
 }
@@ -130,10 +135,20 @@ void BPView::AttachedToWindow_hookCall(void)
 
 void BPView::AllDetached(void)
 {
+	AllDetached_hookCall();
+}
+
+void BPView::AllDetached_hookCall(void)
+{
 	View_AllDetached_hook(GetPasObject());
 }
 
 void BPView::DetachedFromWindow(void)
+{
+	DetachedFromWindow_hookCall();
+}
+
+void BPView::DetachedFromWindow_hookCall(void)
 {
 	View_DetachedFromWindow_hook(GetPasObject());
 }
@@ -151,55 +166,110 @@ void BPView::Draw_hookCall(BRect updateRect)
 
 void BPView::DrawAfterChildren(BRect updateRect)
 {
+	DrawAfterChildren_hookCall(updateRect);
+}
+
+void BPView::DrawAfterChildren_hookCall(BRect updateRect)
+{
 	View_DrawAfterChildren_hook(GetPasObject(), &updateRect);
 }
 
 void BPView::FrameMoved(BPoint parentPoint)
+{
+	FrameMoved_hookCall(parentPoint);
+}
+
+void BPView::FrameMoved_hookCall(BPoint parentPoint)
 {
 	View_FrameMoved_hook(GetPasObject(), &parentPoint);
 }
 
 void BPView::FrameResized(float width, float height)
 {
+	FrameResized_hookCall(width, height);
+}
+
+void BPView::FrameResized_hookCall(float width, float height)
+{
 	View_FrameResized_hook(GetPasObject(), width, height);
 }
 
 void BPView::GetPreferredSize(float *width, float *height)
+{
+	GetPreferredSize_hookCall(width, height);
+}
+
+void BPView::GetPreferredSize_hookCall(float *width, float *height)
 {
 	View_GetPreferredSize_hook(GetPasObject(), width, height);
 }
 
 void BPView::ResizeToPreferred(void)
 {
+	ResizeToPreferred_hookCall();
+}
+
+void BPView::ResizeToPreferred_hookCall(void)
+{
 	View_ResizeToPreferred_hook(GetPasObject());
 }
 
 void BPView::KeyDown(const char *bytes, int32 numBytes)
+{
+	KeyDown_hookCall(bytes, numBytes);
+}
+
+void BPView::KeyDown_hookCall(const char *bytes, int32 numBytes)
 {
 	View_KeyDown_hook(GetPasObject(), bytes, numBytes);
 }
 
 void BPView::KeyUp(const char *bytes, int32 numBytes)
 {
+	KeyUp_hookCall(bytes, numBytes);
+}
+
+void BPView::KeyUp_hookCall(const char *bytes, int32 numBytes)
+{
 	View_KeyUp_hook(GetPasObject(), bytes, numBytes);
 }
 
 void BPView::MouseDown(BPoint point)
+{
+	MouseDown_hookCall(point);
+}
+
+void BPView::MouseDown_hookCall(BPoint point)
 {
 	View_MouseDown_hook(GetPasObject(), &point);
 }
 
 void BPView::MouseMoved(BPoint point, uint32 transit, const BMessage *message)
 {
+	MouseMoved_hookCall(point, transit, message);
+}
+
+void BPView::MouseMoved_hookCall(BPoint point, uint32 transit, const BMessage *message)
+{
 	View_MouseMoved_hook(GetPasObject(), &point, transit, &message);
 }
 
 void BPView::MouseUp(BPoint point)
 {
+	MouseUp_hookCall(point);
+}
+
+void BPView::MouseUp_hookCall(BPoint point)
+{
 	View_MouseUp_hook(GetPasObject(), &point);
 }
 
 void BPView::Pulse(void)
+{
+	Pulse_hookCall();
+}
+
+void BPView::Pulse_hookCall(void)
 {
 	View_Pulse_hook(GetPasObject());
 }
@@ -210,6 +280,11 @@ void BPView::Pulse(void)
 //}
 
 void BPView::WindowActivated(bool active)
+{
+	WindowActivated_hookCall(active);
+}
+
+void BPView::WindowActivated_hookCall(bool active)
 {
 	View_WindowActivated_hook(GetPasObject(), active);
 }

@@ -85,10 +85,20 @@ void BPControl::AttachedToWindow(void)
 
 void BPControl::SetEnabled(bool enabled)
 {
+	SetEnabled_hookCall(enabled);
+}
+
+void BPControl::SetEnabled_hookCall(bool enabled)
+{
 	Control_SetEnabled_hook(GetPasObject(), enabled);
 }
 
 void BPControl::SetValue(int32 value)
+{
+	SetValue_hookCall(value);
+}
+
+void BPControl::SetValue_hookCall(int32 value)
 {
 	Control_SetValue_hook(GetPasObject(), value);
 }

@@ -25,6 +25,117 @@ BPMenuBar::BPMenuBar(TPasObject PasObject, BMessage *archive)
 {
 }
 
+void BPMenuBar::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BMenuBar::MessageReceived(message);
+}
+
+void BPMenuBar::AllAttached(void)
+{
+//	AllAttached_hookCall(message);
+}
+
+void BPMenuBar::AttachedToWindow(void)
+{
+	BMenuBar::AttachedToWindow();
+//	AttachedToWindow_hookCall();	
+}
+
+void BPMenuBar::AllDetached(void)
+{
+//	View_AllDetached_hook(GetPasObject());
+}
+
+void BPMenuBar::DetachedFromWindow(void)
+{
+//	View_DetachedFromWindow_hook(GetPasObject());
+}
+
+void BPMenuBar::Draw(BRect updateRect)
+{
+	BMenuBar::Draw(updateRect);
+	Draw_hookCall(updateRect);	
+}
+
+void BPMenuBar::DrawAfterChildren(BRect updateRect)
+{
+//	View_DrawAfterChildren_hook(GetPasObject(), &updateRect);
+}
+
+void BPMenuBar::FrameMoved(BPoint parentPoint)
+{
+//	View_FrameMoved_hook(GetPasObject(), &parentPoint);
+}
+
+void BPMenuBar::FrameResized(float width, float height)
+{
+//	View_FrameResized_hook(GetPasObject(), width, height);
+}
+
+void BPMenuBar::GetPreferredSize(float *width, float *height)
+{
+//	View_GetPreferredSize_hook(GetPasObject(), width, height);
+}
+
+void BPMenuBar::ResizeToPreferred(void)
+{
+//	View_ResizeToPreferred_hook(GetPasObject());
+}
+
+void BPMenuBar::KeyDown(const char *bytes, int32 numBytes)
+{
+//	View_KeyDown_hook(GetPasObject(), bytes, numBytes);
+}
+
+void BPMenuBar::KeyUp(const char *bytes, int32 numBytes)
+{
+//	View_KeyUp_hook(GetPasObject(), bytes, numBytes);
+}
+
+void BPMenuBar::MouseDown(BPoint point)
+{
+//	View_MouseDown_hook(GetPasObject(), &point);
+}
+
+void BPMenuBar::MouseMoved(BPoint point, uint32 transit, const BMessage *message)
+{
+//	View_MouseMoved_hook(GetPasObject(), &point, transit, &message);
+}
+
+void BPMenuBar::MouseUp(BPoint point)
+{
+//	View_MouseUp_hook(GetPasObject(), &point);
+}
+
+void BPMenuBar::Pulse(void)
+{
+//	View_Pulse_hook(GetPasObject());
+}
+
+//void BPMenu::TargetedByScrollView(BScrollView *scroller)
+//{
+//	View_TargetedByScrollView(GetPasObject(), scroller);
+//}
+
+void BPMenuBar::WindowActivated(bool active)
+{
+//	View_WindowActivated_hook(GetPasObject(), active);
+}
+
+void BPMenuBar::SetEnabled(bool enabled)
+{
+}
+
+void BPMenuBar::SetValue(int32 value)
+{
+}
+
+void BPMenuBar::MakeDefault(bool flag)
+{
+
+}
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
