@@ -1,4 +1,5 @@
 #include "MFont.h"
+#include "debug.h"
 
 BFont* BFont_Create(){
   return new BFont();

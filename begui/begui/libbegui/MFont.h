@@ -1,6 +1,15 @@
 #ifndef MFONT_H
 #define MFONT_H
 
+/*
+  $Header: /home/haiku/befpc/begui/begui/libbegui/MFont.h,v 1.2 2002-04-27 08:29:51 memson Exp $
+  
+  $Revision: 1.2 $
+  
+  $Log: not supported by cvs2svn $
+
+*/
+
 #include <Font.h>
 
 #ifdef __cplusplus
