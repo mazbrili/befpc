@@ -5,4 +5,4 @@ fi
 
 ppc386 -FE./ -FU./units ./sources/main.pp -oBPDemo
 mergeres ./sources/Resource.rsrc BPDemo
-mimeset BPCalculator
+mimeset BPDemo
