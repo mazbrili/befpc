@@ -1,6 +1,6 @@
 {   BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 - 2003 Eric Jourde
-                              Oscar Lesta
+    Copyright (C) 2002-2003 Eric Jourde
+                            Oscar Lesta
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -16,7 +16,7 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit BString;
+unit _String;
 
 interface
 
@@ -30,15 +30,15 @@ type
    // constructor Create(value : PChar); override;
     destructor Destroy; override;
 
-   function CountChars : integer;
-   function length     : integer;
-   function String_pchar     : PChar;
+   function CountChars : Integer;
+   function Length     : Integer;
+   function String_pchar : PChar;
 
    // Affectation
-   procedure SetTo(value : PChar; lenght : cardinal);
-   procedure SetTo(from : TString);
-   procedure SetTo(value : TString; length1 : cardinal);
-   procedure Adopt(from : TString);
+   procedure SetTo(value : PChar; _length : Cardinal);
+   procedure SetTo(from : BString);
+   procedure SetTo(value : BString; _length : Cardinal);
+   procedure Adopt(from : BString);
   end;
 
 function BString_Create(AObject : TBeObject) : TCPlusObject;
@@ -47,18 +47,18 @@ function BString_Create(AObject : TBeObject; value : PChar) : TCPlusObject;
          cdecl; external BePascalLibName name 'BString_Create_1';
 procedure BString_Free(AObject : TCPlusObject);
           cdecl; external BePascalLibName name 'BString_Free';
-function BString_CountChars(AObject : TCPlusObject) : cardinal;
+function BString_CountChars(AObject : TCPlusObject) : Cardinal;
          cdecl; external BePascalLibName name 'BString_CountChars';
-function BString_Length(AObject : TCPlusObject) : cardinal;
+function BString_Length(AObject : TCPlusObject) : Cardinal;
          cdecl; external BePascalLibName name 'BString_Length';
 function BString_String(AObject : TCPlusObject) : Pchar;
          cdecl; external BePascalLibName name 'BString_String';
 
-procedure BString_SetTo(AObject : TCPlusObject; value : Pchar; length : cardinal);
+procedure BString_SetTo(AObject : TCPlusObject; value : Pchar; length : Cardinal);
           cdecl; external BePascalLibName name 'BString_SetTo';
 procedure BString_SetTo_1(AObject : TCPlusObject; from : TBeObject);
           cdecl; external BePascalLibName name 'BString_SetTo_1';
-procedure BString_SetTo_2(AObject : TCPlusObject; value : TBeObject; length : cardinal);
+procedure BString_SetTo_2(AObject : TCPlusObject; value : TBeObject; length : Cardinal);
           cdecl; external BePascalLibName name 'BString_SetTo_2';
 
 procedure BString_Adopt(AObject : TCPlusObject; from : TBeObject);
@@ -73,19 +73,16 @@ BString &
 BString_SetTo_3(BString *String, char value,
                int32 count)
 
-
 BString &
 BString_CopyInto(BString *String, BString &into,
                   int32 fromOffset,
                   int32 length)
-
 
 void
 BString_CopyInto_1
 (BString *String, char *into,
                   int32 fromOffset,
                   int32 length)
-
 
 BString &
 BString_Append(BString *String, const BString &value,
@@ -459,7 +456,7 @@ begin
 end;
 
 {
-constructor BString.Create_1(value:PChar);
+constructor BString.Create_1(value : PChar);
 begin
   inherited;
   CPlusObject := BString_Create_1(Self, value);
@@ -473,12 +470,12 @@ begin
   inherited;
 end;
 
-function BString.CountChars : integer;
+function BString.CountChars : Integer;
 begin
   Result := BString_CountChars(CPlusObject);
 end;
 
-function BString.length : integer;
+function BString.Length : Integer;
 begin
   Result := BString_Length(CPlusObject);
 end;
@@ -488,22 +485,22 @@ begin
   Result := BString_String(CPlusObject);
 end;
 
-procedure BString.SetTo(value : PChar; lenght : cardinal);
+procedure BString.SetTo(value : PChar; _length : Cardinal);
 begin
-  BString_SetTo(CPlusObject,value,lenght);
+  BString_SetTo(CPlusObject, value, _length);
 end;
 
-procedure BString.SetTo(from : TString);
+procedure BString.SetTo(from : BString);
 begin
   BString_SetTo_1(CPlusObject, from);
 end;
 
-procedure BString.SetTo( value : TString; length1 : cardinal);
+procedure BString.SetTo(value : BString; _length : Cardinal);
 begin
-  BString_SetTo_2(CPlusObject, value, length1);
+  BString_SetTo_2(CPlusObject, value, _length);
 end;
 
-procedure BString.Adopt(from : TString);
+procedure BString.Adopt(from : BString);
 begin
   BString_Adopt(CPlusObject, from);
 end;
