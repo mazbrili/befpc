@@ -45,7 +45,8 @@ end;
 
 destructor TSourceWriter.Destroy;
 begin
-  FH.SaveToFile(FFileName + '.h');
+  // .h not used yet
+//  FH.SaveToFile(FFileName + '.h');
   FH.Free;
   FCpp.SaveToFile(FFileName + '.cpp');
   FCpp.Free;
@@ -63,12 +64,17 @@ type
     FParent : TClasse;
     FParams : TStringList;
     FResultType : string;
+    function CommaIfNotEmpty(s : string) : string;    
   public
     constructor Create(Parent : TClasse; FunctionName : string); virtual;
     destructor Destroy; override;
     function GetPascalParams(TypMap : TStringList) : string;
     function GetCppParams(StartWithComma : boolean) : string;
     function GetCppParamNames(StartWithComma : boolean) : string;
+    function ProcOrFunc(TypMap : TStringList) : string;
+    function PascalMethDecl(TypMap : TStringList) : string;
+    function PascalMethImpl(TypMap : TStringList) : string;
+    function PascalResultType(TypMap : TStringList) : string;
     function PascalHookVar(TypMap : TStringList) : string;
     function PascalInit(TypMap : TStringList) : string;
     function PascalHookImpl(TypMap : TStringList) : string;
@@ -102,6 +108,7 @@ type
     function PascalHookDecl(TypMap : TStringList) : string;
     function PascalHookImpl(TypMap : TStringList) : string;
     function PascalInit(TypMap : TStringList) : string;
+    function PascalMethImpl(TypMap : TStringList) : string;
     function CppTypedef : string;
     function CppVarDecl : string;
     function CppClassDecl : string;
@@ -122,6 +129,14 @@ destructor TFunction.Destroy;
 begin
   FParams.Free;
   inherited;
+end;
+
+function TFunction.CommaIfNotEmpty(s : string) : string;
+begin
+  if s <> '' then
+    Result := '; '
+  else
+    Result := '';
 end;
 
 function TFunction.GetPascalParams(TypMap : TStringList) : string;
@@ -147,6 +162,38 @@ begin
   end;
 end;
 
+function TFunction.ProcOrFunc(TypMap : TStringList) : string;
+begin
+  if ResultType = 'void' then    
+    Result := 'procedure'
+  else
+    Result := 'function';
+end;
+
+function TFunction.PascalResultType(TypMap : TStringList) : string;
+begin
+  if ResultType = 'void' then
+    Result := ''
+  else
+    Result := ' : ' + TypMap.Values[ResultType];  
+end;
+
+function TFunction.PascalMethDecl(TypMap : TStringList) : string;
+begin
+  Result := Format('    %s %s(%s)%s; virtual;', [ProcOrFunc(TypMap), 
+                   Name, GetPascalParams(TypMap), 
+                   PascalResultType(TypMap)]);
+end;
+
+function TFunction.PascalMethImpl(TypMap : TStringList) : string;
+begin
+  Result := Format('%s T%s.%s(%s)%s;' + Eol, [ProcOrFunc(TypMap), 
+                   FParent.Name, Name, GetPascalParams(TypMap), 
+                   PascalResultType(TypMap)]);
+  Result := Result + 'begin' + Eol;
+  Result := Result + 'end;' + Eol;
+end;
+
 function TFunction.PascalHookVar(TypMap : TStringList) : string;
 begin
   Result := Format('  %s_%s_hook : Pointer; cvar; external;', [FParent.Name, Name]);
@@ -158,25 +205,89 @@ begin
 end;
 
 function TFunction.PascalHookDecl(TypMap : TStringList) : string;
-  function CommaIfNotEmpty(s : string) : string;
-  begin
-    if s <> '' then
-      Result := ', '
-    else
-      Result := '';
-  end;
 begin
   Result := '';
-  Result := Format('  function %s_%s_hook(%s : %s%s%s);', 
-                   [FParent.TypeName, Name, FParent.Name, 'T' + FParent.Name, 
-                    CommaIfNotEmpty(GetPascalParams(TypMap)), GetPascalParams(TypMap)]) + 
+  Result := Format('  %s %s_%s_hook(%s : %s%s%s)%s;', 
+                   [ProcOrFunc(TypMap), FParent.TypeName, Name, FParent.Name, 'T' + FParent.Name, 
+                    CommaIfNotEmpty(GetPascalParams(TypMap)), GetPascalParams(TypMap),
+                    PascalResultType(TypMap)]) + 
                     Format(' cdecl; external BePascalLibName name ''%s_%s'';',
                            [FParent.TypeName, Name]);
 end;
 
 function TFunction.PascalHookImpl(TypMap : TStringList) : string;
+var
+  Indent : integer;
+  function Indentation : string;
+  var
+    i : integer;
+  begin
+    for i := 0 to Indent - 1 do 
+      Result := Result + '  ';
+  end;
+var
+  i : integer;
+  s : string;
+  VarTypName : string;
+  VarList : TStringList;
+  aParamList : TStringList;
 begin
-  Result := '';
+  VarList := TStringList.Create;
+  aParamList := TStringList.Create;
+  try
+    Indent := 1;
+    Result := Format('%s %s_%s_hook_func(%s : %s%s%s)%s; cdecl;', 
+                     [ProcOrFunc(TypMap), FParent.Name, Name,
+                      FParent.Name, 'T' + FParent.Name, 
+                      CommaIfNotEmpty(GetPascalParams(TypMap)), GetPascalParams(TypMap),
+                      PascalResultType(TypMap)]) + Eol;
+    Result := Result + 'var' + Eol + '%s';
+    Result := Result + 'begin' + Eol;
+  
+    for i := 0 to FParams.Count - 1 do
+    begin
+      s := FParams.Values[FParams.Names[i]];
+      Delete(s, 2, Length(s) - 1);
+      if (FParams[i] <> 'void') and (s = 'B') then
+      begin
+        VarTypName := FParams.Values[FParams.Names[i]];
+        VarList.Add(Format('  a%s : %s;', [FParams.Names[i], TypMap.Values[VarTypName]]));
+        aParamList.Add('a' + FParams.Names[i]);
+        Result := Result + Format('%sa%s := %s.Wrap(%s);' + Eol + '%stry' + Eol, 
+                                  [Indentation, FParams.Names[i], 
+                                   TypMap.Values[VarTypName], FParams.Names[i],
+                                   Indentation]);
+        Inc(Indent);
+      end;
+    end;
+    
+    Result := Result + Format('%sif %s <> nil then', [Indentation, FParent.Name]) + Eol;
+    Result := Result + Format('%s  %s.%s(%s);', [Indentation, FParent.Name, Name, '%s']) + Eol;
+  
+    for i := 0 to FParams.Count - 1 do
+    begin
+      s := FParams.Values[FParams.Names[i]];
+      Delete(s, 2, Length(s) - 1);
+      if (FParams[i] <> 'void') and (s = 'B') then
+      begin
+        Dec(Indent);      
+        VarTypName := FParams.Values[FParams.Names[i]];
+        Result := Result + Indentation + 'finally' + Eol;
+        Result := Result + Format('  %sa%s.UnWrap;' + Eol, 
+                                  [Indentation, FParams.Names[i]]);
+        Result := Result + Indentation + 'end;' + Eol;
+      end;
+    end;  
+    Result := Result + 'end;' + Eol;
+    if aParamList.Count = 0 then
+      s := ''
+    else
+      s := aParamList.CommaText;
+    Result := Format(Result, [VarList.Text, s]);
+  finally
+    aParamList.Free;
+    VarList.Free;
+  end;
 end;
 
 function TFunction.GetCppParams(StartWithComma : boolean) : string;
@@ -311,7 +422,7 @@ begin
   Result := Result + Eol + '    // Hook functions';
   for i := 0 to HookFunctions.Count - 1 do
   begin
-    Result := Result + Eol + Format('    procedure %s(%s); virtual;', [HookFunctions[i], TFunction(Self.HookFunctions.Objects[i]).GetPascalParams(TypMap)]);
+    Result := Result + Eol + TFunction(Self.HookFunctions.Objects[i]).PascalMethDecl(TypMap);
   end;
   Result := Result + Eol + '  end;';
   WriteLn(Result);
@@ -353,8 +464,25 @@ begin
 end;
 
 function TClasse.PascalHookImpl(TypMap : TStringList) : string;
+var
+  i : integer;
 begin
   Result := '';
+  for i := 0 to HookFunctions.Count - 1 do
+  begin
+    Result := Result + TFunction(Self.HookFunctions.Objects[i]).PascalHookImpl(TypMap) + Eol;
+  end;  
+end;
+
+function TClasse.PascalMethImpl(TypMap : TStringList) : string;
+var
+  i : integer;
+begin
+  Result := '';
+  for i := 0 to HookFunctions.Count - 1 do
+  begin
+    Result := Result + TFunction(Self.HookFunctions.Objects[i]).PascalMethImpl(TypMap) + Eol;
+  end;
 end;
 
 function TClasse.CppTypedef : string;
@@ -451,87 +579,126 @@ begin
   WriteLn(Result.HookFunctions.Text);
 end;
 
-//****************************************************************************************
+procedure LoadParams(ListeClasses : TStringList);
+var
+  i : integer;
+begin
+  if ParamCount > 0 then
+  begin
+    for i := 0 to ParamCount do
+    begin
+      ListeClasses.Add(Paramstr(i));
+    end;
+  end;
+end;
 
+procedure LoadClassesList(ClassesList : TStringList);
 var
   ADoc : TXMLDocument;
   tmp : TDOMNode;
   classe : TClasse;
-  ClassesList : TStringList;
-  i : integer;
-  srcWriter : TSourceWriter;
 begin
   ReadXMLFile(ADoc, 'hooks.xml');
-  ClassesList := TStringList.Create;
   try
-  NodeInfo(ADoc);
-    // root -> BEOSAPI
-  NodeInfo(ADoc.DocumentElement);
-    // -> CLASSES
-  NodeInfo(ADoc.DocumentElement.FirstChild);
-    // -> CLASSE
-  NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild);
-    // -> CLASSE NAME=
-  NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.Attributes.GetNamedItem('NAME'));
-  tmp := ADoc.DocumentElement.FirstChild.FirstChild;
-  Classe := HandleClasse(tmp);
-  ClassesList.AddObject(Classe.TypeName, Classe);
-  while tmp.NextSibling <> nil do
-  begin
-    tmp := tmp.NextSibling;
+    NodeInfo(ADoc);
+      // root -> BEOSAPI
+    NodeInfo(ADoc.DocumentElement);
+      // -> CLASSES
+    NodeInfo(ADoc.DocumentElement.FirstChild);
+      // -> CLASSE
+    NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild);
+      // -> CLASSE NAME=
+    NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.Attributes.GetNamedItem('NAME'));
+    tmp := ADoc.DocumentElement.FirstChild.FirstChild;
     Classe := HandleClasse(tmp);
     ClassesList.AddObject(Classe.TypeName, Classe);
+    while tmp.NextSibling <> nil do
+    begin
+      tmp := tmp.NextSibling;
+      Classe := HandleClasse(tmp);
+      ClassesList.AddObject(Classe.TypeName, Classe);
+    end;
+      // -> HOOKS
+    NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild);  
+      // -> HOOKFUNCTION
+    NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild.FirstChild);  
+    NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild.FirstChild.FirstChild);      
+  finally
+    ADoc.Free;
   end;
-    // -> HOOKS
-  NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild);  
-    // -> HOOKFUNCTION
-  NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild.FirstChild);  
-  NodeInfo(ADoc.DocumentElement.FirstChild.FirstChild.FirstChild.FirstChild.FirstChild);      
-  
+end;
+
+procedure FileGeneration(ClassesList, ListeParams : TStringList);
+var
+  srcWriter : TSourceWriter;
+  a, i : integer;  
+begin
   // -------------------------------
   // Generating source files
   // -------------------------------
   
   WriteLn('<Begining Pascal code>');
-  srcWriter := TSourceWriter.Create('looper');
-  try
-    with srcWriter.Pas do
+  
+  for i := 0 to ListeParams.Count - 1 do
+  begin
+    if ClassesList.IndexOf(ListeParams[i]) <> - 1 then
     begin
-      Add('type');    
-      Add(TClasse(ClassesList.objects[0]).PascalClasse(srcWriter.TypMap));
-      Add('');
-      Add(TClasse(ClassesList.Objects[0]).PascalHookDecl(srcWriter.TypMap));
-      Add('implementation' + Eol);
-      Add(TClasse(ClassesList.objects[0]).PascalHookVar(srcWriter.TypMap));
-      Add('');      
-      Add(TClasse(ClassesList.objects[0]).PascalInit(srcWriter.TypMap));
+      a := ClassesList.IndexOf(ListeParams[i]);
+      srcWriter := TSourceWriter.Create(TClasse(ClassesList.objects[a]).Name);
+      try
+        with srcWriter.Pas do
+        begin
+          Add('type');    
+          Add(TClasse(ClassesList.objects[a]).PascalClasse(srcWriter.TypMap));
+          Add('');
+          Add(TClasse(ClassesList.Objects[a]).PascalHookDecl(srcWriter.TypMap));
+          Add('implementation' + Eol);
+          Add(TClasse(ClassesList.objects[a]).PascalHookVar(srcWriter.TypMap));
+          Add('');
+          Add(TClasse(ClassesList.objects[a]).PascalMethImpl(srcWriter.TypMap));
+          Add(TClasse(ClassesList.objects[a]).PascalHookImpl(srcWriter.TypMap));
+          Add(TClasse(ClassesList.objects[a]).PascalInit(srcWriter.TypMap));
 
-      Add('type');
-      Add(TClasse(ClassesList.objects[1]).PascalClasse(srcWriter.TypMap));
-      Add('');
-      Add(TClasse(ClassesList.Objects[1]).PascalHookDecl(srcWriter.TypMap));
-      Add('implementation' + Eol);
-      Add(TClasse(ClassesList.objects[1]).PascalHookVar(srcWriter.TypMap));    
-      Add('');      
-      Add(TClasse(ClassesList.objects[1]).PascalInit(srcWriter.TypMap));
+          Add('end.');
+        end;
+        with srcWriter.Cpp do
+        begin
+          Add(TClasse(ClassesList.Objects[a]).CppTypedef);
+          Add(StartExternalC);
+          Add(TClasse(ClassesList.Objects[a]).CppVarDecl);
+          Add(EndExternalC);
+          Add('');
+          Add(TClasse(ClassesList.Objects[a]).CppClassDecl);
+          Add(TClasse(ClassesList.Objects[a]).CppHookImpl);
+        end;
+      finally
+        srcWriter.Free;
+      end;
     end;
-    with srcWriter.Cpp do
-    begin
-      Add(TClasse(ClassesList.Objects[0]).CppTypedef);
-      Add(StartExternalC);
-      Add(TClasse(ClassesList.Objects[0]).CppVarDecl);
-      Add(EndExternalC);
-      Add('');
-      Add(TClasse(ClassesList.Objects[0]).CppClassDecl);
-      Add(TClasse(ClassesList.Objects[0]).CppHookImpl);
-    end;
-  finally
-    srcWriter.Free;
   end;
+end;
+
+//****************************************************************************************
+
+var
+  ClassesList : TStringList;
+  ListeParams : TStringList;
+  i : integer;
+begin
+  ListeParams := TStringList.Create;
+  try
+    LoadParams(ListeParams);
+
+    ClassesList := TStringList.Create;
+    try
+      LoadClassesList(ClassesList);
+      FileGeneration(ClassesList, ListeParams);
+    finally
+      for i := 0 to ClassesList.Count - 1 do
+        ClassesList.Objects[i].Free;
+      ClassesList.Free;
+    end;
   finally
-    ADoc.Free;
-    for i := 0 to ClassesList.Count - 1 do
-      ClassesList.Objects[i].Free;
-    ClassesList.Free;
+    ListeParams.Free;
   end;
 end.
