@@ -41,7 +41,7 @@ extern "C" {
 }
 #endif
 
-class BPCheckBox : public BCheckBox, virtual public BPControl {
+class BPCheckBox : public BCheckBox, public BPControl {
 
 public:
 					BPCheckBox(TPasObject PasObject, BRect frame,
@@ -105,9 +105,9 @@ BPCheckBox::BPCheckBox(TPasObject PasObject,
 					  message,rmask,flags),
           BPControl(PasObject, frame, name, label, message,
           rmask, flags), 
-          BPView(PasObject, frame, name, rmask, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+//       BPView(PasObject, frame, name, rmask, flags),
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -115,9 +115,9 @@ BPCheckBox::BPCheckBox(TPasObject PasObject,
 BPCheckBox::BPCheckBox(TPasObject PasObject, BMessage *archive)
           :BCheckBox(archive),
           BPControl(PasObject, archive),
-          BPView(PasObject, archive),
-          BPHandler(PasObject, archive),
-          BPasObject(PasObject)
+//       BPView(PasObject, archive),
+          BPHandler(PasObject, archive)
+//       BPasObject(PasObject)
 {
 
 }

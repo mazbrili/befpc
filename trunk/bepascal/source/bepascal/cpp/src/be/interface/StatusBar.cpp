@@ -38,7 +38,7 @@ extern "C" {
 }
 #endif
 
-class BPStatusBar : public BStatusBar, virtual BPView 
+class BPStatusBar : public BStatusBar, public BPView 
 {
 
 public:
@@ -80,16 +80,16 @@ BPStatusBar::BPStatusBar(TPasObject PasObject,
 								label ,
 								trailing_label ),
 		  BPView(PasObject, BRect(0,0,0,0), name, 0, 0),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)		
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)		
 {
 }
           							
 BPStatusBar::BPStatusBar(TPasObject PasObject,BMessage *data)
           :BStatusBar(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 

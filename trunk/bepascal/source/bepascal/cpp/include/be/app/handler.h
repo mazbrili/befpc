@@ -27,7 +27,7 @@
 
 typedef void (*BHandler_MessageReceived_hook) (TPasObject PasObject, TCPlusObject message);
 
-class BPHandler : public BHandler, public virtual BPasObject
+class BPHandler : public BHandler, public BPasObject
 {
 	public:
 		BPHandler(TPasObject PasObject, const char *name = NULL);

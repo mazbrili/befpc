@@ -27,7 +27,7 @@
 #include <beobj.h>
 
 
-class BPBox : public BBox, virtual public BPView
+class BPBox : public BBox, public BPView
 {
 public:
 	BPBox(TPasObject PasObject,
@@ -112,8 +112,8 @@ BPBox::BPBox(TPasObject PasObject,
 		:
 		BBox(bounds, name, resizeFlags, flags, border),
 		BPView(PasObject, bounds, name, resizeFlags, flags),
-		BPHandler(PasObject, name),
-		BPasObject(PasObject)
+		BPHandler(PasObject, name)
+//		BPasObject(PasObject)
 {
 
 }
@@ -122,8 +122,8 @@ BPBox::BPBox(TPasObject PasObject, BMessage *archive)
 		:
 		BBox(archive),
 		BPView(PasObject, archive),
-		BPHandler(PasObject, archive),
-		BPasObject(PasObject)
+		BPHandler(PasObject, archive)
+//		BPasObject(PasObject)
 {
 
 }

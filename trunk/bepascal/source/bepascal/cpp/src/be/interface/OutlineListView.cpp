@@ -36,7 +36,7 @@ extern "C" {
 }
 #endif
 
-class BPOutlineListView : public BOutlineListView, virtual public BPListView 
+class BPOutlineListView : public BOutlineListView, public BPListView 
 {
 public:
 					BPOutlineListView(TPasObject PasObject,BRect frame,
@@ -74,9 +74,9 @@ virtual void		MessageReceived(BMessage *);
 BPOutlineListView::BPOutlineListView(TPasObject PasObject,BMessage *data)
 					:BOutlineListView(data),
           BPListView(PasObject, data),
-          BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+//       BPView(PasObject, data),
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 
@@ -88,9 +88,9 @@ BPOutlineListView::BPOutlineListView(TPasObject PasObject,BRect frame,
 								| B_NAVIGABLE)
 					:BOutlineListView(frame,name,type,resizeMask,flags),
           BPListView(PasObject, frame,name,type,resizeMask,flags),
-          BPView(PasObject, frame,name,resizeMask,flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+//       BPView(PasObject, frame,name,resizeMask,flags),
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 }
 

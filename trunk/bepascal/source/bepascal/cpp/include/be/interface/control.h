@@ -26,7 +26,7 @@
 typedef void (*BControl_SetEnabled_hook) (TPasObject PasObject, bool enabled);
 typedef void (*BControl_SetValue_hook) (TPasObject PasObject, int32 value);
 
-class BPControl : public BControl, virtual public BPView
+class BPControl : public BControl, public BPView
 {
 	public:
 		// <BView_Constructor>

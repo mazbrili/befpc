@@ -40,7 +40,7 @@ extern "C" {
 }
 #endif
 
-class BPTextView : public BTextView, virtual public BPView {
+class BPTextView : public BTextView, public BPView {
 public:
 						BPTextView(TPasObject PasObject,
 								   BRect			frame,
@@ -232,8 +232,8 @@ BPTextView::BPTextView(TPasObject PasObject,
 					 resizeMask, 
 					 flags), 
           BPView(PasObject, BRect(0,0,0,0), name, 0, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -255,8 +255,8 @@ BPTextView::BPTextView(TPasObject PasObject,
 					 resizeFlags, 
 					 flags), 
           BPView(PasObject, BRect(0,0,0,0), name, 0, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -265,8 +265,8 @@ BPTextView::BPTextView(TPasObject PasObject,
 BPTextView::BPTextView(TPasObject PasObject, BMessage *data)
           :BTextView(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 

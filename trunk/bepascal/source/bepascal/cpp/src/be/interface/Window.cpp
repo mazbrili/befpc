@@ -45,9 +45,9 @@ BPWindow::BPWindow(TPasObject PasObject,
 				 uint32 flags,
 				 uint32 workspaces = B_CURRENT_WORKSPACE)
 				 : BWindow(frame, title, type, flags, workspaces),
-                 BPLooper(PasObject),
-                 BPHandler(PasObject, title),
-                 BPasObject(PasObject)
+                 BPLooper(PasObject)
+//              BPHandler(PasObject, title),
+//              BPasObject(PasObject)
 {
 }
 

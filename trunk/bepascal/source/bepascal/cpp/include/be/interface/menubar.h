@@ -5,7 +5,7 @@
 #include "menu.h"
 #include <beobj.h>
 
-class BPMenuBar : public BMenuBar, virtual public BPMenu
+class BPMenuBar : public BMenuBar, public BPMenu
 {
 	public:
 		BPMenuBar(TPasObject PasObject, BRect frame, const char *name, 

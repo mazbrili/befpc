@@ -67,7 +67,7 @@ BTabView_TabFrame_hook TabView_TabFrame_hook;
 }
 #endif
 
-class BPTab :public BTab , virtual public BPasObject {
+class BPTab :public BTab, public BPasObject {
 public:
 						BPTab(TPasObject PasObject,BView* contents=NULL);
 						BPTab(TPasObject PasObject,BMessage* data);
@@ -76,14 +76,14 @@ virtual void 			DrawTab(BView* owner, BRect tabFrame, tab_position,bool full=tru
 };
 
 BPTab::BPTab(TPasObject PasObject,BView* contents=NULL)
-	:BTab(contents),
+	: BTab(contents),
 	BPasObject(PasObject)
 {
 }
 
 
 BPTab::BPTab(TPasObject PasObject,BMessage* data)
-	:BTab(data),
+	: BTab(data),
 	BPasObject(PasObject)
 {
 }
@@ -100,7 +100,7 @@ void BPTab::DrawTab(BView* owner, BRect tabFrame, tab_position value, bool full)
 
 
 
-class BPTabView : public BTabView, virtual public BPView {
+class BPTabView : public BTabView, public BPView {
 public:
 						BPTabView(TPasObject PasObject,BRect frame, const char *name,
 							button_width width=B_WIDTH_AS_USUAL,
@@ -159,8 +159,8 @@ BPTabView::BPTabView(TPasObject PasObject,BRect frame, const char *name,
 							resizingMode,
 							flags),
           BPView(PasObject, frame, name, resizingMode, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 }							
 								
@@ -168,8 +168,8 @@ BPTabView::BPTabView(TPasObject PasObject,BRect frame, const char *name,
 BPTabView::BPTabView(TPasObject PasObject, BMessage *data)
           :BTabView(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 /*

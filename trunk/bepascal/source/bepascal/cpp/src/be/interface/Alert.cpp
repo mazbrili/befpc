@@ -28,7 +28,7 @@
 /*----------------------------------------------------------------*/
 /*----- BAlert class ---------------------------------------------*/
 
-class BPAlert : public BAlert, public virtual BPWindow // Is this OK? or should be public virtual?
+class BPAlert : public BAlert, public BPWindow // Is this OK? or should be public virtual?
 {
 public:
 					BPAlert(TPasObject PasObject,
@@ -124,16 +124,16 @@ BPAlert::BPAlert(TPasObject PasObject,
 				button_width width = B_WIDTH_AS_USUAL,
 				alert_type type = B_INFO_ALERT)
 		: BAlert(title, text, button1, button2, button3, width, type),
-		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0),
+		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0)
 
 // oco or Baldur :
 // why this doesn't work? compiler says:
 // BPWindow doesn't have a BPLooper member. The same with BPArchivable.
 
 //		BPLooper(PasObject),
-		BPHandler(PasObject, title),
+//		BPHandler(PasObject, title),
 //		BPArchivable(PasObject),
-		BPasObject(PasObject)
+//		BPasObject(PasObject)
 {
 
 }
@@ -148,11 +148,11 @@ BPAlert::BPAlert(TPasObject PasObject,
 				button_spacing spacing,
 				alert_type type = B_INFO_ALERT)
 		: BAlert(title, text, button1, button2, button3, width, spacing, type),
-		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0),
+		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0)
 //		BPLooper(PasObject),
-		BPHandler(PasObject, title),
+//		BPHandler(PasObject, title),
 //		BPArchivable(PasObject),
-		BPasObject(PasObject)
+//		BPasObject(PasObject)
 {
 
 }
@@ -160,11 +160,11 @@ BPAlert::BPAlert(TPasObject PasObject,
 BPAlert::BPAlert(TPasObject PasObject, BMessage *data)
 		: BAlert(data),
 // UGLY HACK!!! FIX ME!!! (should be "BPWindow(PasObject, data)" )
-		BPWindow(PasObject, BRect(), "Ugly_Hack!", B_UNTYPED_WINDOW, 0, 0),
+		BPWindow(PasObject, BRect(), "Ugly_Hack!", B_UNTYPED_WINDOW, 0, 0)
 //		BPLooper(PasObject),
-		BPHandler(PasObject),
+//		BPHandler(PasObject),
 //		BPArchivable(PasObject),
-		BPasObject(PasObject)
+//		BPasObject(PasObject)
 {
 
 }

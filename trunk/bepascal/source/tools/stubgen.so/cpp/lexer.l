@@ -9,7 +9,7 @@
  *  (ftp://ftp.uu.net/usenet/net.sources/ansi.c.grammar.Z)
  *
  *  DATE: Thu Aug 15 13:10:06 EDT 1996
- *   $Id: lexer.l,v 1.1 2003-09-21 22:46:55 ocoursiere Exp $
+ *   $Id: lexer.l,v 1.2 2003-10-20 22:46:40 jetsoni Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -29,6 +29,9 @@
  *
  *  Modification history:
  *  $Log: not supported by cvs2svn $
+ *  Revision 1.1  2003/09/21 22:46:55  ocoursiere
+ *  stubgen.so is now include in the build process
+ *
  *  Revision 1.1  2001/11/07 10:06:07  ithamar
  *  Added stubgen to CVS
  *
@@ -174,7 +177,7 @@ IS			(u|U|l|L)*
 #if 0 /* #ifdef WIN32 */
 #include "y_tab.h"
 #else
-#include "y.tab.h"
+#include "parser.h"
 #endif
 
 #ifdef __cplusplus
@@ -191,7 +194,7 @@ IS			(u|U|l|L)*
    the value as a pointer */
 #define RETURN_VAL(x) tokens_seen++; yylval.flag = 37; return(x)
 
-static const char rcsid[] = "$Id: lexer.l,v 1.1 2003-09-21 22:46:55 ocoursiere Exp $";
+static const char rcsid[] = "$Id: lexer.l,v 1.2 2003-10-20 22:46:40 jetsoni Exp $";
 
 static void count();
 static void comment();

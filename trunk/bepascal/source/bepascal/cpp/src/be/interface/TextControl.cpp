@@ -41,7 +41,7 @@ extern "C" {
 }
 #endif
 
-class BPTextControl : public BTextControl, virtual public BPControl {
+class BPTextControl : public BTextControl, public BPControl {
 
 public:
 		BPTextControl(TPasObject PasObject, 
@@ -125,9 +125,9 @@ BPTextControl::BPTextControl(TPasObject PasObject,
 					  message,rmask,flags),
           BPControl(PasObject, frame, name, label, message,
           rmask, flags), 
-          BPView(PasObject, frame, name, rmask, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+//       BPView(PasObject, frame, name, rmask, flags),
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -135,9 +135,9 @@ BPTextControl::BPTextControl(TPasObject PasObject,
 BPTextControl::BPTextControl(TPasObject PasObject, BMessage *archive)
           :BTextControl(archive),
           BPControl(PasObject, archive),
-          BPView(PasObject, archive),
-          BPHandler(PasObject, archive),
-          BPasObject(PasObject)
+//       BPView(PasObject, archive),
+          BPHandler(PasObject, archive)
+//       BPasObject(PasObject)
 {
 
 }
