@@ -22,6 +22,7 @@ SubDir BEPASCAL_TOP ;
 
 # Force creation of target's directories BEFORE the building of libbepascal.so
 Depends libbepascal.so : dirs ;
+
 # build libbepascal.so before libstubgen.so
 Depends libstubgen.so : libbepascal.so ;
 
@@ -72,6 +73,21 @@ rule MakeDistribs
 	                    demos ;
 	MakeZip docs.zip : Readme 
 	                   docs ;
+	MakeZip bepascal_all.zip : Readme
+	                  Jamfile
+	                  Jamrules
+	                  demos
+	                  docs
+	                  lib
+                      source/Jamfile
+	                  source/bepascal/pas
+                      source/bepascal/Jamfile
+                      source/bepascal/cpp/Jamfile	                            
+	                  source/bepascal/cpp
+                      source/Jamfile 
+                      source/tools
+                      source/tools/Jamfile ;
+	                  	                   
 }
 
 NOTFILE zip ;
