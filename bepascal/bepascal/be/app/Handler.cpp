@@ -37,10 +37,11 @@ BHandler_MessageReceived_hook Handler_MessageReceived_hook;
 }
 #endif
 
-class BPHandler : public BHandler, public BPasObject
+class BPHandler : public BHandler, public virtual BPasObject
 {
 	public:
 		BPHandler(TPasObject PasObject, const char *name = NULL);
+		BPHandler(TPasObject PasObject, BMessage *archive);
 		virtual ~BPHandler(void);
 		virtual void MessageReceived(BMessage *message);		
 	private:
@@ -48,6 +49,11 @@ class BPHandler : public BHandler, public BPasObject
 
 BPHandler::BPHandler(TPasObject PasObject, const char *name)
 	: BHandler(name), BPasObject(PasObject)
+{
+
+}
+BPHandler::BPHandler(TPasObject PasObject, BMessage *archive)
+			: BHandler(archive), BPasObject(PasObject)
 {
 
 }

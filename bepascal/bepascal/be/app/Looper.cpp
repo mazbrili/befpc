@@ -44,7 +44,7 @@ BLooper_QuitRequested_hook Looper_QuitRequested_hook;
 }
 #endif
 
-class BPLooper : public BLooper, public BPHandler
+class BPLooper : public BLooper, public virtual BPHandler
 {
 	public:
 		BPLooper(TPasObject PasObject, const char *name = NULL,
@@ -60,7 +60,8 @@ BPLooper::BPLooper(TPasObject PasObject, const char *name = NULL,
                    int32 priority = B_NORMAL_PRIORITY,
                    int32 portCapacity = B_LOOPER_PORT_DEFAULT_CAPACITY)
                    : BLooper(name, priority, portCapacity),
-                   BPHandler(PasObject, name)
+                   BPHandler(PasObject, name),
+                   BPasObject(PasObject)
 {
 }
 

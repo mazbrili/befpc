@@ -23,7 +23,7 @@
 #include <Archivable.h>
 
 #include <Roster.cpp>
-#include <Message.cpp>
+#include <Message.h>
 #include <Archivable.cpp>
 #include <Handler.cpp>
 #include <Looper.cpp>
@@ -31,6 +31,9 @@
 #include <View.cpp>
 #include <Point.cpp>
 #include <Rect.cpp>
+#include <SerialPort.cpp>
+
+// #include <Control.cpp>
 
 #include <beobj.cpp>
 
@@ -53,7 +56,7 @@ BApplication_ReadyToRun_hook Application_ReadyToRun_hook;
 }
 #endif
 
-class BPApplication : public BApplication, public BPLooper
+class BPApplication : public BApplication, public virtual BPLooper
 {
 	public:
 		BPApplication(TPasObject PasObject, const char *signature);
@@ -67,13 +70,16 @@ class BPApplication : public BApplication, public BPLooper
 };
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature) 
-	: BApplication(signature), BPLooper(PasObject)
+	: BApplication(signature), BPLooper(PasObject), BPHandler(PasObject),
+	BPasObject(PasObject)
 {
 
 }
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature,
-	 status_t *error) : BApplication(signature, error), BPLooper(PasObject)
+	 status_t *error) : BApplication(signature, error), BPLooper(PasObject),
+	 BPHandler(PasObject),
+	 BPasObject(PasObject)
 {
 }
 

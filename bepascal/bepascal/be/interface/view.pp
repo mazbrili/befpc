@@ -21,7 +21,8 @@ unit View;
 interface
 
 uses
-  beobj, handler, rect, os, application, appdefs, message;
+  beobj, handler, rect, os, application, appdefs, message,
+  graphicdefs;
   
 type
 //  TWindow = class(TBeObject);
@@ -57,6 +58,7 @@ type
     function NextSibling : TView;
     function PreviousSibling : TView;
 //    function Window : TWindow;
+    procedure SetViewColor(rgb_color : TRGB_color);
   end;
 
 function BView_Create(AObject : TObject; frame : TCPlusObject; name : PChar;
@@ -71,6 +73,7 @@ function BView_PreviousSibling(CPlusObject : TCPlusObject) : TCPlusObject; cdecl
 function BView_ChildAt(CPlusObject : TCPlusObject; index : integer) : TCPlusObject; cdecl; external BePascalLibName name 'BView_ChildAt';
 function BView_Window(CPlusObject : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BView_Window';
 procedure BView_Draw(CPlusObject : TCPlusObject; aRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_Draw';
+procedure BView_SetViewColor(CPlusObject : TCPlusObject; c : TRGB_color); cdecl; external BePascalLibName name 'BView_SetViewColor';
 
 var
     // resizingMode mask
@@ -272,6 +275,11 @@ end;
 begin
   Result := TWindow.Wrap(BView_Window(Self.CPlusObject));
 end;}
+
+procedure TView.SetViewColor(rgb_color : TRGB_color);
+begin
+  BView_SetViewColor(Self.CPlusObject, rgb_color);  
+end;
 
 // Hook functions
 procedure View_AllAttached_hook_func(View : TView); cdecl;
