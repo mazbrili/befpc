@@ -69,7 +69,7 @@
  *  This grammar is only a subset of the real C++ language.
  *
  *  DATE: Thu Aug 15 13:10:06 EDT 1996
- *   $Id: parser.c,v 1.3 2003-10-08 21:58:09 ocoursiere Exp $
+ *   $Id: parser.c,v 1.4 2003-10-09 20:08:04 ocoursiere Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -195,7 +195,7 @@
  *  };
  *
  *  Error:
- *  stubgen version 2.0-beta $Revision: 1.3 $.
+ *  stubgen version 2.0-beta $Revision: 1.4 $.
  *  parse error at line 4, file test.H:
  *   public:
  *        ^
@@ -415,7 +415,7 @@ extern int collectMemberInitList();
 /* defined here in parser.y */
 static int error_recovery();
 static int yyerror(char *);
-static const char rcsid[] = "$Id: parser.c,v 1.3 2003-10-08 21:58:09 ocoursiere Exp $";
+static const char rcsid[] = "$Id: parser.c,v 1.4 2003-10-09 20:08:04 ocoursiere Exp $";
 
 /* defined in main.c */
 extern FILE *outfile;
