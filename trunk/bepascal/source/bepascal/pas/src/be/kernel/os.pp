@@ -16,7 +16,6 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-
 unit OS;
 
 interface
@@ -27,6 +26,8 @@ uses
 type
   uid_t = Cardinal;
   gid_t = Cardinal;
+
+{$PACKRECORDS C}
 
 const
   B_OS_NAME_LENGTH = 32;
@@ -64,20 +65,20 @@ const
 
 // area
 type
-  area_info = packed record
-    area : area_id;
-    name : string[B_OS_NAME_LENGTH]; // array[0..B_OS_NAME_LENGTH - 1] of Char;
-    size : size_t;
-    lock : Longword;
-    protection : Longword;
-    team : team_id;
-    ram_size : Longword;
-    copy_count : Longword;
-    in_count : Longword;
-    out_count : Longword;
-    address : Pointer;
+  area_info = record
+    area        : area_id;
+    name        : string[B_OS_NAME_LENGTH];
+    size        : size_t;
+    lock,
+    protection  : Longword;
+    team        : team_id;
+    ram_size,
+    copy_count,
+    in_count,
+    out_count   : Longword;
+    address     : Pointer;
   end;
-
+  Parea_info = ^area_info;
                                          // void **start_addr;
 function create_area(const name : PChar; var start_addr : Pointer;
                      addr_spec : Longword; size : size_t; lock : Longword;
@@ -103,28 +104,29 @@ function set_area_protection(id : area_id; new_protection : Longword)
          : status_t; cdecl; external 'root' name 'set_area_protection';
 
 // These were macros.
-function get_area_info(id : area_id; var ainfo : area_info) : status_t;
+function get_area_info(id : area_id; ainfo : Parea_info) : status_t;
 function get_next_area_info(team : team_id; var cookie : Longint;
-                            var ainfo : area_info) : status_t;
+                            ainfo : Parea_info) : status_t;
 
 //--------------------------------------------------------------------------
 
 // Ports
 
 type
-  port_info = packed record
-    port : port_id;
-    team : team_id;
-    name : string[B_OS_NAME_LENGTH]; // array[0..B_OS_NAME_LENGTH - 1] of Char
-    capacity : Longint;    // queue depth
-    queue_count : Longint; // # msgs waiting to be read
+  port_info = record
+    port        : port_id;
+    team        : team_id;
+    name        : string[B_OS_NAME_LENGTH];
+    capacity,              // queue depth
+    queue_count,           // # msgs waiting to be read
     total_count : Longint; // total # msgs read so far
   end;
+  Pport_info = ^port_info;
 
 function create_port(capacity : Longint; const name : PChar) : port_id;
-            cdecl; external 'root' name 'create_port';
+         cdecl; external 'root' name 'create_port';
 function find_port(const name : PChar) : port_id;
-            cdecl; external 'root' name 'find_port';
+         cdecl; external 'root' name 'find_port';
 
 function write_port(port : port_id; code : Longint; const buf : Pointer;
                     buf_size : size_t)
@@ -144,39 +146,40 @@ function read_port_etc(port : port_id; var code : Longint; var buf : Pointer;
          : status_t; cdecl; external 'root' name 'read_port_etc';
 
 function port_buffer_size(port : port_id) : ssize_t;
-            cdecl; external 'root' name 'port_buffer_size';
+         cdecl; external 'root' name 'port_buffer_size';
 
 function port_buffer_size_etc(port : port_id; flags : Longword;
                               timeout : bigtime_t)
          : ssize_t; cdecl; external 'root' name 'port_buffer_size_etc';
 
 function port_count(port : port_id) : ssize_t;
-            cdecl; external 'root' name 'port_count';
+         cdecl; external 'root' name 'port_count';
 
 function set_port_owner(port : port_id; team : team_id)
          : status_t; cdecl; external 'root' name 'set_port_owner';
 
 function close_port(port : port_id) : status_t;
-             cdecl; external 'root' name 'close_port';
+         cdecl; external 'root' name 'close_port';
 
 function delete_port(port : port_id) : status_t;
-             cdecl; external 'root' name 'delete_port';
+         cdecl; external 'root' name 'delete_port';
 
 // These were macros.
-function get_port_info(port : port_id; info : port_info) : status_t;
-function get_next_port_info(team : team_id; var cookie : Longword; var info : port_info) : status_t;
+function get_port_info(port : port_id; info : Pport_info) : status_t;
+function get_next_port_info(team : team_id; var cookie : Longword; info : Pport_info) : status_t;
 
 //--------------------------------------------------------------------------
 
 // Semaphores
 type
-  sem_info = packed record
+  sem_info = record
     sem : sem_id;
     team : team_id;
     name : string[B_OS_NAME_LENGTH]; // array [0..B_OS_NAME_LENGTH-1] of Char
     count : Longint;
     latest_holder : thread_id;
   end;
+  Psem_info = ^sem_info;
 
 function create_sem(count : Longint; const name : PChar) : sem_id;
          cdecl; external 'root' name 'create_sem';
@@ -196,8 +199,8 @@ function get_sem_count(sem : sem_id; var count : Longint) : status_t; // be care
 function set_sem_owner(sem : sem_id; team : team_id)  : status_t;
          cdecl; external 'root' name 'set_sem_owner';
 
-function get_sem_info(sem : sem_id; var info : sem_info) : status_t;
-function get_next_sem_info(team : team_id; var cookie : Longword; var info : sem_info) : status_t;
+function get_sem_info(sem : sem_id; info : Psem_info) : status_t;
+function get_next_sem_info(team : team_id; var cookie : Longword; info : Psem_info) : status_t;
 
 
 // -----
@@ -246,7 +249,7 @@ const
   B_REAL_TIME_PRIORITY         = 120;
 
 type
-  thread_info = packed record
+  thread_info = record
     thread      : thread_id;
     team        : team_id;
     name        : string[B_OS_NAME_LENGTH];
@@ -258,11 +261,13 @@ type
     stack_base  : Pointer; // not sure, was "void *stack_base;"
     stack_end   : Pointer; // not sure, was "void *stack_end;"
   end;
+  Pthread_info = ^thread_info;
 
-  team_usage_info = packed record
+  team_usage_info = record
     user_time,
     kernel_time : bigtime_t;
   end;
+  Pteam_usage_info = ^team_usage_info;
 
 //typedef int32 (* thread_func) (void * );
   thread_func = function(args : Pointer) : Longint;
@@ -270,7 +275,7 @@ type
 // not sure about 'arg', it was: 'void *arg'
 function spawn_thread(function_name : thread_func; const thread_name : PChar;
                       priority : Longint; var arg : Pointer) : thread_id;
-                      cdecl; external 'root' name 'spawn_thread';
+         cdecl; external 'root' name 'spawn_thread';
 
 function kill_thread(thread : thread_id) : status_t;
          cdecl; external 'root' name 'kill_thread';
@@ -303,9 +308,9 @@ function find_thread(const name : PChar) : thread_id;
   {$endif _KERNEL_MODE}
 {$endif CPUI386}
 
-function get_thread_info(thread : thread_id; var info : thread_info) : status_t;
-function get_next_thread_info(tmid : team_id; var cookie : Longint; var info : thread_info) : status_t;
-function get_team_usage_info(tmid : team_id; who : Longint; var ti : team_usage_info) : status_t;
+function get_thread_info(thread : thread_id; info : Pthread_info) : status_t;
+function get_next_thread_info(tmid : team_id; var cookie : Longint; info : Pthread_info) : status_t;
+function get_team_usage_info(tmid : team_id; who : Longint; ti : Pteam_usage_info) : status_t;
 
 function send_data(thread : thread_id; code : Longint; const buf : Pointer;
                    buffer_size : size_t) : status_t; cdecl; external 'root' name 'send_data';
@@ -335,7 +340,7 @@ const
    B_SYSTEM_TEAM = 2;
 
 type
-  team_info = packed record
+  team_info = record
     team                : team_id;
     image_count,
     thread_count,
@@ -347,11 +352,12 @@ type
     uid                 : uid_t;
     gid                 : gid_t;
   end;
+  Pteam_info = ^team_info;
 
 function kill_team(team : team_id) : status_t; // see also: send_signal()
          cdecl; external 'root' name 'kill_team';
-function get_team_info(team : team_id; var info : team_info) : status_t;
-function get_next_team_info(var cookie : Longint; var info : team_info) : status_t;
+function get_team_info(team : team_id; info : Pteam_info) : status_t;
+function get_next_team_info(var cookie : Longint; info : Pteam_info) : status_t;
 
 //--------------------------------------------------------------------------
 
@@ -388,23 +394,23 @@ const
   B_CPU_SH       = 23;
   B_CPU_SPARC    = 24;
 
-  B_CPU_INTEL_X86 = $1000;
-  B_CPU_INTEL_PENTIUM = $1051;
-  B_CPU_INTEL_PENTIUM75 = B_CPU_INTEL_PENTIUM + 1;
-  B_CPU_INTEL_PENTIUM_486_OVERDRIVE = B_CPU_INTEL_PENTIUM + 2;
-  B_CPU_INTEL_PENTIUM_MMX = B_CPU_INTEL_PENTIUM + 3;
-  B_CPU_INTEL_PENTIUM_MMX_MODEL_4 = B_CPU_INTEL_PENTIUM_MMX;
-  B_CPU_INTEL_PENTIUM_MMX_MODEL_8 = $1058;
+  B_CPU_INTEL_X86                     = $1000;
+  B_CPU_INTEL_PENTIUM                 = $1051;
+  B_CPU_INTEL_PENTIUM75               = B_CPU_INTEL_PENTIUM + 1;
+  B_CPU_INTEL_PENTIUM_486_OVERDRIVE   = B_CPU_INTEL_PENTIUM + 2;
+  B_CPU_INTEL_PENTIUM_MMX             = B_CPU_INTEL_PENTIUM + 3;
+  B_CPU_INTEL_PENTIUM_MMX_MODEL_4     = B_CPU_INTEL_PENTIUM_MMX;
+  B_CPU_INTEL_PENTIUM_MMX_MODEL_8     = $1058;
   B_CPU_INTEL_PENTIUM75_486_OVERDRIVE = B_CPU_INTEL_PENTIUM_MMX_MODEL_8 + 1;
-  B_CPU_INTEL_PENTIUM_PRO = $1061;
-  B_CPU_INTEL_PENTIUM_II = $1063;
-  B_CPU_INTEL_PENTIUM_II_MODEL_3 = $1063;
-  B_CPU_INTEL_PENTIUM_II_MODEL_5 = $1065;
-  B_CPU_INTEL_CELERON = $1066;
-  B_CPU_INTEL_PENTIUM_III = $1067;
-  B_CPU_INTEL_PENTIUM_III_MODEL_8 = $1068;
+  B_CPU_INTEL_PENTIUM_PRO             = $1061;
+  B_CPU_INTEL_PENTIUM_II              = $1063;
+  B_CPU_INTEL_PENTIUM_II_MODEL_3      = $1063;
+  B_CPU_INTEL_PENTIUM_II_MODEL_5      = $1065;
+  B_CPU_INTEL_CELERON                 = $1066;
+  B_CPU_INTEL_PENTIUM_III             = $1067;
+  B_CPU_INTEL_PENTIUM_III_MODEL_8     = $1068;
 
-  B_CPU_AMD_X86 = $1100;
+  B_CPU_AMD_X86       = $1100;
   B_CPU_AMD_K5_MODEL0 = $1150;
   B_CPU_AMD_K5_MODEL1 = B_CPU_AMD_K5_MODEL0 + 1;
   B_CPU_AMD_K5_MODEL2 = B_CPU_AMD_K5_MODEL0 + 2;
@@ -414,20 +420,20 @@ const
   B_CPU_AMD_K6_MODEL7 = $1157;
 
   B_CPU_AMD_K6_MODEL8 = $1158;
-  B_CPU_AMD_K6_2 = $1158;
+  B_CPU_AMD_K6_2      = $1158;
 
   B_CPU_AMD_K6_MODEL9 = $1159;
-  B_CPU_AMD_K6_III = $1159;
+  B_CPU_AMD_K6_III    = $1159;
 
   B_CPU_AMD_ATHLON_MODEL1 = $1161;
 
-  B_CPU_CYRIX_X86 = $1200;
-  B_CPU_CYRIX_GXm = $1254;
+  B_CPU_CYRIX_X86    = $1200;
+  B_CPU_CYRIX_GXm    = $1254;
   B_CPU_CYRIX_6x86MX = $1260;
 
-  B_CPU_IDT_X86 = $1300;
+  B_CPU_IDT_X86        = $1300;
   B_CPU_IDT_WINCHIP_C6 = $1354;
-  B_CPU_IDT_WINCHIP_2 = $1358;
+  B_CPU_IDT_WINCHIP_2  = $1358;
 
   B_CPU_RISE_X86 = $1400;
   B_CPU_RISE_mP6 = $1450;
@@ -435,14 +441,14 @@ const
 
   B_CPU_X86_VENDOR_MASK = $1F00;
 
-{$ifdef X86}
+{$ifdef CPUI386}
 type
-  _eax_0 = packed record
+  _eax_0 = record
     max_eax  : Longword;
     vendorid : string[12];
   end;
 
-  _eax_1 = packed record
+  _eax_1 = record
     stepping,              // : 4;
     model,                 // : 4;
     family,                // : 4;
@@ -453,25 +459,25 @@ type
     reserved_2 : Longword;
   end;
 
-  _eax_2 = packed record
+  _eax_2 = record
     call_num : Byte;
     cache_descriptors : array[0..14] of Byte;
   end;
 
-  _eax_3 = packed record
+  _eax_3 = record
     reserved            : array[0..1] of Longword;
 	serial_number_high,
 	serial_number_low   : Longword;
   end;
 
-  _regs = packed record
+  _regs = record
     eax,
     ebx,
     edx,
     ecx : Longword;
   end;
 
-  cpuid_info = packed record
+  cpuid_info = record
     eax_0 : _eax_0;
     eax_1 : _eax_1;
     eax_2 : _eax_2;
@@ -479,11 +485,12 @@ type
     as_chars : string[16];
     regs : _regs;
   end;
+  Pcpuid_info = ^cpuid_info;
 
-function get_cpuid(var info : cpuid_info; eax_register Longword; cpu_num : Longword)
+function get_cpuid(info : Pcpuid_info; eax_register : Longword; cpu_num : Longword)
          : status_t; cdecl; external 'root' name 'get_cpuid';
 
-{$endif X86}
+{$endif CPUI386}
 
 type
   platform_types = (
@@ -503,22 +510,22 @@ type
     B_NINTENDO_64_PLATFORM
   );
 
-  cpu_info = packed record
+  cpu_info = record
     active_time : bigtime_t; // # usec doing useful work since boot
   end;
 
   machine_id = array[1..2] of Longint; // unique machine ID
 
-  system_info = packed record
-    id : machine_id; // unique machine ID
-    boot_time : bigtime_t; // time of boot (# usec since 1/1/70)
-    cpu_count : Longint; // # of cpus
-    cpu_type  : Longword; // enum cpu_types  // type of cpu
-    cpu_revision : Longint; // revision # of cpu
+  system_info = record
+    id           : machine_id; // unique machine ID
+    boot_time    : bigtime_t;  // time of boot (# usec since 1/1/70)
+    cpu_count    : Longint;    // # of cpus
+    cpu_type     : Longword;   // enum cpu_types  // type of cpu
+    cpu_revision : Longint;    // revision # of cpu
     cpu_infos : array[0..B_MAX_CPU_COUNT-1] of cpu_info; // info about individual cpus
     cpu_clock_speed : Int64; // processor clock speed (Hz)
     bus_clock_speed : Int64; // bus clock speed (Hz)
-    platform_type : platform_types; // type of machine we're on
+    platform_type   : platform_types; // type of machine we're on
     max_pages,              // total # physical pages
     used_pages,             // # physical pages in use
     page_faults,            // # of page faults
@@ -531,14 +538,16 @@ type
     max_teams,              // maximum # teams
     used_teams   : Longint; // # teams in use
     kernel_name       : array[0..B_FILE_NAME_LENGTH - 1] of Char; // name of kernel
-    kernel_build_date : string[B_OS_NAME_LENGTH];   // date kernel built
-    kernel_build_time : string[B_OS_NAME_LENGTH];   // time kernel built
-    kernel_version : Int64;                         // version of this kernel
-    _busy_wait_time : bigtime_t; // reserved for Be
-    pad : array[0..3]of Longint; // just in case...
+    kernel_build_date : string[B_OS_NAME_LENGTH]; // date kernel built
+    kernel_build_time : string[B_OS_NAME_LENGTH]; // time kernel built
+    kernel_version    : Int64;                    // version of this kernel
+    _busy_wait_time   : bigtime_t;                // reserved for Be
+    pad               : array[0..3]of Longint;    // just in case...
   end;
+  Psystem_info = ^system_info;
 
-function get_system_info(var info : system_info) : status_t;
+function get_system_info(info : Psystem_info) : status_t;
+
 function is_computer_on : Longint; cdecl; external 'root' name 'is_computer_on';
 function is_computer_on_fire : Double; cdecl; external 'root' name 'is_computer_on_fire';
 
@@ -553,10 +562,14 @@ function is_computer_on_fire : Double; cdecl; external 'root' name 'is_computer_
   Library functions convert these to the local time.
 }
 
-function real_time_clock : Longword; cdecl; external 'root' name 'real_time_clock';
-procedure set_real_time_clock(secs_since_jan1_1970 : Longword); cdecl; external 'root' name 'set_real_time_clock';
-function real_time_clock_usecs : bigtime_t; cdecl; external 'root' name 'real_time_clock_usecs';
-function set_timezone(tz_name : PChar) : status_t; cdecl; external 'root' name 'set_timezone';
+function real_time_clock : Longword;
+         cdecl; external 'root' name 'real_time_clock';
+procedure set_real_time_clock(secs_since_jan1_1970 : Longword);
+          cdecl; external 'root' name 'set_real_time_clock';
+function real_time_clock_usecs : bigtime_t; cdecl;
+         external 'root' name 'real_time_clock_usecs';
+function set_timezone(tz_name : PChar) : status_t;
+         cdecl; external 'root' name 'set_timezone';
 // time since booting in microseconds
 function system_time : bigtime_t; cdecl; external 'root' name 'system_time';
 
@@ -582,114 +595,114 @@ implementation
 
 //--- These were macros ---
 
-function _get_area_info(id : area_id; var ainfo : area_info; size : size_t)
+function _get_area_info(id : area_id; ainfo : Parea_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_area_info';
 
 function _get_next_area_info(team : team_id; var cookie : Longint;
-                             var ainfo : area_info; size : size_t)
+                             ainfo : Parea_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_next_area_info';
 
-function get_area_info(id : area_id; var ainfo : area_info) : status_t;
+function get_area_info(id : area_id; ainfo : Parea_info) : status_t;
 begin
-  Result := _get_area_info(id, ainfo, SizeOf(ainfo));
+  Result := _get_area_info(id, ainfo, SizeOf(ainfo^));
 end;
 
-function get_next_area_info(team : team_id; var cookie : Longint; var ainfo : area_info) : status_t;
+function get_next_area_info(team : team_id; var cookie : Longint; ainfo : Parea_info) : status_t;
 begin
-  Result := _get_next_area_info(team, cookie, ainfo, SizeOf(ainfo));
+  Result := _get_next_area_info(team, cookie, ainfo, SizeOf(ainfo^));
 end;
 
 //---
 
-function _get_port_info(port : port_id; var info : port_info; size : size_t)
+function _get_port_info(port : port_id; info : Pport_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_port_info';
 
 function _get_next_port_info(team : team_id; var cookie : Longword;
-                             var info : port_info; size : size_t)
+                             info : Pport_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_next_port_info';
 
-function get_port_info(port : port_id; info : port_info) : status_t;
+function get_port_info(port : port_id; info : Pport_info) : status_t;
 begin
-  Result := _get_port_info(port, info, SizeOf(info));
+  Result := _get_port_info(port, info, SizeOf(info^));
 end;
 
 function get_next_port_info(team : team_id; var cookie : Longword;
-                            var info : port_info) : status_t;
+                            info : Pport_info) : status_t;
 begin
-  Result := _get_next_port_info(team, cookie, info, SizeOf(info));
+  Result := _get_next_port_info(team, cookie, info, SizeOf(info^));
 end;
 
 //---
 
-function _get_sem_info(sem : sem_id; var info : sem_info; size : size_t)
+function _get_sem_info(sem : sem_id; info : Psem_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_sem_info';
 
-function _get_next_sem_info(team : team_id; var cookie : Longword; var info : sem_info;
+function _get_next_sem_info(team : team_id; var cookie : Longword; info : Psem_info;
                             size : size_t) : status_t;
                             cdecl; external 'root' name '_get_next_sem_info';
 
-function get_sem_info(sem : sem_id; var info : sem_info) : status_t;
+function get_sem_info(sem : sem_id; info : Psem_info) : status_t;
 begin
-  Result := _get_sem_info(sem, info, SizeOf(info));
+  Result := _get_sem_info(sem, info, SizeOf(info^));
 end;
 
-function get_next_sem_info(team : team_id; var cookie : Longword; var info : sem_info) : status_t;
+function get_next_sem_info(team : team_id; var cookie : Longword; info : Psem_info) : status_t;
 begin
-  Result := _get_next_sem_info((team), (cookie), (info), SizeOf(info));
+  Result := _get_next_sem_info(team, cookie, info, SizeOf(info^));
 end;
 
 //---
 
-function _get_thread_info(thread : thread_id; var info : thread_info;
+function _get_thread_info(thread : thread_id; info : Pthread_info;
                           size : size_t) : status_t;
-                          cdecl; external 'root' name '_get_thread_info';
+         cdecl; external 'root' name '_get_thread_info';
 function _get_next_thread_info(tmid : team_id; var cookie : Longint;
-                               var info : thread_info; size : size_t) : status_t;
-                               cdecl; external 'root' name '_get_next_thread_info';
-function _get_team_usage_info(tmid : team_id; who : Longint; var ti : team_usage_info;
-                              size : size_t) : status_t;
-                              cdecl; external 'root' name '_get_team_usage_info';
+                               info : Pthread_info; size : size_t) : status_t;
+         cdecl; external 'root' name '_get_next_thread_info';
+function _get_team_usage_info(tmid : team_id; who : Longint;
+                              ti : Pteam_usage_info; size : size_t) : status_t;
+         cdecl; external 'root' name '_get_team_usage_info';
 
-function get_thread_info(thread : thread_id; var info : thread_info) : status_t;
+function get_thread_info(thread : thread_id; info : Pthread_info) : status_t;
 begin
-  Result := _get_thread_info(thread, info, sizeof(info));
+  Result := _get_thread_info(thread, info, SizeOf(info^));
 end;
 
-function get_next_thread_info(tmid : team_id; var cookie : Longint; var info : thread_info) : status_t;
+function get_next_thread_info(tmid : team_id; var cookie : Longint; info : Pthread_info) : status_t;
 begin
-  Result := _get_next_thread_info(tmid, cookie, info, sizeof(info));
+  Result := _get_next_thread_info(tmid, cookie, info, SizeOf(info^));
 end;
 
-function get_team_usage_info(tmid : team_id; who : Longint; var ti : team_usage_info) : status_t;
+function get_team_usage_info(tmid : team_id; who : Longint; ti : Pteam_usage_info) : status_t;
 begin
-  Result := _get_team_usage_info(tmid, who, ti, sizeof(ti));
+  Result := _get_team_usage_info(tmid, who, ti, SizeOf(ti^));
 end;
 
 //---
 
-function _get_team_info(team : team_id; var info : team_info; size : size_t)
+function _get_team_info(team : team_id; info : Pteam_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_team_info';
-function _get_next_team_info(var cookie : Longint; var info : team_info; size : size_t)
+function _get_next_team_info(var cookie : Longint; info : Pteam_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_next_team_info';
 
-function get_team_info(team : team_id; var info : team_info) : status_t;
+function get_team_info(team : team_id; info : Pteam_info) : status_t;
 begin
-  Result := _get_team_info(team, info, SizeOf(info));
+  Result := _get_team_info(team, info, SizeOf(info^));
 end;
 
-function get_next_team_info(var cookie : Longint; var info : team_info) : status_t;
+function get_next_team_info(var cookie : Longint; info : Pteam_info) : status_t;
 begin
-  Result := _get_next_team_info(cookie, info, SizeOf(info));
+  Result := _get_next_team_info(cookie, info, SizeOf(info^));
 end;
 
 //---
 
-function _get_system_info(var returned_info : system_info; size : size_t)
+function _get_system_info(returned_info : Psystem_info; size : size_t)
          : status_t; cdecl; external 'root' name '_get_system_info';
 
-function get_system_info(var info : system_info): status_t;
+function get_system_info(info : Psystem_info): status_t;
 begin
-  Result := _get_system_info(info, SizeOf(info));
+  Result := _get_system_info(info, SizeOf(info^));
 end;
 
 //---
@@ -697,7 +710,7 @@ end;
 {$ifndef _KERNEL_MODE}
 function _kfind_thread_(const name : PChar) : thread_id; cdecl; external 'root' name '_kfind_thread_';
 {$inline ON} {$asmmode intel}
-function find_thread(const name : PChar) : thread_id; // inline; for 1.9 only ?
+function find_thread(const name : PChar) : thread_id; // inline; // needs -Sd
 begin
  Result := 0;
   if (name = nil) then
@@ -715,7 +728,7 @@ end;
 initialization
 // workaround because fpc 1.0.* don't support int64 const
 //  B_INFINITE_TIMEOUT := 9223372036854775807;
-  B_INFINITE_TIMEOUT := int64($7FFFFFFF) shl 32 + int64($FFFFFFFF);
+  B_INFINITE_TIMEOUT := Int64($7FFFFFFF) shl 32 + Int64($FFFFFFFF);
 {$endif VER1_0}
 
 end.
