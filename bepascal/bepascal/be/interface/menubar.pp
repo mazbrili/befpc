@@ -77,8 +77,8 @@ type
 }
   end;
 
-function BMenuBar_Create(AObject : TBeObject; frame : TCPlusObject; viewName : PChar; resizingMode : Cardinal; layout : TMenu_Layout; resizeToFit : boolean) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuBar_Create';
-function BMenuBar_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuBar_Create';
+function BMenuBar_Create(AObject : TBeObject; frame : TCPlusObject; viewName : PChar; resizingMode : Cardinal; layout : Integer; resizeToFit : boolean) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuBar_Create';
+//function BMenuBar_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMenuBar_Create';
 procedure BMenuBar_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMenuBar_Free';
 function BMenuBar_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : TArchivable; cdecl; external BePascalLibName name 'BMenuBar_Instantiate';
 function BMenuBar_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : TStatus_t; cdecl; external BePascalLibName name 'BMenuBar_Archive';
@@ -127,13 +127,13 @@ implementation
 
 constructor TMenuBar.Create(frame : TRect; viewName : PChar; resizingMode : Cardinal; layout : TMenu_Layout; resizeToFit : boolean);
 begin
-  CPlusObject := BMenuBar_Create(Self, frame.CPlusObject, viewName, resizingMode, layout, resizeToFit);
+  CPlusObject := BMenuBar_Create(Self, frame.CPlusObject, viewName, resizingMode, 0, resizeToFit);
 end;
 
 constructor TMenuBar.Create;
 begin
 	CreatePas;
-  CPlusObject := BMenuBar_Create(Self);
+//  CPlusObject := BMenuBar_Create_1(Self);
 end;
 
 destructor TMenuBar.Destroy;

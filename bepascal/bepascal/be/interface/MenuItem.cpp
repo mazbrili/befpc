@@ -52,6 +52,36 @@ void BPMenuItem::Draw(void)
 	BMenuItem::Draw();
 }
 
+void BPMenuItem::DrawContent(void)
+{
+	BMenuItem::DrawContent();
+}
+
+void BPMenuItem::GetContentSize(float *width, float *height)
+{
+	BMenuItem::GetContentSize(width, height);
+}
+
+void BPMenuItem::TruncateLabel(float max, char *new_label)
+{
+	BMenuItem::TruncateLabel(max, new_label);
+}
+
+void BPMenuItem::Highlight(bool on)
+{
+	BMenuItem::Highlight(on);
+}
+
+bool BPMenuItem::IsSelected() const
+{
+	return BMenuItem::IsSelected();
+}
+
+BPoint BPMenuItem::ContentLocation() const
+{
+	return BMenuItem::ContentLocation();
+}
+
 BPSeparatorItem::BPSeparatorItem(TPasObject PasObject)
 		:BSeparatorItem(),
 		BPMenuItem(PasObject, "", NULL),
@@ -69,6 +99,11 @@ BPSeparatorItem::BPSeparatorItem(TPasObject PasObject, BMessage *data)
 void BPSeparatorItem::Draw(void)
 {
 	BSeparatorItem::Draw();
+}
+
+void BPSeparatorItem::DrawContent(void)
+{
+	BSeparatorItem::DrawContent();
 }
 
 
@@ -118,7 +153,7 @@ TCPlusObject BMenuItem_Create_2
  ***********************************************************************/
 void BMenuItem_Free(BMenuItem *MenuItem)
 {
-   return MenuItem->~BMenuItem();
+   delete MenuItem;
 }
 
 
@@ -347,7 +382,7 @@ TCPlusObject BSeparatorItem_Create_1
  ***********************************************************************/
 void BSeparatorItem_Free(BSeparatorItem *SeparatorItem)
 {
-   return SeparatorItem->~BSeparatorItem();
+   delete SeparatorItem;
 }
 
 

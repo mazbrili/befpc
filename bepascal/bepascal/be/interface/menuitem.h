@@ -30,6 +30,12 @@ class BPMenuItem : public BMenuItem, virtual public BPasObject
 		BPMenuItem(TPasObject PasObject, BMenu *submenu, BMessage *message = NULL);
 		BPMenuItem(TPasObject PasObejct, BMessage *data);
 		virtual void Draw(void);
+		virtual void DrawContent(void);		
+		virtual void GetContentSize(float *width, float *height); 
+		virtual void TruncateLabel(float max, char *new_label); 
+		virtual void Highlight(bool on); 
+                bool IsSelected() const; 
+                BPoint ContentLocation() const;		
 	private:
 };
 
@@ -39,6 +45,7 @@ class BPSeparatorItem : public BSeparatorItem, virtual public BPMenuItem
 		BPSeparatorItem(TPasObject PasObject);
 		BPSeparatorItem(TPasObject PasObject, BMessage *data);
 		virtual void Draw(void);		
+		virtual void DrawContent(void);		
 };
 
 #endif /* _MENUITEM_H_ */
