@@ -30,9 +30,11 @@
 #include <beobj.h>
 
 
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
+
 
 #if defined(__cplusplus)
 }
@@ -267,10 +269,21 @@ BPTextView::BPTextView(TPasObject PasObject, BMessage *data)
           BPasObject(PasObject)
 {
 }
+
 void BPTextView::Pulse(void)
 {
+	Pulse_hookCall();
+
 	BTextView::Pulse();
 }
+
+
+void BPTextView::KeyDown(const char *bytes, int32 numBytes)
+{
+	KeyDown_hookCall(bytes,numBytes);
+	BTextView::KeyDown(bytes,numBytes);
+}
+
 
 
 
@@ -296,11 +309,13 @@ void BPTextView::AttachedToWindow(void)
 
 void BPTextView::AllAttached(void)
 {
+  	//AllAttached_hookCall();
 	BTextView::AllAttached();
 }
 
 void BPTextView::AllDetached(void)
 {
+	//AllDetached_hookCall();
 	BTextView::AllDetached();
 }
 
@@ -310,14 +325,11 @@ void BPTextView::WindowActivated(bool active)
 	BTextView::WindowActivated(active);
 }
 
-void BPTextView::KeyDown(const char *bytes, int32 numBytes)
-{
-	BTextView::KeyDown(bytes, numBytes);
-}
 
 
 void BPTextView::FrameResized(float width, float height)
 {
+    FrameResized_hookCall(width, height);
 	BTextView::FrameResized(width, height);
 }
 
