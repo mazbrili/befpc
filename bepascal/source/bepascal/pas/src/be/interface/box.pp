@@ -30,7 +30,7 @@ type
   BBox = class(BView)
   private
   public
-    constructor Create(Frame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
+    constructor Create(aFrame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
     constructor Create(data : BMessage);
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -44,7 +44,7 @@ type
     function GetLabel : PChar;
 
     function LabelView : BView;
-    procedure Draw(bounds : BRect); override;
+    procedure Draw(abounds : BRect); override;
     procedure AttachedToWindow; override;
     procedure DetachedFromWindow; override;
     procedure AllAttached; override;
@@ -106,10 +106,10 @@ function BBox_Perform(AObject : TCPlusObject; d : Perform_code; arg : Pointer) :
 implementation
 
 
-constructor BBox.Create(Frame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
+constructor BBox.Create(aFrame : BRect; Name : PChar; sResizingMode, sFlags : Cardinal; BorderStyle : border_style);
 begin
   CreatePas;
-  CPlusObject := BBox_Create(Self, Frame.CPlusObject, Name, sResizingMode, sFlags, BorderStyle);
+  CPlusObject := BBox_Create(Self, aFrame.CPlusObject, Name, sResizingMode, sFlags, BorderStyle);
 end;
 
 constructor BBox.Create(data : BMessage);
@@ -168,9 +168,9 @@ begin
 end;
 
 
-procedure BBox.Draw(bounds : BRect);
+procedure BBox.Draw(abounds : BRect);
 begin
-  BBox_Draw(CPlusObject, bounds{.CPlusObject});
+  BBox_Draw(CPlusObject, abounds{.CPlusObject});
 end;
 
 procedure BBox.AttachedToWindow;

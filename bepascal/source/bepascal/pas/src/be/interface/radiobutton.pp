@@ -28,7 +28,7 @@ type
    BRadioButton = class(BControl)
   private
   public
-	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
+	constructor Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage); override;
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -102,10 +102,10 @@ function BRadioButton_Perform(AObject : TCPlusObject; d : Perform_code; arg : Po
 
 implementation
 
-constructor BRadioButton.Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
+constructor BRadioButton.Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BRadioButton_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
+  CPlusObject := BRadioButton_Create(Self, aframe.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
 end;
 
 constructor  BRadioButton.Create(data : BMessage);
