@@ -21,7 +21,8 @@ program Hello;
 {$M+}
 uses
 	beobj, application, message, _beep, roster, SysUtils,
-	archivable, handler, toto, rect, window;
+	archivable, handler, toto, rect, window, view, graphicdefs, dataio, 
+	invoker, messenger, Control, Button;
 	
 type
   TMonApplication = class(TApplication)
@@ -30,7 +31,14 @@ type
   	procedure MessageReceived(aMessage : TMessage); override;
   	function QuitRequested : boolean; override;
   end;
-  
+  TMyWindow = class(TWindow)
+  private
+    aView : TView;
+    aButton : TButton;    
+  public
+    constructor Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal); override;
+    destructor Destroy; override;
+  end;  
   TMonObjet = class(TObject)
   private
     FMessage : string;
@@ -44,6 +52,47 @@ type
  
 var
   MonObj : TMonObjet;
+
+constructor TMyWindow.Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal);
+var
+  aRect, aRect2 : TRect;  
+  rgb_color : TRGB_color;
+  mess : TMessage;
+begin
+  inherited;
+  aRect := TRect.Create(20, 20, 100, 100);
+  try
+    aRect2 := TRect.Create(120, 120, 300, 300);
+    try
+      aView := TView.Create(aRect, 'Test', B_FOLLOW_NONE, B_WILL_DRAW);
+      rgb_color.red := 255;
+      rgb_color.green := 0;
+      rgb_color.blue := 0;
+      rgb_color.alpha := 0;
+      aView.SetViewColor(rgb_color);  
+      Self.AddChild(aView, nil);
+      mess := TMessage.Create(100);
+      aButton := TButton.Create(aRect2, 'Test', 'Test', mess, B_FOLLOW_NONE, B_WILL_DRAW);
+      WriteLn('before addchild');
+      Self.AddChild(aButton, nil);
+      aButton.Invoker.SetTarget(aView, nil);
+      if aButton.IsEnabled then
+        WriteLn('Actif');
+      WriteLn('after addchild');    
+    finally
+      aRect2.Free;
+    end;
+  finally
+    aRect.Free;
+  end;
+end;
+
+destructor TMyWindow.Destroy;
+begin
+//  aButton.Free;
+//  aView.Free;  
+  inherited;
+end;
 
 function TMonApplication.QuitRequested : boolean;
 begin
@@ -74,23 +123,23 @@ begin
 end;
 
 constructor TMonObjet.Create;
-var
-  a, b : string;
-  c : longint;
+//var
+//  a, b : string;
+//  c : longint;
 begin
   inherited;
- // GetLineInfo($A0000DB4, a, b, c);
-  Writeln(a + ' ' + b + ' ' + IntToStr(c));
+//  GetLineInfo($A0000DB4, a, b, c);
+//  Writeln(a + ' ' + b + ' ' + IntToStr(c));
   WriteLn('Constructor');
 end;
 
 procedure TMonObjet.Bonjour(test : string);
-var
-  a, b : string;
-  c : longint;
+//var
+//  a, b : string;
+//  c : longint;
 begin
 //  GetLineInfo($8002AEA5, a, b, c);
-  Writeln(a + ' ' + b + ' ' + IntToStr(c));
+//  Writeln(a + ' ' + b + ' ' + IntToStr(c));
   WriteLn(test);
   beep;	
   WriteLn('Fin de ' + test);
@@ -118,7 +167,7 @@ end;
 
 var
   aRect : TRect;
-  win : TWindow;
+  win : TMyWindow;
     
 begin
 	beep;
@@ -127,7 +176,7 @@ begin
 	TMonApplication.Create;
 	try
       aRect := TRect.Create(20, 20, 200, 200);
-      win := TWindow.Create(aRect, 'Bonjour', B_TITLED_WINDOW, B_QUIT_ON_WINDOW_CLOSE, B_CURRENT_WORKSPACE);
+      win := TMyWindow.Create(aRect, 'Bonjour', B_TITLED_WINDOW, B_NOT_RESIZABLE or B_NOT_ZOOMABLE or B_QUIT_ON_WINDOW_CLOSE, B_CURRENT_WORKSPACE);
       win.Show;
       be_app.Run;
       be_app.HideCursor;  	  

@@ -40,6 +40,7 @@ type
     FCPlusObject : TCPlusObject;
   public
     constructor Create; virtual;
+    constructor CreatePas; virtual;
     constructor Wrap(ACPlusObject : TCPlusObject); virtual;
     destructor UnWrap; virtual;
     property CPlusObject : TCPlusObject read FCPlusObject write FCPlusObject;
@@ -78,6 +79,11 @@ constructor TBeObject.Wrap(ACPlusObject : TCPlusObject);
 begin
   Self.CPlusObject := ACPlusObject;
   Debug;
+end;
+
+constructor TBeObject.CreatePas;
+begin
+  Create;
 end;
 
 procedure TBeObject.Debug;
