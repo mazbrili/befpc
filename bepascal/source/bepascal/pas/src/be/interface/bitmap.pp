@@ -23,7 +23,7 @@ unit Bitmap;
 interface
 
 uses
-  BeObj, Archivable, GraphicDefs, Message, OS, Rect, SupportDefs, View;
+  BeObj, Archivable, GraphicDefs, Message, OS, Rect, SupportDefs;
 
 const
   B_BITMAP_CLEAR_TO_WHITE          = $00000001;
@@ -38,6 +38,10 @@ const
   B_ANY_BYTES_PER_ROW = -1;
 
 type
+  BView = TBeObject; // OCO To avoid circulare reference beetween bitmap.pp and view.pp
+                     // We have to look at a better solution in the futur
+                     // (This one may not work when using functions that use this 
+                     // definition)
   BBitmap = class(BArchivable)
   private
   public
