@@ -27,7 +27,7 @@ type BCheckBox  = class(BControl)
   private
   public
     destructor Destroy;override;
-	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
+	constructor Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage) ;override;
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;
@@ -89,10 +89,10 @@ begin
   inherited;
 end;
 
-constructor BCheckBox.Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
+constructor BCheckBox.Create(aframe : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BCheckBox_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
+  CPlusObject := BCheckBox_Create(Self, aframe.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
 end;
 
 constructor BCheckBox.Create(data : BMessage) ;
