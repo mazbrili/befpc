@@ -51,12 +51,14 @@ type
       function AddData(const Name : PChar; aType : TType_Code; const Data : Pointer; FixedSize : Cardinal; NumItems : Integer) : TStatus_t;
       function AddBool(const Name : PChar; aBool : boolean) : TStatus_t;
       function AddInt8(const Name : PChar; anInt8 : Shortint) : TStatus_t;
+      function FindInt8(const Name : PChar; var anInt8 : Shortint) : TStatus_t;
       function AddInt16(const Name : PChar; anInt16 : Smallint) : TStatus_t;
       function AddInt32(const Name : PChar; anInt32 : Integer) : TStatus_t;
       function AddInt64(const Name : PChar; anInt64 : int64) : TStatus_t;
       function AddFloat(const Name : PChar; aFloat : Single) : TStatus_t;
       function AddDouble(const Name : PChar; aDouble : Double) : TStatus_t;
       function AddString(const Name : PChar; aString : PChar) : TStatus_t; 
+      function FindString(const Name : PChar; var aString : PChar) : TStatus_t; 
       function AddMessage(const Name : PChar; aMessage : TCPlusObject) : TStatus_t;	  
       function CountNames(aType : TType_Code) : Integer; 
       function HasSpecifiers : boolean;
@@ -84,12 +86,14 @@ procedure BMessage_SetWhat(Message : TCPlusObject; What : Cardinal); cdecl; exte
 function BMessage_AddData(Message : TCPlusObject; const Name : PChar; aType : TType_Code; const Data : Pointer; FixedSize : Cardinal; NumItems : Integer) : TStatus_t; cdecl; external BePascalLibName; 
 function BMessage_AddBool(Message : TCPlusObject; const Name : PChar; aBool : boolean) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddInt8(Message : TCPlusObject; const Name : PChar; anInt8 : Shortint) : TStatus_t; cdecl; external BePascalLibName;
+function BMessage_FindInt8(Message : TCPlusObject; const Name : PChar; var anInt8 : Shortint) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddInt16(Message : TCPlusObject; const Name : PChar; anInt16 : Smallint) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddInt32(Message : TCPlusObject; const Name : PChar; anInt32 : Integer) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddInt64(Message : TCPlusObject; const Name : PChar; anInt64 : int64) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddFloat(Message : TCPlusObject; const Name : PChar; aFloat : Single) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddDouble(Message : TCPlusObject; const Name : PChar; aDouble : Double) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddString(Message : TCPlusObject; const Name : PChar; aString : PChar) : TStatus_t; cdecl; external BePascalLibName;
+function BMessage_FindString(Message : TCPlusObject; const Name : PChar;var aString : PChar) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_AddMessage(Message : TCPlusObject; const Name : PChar; aMessage : TCPlusObject) : TStatus_t; cdecl; external BePascalLibName;
 function BMessage_CountNames(Message : TCPlusObject; aType : TType_Code) : Integer; cdecl; external BePascalLibName;
 function BMessage_HasSpecifiers(Message : TCPlusObject) : boolean; cdecl; external BePascalLibName;
@@ -159,6 +163,11 @@ begin
   result := BMessage_AddInt8(CPlusObject, Name, anInt8);
 end;
 
+function TMessage.FindInt8(const Name : PChar; var anInt8 : Shortint) : TStatus_t;
+begin
+  result := BMessage_FindInt8(CPlusObject, Name, anInt8);
+end;
+
 function TMessage.AddInt16(const Name : PChar; anInt16 : Smallint) : TStatus_t;
 begin
   result := BMessage_AddInt16(CPlusObject, Name, anInt16);
@@ -187,6 +196,11 @@ end;
 function TMessage.AddString(const Name : PChar; aString : PChar) : TStatus_t; 
 begin
   result := BMessage_AddString(CPlusObject, Name, aString);
+end;
+
+function TMessage.FindString(const Name : PChar;var aString : PChar) : TStatus_t; 
+begin
+  result := BMessage_FindString(CPlusObject, Name, aString);
 end;
 
 function TMessage.AddMessage(const Name : PChar; aMessage : TCPlusObject) : TStatus_t;	  
