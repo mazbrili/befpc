@@ -14,41 +14,67 @@
     You should have received a copy of the GNU Library General Public           
     License along with this library; if not, write to the Free                  
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA   
-}   
-program codegen;
+}                                                                               
+
+unit codewrite;
+
+interface
 
 {$H+} // use AnsiStrings
 
 uses
-  dom, xmlread, apireader, typmap, codewrite, SysUtils;
+  Classes, SysUtils, apireader, sourcewrite;
 
-var
-  aDoc : TXMLDocument;
-  HooksDoc : TXMLDocument;
-  Classes, Hooks : TDocument;
-  SrcGen : TSourceGen;
+type
+  TSourceGen = class(TObject)
+  private
+    FClasses : TDocument;
+    FHooks : TDocument;
+  protected
+    procedure Enum(Node : TNode);
+  public
+    constructor Create(Classes, Hooks : TDocument; FileName : string); virtual;
+    destructor Destroy; override;
+    procedure Gen;
+  end;
+ 
+implementation
+
+constructor TSourceGen.Create(Classes, Hooks : TDocument; FileName : string);
 begin
-  if ParamCount > 0 then
-  begin
-    ReadXMLFile(aDoc, Paramstr(1));
-    ReadXMLFile(HooksDoc, 'hooks.xml');
-    Classes := TDocument.Create(aDoc);
-    try
-      Hooks := TDocument.Create(HooksDoc);
-      try
-        SrcGen := TSourceGen.Create(Classes, Hooks, StringReplace(Paramstr(1), '.xml', '', []));
-        try
-          SrcGen.Gen;
-          WriteLn('After gen');
-        finally
-          SrcGen.Free;
-        end;
-      finally
-        Hooks.Free;
-      end;
-    finally
-      Classes.Free;
+  inherited Create;
+  FClasses := Classes;
+  FHooks := Hooks;
+  SourceWriter := TSourceWriter.Create(FileName);
+end;
+
+destructor TSourceGen.Destroy;
+begin
+  SourceWriter.Free;
+  inherited;
+end;
+
+procedure TSourceGen.Gen;
+begin
+  Enum(FClasses);
+end;
+
+procedure TSourceGen.Enum(Node : TNode);
+var
+  i : integer;
+begin
+	if Node <> nil then
+	begin
+    for i := 0 to Node.Count - 1 do
+    begin
+      Node.Start;
+      WriteLn('Before Enum');
+      Node.Middle;
+      WriteLn('After enum');
+      Node.Ends;
     end;
   end;
+end;
+
 
 end.

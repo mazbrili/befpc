@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<CLASSES>
+  <CLASSE NAME="BLooper" ANCESTOR="BHandler">
+    <FUNCTION NAME="DispatchMessage">
+      <PARAM NAME="message" TYPE="BMessage *"/>
+      <PARAM NAME="target" TYPE="BHandler *"/>
+      <RESULT TYPE="void"/>
+    </FUNCTION>
+    <FUNCTION NAME="QuitRequested">
+      <PARAM NAME="" TYPE="void"/>
+      <RESULT TYPE="bool"/>
+    </FUNCTION>
+  </CLASSE>
+  <CLASSE NAME="BMessageFilter">
+    <FUNCTION NAME="Filter">
+      <PARAM NAME="message" TYPE="BMessage *"/>
+      <PARAM NAME="target" TYPE="BHandler **"/>
+      <RESULT TYPE="filter_result"/>
+    </FUNCTION>    
+  </CLASSE>
+<CLASSE NAME="BHandler" ANCESTOR="BArchivable">
+  <FUNCTION NAME="MessageReceived">
+    <PARAM NAME="message" TYPE="BMessage *"/>
+	<RESULT TYPE="void"/>
+  </FUNCTION>    
+</CLASSE>
+<CLASSE NAME="BApplication" ANCESTOR="BLooper">
+  <FUNCTION NAME="AboutRequested">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="AppActivated">
+    <PARAM NAME="active" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="ArgvReceived">
+    <PARAM NAME="argc" TYPE="int32"/>
+    <PARAM NAME="argv" TYPE="char **"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Pulse">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="ReadyToRun">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="RefsReceived">
+    <PARAM NAME="message" TYPE="BMessage *"/>
+    <RESULT NAME="" TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BWindow" ANCESTOR="BLooper">
+  <FUNCTION NAME="FrameMoved">
+    <PARAM NAME="origin" TYPE="BPoint *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="FrameResized">
+    <PARAM NAME="width" TYPE="float"/>
+    <PARAM NAME="height" TYPE="float"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="MenusBeginning">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="MenusEnded">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Minimize">
+    <PARAM NAME="minimize" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="ScreenChanged">
+    <PARAM NAME="frame" TYPE="BRect"/>
+    <PARAM NAME="mode" TYPE="color_space"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="WindowActivated">
+    <PARAM NAME="active" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="WorkspaceActivated">
+    <PARAM NAME="workspace" TYPE="int32"/>
+    <PARAM NAME="active" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="WorkspacesChanged">
+    <PARAM NAME="oldWorkspaces" TYPE="uint32"/>
+    <PARAM NAME="newWorkspaces" TYPE="uint32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Zoom">
+    <PARAM NAME="origin" TYPE="BPoint"/>
+    <PARAM NAME="width" TYPE="float"/>
+    <PARAM NAME="height" TYPE="float"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BView" ANCESTOR="BHandler">
+  <FUNCTION NAME="AllAttached">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="AllDetached">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="AttachedToWindow">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DetachedFromWindow">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Draw">
+    <PARAM NAME="updateRect" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawAfterChildren">
+    <PARAM NAME="updateRect" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="FrameMoved">
+    <PARAM NAME="parentPoint" TYPE="BPoint"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="FrameResized">
+    <PARAM NAME="width" TYPE="float"/>
+    <PARAM NAME="height" TYPE="float"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="GetPreferredSize">
+    <PARAM NAME="width" TYPE="float *"/>
+    <PARAM NAME="height" TYPE="float *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="ResizeToPreferred">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="KeyDown">
+    <PARAM NAME="bytes" TYPE="char *"/>
+    <PARAM NAME="numBytes" TYPE="int32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="KeyUp">
+    <PARAM NAME="bytes" TYPE="char *"/>
+    <PARAM NAME="numBytes" TYPE="int32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="MouseDown">
+    <PARAM NAME="point" TYPE="BPoint"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="MouseMoved">
+    <PARAM NAME="point" TYPE="BPoint"/>
+    <PARAM NAME="transit" TYPE="uint32"/>
+    <PARAM NAME="message" TYPE="BMessage *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="MouseUp">
+    <PARAM NAME="point" TYPE="BPoint"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Pulse">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="TargetedByScrollView">
+    <PARAM NAME="scroller" TYPE="BScrollView *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="WindowActivated">
+    <PARAM NAME="active" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BControl" ANCESTOR="BView">
+  <FUNCTION NAME="SetEnabled">
+    <PARAM NAME="enabled" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetValue">
+    <PARAM NAME="value" TYPE="int32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BMenu" ANCESTOR="BView">
+  <FUNCTION NAME="ScreenLocation">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="BPoint"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BMenuItem">
+  <FUNCTION NAME="Draw">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawContent">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BListView" ANCESTOR="BView" ANCESTOR="BInvoker">
+  <FUNCTION NAME="InitiateDrag">
+    <PARAM NAME="point" TYPE="BPoint"/>
+    <PARAM NAME="index" TYPE="int32"/>
+    <PARAM NAME="wasSelected" TYPE="bool"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="SelectionChanged">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BListItem">
+  <FUNCTION NAME="DrawItem">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <PARAM NAME="itemRect" TYPE="BRect"/>
+    <PARAM NAME="drawEverything" TYPE="bool" DEFAULT="false"/>          
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Update">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <PARAM NAME="font" TYPE="BFont *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BScrollBar" ANCESTOR="BView">
+  <FUNCTION NAME="ValueChanged">
+    <PARAM NAME="newValue" TYPE="float"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BShelf" ANCESTOR="BHandler">
+  <FUNCTION NAME="CanAcceptReplicantMessage">
+    <PARAM NAME="archive" TYPE="BMessage *"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="CanAcceptReplicantView">
+    <PARAM NAME="destRect" TYPE="BRect"/>
+    <PARAM NAME="view" TYPE="BView *"/>
+    <PARAM NAME="archive" TYPE="BMessage *"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="AdjustReplicantBy">
+    <PARAM NAME="destRect" TYPE="BRect"/>
+    <PARAM NAME="archive" TYPE="BMessage *"/>
+    <RESULT TYPE="BPoint"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BTab" ANCESTOR="BArchivable">
+  <FUNCTION NAME="Deselect">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawFocusMark">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <PARAM NAME="frame" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawTab">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <PARAM NAME="frame" TYPE="BRect"/>
+    <PARAM NAME="position" TYPE="tab_position"/>
+    <PARAM NAME="full" TYPE="bool" DEFAULT="true"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawLabel">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <PARAM NAME="frame" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Select">
+    <PARAM NAME="owner" TYPE="BView *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetEnabled">
+    <PARAM NAME="enabled" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetLabel">
+    <PARAM NAME="label" TYPE="char *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetView">
+    <PARAM NAME="view" TYPE="BView *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BTabView" ANCESTOR="BView">
+  <FUNCTION NAME="AddTab">
+    <PARAM NAME="target" TYPE="BView *"/>
+    <PARAM NAME="tab" TYPE="BTab *" DEFAULT="NULL"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Draw">
+    <PARAM NAME="updateRect" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawBox">
+    <PARAM NAME="selfTabRect" TYPE="BRect"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="DrawTabs">
+    <PARAM NAME="" TYPE="void"/>
+    <RESULT TYPE="BRect"/>
+  </FUNCTION>
+  <FUNCTION NAME="MakeFocus">
+    <PARAM NAME="focused" TYPE="bool" DEFAULT="true"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="RemoveTab">
+    <PARAM NAME="tab_index" TYPE="int32"/>
+    <RESULT TYPE="BTab *"/>
+  </FUNCTION>
+  <FUNCTION NAME="Select">
+    <PARAM NAME="tab" TYPE="int32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetFocusTab">
+    <PARAM NAME="tab" TYPE="int32"/>
+    <PARAM NAME="focused" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetTabHeight">
+    <PARAM NAME="height" TYPE="float"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="SetTabWidth">
+    <PARAM NAME="width" TYPE="button_width"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="TabAt">
+    <PARAM NAME="tab_index" TYPE="int32"/>
+    <RESULT TYPE="BTab *"/>
+  </FUNCTION>
+  <FUNCTION NAME="TabFrame">
+    <PARAM NAME="tab_index" TYPE="int32"/>
+    <RESULT TYPE="BRect"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BTextView" ANCESTOR="BView">
+  <FUNCTION NAME="AcceptsDrop">
+    <PARAM NAME="message" TYPE="BMessage *"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="AcceptsPaste">
+    <PARAM NAME="clipboard" TYPE="BClipboard *"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="CanEndLine">
+    <PARAM NAME="offset" TYPE="int32"/>
+    <RESULT TYPE="bool"/>
+  </FUNCTION>
+  <FUNCTION NAME="DeleteText">
+    <PARAM NAME="start" TYPE="int32"/>
+    <PARAM NAME="finish" TYPE="int32"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="FindWord">
+    <PARAM NAME="offset" TYPE="int32"/>
+    <PARAM NAME="start" TYPE="int32 *"/>
+    <PARAM NAME="finish" TYPE="int32 *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="GetDragParameters">
+    <PARAM NAME="drag" TYPE="BMessage *"/>
+    <PARAM NAME="bitmap" TYPE="BBitmap **"/>
+    <PARAM NAME="point" TYPE="BPoint *"/>
+    <PARAM NAME="handler" TYPE="BHandler **"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="InsertText">
+    <PARAM NAME="text" TYPE="char *"/>
+    <PARAM NAME="length" TYPE="int32"/>
+    <PARAM NAME="offset" TYPE="int32"/>
+    <PARAM NAME="runs" TYPE="text_run_array"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+  <FUNCTION NAME="Undo">
+    <PARAM NAME="clipboard" TYPE="BClipboard *"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+<CLASSE NAME="BButton" ANCESTOR="BControl">
+  <FUNCTION NAME="MakeDefault">
+    <PARAM NAME="flag" TYPE="bool"/>
+    <RESULT TYPE="void"/>
+  </FUNCTION>
+</CLASSE>
+</CLASSES>
