@@ -152,7 +152,7 @@ end;
 
 procedure  TRadioButton.SetValue(aValue : integer);
 begin
-//  BRadioButton_SetValue(CPlusObject, aValue);
+  BRadioButton_SetValue(CPlusObject, aValue);
 end;
 
 procedure  TRadioButton.GetPreferredSize(width : double; height : double);
