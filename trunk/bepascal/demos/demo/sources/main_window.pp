@@ -21,10 +21,10 @@ unit Main_Window;
 interface
 {$M+}
 uses
-  SysUtils,
+  SysUtils, Application, AppDefs,
   Alert, InterfaceDefs, ListItem, Menu, Menubar, Message, Rect, StringView,
   TabView, View, Window,
-  Common, Button_View, Edit_View, Other_View;
+  Common, Button_View, Edit_View, Other_View, FilePanel,entry, messenger;
 
 type
   TMyWindow = class(BWindow)
@@ -150,6 +150,9 @@ var
   S : String;
   p : PChar;
   Alert : BAlert;
+  FilePanel : BFilePanel;
+  aref : entry_ref;
+  aspecialmessage : BMessage;
 begin
   inherited;
   case aMessage.what of
@@ -222,9 +225,19 @@ begin
       VEdit.Edit.SetEnabled(false);  				
     end;
 
+    MSG_MENU_BASE + 1 :
+    begin
+      aspecialmessage := BMessage.Create(17);
+      aspecialmessage.AddString('titititititi', 'titititititi');
+      FilePanel := BFilePanel.Create(B_OPEN_PANEL, be_app_BMessenger, aref, 0, true, 
+                                     {aspecialmessage}nil, 
+                                     nil, false, true);
+      FilePanel.Show;
+    end;
+
     MSG_MENU_BASE + 2 :
     begin
-      Quit;
+      be_app.PostMessage(B_QUIT_REQUESTED);
     end;
 
   end; // case

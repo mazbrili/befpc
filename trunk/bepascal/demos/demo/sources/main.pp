@@ -21,15 +21,45 @@ program Main;
 {$M+}
 uses
   Application, Message, Roster, Rect, Window,
-  Main_Window;
+  Main_Window, SysUtils;
 	
 type
 
   TMonApplication = class(BApplication)
   public
-  	procedure ReadyToRun; override;
   	function QuitRequested : Boolean; override;
+    procedure RefsReceived(amessage : BMessage); override;
+    procedure ArgvReceived(argc : integer; argv : PPChar); override;
+    procedure AboutRequested; override;
+    procedure Pulse; override;
+  	procedure ReadyToRun; override;
   end;
+
+procedure TMonApplication.RefsReceived(amessage : BMessage);
+begin
+  WriteLn('RefsReceived');
+  WriteLn('message.what : ' + IntToStr(amessage.what));
+  amessage.PrintToStream;
+end;
+
+procedure TMonApplication.ArgvReceived(argc : integer; argv : PPChar);
+var
+  i : integer;
+begin
+  WriteLn('Nb argument : ' + IntToStr(argc));
+  for i := 0 to argc - 1 do
+    WriteLn(argv[i]);
+end;
+
+procedure TMonApplication.AboutRequested;
+begin
+  WriteLn('AboutRequested');
+end;
+
+procedure TMonApplication.Pulse;
+begin
+  WriteLn('Pulse');
+end;
 
 
 function TMonApplication.QuitRequested : Boolean;
