@@ -62,8 +62,8 @@ type
   end;
 
 function BInvoker_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create';
-function BInvoker_Create(AObject : TBeObject; message : TCplusObject; handler : TCplusObject; looper : TCPlusObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create';
-function BInvoker_Create(AObject : TBeObject; message : TCplusObject; target : TCplusObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create';
+function BInvoker_Create(AObject : TBeObject; message : TCplusObject; handler : TCplusObject; looper : TCPlusObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create_1';
+function BInvoker_Create(AObject : TBeObject; message : TCplusObject; target : TCplusObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create_2';
 procedure BInvoker_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BInvoker_Free';
 function BInvoker_SetMessage(AObject : TCPlusObject; message : TCplusObject) : TStatus_t; cdecl; external BePascalLibName name 'BInvoker_SetMessage';
 function BInvoker_Message(AObject : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BInvoker_Message';

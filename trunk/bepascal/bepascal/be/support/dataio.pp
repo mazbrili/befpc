@@ -93,7 +93,7 @@ type
 {    procedure _ReservedMallocIO1;
     procedure _ReservedMallocIO2;
 }
-    constructor Create(MallocIO : TMallocIO);
+//    constructor Create(MallocIO : TMallocIO);
 //    function operator=( : TMallocIO) : TMallocIO;
 {    function fBlockSize : TSize_t;
     function fMallocSize : TSize_t;
@@ -185,7 +185,7 @@ function BMallocIO_Buffer(AObject : TCPlusObject) : Pointer; cdecl; external BeP
 {procedure BMallocIO__ReservedMallocIO1(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMallocIO__ReservedMallocIO1';
 procedure BMallocIO__ReservedMallocIO2(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMallocIO__ReservedMallocIO2';
 }
-function BMallocIO_Create(AObject : TBeObject; MallocIO : TMallocIO) : TCPlusObject; cdecl; external BePascalLibName name 'BMallocIO_Create';
+//function BMallocIO_Create(AObject : TBeObject; MallocIO : TMallocIO) : TCPlusObject; cdecl; external BePascalLibName name 'BMallocIO_Create';
 //function BMallocIO_operator=(AObject : TCPlusObject; MallocIO : TMallocIO) : TMallocIO; cdecl; external BePascalLibName name 'BMallocIO_operator=';
 {procedure BMallocIO_size_t fBlockSize(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMallocIO_size_t fBlockSize';
 procedure BMallocIO_size_t fMallocSize(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMallocIO_size_t fMallocSize';
@@ -195,7 +195,7 @@ procedure BMallocIO_off_t fPosition(AObject : TCPlusObject); cdecl; external BeP
 procedure BMallocIO_int32 _reserved[1](AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMallocIO_int32 _reserved[1]';
 }
 function BMemoryIO_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BMemoryIO_Create';
-function BMemoryIO_Create(AObject : TBeObject; p : Pointer; len : TSize_t) : TCPlusObject; cdecl; external BePascalLibName name 'BMemoryIO_Create';
+function BMemoryIO_Create(AObject : TBeObject; p : Pointer; len : TSize_t) : TCPlusObject; cdecl; external BePascalLibName name 'BMemoryIO_Create_1';
 procedure BMemoryIO_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMemoryIO_Free';
 function BMemoryIO_ReadAt(AObject : TCPlusObject; pos : Toff_t; buffer : Pointer; size : TSize_t) : TSSize_t; cdecl; external BePascalLibName name 'BMemoryIO_ReadAt';
 function BMemoryIO_WriteAt(AObject : TCPlusObject; pos : Toff_t; buffer : Pointer; size : TSize_t) : TSSize_t; cdecl; external BePascalLibName name 'BMemoryIO_WriteAt';
@@ -488,10 +488,10 @@ begin
 end;
 }
 
-constructor TMallocIO.Create(MallocIO : TMallocIO);
-begin
-  CPlusObject := BMallocIO_Create(Self, MallocIO);
-end;
+//constructor TMallocIO.Create(MallocIO : TMallocIO);
+//begin
+//  CPlusObject := BMallocIO_Create(Self, MallocIO);
+//end;
 
 {function TMallocIO.operator=( : TMallocIO) : TMallocIO;
 begin
