@@ -124,6 +124,7 @@ virtual void 			MessageReceived(BMessage *msg);
 virtual void			FrameResized(float w,float h);
 virtual void 			KeyDown(const char * bytes, int32 n);
 virtual void			MouseDown(BPoint point);
+virtual void			MouseUp(BPoint point);
 virtual void 			MouseMoved(BPoint pt, uint32 code, const BMessage *msg);
 virtual	void			Pulse();
 
@@ -314,7 +315,7 @@ void BPTabView::MouseMoved(BPoint point, uint32 transit, const BMessage *message
 	BTabView::MouseMoved(point, transit, message);
 }
 
-void BTabView::MouseUp(BPoint point)
+void BPTabView::MouseUp(BPoint point)
 {
 	BTabView::MouseUp(point);
 }
