@@ -1,5 +1,6 @@
 {  BePascal - A pascal wrapper around the BeOS API
     Copyright (C) 2002 Olivier Coursiere
+                       Eric Jourde
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -26,6 +27,12 @@ type
   TBigtime_t = int64;
   TType_code = Cardinal;
   TPerform_code = Cardinal;
+  // For Storage kit
+  // TODO : move these declarations in a different unit (but which one ?).
+  // C++ declarations are in /boot/develop/headers/posix/sys/types.h,
+  // not in SupportDefs.h
+  TDev_t = Longint;
+  Toff_t = int64;	
   
   	// pointer types for FreePascal : to make life easier
   PStatus_t = ^TStatus_t;
