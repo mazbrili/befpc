@@ -155,7 +155,7 @@ end;
 
 procedure  BRadioButton.Draw(updateRect : BRect);
 begin
-  BRadioButton_Draw(CPlusObject, updateRect{.CPlusObject});
+//  BRadioButton_Draw(CPlusObject, updateRect{.CPlusObject});
 end;
 
 procedure  BRadioButton.MouseDown(where : BPoint);
@@ -165,7 +165,7 @@ end;
 
 procedure  BRadioButton.AttachedToWindow;
 begin
-  BRadioButton_AttachedToWindow(CPlusObject);
+//  BRadioButton_AttachedToWindow(CPlusObject);
 end;
 
 procedure  BRadioButton.KeyDown(bytes : PChar; numBytes : Longint);
@@ -215,7 +215,7 @@ end;
 
 procedure  BRadioButton.DetachedFromWindow;
 begin
-  BRadioButton_DetachedFromWindow(CPlusObject);
+//  BRadioButton_DetachedFromWindow(CPlusObject);
 end;
 
 procedure  BRadioButton.FrameMoved(new_position : BPoint);
