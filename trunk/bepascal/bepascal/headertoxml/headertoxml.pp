@@ -173,39 +173,45 @@ begin
     XMLWriter := TXMLWriter.Create(s);
     try
       XMLWriter.StartClasses;
-      XMLWriter.StartClasse(Elem);
-      XMLWriter.StartFunction(Elem^.children);
-      CurrentArg := Elem^.args;
-      if CurrentArg <> nil then
-      begin
-        XMLWriter.StartParam(CurrentArg);
-        while CurrentArg^.Next <> nil do
+      while Elem <> nil do
+      begin       
+        if Elem <> nil then
+          WriteLn(Elem^.aName);
+        XMLWriter.StartClasse(Elem);
+        XMLWriter.StartFunction(Elem^.children);
+        CurrentArg := Elem^.args;
+        if CurrentArg <> nil then
         begin
-          CurrentArg := CurrentArg^.Next;
           XMLWriter.StartParam(CurrentArg);
-        end;
-      end;
-      XMLWriter.StartResult(Elem^.ret_type);
-      XMLWriter.EndFunction;
-      Current := Elem^.children;
-        while Current^.next <> nil do
-        begin
-          Current := Current^.next;
-          XMLWriter.StartFunction(Current);
-          CurrentArg := Current^.args;
-          if CurrentArg <> nil then
+          while CurrentArg^.Next <> nil do
           begin
+            CurrentArg := CurrentArg^.Next;
             XMLWriter.StartParam(CurrentArg);
-            while CurrentArg^.next <> nil do
-            begin
-              CurrentArg := CurrentArg^.next;
-              XMLWriter.StartParam(CurrentArg);
-            end;
           end;
-          XMLWriter.StartResult(Current^.ret_type);          
-          XMLWriter.EndFunction;
-        end; 
-      XMLWriter.EndClasse;
+        end;
+        XMLWriter.StartResult(Elem^.ret_type);
+        XMLWriter.EndFunction;
+        Current := Elem^.children;
+          while Current^.next <> nil do
+          begin
+            Current := Current^.next;
+            XMLWriter.StartFunction(Current);
+            CurrentArg := Current^.args;
+            if CurrentArg <> nil then
+            begin
+              XMLWriter.StartParam(CurrentArg);
+              while CurrentArg^.next <> nil do
+              begin
+                CurrentArg := CurrentArg^.next;
+                XMLWriter.StartParam(CurrentArg);
+              end;
+            end;
+            XMLWriter.StartResult(Current^.ret_type);          
+            XMLWriter.EndFunction;
+          end; 
+        XMLWriter.EndClasse;
+        Elem := Elem^.next;
+      end;  
       XMLWriter.EndClasses;
     finally
       XMLWriter.Free;
