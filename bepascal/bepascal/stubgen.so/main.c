@@ -5,7 +5,7 @@
  *  DESC: stubgen code generation routines
  *
  *  DATE: Thu Nov 13 13:28:23 PST 1997
- *   $Id: main.c,v 1.1 2002-09-21 14:12:12 ocoursiere Exp $
+ *   $Id: main.c,v 1.2 2002-11-19 00:23:51 ocoursiere Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -73,7 +73,7 @@ char *currentFile = "";
 static const char *lots_of_stars = 
   "***********************************************************************";
 static const char *progname = "stubgen";
-static const char rcsid[] = "$Id: main.c,v 1.1 2002-09-21 14:12:12 ocoursiere Exp $";
+static const char rcsid[] = "$Id: main.c,v 1.2 2002-11-19 00:23:51 ocoursiere Exp $";
 static const char *progver = "2.05";
 
 static const char *copyright =
@@ -467,7 +467,7 @@ __declspec(dllexport) syntaxelem_t * scan(char *infile)
   /* normal interaction on yyin and outfile from now on */
   inform_user("parsing %s ...\n", inPath);
   log_printf("parsing %s ...\n", inPath);
-  yyin = fopen(/*infile*/"View.h", "r");
+  yyin = fopen(infile, "r");
   if (yyin == NULL) {
     /* open failed */
     fatal(1, "%s: cannot open %s\n", progname, infile);
@@ -540,7 +540,7 @@ __declspec(dllexport) void scan_and_generate(FILE *infile)
  */
 int revision()
 {
-  static char rcsrev[] = "$Revision: 1.1 $";
+  static char rcsrev[] = "$Revision: 1.2 $";
   static int value = -1;
   char *major_str, *dot;
 
