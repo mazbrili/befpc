@@ -2,16 +2,20 @@ unit fdblib;
 
 interface
 
-{$linklib 'fdb'}
-
-uses
-  begui;
-
-procedure SendText(text: pchar);cdecl; external;
+procedure SendText(text: pchar);cdecl; external 'fdb';
+procedure SendText(text : string);
 
 procedure force;
 
 implementation
+
+procedure SendText(text : string);
+var
+  local : string;
+begin
+  local := text + #0;
+  SendText(@local[1]);
+end;
 
 procedure force;
 begin
