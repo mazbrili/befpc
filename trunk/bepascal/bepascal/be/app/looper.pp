@@ -70,7 +70,7 @@ end;
 // hooks
 
 procedure Looper_DispatchMessage_hook_func(Looper : TLooper; 
-  aMessage : TCPlusObject; aTarget : TCPlusObject);
+  aMessage : TCPlusObject; aTarget : TCPlusObject); cdecl;
 var
   Message : TMessage;
   Target : THandler;
@@ -89,7 +89,7 @@ begin
   end;
 end;
 
-function Looper_QuitRequested_hook_func(Looper : TLooper) : boolean;
+function Looper_QuitRequested_hook_func(Looper : TLooper) : boolean; cdecl;
 begin
   WriteLn('Hook QuitRequested !');
   if Looper <> nil then

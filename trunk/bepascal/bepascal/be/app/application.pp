@@ -111,7 +111,7 @@ begin
     Application.ReadyToRun;
 end;
 
-procedure Application_MessageReceived_hook_func(Application : TApplication; aMessage : TCPlusObject);
+procedure Application_MessageReceived_hook_func(Application : TApplication; aMessage : TCPlusObject); cdecl;
 var
   Message : TMessage;
 begin

@@ -225,6 +225,18 @@ bool BMessage_WasDropped(TCPlusObject message)
 	return reinterpret_cast<BMessage*>(message)->WasDropped();
 }
 
+/***********************************************************************
+ *  Method: BMessage::operator=
+ *  Params: const BMessage &msg
+ * Returns: BMessage &
+ * Effects: 
+ ***********************************************************************/
+BMessage &
+BMessage_operator_equal(BMessage *Message, const BMessage &msg)
+{
+   return Message->operator=(msg);
+}
+
 #if defined(__cplusplus)
 }
 #endif

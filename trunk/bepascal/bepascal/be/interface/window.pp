@@ -21,7 +21,7 @@ unit Window;
 interface
 
 uses
-  beobj, looper, rect, os, application, appdefs;
+  beobj, looper, rect, os, application, view, appdefs;
 
 const
   // window_type
@@ -72,11 +72,13 @@ const
 type
   TWindow = class(TLooper)
   public
-    constructor Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal);
+    constructor Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal); virtual;
     destructor Destroy; override;
     procedure Show;
     procedure Hide;
-    function QuitRequested : boolean; override;
+    procedure AddChild(aView : TView; sibling : TCPlusObject);
+    function QuitRequested : boolean; override;    
+    function RemoveChild(aView : TView) : boolean;
   end;
 
 function BWindow_Create(AObject : TObject; frame : TCPlusObject; title : PChar;
@@ -84,6 +86,8 @@ function BWindow_Create(AObject : TObject; frame : TCPlusObject; title : PChar;
 procedure BWindow_Free(CPlusObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_Free';
 procedure BWindow_Show(CPlusObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_Show';
 procedure BWindow_Hide(CPlusObject : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_Hide';
+procedure BWindow_AddChild(CPlusObject : TCPlusObject; aView : TCPlusObject; sibling : TCPlusObject); cdecl; external BePascalLibName name 'BWindow_AddChild';
+function BWindow_RemoveChild(CPlusObject : TCPlusObject; aView : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BWindow_RemoveChild';
   
 implementation
 
@@ -113,6 +117,16 @@ end;
 procedure TWindow.Hide;
 begin
   BWindow_Hide(Self.CPlusObject);
+end;
+
+procedure TWindow.AddChild(aView : TView; sibling : TCPlusObject);
+begin
+  BWindow_AddChild(Self.CPlusObject, aView.CPlusObject, sibling);
+end;
+
+function TWindow.RemoveChild(aView : TView) : boolean;
+begin
+  result :=  BWindow_RemoveChild(Self.CPlusObject, aView.CPlusObject);
 end;
 
 initialization

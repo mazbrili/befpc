@@ -28,6 +28,7 @@
 #include <Handler.cpp>
 #include <Looper.cpp>
 #include <Window.cpp>
+#include <View.cpp>
 #include <Point.cpp>
 #include <Rect.cpp>
 
