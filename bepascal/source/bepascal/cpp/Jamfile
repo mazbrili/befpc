@@ -231,4 +231,5 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/support/Flattenable.cpp 
        src/be/support/List.cpp 
        src/be/support/String.cpp 
+       src/be/support/StopWatch.cpp 
        src/hey/hey.cpp : SHARED ;
