@@ -49,8 +49,8 @@ type
 
 function BMessenger_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create';
 function BMessenger_Create_1(AObject : TBeObject; mime_sig : PChar; team : Team_id; var err : Status_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_1';
-function BMessenger_Create_2(AObject : TBeObject; handler : BHandler; looper : BLooper; var err : Status_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
-function BMessenger_Create_3(AObject : TBeObject; from : BMessenger) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
+function BMessenger_Create_2(AObject : TBeObject; handler : TCplusObject; looper : TCplusObject; var err : Status_t) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_2';
+function BMessenger_Create_3(AObject : TBeObject; from : TCplusObject) : TCplusObject; cdecl; external BePascalLibName name 'BMessenger_Create_3';
 procedure BMessenger_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_Free';
 function BMessenger_IsTargetLocal(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BMessenger_IsTargetLocal';
 function BMessenger_Target(AObject : TCPlusObject; looper : TCplusObject) : BHandler; cdecl; external BePascalLibName name 'BMessenger_Target';
@@ -96,7 +96,15 @@ end;
 
 constructor BMessenger.Create(handler : BHandler; looper : BLooper; var err : Status_t);
 begin
-  CPlusObject := BMessenger_Create_2(Self, handler, looper, err);
+  if Assigned(handler) and Assigned(looper) then
+    CPlusObject := BMessenger_Create_2(Self, handler.CPlusObject, 
+                                       looper.CPlusObject, err)
+  else if Assigned(handler) and not(Assigned(looper)) then
+    CPlusObject := BMessenger_Create_2(Self, handler.CPlusObject, 
+                                       nil, err)
+  else if not(Assigned(handler)) and Assigned(looper) then
+    CPlusObject := BMessenger_Create_2(Self, nil, looper.CPlusObject, 
+                                       err)
 end;
 
 constructor BMessenger.Create(from : BMessenger);

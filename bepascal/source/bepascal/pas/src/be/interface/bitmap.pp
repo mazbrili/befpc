@@ -45,9 +45,11 @@ type
   BBitmap = class(BArchivable)
   private
   public
+    // OCO B_MAIN_SCREEN_ID is a record. It is not possible to assign a record 
+    // as a default value in fpc 1.9.5.
     constructor Create(_bounds : BRect; flags : Longword; depth : color_space;
-                       bytesPerRow_ : Longint {$ifndef VER1_0}= B_ANY_BYTES_PER_ROW{$endif};
-                       screenID : screen_id {$ifndef VER1_0}= B_MAIN_SCREEN_ID{$endif});
+                       bytesPerRow_ : Longint (*{$ifndef VER1_0}= B_ANY_BYTES_PER_ROW{$endif}*);
+                       screenID : screen_id (*{$ifndef VER1_0}= B_MAIN_SCREEN_ID{$endif}*));
     constructor Create(_bounds : BRect; depth : color_space;
                        accepts_views : Boolean {$ifndef VER1_0}= false{$endif};
                        need_contiguous : Boolean {$ifndef VER1_0}= false{$endif});
