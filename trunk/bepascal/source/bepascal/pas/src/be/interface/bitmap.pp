@@ -70,12 +70,12 @@ type
                       cs : color_space);
     function GetOverlayRestrictions(restrict : overlay_restrictions)
              : status_t;
-    procedure AddChild(view : BView);
-    function RemoveChild(view : BView) : Boolean;
+//    procedure AddChild(view : BView);
+//    function RemoveChild(view : BView) : Boolean;
     function CountChildren : Integer;
-    function ChildAt(index : Integer) : BView;
-    function FindView(view_name : PChar) : BView;
-    function FindView(point : BPoint) : BView;
+//    function ChildAt(index : Integer) : BView;
+//    function FindView(view_name : PChar) : BView;
+//    function FindView(point : BPoint) : BView;
     function Lock : Boolean;
     procedure Unlock;
     function IsLocked : Boolean;
@@ -161,7 +161,7 @@ function BBitmap_Bits(AObject : TCPlusObject) : Pointer; cdecl;
   external BePascalLibName name 'BBitmap_Bits';
 
 function BBitmap_BitsLength(AObject : TCPlusObject) : integer; cdecl;
-  external BePascalLibName name 'BBitmap_BitsLength_1';
+  external BePascalLibName name 'BBitmap_BitsLength';
 
 function BBitmap_BytesPerRow(AObject : TCPlusObject) : integer; cdecl;
   external BePascalLibName name 'BBitmap_BytesPerRow';
@@ -189,7 +189,7 @@ function BBitmap_RemoveChild(AObject : TCPlusObject; view : TCPlusObject)
 function BBitmap_CountChildren(AObject : TCPlusObject) : Integer; cdecl;
   external BePascalLibName name 'BBitmap_CountChildren';
 
-function BBitmap_ChildAt(AObject : TCPlusObject; index : Integer) : BView;
+(*function BBitmap_ChildAt(AObject : TCPlusObject; index : Integer) : BView;
   cdecl; external BePascalLibName name 'BBitmap_ChildAt';
 
 function BBitmap_FindView(AObject : TCPlusObject; view_name : PChar) : BView;
@@ -197,7 +197,7 @@ function BBitmap_FindView(AObject : TCPlusObject; view_name : PChar) : BView;
 
 function BBitmap_FindView(AObject : TCPlusObject; point : {BPoint}TCPlusObject)
   : BView; cdecl; external BePascalLibName name 'BBitmap_FindView';
-
+*)
 function BBitmap_Lock(AObject : TCPlusObject) : Boolean; cdecl;
   external BePascalLibName name 'BBitmap_Lock';
 
@@ -361,7 +361,7 @@ begin
   Result := BBitmap_GetOverlayRestrictions(CPlusObject, restrict);
 end;
 
-procedure BBitmap.AddChild(view : BView);
+(*procedure BBitmap.AddChild(view : BView);
 begin
   BBitmap_AddChild(CPlusObject, view.CPlusObject);
 end;
@@ -370,13 +370,14 @@ function BBitmap.RemoveChild(view : BView) : Boolean;
 begin
   Result := BBitmap_RemoveChild(CPlusObject, view.CPlusObject);
 end;
+*)
 
 function BBitmap.CountChildren : Integer;
 begin
   Result := BBitmap_CountChildren(CPlusObject);
 end;
 
-function BBitmap.ChildAt(index : Integer) : BView;
+(*function BBitmap.ChildAt(index : Integer) : BView;
 begin
   Result := BBitmap_ChildAt(CPlusObject, index);
 end;
@@ -390,6 +391,7 @@ function BBitmap.FindView(point : BPoint) : BView;
 begin
   Result := BBitmap_FindView(CPlusObject, point.CPlusObject);
 end;
+*)
 
 function BBitmap.Lock : Boolean;
 begin
