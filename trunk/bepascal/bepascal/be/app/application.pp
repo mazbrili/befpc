@@ -21,7 +21,7 @@ unit Application;
 interface
 
 uses
-  beobj, looper, appdefs, supportdefs, message, os;
+  beobj, looper, appdefs, supportdefs, message, os, fdblib;
 
 type
   TApplication = class(TLooper)
@@ -98,18 +98,18 @@ end;
 procedure TApplication.AppActivated(Active : boolean);
 begin
 {$IFDEF DEBUG}
-  WriteLn(Active);
+  SendText(Active);
   if Active then
-	WriteLn('Application activée !')
+	SendText('Application activée !')
   else
-    WriteLn('Application désactivée !');
+    SendText('Application désactivée !');
 {$ENDIF}
 end;
 
 procedure Application_ReadyToRun_hook_func(Application : TApplication); cdecl;
 begin
 {$IFDEF DEBUG}
-  WriteLn('Hook ReadyToRun !');
+  SendText('Hook ReadyToRun !');
 {$ENDIF}
   if Application <> nil then
     Application.ReadyToRun;
@@ -120,7 +120,7 @@ var
   Message : TMessage;
 begin
 {$IFDEF DEBUG}
-  WriteLn('Hook MessageReceived !');
+  SendText('Hook MessageReceived !');
 {$ENDIF}
   Message := TMessage.Wrap(aMessage);
   try
@@ -134,7 +134,7 @@ end;
 procedure TApplication.ReadyToRun;
 begin
 {$IFDEF DEBUG}
-  WriteLn('Prêt à démarer !');
+  SendText('Prêt à démarer !');
 {$ENDIF}
 end;
 

@@ -21,7 +21,7 @@ unit handler;
 interface
 
 uses
-  beobj, archivable, message;
+  beobj, archivable, message, fdblib;
  
 type
   THandler = class(TArchivable)
@@ -40,8 +40,8 @@ var
 procedure THandler.MessageReceived(aMessage : TMessage);
 begin
 {$IFDEF DEBUG}
-  WriteLn(ClassName + '.MessageReceived');
-  WriteLn('Message reçue');
+  SendText(ClassName + '.MessageReceived');
+  SendText('Message reçue');
   aMessage.PrintToStream;
 {$ENDIF}
 end;
@@ -52,7 +52,7 @@ var
 begin
   try
 {$IFDEF DEBUG}
-    WriteLn('Hook MessageReceived !');
+    SendText('Hook MessageReceived !');
 {$ENDIF}
     Message := TMessage.Wrap(aMessage);
     try
@@ -65,7 +65,7 @@ begin
     on e : exception do
     begin
 {$IFDEF DEBUG}
-      WriteLn(e.Message + 'Handler_MessageReceived');
+      SendText(e.Message + 'Handler_MessageReceived');
 {$ENDIF}
     end;
   end

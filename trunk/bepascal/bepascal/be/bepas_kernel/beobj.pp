@@ -22,6 +22,9 @@ interface
 
 {$M+}
 
+uses
+  fdblib;
+  
 // FreePascal use ld on BeOS (like on LINUX) to link to libraries.
 // ld use the environment variable BELIBRARIES to find libraries.
 
@@ -93,7 +96,7 @@ begin
 {$IFDEF DEBUG}
   size := 0;
   size := SizeOf(Self.ClassType);
-  WriteLn('Instance de ' + Self.ClassName + '(' + HexStr(longint(pointer(Self)), 8) + ')' + 
+  SendText('Instance de ' + Self.ClassName + '(' + HexStr(longint(pointer(Self)), 8) + ')' + 
           '(' + IntToStr(size) + ')' +
           ' ');
 {$ENDIF}
@@ -106,7 +109,7 @@ end;
 destructor TBeObject.UnWrap;
 begin
 {$IFDEF DEBUG}
-  WriteLn('UnWrap');
+  SendText('UnWrap');
 {$ENDIF}
     // On passe CPlusObject à nil pour éviter de libérer
     // l'objet C++ lors de l'appel de free    

@@ -22,7 +22,7 @@ interface
 
 uses
   beobj, handler, rect, os, application, appdefs, message,
-  graphicdefs;
+  graphicdefs, fdblib;
   
 type
 //  TWindow = class(TBeObject);
@@ -191,7 +191,7 @@ end;
 
 procedure TView.Draw(updateRect : TRect);
 begin
-  WriteLn('Drawing view');
+  SendText('Drawing view');
   
 end;
 
