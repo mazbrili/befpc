@@ -1,4 +1,5 @@
 #include "MFile.h"
+#include "debug.h"
 
 /////////////////////////////////////////////////
 // Class MFile
@@ -218,7 +219,9 @@ void MDialogPlugin::DoExecute(BPath path)
   }
   
   if (fDialogMsg != NULL){
+    SendText("before the code in MDialogPlugin calls event");
     fDialogMsg( this, amsg, path.Path() ); 
+    SendText("after the code in MDialogPlugin calls event");
   }
 }
 

@@ -1,9 +1,12 @@
 /*
-  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.3 2002-04-23 18:37:29 memson Exp $
+  $Header: /home/haiku/befpc/begui/begui/libbegui/BeGuiClasses.cpp,v 1.4 2002-04-27 08:29:51 memson Exp $
   
-  $Revision: 1.3 $
+  $Revision: 1.4 $
   
   $Log: not supported by cvs2svn $
+  Revision 1.3  2002/04/23 18:37:29  memson
+  *** empty log message ***
+
   Revision 1.2  2002/04/12 23:32:56  memson
 
   Added quite a bit.
@@ -110,12 +113,13 @@
 */
 
 #define BEGUI_EXPORTS 1
-
 #include "MList.h"
 #include "MFile.h"
 #include "BeGuiClasses.h"
 #include <stdio.h>
 #include <storage/Path.h>
+#include "debug.h"
+
 
 //clik - control click
 #define ClickMessage  'clik'
@@ -904,6 +908,8 @@ thread_id MApplication::Run(void)
 
 void MApplication::RefsReceived(BMessage *message)
 {
+  SendText("MApplication::RefsReceived");
+  
   if (message->what == SAVE_PANEL_MESSAGE){
     printf("\nSave\n");
   }
@@ -927,7 +933,10 @@ void MApplication::MessageReceived(BMessage *message)
   uint32 type;
   int32 count;
   
+  SendText("MApplication::MessageRecvd");
+  
   if (message->what == SAVE_PANEL_MESSAGE){
+    SendText("MApplication::MessageRecvd - save panel");
     if ( (err = message->FindRef("directory", &ref)) != B_OK ) {
       //printf("failed to find dir, error %d\n", err);
       return;
@@ -956,33 +965,47 @@ void MApplication::MessageReceived(BMessage *message)
     }
   }
   
-  if (message->what == OPEN_PANEL_MESSAGE){
-    printf("open\n");
+  else if (message->what == OPEN_PANEL_MESSAGE){
+    SendText("MApplication::MessageRecvd - open panel");
     
 	message->GetInfo("refs", &type, &count);
 	if (type != B_REF_TYPE) {
-	  printf("no refs found\n");
+	  SendText("MApplication::MessageRecvd - no refs found");
 	  return;
 	}
 	
 	for (int32 i = --count; i >= 0; --i) {
    	  if ((err = message->FindRef("refs", i, &ref)) == B_OK) {
         if (message->FindPointer("source", &pointer) == B_OK){
-          printf("works1\n");
+          SendText("MApplication::MessageRecvd - works 1");
           
           if ( (err = entry.SetTo(&ref)) != B_OK ){
-            printf("failed to create entr from path, error %d\n", err);
+            SendText("MApplication::MessageRecvd - failed to create entr from path, error");
             return;
     	  }
     	  
     	  entry.GetPath(&path);
     	  
           if ((filepanel =  reinterpret_cast<MFilePanel*>(pointer)) != NULL){
-            printf("works2\n");
-            printf( "before event ... %s\n", path.Path() );
-            filepanel->DoExecute( path );
+            SendText("MApplication::MessageRecvd - works2");
+            BString s;
+            s << "MApplication::MessageRecvd - " << "before event ... " << path.Path();
+            SendText( s.String() );
+            if ( LockLooper() ){
+              if (fMainForm->LockLooper()){
+                SendText("right befire call for file event");
+                filepanel->DoExecute( path );
+                SendText("just after call for file event");
+                fMainForm->UnlockLooper();
+              }
+              UnlockLooper();
+            }
+            
           }
         }
+        BString s;
+        s.SetTo("MApplication::MessageRecvd - after file open event code");
+        SendText( s.String() );
    	  }
    	  else {
    	    printf("processing ref %d there was an error %d", i, err);
@@ -990,7 +1013,10 @@ void MApplication::MessageReceived(BMessage *message)
    	  }
    	}
   }
-
+  else {
+    printf("MApplication::messagereceived\n");
+    BApplication::MessageReceived(message);
+  }
 }
 
 void MApplication::Terminate(void)
@@ -1061,6 +1087,7 @@ void MForm::MessageReceived(BMessage *message){
     }  
     else 
     { 
+      printf("MForm::messagereceived\n");
       BWindow::MessageReceived(message);
     }
   } 
