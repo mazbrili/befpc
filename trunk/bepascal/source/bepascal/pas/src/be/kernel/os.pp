@@ -132,7 +132,7 @@ function write_port(port : port_id; code : Longint; const buf : Pointer;
                     buf_size : size_t)
          : status_t; cdecl; external 'root' name 'write_port';
 
-function read_port(port : port_id; code : Longint; buf : Pointer;
+function read_port(port : port_id; var code : Longint; buf : Pointer;
                    buf_size : size_t)
          : status_t; cdecl; external 'root' name 'read_port';
 
