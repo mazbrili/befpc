@@ -1,2 +1,0 @@
-This tool read XML description of BeAPIs and generate pascal and C/C++ source code
-to access this API from pascal source code
