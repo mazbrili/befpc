@@ -5,7 +5,7 @@
  *  DESC: stubgen code generation routines
  *
  *  DATE: Thu Nov 13 13:28:23 PST 1997
- *   $Id: main.c,v 1.1 2002-06-06 22:09:16 ocoursiere Exp $
+ *   $Id: main.c,v 1.2 2002-09-26 21:00:30 ocoursiere Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -76,7 +76,7 @@ char *currentFile = "";
 static const char *lots_of_stars = 
   "***********************************************************************";
 static const char *progname = "stubgen";
-static const char rcsid[] = "$Id: main.c,v 1.1 2002-06-06 22:09:16 ocoursiere Exp $";
+static const char rcsid[] = "$Id: main.c,v 1.2 2002-09-26 21:00:30 ocoursiere Exp $";
 static const char *progver = "2.05";
 
 static const char *copyright =
@@ -328,12 +328,12 @@ static void print_function(syntaxelem_t *elt, syntaxelem_t *classe)
     }
 
     {  /* scope for local vars */
-		char *arg_str;
-		char *arg_str_name;
+		char *arg_str = 0;
+		char *arg_str_name = 0;
 		
-		char *ClassName;
+		char *ClassName = 0;
 		
-		char *Suffixe;
+		char *Suffixe = 0;
 	
 		// Extract the class name without the 'B' prefix
 		// (without the first char)
@@ -434,12 +434,8 @@ static void print_function(syntaxelem_t *elt, syntaxelem_t *classe)
 			// function
 			fprintf(outfile, "   return %s->%s(%s);\n", ClassName, elt->name, arg_str_name);		
 
-		free(ClassName);
 		free(arg_str_name);
 		free(arg_str);
-		free(Suffixe);
-
-		
 	}
 
 //    debug_printf(elt);
@@ -706,7 +702,7 @@ static void scan_and_generate(FILE *infile)
  */
 int revision()
 {
-  static char rcsrev[] = "$Revision: 1.1 $";
+  static char rcsrev[] = "$Revision: 1.2 $";
   static int value = -1;
   char *major_str, *dot;
 
