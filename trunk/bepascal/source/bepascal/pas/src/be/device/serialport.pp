@@ -1,5 +1,5 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Olivier Coursiere
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002-2003 Olivier Coursiere
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -15,16 +15,16 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-unit serialport;
+unit SerialPort;
 
 interface
 
 uses
-  beobj, SupportDefs, os;
+  BeObj, OS, SupportDefs;
   
 type
-    // Pascal enum start at 0 (like in C++). We are lucky because we can't
-    // initialize enum values yet (?) in FreePascal ;-)
+  // Pascal enum start at 0 (like in C++). We are lucky because we can't
+  // initialize enum values yet (?) in FreePascal ;-)
   DataRate = (B_0_BPS, B_50_BPS, B_75_BPS, B_110_BPS, B_134_BPS,
                B_150_BPS, B_200_BPS, B_300_BPS, B_600_BPS, B_1200_BPS,
                B_1800_BPS, B_2400_BPS, B_4800_BPS, B_9600_BPS, B_19200_BPS,
@@ -48,15 +48,15 @@ type
   public
     constructor Create; override;
     destructor Destroy; override;
-    function Open(portName : PChar) : Status_t;
+    function Open(portName : PChar) : status_t;
     procedure Close;
-    
-    function Read(buf : PChar; count : Size_t) : TSSize_t;
-    function Write(const buf : PChar; count : Size_t) : TSSize_t;
-    
-    procedure SetBlocking(Blocking : boolean);
-    function SetTimeout(microSeconds : TBigtime_t) : Status_t;
-    function SeDataRate(bitsPerSecond : DataRate) : Status_t;
+
+    function Read(buf : PChar; count : size_t) : ssize_t;
+    function Write(const buf : PChar; count : size_t) : ssize_t;
+
+    procedure SetBlocking(Blocking : Boolean);
+    function SetTimeout(microSeconds : bigtime_t) : status_t;
+    function SeDataRate(bitsPerSecond : DataRate) : status_t;
     function GeDataRate : DataRate;
     procedure SeDataBits(numBits : DataBits);
     function GeDataBits : DataBits;
@@ -66,21 +66,21 @@ type
     function GeParityMode : ParityMode;
     procedure ClearInput;
     procedure ClearOutput;
-    
+
     procedure SetFlowControl(method : Cardinal);
     function GetFlowControl : Cardinal;
-    function SetDTR(asserted : boolean) : Status_t;
-    function SetRTS(asserted : boolean) : Status_t;    
-    function NumCharsAvailable(var wait_until_this_many : integer) : Status_t;
+    function SetDTR(asserted : Boolean) : status_t;
+    function SetRTS(asserted : Boolean) : status_t;    
+    function NumCharsAvailable(var wait_until_this_many : Integer) : status_t;
+
+    function IsCTS : Boolean;
+    function IsDSR : Boolean;
+    function IsRI : Boolean;
+    function IsDCD : Boolean;
+    function WaitForInput : ssize_t;
     
-    function IsCTS : boolean;
-    function IsDSR : boolean;
-    function IsRI : boolean;
-    function IsDCD : boolean;
-    function WaitForInput : TSSize_t;    
-    
-    function CountDevices : integer;
-    function GetDeviceName(n : integer; name : PChar; bufSize : Size_t) : Status_t;
+    function CountDevices : Integer;
+    function GetDeviceName(n : Integer; name : PChar; bufSize : size_t) : status_t;
     
     property DataRate : DataRate read GeDataRate write SeDataRate;
     property DataBits : DataBits read GeDataBits write SeDataBits;
@@ -90,13 +90,13 @@ type
 
 function BSerialPort_Create(AObject : TBeObject) : TCPlusObject; cdecl; external BePascalLibName name 'BSerialPort_Create';
 procedure BSerialPort_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSerialPort_Free';
-function BSerialPort_Open(AObject : TCPlusObject; portName : PChar) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_Open';
+function BSerialPort_Open(AObject : TCPlusObject; portName : PChar) : status_t; cdecl; external BePascalLibName name 'BSerialPort_Open';
 procedure BSerialPort_Close(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSerialPort_Close';
-function BSerialPort_Read(AObject : TCPlusObject; buf : PChar; count : Size_t) : TSSize_t; cdecl; external BePascalLibName name 'BSerialPort_Read';
-function BSerialPort_Write(AObject : TCPlusObject; const buf : PChar; count : Size_t) : TSSize_t; cdecl; external BePascalLibName name 'BSerialPort_Write';
-procedure BSerialPort_SetBlocking(AObject : TCPlusObject; Blocking : boolean); cdecl; external BePascalLibName name 'BSerialPort_SetBlocking';
-function BSerialPort_SetTimeout(AObject : TCPlusObject; microSeconds : TBigtime_t) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_SetTimeout';
-function BSerialPort_SeDataRate(AObject : TCPlusObject; bitsPerSecond : DataRate) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_SeDataRate';
+function BSerialPort_Read(AObject : TCPlusObject; buf : PChar; count : size_t) : ssize_t; cdecl; external BePascalLibName name 'BSerialPort_Read';
+function BSerialPort_Write(AObject : TCPlusObject; const buf : PChar; count : Size_t) : ssize_t; cdecl; external BePascalLibName name 'BSerialPort_Write';
+procedure BSerialPort_SetBlocking(AObject : TCPlusObject; Blocking : Boolean); cdecl; external BePascalLibName name 'BSerialPort_SetBlocking';
+function BSerialPort_SetTimeout(AObject : TCPlusObject; microSeconds : bigtime_t) : status_t; cdecl; external BePascalLibName name 'BSerialPort_SetTimeout';
+function BSerialPort_SeDataRate(AObject : TCPlusObject; bitsPerSecond : DataRate) : status_t; cdecl; external BePascalLibName name 'BSerialPort_SeDataRate';
 function BSerialPort_DataRate(AObject : TCPlusObject) : DataRate; cdecl; external BePascalLibName name 'BSerialPort_DataRate';
 procedure BSerialPort_SeDataBits(AObject : TCPlusObject; numBits : DataBits); cdecl; external BePascalLibName name 'BSerialPort_SeDataBits';
 function BSerialPort_DataBits(AObject : TCPlusObject) : DataBits; cdecl; external BePascalLibName name 'BSerialPort_DataBits';
@@ -108,16 +108,16 @@ procedure BSerialPort_ClearInput(AObject : TCPlusObject); cdecl; external BePasc
 procedure BSerialPort_ClearOutput(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BSerialPort_ClearOutput';
 procedure BSerialPort_SetFlowControl(AObject : TCPlusObject; method : Cardinal); cdecl; external BePascalLibName name 'BSerialPort_SetFlowControl';
 function BSerialPort_FlowControl(AObject : TCPlusObject) : Cardinal; cdecl; external BePascalLibName name 'BSerialPort_FlowControl';
-function BSerialPort_SetDTR(AObject : TCPlusObject; asserted : boolean) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_SetDTR';
-function BSerialPort_SetRTS(AObject : TCPlusObject; asserted : boolean) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_SetRTS';
-function BSerialPort_NumCharsAvailable(AObject : TCPlusObject; var wait_until_this_many : integer) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_NumCharsAvailable';
-function BSerialPort_IsCTS(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BSerialPort_IsCTS';
-function BSerialPort_IsDSR(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BSerialPort_IsDSR';
-function BSerialPort_IsRI(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BSerialPort_IsRI';
-function BSerialPort_IsDCD(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BSerialPort_IsDCD';
-function BSerialPort_WaitForInput(AObject : TCPlusObject) : TSSize_t; cdecl; external BePascalLibName name 'BSerialPort_WaitForInput';
-function BSerialPort_CountDevices(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BSerialPort_CountDevices';
-function BSerialPort_GetDeviceName(AObject : TCPlusObject; n : integer; name : PChar; bufSize : Size_t): Status_t; cdecl; external BePascalLibName name 'BSerialPort_GetDeviceName';
+function BSerialPort_SetDTR(AObject : TCPlusObject; asserted : Boolean) : status_t; cdecl; external BePascalLibName name 'BSerialPort_SetDTR';
+function BSerialPort_SetRTS(AObject : TCPlusObject; asserted : Boolean) : status_t; cdecl; external BePascalLibName name 'BSerialPort_SetRTS';
+function BSerialPort_NumCharsAvailable(AObject : TCPlusObject; var wait_until_this_many : Integer) : Status_t; cdecl; external BePascalLibName name 'BSerialPort_NumCharsAvailable';
+function BSerialPort_IsCTS(AObject : TCPlusObject) : Boolean; cdecl; external BePascalLibName name 'BSerialPort_IsCTS';
+function BSerialPort_IsDSR(AObject : TCPlusObject) : Boolean; cdecl; external BePascalLibName name 'BSerialPort_IsDSR';
+function BSerialPort_IsRI(AObject : TCPlusObject) : Boolean; cdecl; external BePascalLibName name 'BSerialPort_IsRI';
+function BSerialPort_IsDCD(AObject : TCPlusObject) : Boolean; cdecl; external BePascalLibName name 'BSerialPort_IsDCD';
+function BSerialPort_WaitForInput(AObject : TCPlusObject) : ssize_t; cdecl; external BePascalLibName name 'BSerialPort_WaitForInput';
+function BSerialPort_CountDevices(AObject : TCPlusObject) : Integer; cdecl; external BePascalLibName name 'BSerialPort_CountDevices';
+function BSerialPort_GetDeviceName(AObject : TCPlusObject; n : Integer; name : PChar; bufSize : Size_t): Status_t; cdecl; external BePascalLibName name 'BSerialPort_GetDeviceName';
 
 implementation
 
@@ -134,7 +134,7 @@ begin
   inherited;
 end;
 
-function BSerialPort.Open(portName : PChar) : Status_t;
+function BSerialPort.Open(portName : PChar) : status_t;
 begin
   result := BSerialPort_Open(CPlusObject, portName); 
 end;
@@ -144,27 +144,27 @@ begin
   BSerialPort_Close(CPlusObject);
 end;
 
-function BSerialPort.Read(buf : PChar; count : Size_t) : TSSize_t;
+function BSerialPort.Read(buf : PChar; count : size_t) : ssize_t;
 begin
   Result := BSerialPort_Read(CPlusObject, buf, count);
 end;
 
-function BSerialPort.Write(const buf : PChar; count : Size_t) : TSSize_t;
+function BSerialPort.Write(const buf : PChar; count : size_t) : ssize_t;
 begin
   Result := BSerialPort_Write(CPlusObject, buf, count);
 end;
 
-procedure BSerialPort.SetBlocking(Blocking : boolean);
+procedure BSerialPort.SetBlocking(Blocking : Boolean);
 begin
   BSerialPort_SetBlocking(CPlusObject, Blocking);
 end;
 
-function BSerialPort.SetTimeout(microSeconds : TBigtime_t) : Status_t;
+function BSerialPort.SetTimeout(microSeconds : bigtime_t) : status_t;
 begin
   Result := BSerialPort_SetTimeout(CPlusObject, microSeconds);
 end;
 
-function BSerialPort.SeDataRate(bitsPerSecond : DataRate) : Status_t;
+function BSerialPort.SeDataRate(bitsPerSecond : DataRate) : status_t;
 begin
   Result := BSerialPort_SeDataRate(CPlusObject, bitsPerSecond);
 end;
@@ -224,52 +224,52 @@ begin
   Result := BSerialPort_FlowControl(CPlusObject);
 end;
 
-function BSerialPort.SetDTR(asserted : boolean) : Status_t;
+function BSerialPort.SetDTR(asserted : Boolean) : status_t;
 begin
   Result := BSerialPort_SetDTR(CPlusObject, asserted);
 end;
 
-function BSerialPort.SetRTS(asserted : boolean) : Status_t;
+function BSerialPort.SetRTS(asserted : Boolean) : status_t;
 begin
   Result := BSerialPort_SetRTS(CPlusObject, asserted);
 end;
 
-function BSerialPort.NumCharsAvailable(var wait_until_this_many : integer) : Status_t;
+function BSerialPort.NumCharsAvailable(var wait_until_this_many : Integer) : status_t;
 begin
   Result := BSerialPort_NumCharsAvailable(CPlusObject, wait_until_this_many);
 end;
 
-function BSerialPort.IsCTS : boolean;
+function BSerialPort.IsCTS : Boolean;
 begin
   Result := BSerialPort_IsCTS(CPlusObject);
 end;
 
-function BSerialPort.IsDSR : boolean;
+function BSerialPort.IsDSR : Boolean;
 begin
   Result := BSerialPort_IsDSR(CPlusObject);
 end;
 
-function BSerialPort.IsRI : boolean;
+function BSerialPort.IsRI : Boolean;
 begin
   Result := BSerialPort_IsRI(CPlusObject);
 end;
 
-function BSerialPort.IsDCD : boolean;
+function BSerialPort.IsDCD : Boolean;
 begin
   Result := BSerialPort_IsDCD(CPlusObject);
 end;
 
-function BSerialPort.WaitForInput : TSSize_t;    
+function BSerialPort.WaitForInput : ssize_t;    
 begin
   Result := BSerialPort_WaitForInput(CPlusObject);
 end;
 
-function BSerialPort.CountDevices : integer;
+function BSerialPort.CountDevices : Integer;
 begin
   Result := BSerialPort_CountDevices(CPlusObject);
 end;
 
-function BSerialPort.GetDeviceName(n : integer; name : PChar; bufSize : Size_t) : Status_t;
+function BSerialPort.GetDeviceName(n : Integer; name : PChar; bufSize : size_t) : status_t;
 begin
   Result := BSerialPort_GetDeviceName(CPlusObject, n, name, bufSize);
 end;
