@@ -118,8 +118,10 @@ begin
   FCpp.SaveToFile(FFileName + '.cpp');
   FCpp.Free;
   FPas.Add(FInterfacePas.Text);
-  FPas.Add(FImplementationPas.Text);
   FPas.Add(FImportFuncsPas.Text);
+  FPas.Add('implementation');
+  FPas.Add('');
+  FPas.Add(FImplementationPas.Text);
   // write the end of pascal unit
   FPas.Add('end.');
   FPas.SaveToFile(LowerCase(FFileName) + '.pp');
