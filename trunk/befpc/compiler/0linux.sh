@@ -1,0 +1,1 @@
+fpc -dGDB -dBROWSERLOG -dSUPPORT_MMX -dNOAG386INT -dNOAG386BIN -Sg -FE. -di386 pp.pas -vi
