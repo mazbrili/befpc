@@ -1,5 +1,7 @@
-{  BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Olivier Coursiere
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002-2004 Olivier Coursiere
+                            Oscar Lesta
+                            Mika Lindqvist
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -21,19 +23,68 @@ unit Archivable;
 interface
 
 uses
-  beobj, message, supportdefs;
+  BeObj, Message, SupportDefs;
 
 type
   BArchivable = class(TBeObject)
   private
   public
+(*
+    constructor Create;
+    constructor Create(from : BMessage);
+    destructor Destroy; override;
+
+    function Archive(into : BMessage; deep : Boolean {$ifdef VER1_0}= true{$endif}) : status_t; virtual;
+    function ArchiveFromPascal(into : BMessage; deep : Boolean {$ifdef VER1_0}= true{$endif}) : status_t; virtual;
+    function Instantiate(from : BMessage) : BArchivable;
+*)
   end;
 
-function BArchivable_Create(AObject : TObject) : TCPlusObject; cdecl; external BePascalLibName name 'BApplication_Create_1';
-function BArchivable_Create(AObject : TObject; from : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BApplication_Create_1';
-function BArchivable_Archive(archivable : TCPlusObject; into : TCPlusObject; deep : boolean) : Status_t;  cdecl; external BePascalLibName name 'BApplication_Create_1';
+function BArchivable_Create(AObject : TObject) : TCPlusObject; cdecl; external BePascalLibName name 'BArchivable_Create_1';
+function BArchivable_Create(AObject : TObject; from : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BArchivable_Create_2';
+function BArchivable_Archive(archivable : TCPlusObject; into : TCPlusObject; deep : boolean) : status_t;  cdecl; external BePascalLibName name 'BArchivable_Archive';
 
 implementation
+
+//------------------------------------------------------------------------------
+
+{
+
+constructor BArchivable.Create;
+begin
+  inherited;
+  BArchivable_Create(Self);
+end;
+
+constructor BArchivable.Create(from : BMessage);
+begin
+  inherited;
+  BArchivable_Create(Self, from);
+end;
+
+destructor BArchivable.Destroy; override;
+begin
+
+end;
+
+function BArchivable.Archive(into : BMessage; deep : Boolean) : status_t;
+begin
+
+end;
+
+function BArchivable.ArchiveFromPascal(into : BMessage; deep : Boolean) : status_t;
+begin
+
+end;
+
+function BArchivable.Instantiate(from : BMessage) : BArchivable;
+begin
+
+end;
+
+}
+
+//--- Hook Functions -----------------------------------------------------------
 
 var
   Archivable_Instantiate_hook : Pointer; cvar; external;
@@ -43,8 +94,10 @@ function Archivable_Instantiate_hook_func(from : TCPlusObject) : TCPlusObject;
 begin
 end;
 
-function Archivable_Archive_hook_func(into : TCPlusObject; deep : boolean) : TCPlusObject;
+//function Archivable_Archive_hook_func(into : TCPlusObject; deep : boolean) : TCPlusObject;
+function Archivable_Archive_hook_func(from : TCPlusObject; into : TCPlusObject; deep : Boolean) : status_t;
 begin
+  Result := BArchivable_Archive(from, into, deep);
 end;
 
 initialization
