@@ -23,6 +23,9 @@ SubDir BEPASCAL_TOP ;
 # Force creation of target's directories BEFORE the building of libbepascal.so
 Depends libbepascal.so : dirs ;
 
+NOCARE libbepascal.so ;
+NOCARE libstubgen.so ;
+
 # set the distribution dir
 DISTRIB_DIR = distrib ;
 LIBBEPASCAL_INSTALL_DIR = /boot/home/config/lib ;
@@ -53,6 +56,7 @@ rule MakeDistribs
 	                            Jamrules 
 	                            source/Jamfile 
 	                            source/bepascal/Jamfile
+	                            source/bepascal/cpp/Jamfile	                            
 	                            source/bepascal/pas 
 	                            lib ;
 	MakeZip pas_sources.zip : Readme 
