@@ -211,7 +211,9 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/interface/View.cpp 
        src/be/interface/Window.cpp 
        src/be/mail/E-mail.cpp
+       src/be/storage/Entry.cpp       
        src/be/storage/FilePanel.cpp 
+       src/be/storage/Path.cpp
        src/be/storage/Volume.cpp 
        src/be/storage/VolumeRoster.cpp 
        src/be/support/Archivable.cpp 
