@@ -31,7 +31,7 @@ type
   private
   public
     constructor Create(aframe : BRect; viewName : PChar; sresizingMode : Cardinal; layout : Menu_Layout; resizeToFit : boolean);  
-    constructor Create; override;
+    constructor Create; 
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;

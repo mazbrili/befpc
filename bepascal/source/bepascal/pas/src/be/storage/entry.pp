@@ -25,7 +25,7 @@ uses
   BeObj, StorageDefs, SupportDefs;
 
 type
-  entry_ref = record
+  entry_ref = packed record
     device    : dev_t;
     directory : ino_t;
     name      : PChar;
