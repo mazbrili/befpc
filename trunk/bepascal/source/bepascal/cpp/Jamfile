@@ -188,6 +188,7 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/device/SerialPort.cpp 
        src/be/interface/Alert.cpp 
        src/be/interface/Box.cpp 
+       src/be/interface/Bitmap.cpp 
        src/be/interface/Button.cpp 
        src/be/interface/CheckBox.cpp 
        src/be/interface/Control.cpp 
@@ -198,9 +199,13 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/interface/MenuBar.cpp 
        src/be/interface/MenuItem.cpp 
        src/be/interface/OutlineListView.cpp 
+       src/be/interface/Picture.cpp 
        src/be/interface/Point.cpp 
+       src/be/interface/Polygon.cpp        
        src/be/interface/Rect.cpp 
+       src/be/interface/Region.cpp        
        src/be/interface/RadioButton.cpp 
+       src/be/interface/Screen.cpp        
        src/be/interface/ScrollBar.cpp 
        src/be/interface/ScrollView.cpp 
        src/be/interface/StatusBar.cpp 
