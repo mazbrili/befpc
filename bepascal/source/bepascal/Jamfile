@@ -1,0 +1,5 @@
+SubDir BEPASCAL_TOP source bepascal ;
+
+SubInclude BEPASCAL_TOP source bepascal cpp ;
+SubInclude BEPASCAL_TOP source bepascal pas ;
+
