@@ -5,7 +5,7 @@
  *  DESC: stubgen code generation routines
  *
  *  DATE: Thu Nov 13 13:28:23 PST 1997
- *   $Id: main.c,v 1.2 2002-11-19 00:23:51 ocoursiere Exp $
+ *   $Id: main.c,v 1.3 2002-11-19 23:28:01 ocoursiere Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -73,7 +73,7 @@ char *currentFile = "";
 static const char *lots_of_stars = 
   "***********************************************************************";
 static const char *progname = "stubgen";
-static const char rcsid[] = "$Id: main.c,v 1.2 2002-11-19 00:23:51 ocoursiere Exp $";
+static const char rcsid[] = "$Id: main.c,v 1.3 2002-11-19 23:28:01 ocoursiere Exp $";
 static const char *progver = "2.05";
 
 static const char *copyright =
@@ -458,6 +458,9 @@ static void scan_existing_skeleton()
 __declspec(dllexport) syntaxelem_t * scan(char *infile)
 {
   extern FILE *yyin;
+
+  syntaxelem_t *elem;
+  syntaxelem_t *first;  
   
   fileOpened = 0;
   lineno = 1;
@@ -478,9 +481,16 @@ __declspec(dllexport) syntaxelem_t * scan(char *infile)
   log_printf("finished yyparse()\n");
   currentFile = "";
   log_printf("expanding classes...\n");
+  // Link all tokens
   if (!class_queue_empty()) 
   {
-    return dequeue_class();
+    first = dequeue_class();
+    elem = first;
+    while(!class_queue_empty()) {
+      elem->next = dequeue_class();
+      elem = elem->next;
+      };      
+    return first;
   }
 //  while (!class_queue_empty()) {
 //    syntaxelem_t *elt = dequeue_class();
@@ -540,7 +550,7 @@ __declspec(dllexport) void scan_and_generate(FILE *infile)
  */
 int revision()
 {
-  static char rcsrev[] = "$Revision: 1.2 $";
+  static char rcsrev[] = "$Revision: 1.3 $";
   static int value = -1;
   char *major_str, *dot;
 
