@@ -28,7 +28,7 @@
 #include <handler.h>
 #include <beobj.h>
 
-class BPListView : public BListView, virtual public BPView
+class BPListView : public BListView, public BPView
 {
 
 public:

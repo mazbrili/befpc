@@ -42,7 +42,7 @@ extern "C" {
 }
 #endif
 
-class BPRadioButton : public BRadioButton, virtual public BPControl {
+class BPRadioButton : public BRadioButton, public BPControl {
 
 public:
 	BPRadioButton(TPasObject PasObject,
@@ -116,9 +116,9 @@ BPRadioButton::BPRadioButton(TPasObject PasObject,
 					  message,rmask,flags),
           BPControl(PasObject, frame, name, label, message,
           rmask, flags), 
-          BPView(PasObject, frame, name, rmask, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+//       BPView(PasObject, frame, name, rmask, flags),
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -127,9 +127,9 @@ BPRadioButton::BPRadioButton(TPasObject PasObject,
 BPRadioButton::BPRadioButton(TPasObject PasObject, BMessage *archive)
           :BRadioButton(archive),
           BPControl(PasObject, archive),
-          BPView(PasObject, archive),
-          BPHandler(PasObject, archive),
-          BPasObject(PasObject)
+//       BPView(PasObject, archive),
+          BPHandler(PasObject, archive)
+//       BPasObject(PasObject)
 {
 
 }

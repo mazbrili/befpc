@@ -42,7 +42,7 @@ BButton_MakeDefault_hook Button_MakeDefault_hook;
 }
 #endif
 
-class BPButton : public BButton, virtual public BPControl												 
+class BPButton : public BButton, public BPControl												 
 {
 	public:
 		// <BView_Constructor>
@@ -91,9 +91,9 @@ BPButton::BPButton(TPasObject PasObject, BRect frame,
           resizeMask, flags), 
           BPControl(PasObject, frame, name, label, message,
           resizeMask, flags), 
-          BPView(PasObject, frame, name, resizeMask, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+//        BPView(PasObject, frame, name, resizeMask, flags),
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -101,9 +101,9 @@ BPButton::BPButton(TPasObject PasObject, BRect frame,
 BPButton::BPButton(TPasObject PasObject, BMessage *archive)
           :BButton(archive),
           BPControl(PasObject, archive),
-          BPView(PasObject, archive),
-          BPHandler(PasObject, archive),
-          BPasObject(PasObject)
+//        BPView(PasObject, archive),
+          BPHandler(PasObject, archive)
+//       BPasObject(PasObject)
 {
 
 }

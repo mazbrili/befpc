@@ -94,15 +94,15 @@ BPView::BPView(TPasObject PasObject,
 			   uint32 resizingMode,
 			   uint32 flags)
 			   : BView(frame, name, resizingMode, flags),
-               BPHandler(PasObject),
-               BPasObject(PasObject)
+               BPHandler(PasObject)
+//            BPasObject(PasObject)
 {
 }
 
 BPView::BPView(TPasObject PasObject, BMessage *archive)
 				: BView(archive),
-                  BPHandler(PasObject),				
-	              BPasObject(PasObject)
+                  BPHandler(PasObject)				
+//	              BPasObject(PasObject)
 {
 }
 

@@ -37,7 +37,7 @@
 #include <message.h>
 #include <beobj.h>
 
-class BPApplication : public BApplication, public virtual BPLooper
+class BPApplication : public BApplication, public BPLooper
 {
 	public:
 		BPApplication(TPasObject PasObject, const char *signature);

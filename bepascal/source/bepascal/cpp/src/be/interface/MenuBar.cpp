@@ -10,18 +10,18 @@ BPMenuBar::BPMenuBar(TPasObject PasObject, BRect frame, const char *name,
 		menu_layout layout = B_ITEMS_IN_COLUMN, bool resizeToFit = true)
 		:BMenuBar(frame, name, resizingMode, layout, resizeToFit),
 		  BPMenu(PasObject, name, layout),
-          BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+//       BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 
 BPMenuBar::BPMenuBar(TPasObject PasObject, BMessage *archive)
 		:BMenuBar(archive),
 		  BPMenu(PasObject, archive),
-          BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+//       BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 

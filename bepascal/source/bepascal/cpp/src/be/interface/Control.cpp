@@ -51,8 +51,8 @@ BPControl::BPControl(TPasObject PasObject, BRect frame,
           BControl(frame, name, label, message,
           resizeMask, flags), 
           BPView(PasObject, frame, name, resizeMask, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -60,8 +60,8 @@ BPControl::BPControl(TPasObject PasObject, BRect frame,
 BPControl::BPControl(TPasObject PasObject, BMessage *message):
           BControl(message),           
           BPView(PasObject, message), 
-          BPHandler(PasObject, message),          
-          BPasObject(PasObject)
+          BPHandler(PasObject, message)          
+//       BPasObject(PasObject)
 {
 }
 

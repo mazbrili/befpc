@@ -20,32 +20,32 @@
 BPMenu::BPMenu(TPasObject PasObject, const char *name, menu_layout layout = B_ITEMS_IN_COLUMN)
 		:BMenu(name, layout),
           BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 
 BPMenu::BPMenu(TPasObject PasObject, const char *name, float width, float height)
 		:BMenu(name, width, height),
           BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 
 BPMenu::BPMenu(TPasObject PasObject, BMessage *archive)
 		:BMenu(archive),
           BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 
 BPMenu::BPMenu(TPasObject PasObject, BRect frame, const char *name, uint32 resizingMode, uint32 flags, menu_layout layout, bool resizeToFit)
 		:BMenu(frame, name, resizingMode, flags, layout, resizeToFit),
           BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
-          BPHandler(PasObject),
-          BPasObject(PasObject)
+          BPHandler(PasObject)
+//       BPasObject(PasObject)
 {
 }
 

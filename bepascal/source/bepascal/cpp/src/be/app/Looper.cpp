@@ -51,8 +51,8 @@ BPLooper::BPLooper(TPasObject PasObject, const char *name = NULL,
                    int32 priority = B_NORMAL_PRIORITY,
                    int32 portCapacity = B_LOOPER_PORT_DEFAULT_CAPACITY)
                    : BLooper(name, priority, portCapacity),
-                   BPHandler(PasObject, name),
-                   BPasObject(PasObject)
+                   BPHandler(PasObject, name)
+//                BPasObject(PasObject)
 {
 }
 

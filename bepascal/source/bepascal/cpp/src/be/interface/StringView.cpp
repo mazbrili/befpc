@@ -37,7 +37,7 @@ extern "C" {
 }
 #endif
 
-class BPStringView : public BStringView, virtual public BPView
+class BPStringView : public BStringView, public BPView
 {
 
 public:
@@ -75,8 +75,8 @@ BPStringView::BPStringView(TPasObject PasObject,
 					 resizeFlags, 
 					 flags), 
           BPView(PasObject, BRect(0,0,0,0), name, 0, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -84,8 +84,8 @@ BPStringView::BPStringView(TPasObject PasObject,
 BPStringView::BPStringView(TPasObject PasObject, BMessage *data)
           :BStringView(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 

@@ -28,7 +28,7 @@
 
 #include <handler.h>
 
-class BPLooper : public BLooper, public virtual BPHandler
+class BPLooper : public BLooper, public BPHandler
 {
 	public:
 		BPLooper(TPasObject PasObject, const char *name = NULL,

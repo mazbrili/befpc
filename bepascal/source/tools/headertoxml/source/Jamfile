@@ -20,4 +20,9 @@
 
 SubDir BEPASCAL_TOP source tools headertoxml source ;
 
+actions fpc
+{
+	fpc -g -S2 $(2) -FE$(dir) -Fusource/tools/stubgen.so/pas/ -Fllib ;
+}
+
 Objects headertoxml.pp ;

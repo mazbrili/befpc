@@ -38,7 +38,7 @@ extern "C" {
 }
 #endif
 
-class BPScrollBar : public BScrollBar,virtual public BPView {
+class BPScrollBar : public BScrollBar, public BPView {
 
 public:
 					BPScrollBar(TPasObject PasObject,
@@ -85,8 +85,8 @@ BPScrollBar::BPScrollBar(TPasObject PasObject,
 								max,
 								direction), 
           BPView(PasObject, BRect(0,0,0,0), name, 0, 0),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 
 }
@@ -94,8 +94,8 @@ BPScrollBar::BPScrollBar(TPasObject PasObject,
 BPScrollBar::BPScrollBar(TPasObject PasObject, BMessage *data)
           :BScrollBar(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 

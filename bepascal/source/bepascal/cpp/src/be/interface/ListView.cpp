@@ -44,8 +44,8 @@ BListString_InitiateDrag_hook ListString_InitiateDrag_hook;
 BPListView::BPListView(TPasObject PasObject,BMessage *data)
 					:BListView(data),
           BPView(PasObject, data),
-          BPHandler(PasObject, data),
-          BPasObject(PasObject)
+          BPHandler(PasObject, data)
+//       BPasObject(PasObject)
 {
 }
 
@@ -58,8 +58,8 @@ BPListView::BPListView(TPasObject PasObject,BRect frame,
 													B_NAVIGABLE)
 					:BListView(frame,name,type,resizeMask,flags),
           BPView(PasObject, BRect(0,0,0,0), name, 0, flags),
-          BPHandler(PasObject, name),
-          BPasObject(PasObject)
+          BPHandler(PasObject, name)
+//       BPasObject(PasObject)
 {
 }
 

@@ -37,7 +37,7 @@ rule fpcMkObjectDirs
 	{
 		dir = [ FDirName $(LOCATE_TARGET) $(i:D) ] ;
 		Depends $(i:S=$(SUFOBJ)) : $(dir) ;
-		MkDir $(dir) ;
+		MkDir -p $(dir) ;
 	}
 }
 
@@ -57,6 +57,13 @@ rule fpc
 actions fpc
 {
 	fpc -g -S2 $(2) -FE$(dir) ;
+}
+
+# call the Lex interpreter
+
+actions Lex
+{
+	flex $(2) ;
 }
 
 # Make a zip file named $(1) that include (recursively) all files in the directory list $(2), except the ones 
@@ -145,7 +152,7 @@ rule MkObjectDirs
 	{
 		dir = [ FDirName $(LOCATE_TARGET) $(i:D) ] ;
 		Depends $(i:S=$(SUFOBJ)) : $(dir) ;
-		MkDir $(dir) ;
+		MkDir -p $(dir) ;
 	}
 }
 

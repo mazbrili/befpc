@@ -7,7 +7,7 @@
 #include "view.h"
 #include <beobj.h>
 
-class BPMenu : public BMenu, virtual public BPView
+class BPMenu : public BMenu, public BPView
 {
 	public:
 		BPMenu(TPasObject PasObject, const char *name, menu_layout layout = B_ITEMS_IN_COLUMN); 

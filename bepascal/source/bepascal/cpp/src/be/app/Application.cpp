@@ -60,17 +60,19 @@ BMessenger *be_app_messengerCPlus;
 #endif
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature) 
-	: BApplication(signature), BPHandler(PasObject), BPLooper(PasObject), 
-	BPasObject(PasObject)
+	: BApplication(signature), 
+//	BPHandler(PasObject), 
+	BPLooper(PasObject) 
+//	BPasObject(PasObject)
 {
 	be_app_messengerCPlus = &be_app_messenger;
 }
 
 BPApplication::BPApplication(TPasObject PasObject, const char *signature,
 	 status_t *error) : BApplication(signature, error), 
-	 BPHandler(PasObject),
-	 BPLooper(PasObject),
-	 BPasObject(PasObject)
+//	 BPHandler(PasObject),
+	 BPLooper(PasObject)
+//	 BPasObject(PasObject)
 {
 	be_app_messengerCPlus = &be_app_messenger;
 }

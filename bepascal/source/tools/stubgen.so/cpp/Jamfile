@@ -112,8 +112,9 @@ DRIVER_PATH on $(NAME) =  ;
 
 # Specify the name of the binary
 #	If the name has spaces, you must quote it: "My App"
-BeMain libstubgen.so : lexer.l
-        parser.y
+
+BeMain libstubgen.so : parser.y
+        lexer.l
         getopt.c 
         main.c 
         pathname.c
