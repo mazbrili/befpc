@@ -50,6 +50,14 @@ class BPApplication : public BApplication, public BPLooper
 		virtual void DispatchMessage(BMessage *message, BHandler *target);		
 		virtual void AppActivated_hookCall(bool active);
 		virtual void ReadyToRun_hookCall(void);
+		virtual void RefsReceived(BMessage *message);
+		virtual void RefsReceived_hookCall(BMessage *message);		
+		virtual void AboutRequested(void);
+		virtual void AboutRequested_hookCall(void);		
+		virtual void ArgvReceived(int32 argc, char **argv);
+		virtual void ArgvReceived_hookCall(int32 argc, char **argv);
+		virtual void Pulse(void);
+		virtual void Pulse_hookCall(void);		
 	private:
 };
 

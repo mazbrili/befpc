@@ -41,6 +41,10 @@
 // definition of callback function in BApplication
 typedef void (*BApplication_AppActivated_hook) (TPasObject PasObject, bool active);
 typedef void (*BApplication_ReadyToRun_hook) (TPasObject PasObject);
+typedef void (*BApplication_RefsReceived_hook) (TPasObject PasObject, BMessage *message);
+typedef void (*BApplication_ArgvReceived_hook) (TPasObject PasObject, int32 argc, char **argv);
+typedef void (*BApplication_AboutRequested_hook) (TPasObject PasObject);
+typedef void (*BApplication_Pulse_hook) (TPasObject PasObject);
 // typedef bool (*BApplication_QuitRequested_hook) (TPasObject PasObject);
 // typedef void (*BApplication_MessageReceived_hook) (TPasObject PasObject, TCPlusObject message);
 
@@ -50,6 +54,10 @@ extern "C" {
 
 BApplication_AppActivated_hook Application_AppActivated_hook;
 BApplication_ReadyToRun_hook Application_ReadyToRun_hook;
+BApplication_RefsReceived_hook Application_RefsReceived_hook;
+BApplication_ArgvReceived_hook Application_ArgvReceived_hook;
+BApplication_AboutRequested_hook Application_AboutRequested_hook;
+BApplication_Pulse_hook Application_Pulse_hook;
 //BApplication_QuitRequested_hook Application_QuitRequested_hook;
 //BApplication_MessageReceived_hook Application_MessageReceived_hook;
 
@@ -116,6 +124,51 @@ void BPApplication::DispatchMessage(BMessage *message, BHandler *target)
 	DispatchMessage_hookCall(message, target);
 //	message->PrintToStream();
 	BApplication::DispatchMessage(message, target);
+}
+
+void BPApplication::RefsReceived(BMessage *message)
+{
+	RefsReceived_hookCall(message);
+//	message->PrintToStream();
+	BApplication::RefsReceived(message);
+}
+
+void BPApplication::RefsReceived_hookCall(BMessage *message)
+{
+	Application_RefsReceived_hook(GetPasObject(), message);
+}
+
+void BPApplication::ArgvReceived(int32 argc, char **argv)
+{
+	ArgvReceived_hookCall(argc, argv);
+	BApplication::ArgvReceived(argc, argv);
+}
+
+void BPApplication::ArgvReceived_hookCall(int32 argc, char **argv)
+{
+	Application_ArgvReceived_hook(GetPasObject(), argc, argv);
+}
+
+void BPApplication::AboutRequested(void)
+{
+	AboutRequested_hookCall();
+	BApplication::AboutRequested();
+}
+
+void BPApplication::AboutRequested_hookCall(void)
+{
+	Application_AboutRequested_hook(GetPasObject());
+}
+
+void BPApplication::Pulse(void)
+{
+	Pulse_hookCall();
+	BApplication::Pulse();
+}
+
+void BPApplication::Pulse_hookCall(void)
+{
+	Application_Pulse_hook(GetPasObject());
 }
 
 #if defined(__cplusplus)

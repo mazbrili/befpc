@@ -45,6 +45,7 @@ type
     destructor UnWrap; virtual;
     property CPlusObject : TCPlusObject read FCPlusObject write FCPlusObject;
   end;
+  function GetCPlusObj(anObject : TBeObject) : TCPlusObject;
 
 type
   TSendTextProc = procedure(aText : string);
@@ -93,6 +94,14 @@ begin
 {$ENDIF}
 
   Result := Longword(Num);
+end;
+
+function GetCPlusObj(anObject : TBeObject) : TCPlusObject;
+begin
+  if Assigned(anObject) then
+    Result := anObject.CPlusObject
+  else
+    Result := nil;
 end;
 
 var
