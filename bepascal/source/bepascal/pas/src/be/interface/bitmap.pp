@@ -18,59 +18,69 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
 
-unit bitmap;
+unit Bitmap;
 
 interface
 
 uses
   BeObj, Archivable, GraphicDefs, Message, OS, Rect, SupportDefs, View;
 
-type
-//	PCardinal = ^Cardinal;
+const
+  B_BITMAP_CLEAR_TO_WHITE          = $00000001;
+  B_BITMAP_ACCEPTS_VIEWS           = $00000002;
+  B_BITMAP_IS_AREA                 = $00000004;
+  B_BITMAP_IS_LOCKED               = $00000008 or B_BITMAP_IS_AREA;
+  B_BITMAP_IS_CONTIGUOUS           = $00000010 or B_BITMAP_IS_LOCKED;
+  B_BITMAP_IS_OFFSCREEN            = $00000020;
+  B_BITMAP_WILL_OVERLAY            = $00000040 or B_BITMAP_IS_OFFSCREEN;
+  B_BITMAP_RESERVE_OVERLAY_CHANNEL = $00000080;
 
+  B_ANY_BYTES_PER_ROW = -1;
+
+type
   BBitmap = class(BArchivable)
   private
   public
     // I will change "bounds" to "frame" in these constructors...
     // they clash with the Bounds function.
     // Also "bytesPerWow" --> "bytes_per_row"
-    constructor Create(frame : BRect; flags : Cardinal; depth : Color_Space;
-                       bytes_per_row : Integer; screenID : Screen_ID);
-    constructor Create(frame : BRect; depth : Color_Space;
-                       accepts_views : boolean; need_contiguous : boolean);
-    constructor Create(source : BBitmap; accepts_views : boolean;
-                       need_contiguous : boolean);
+    constructor Create(frame : BRect; flags : Cardinal; depth : color_space;
+                       bytes_per_row : Integer; screenID : screen_id);
+    constructor Create(frame : BRect; depth : color_space;
+                       accepts_views : Boolean; need_contiguous : Boolean);
+    constructor Create(source : BBitmap; accepts_views : Boolean;
+                       need_contiguous : Boolean);
     constructor Create(data : BMessage);
 
     destructor Destroy; override;
 
     function Instantiate(data : BMessage) : BArchivable;
-    function Archive(data : BMessage; deep : boolean) : Status_t;
-    function InitCheck : Status_t;
-    function IsValid : boolean;
-    function LockBits(state : PCardinal) : Status_t;
+    function Archive(data : BMessage; deep : Boolean) : status_t;
+    function InitCheck : status_t;
+    function IsValid : Boolean;
+    function LockBits(state : PCardinal) : status_t;
     procedure UnlockBits;
-    function Area : Area_ID;
+    function Area : area_id;
     function Bits : Pointer;
     function BitsLength : Integer;
     function BytesPerRow : Integer;
-    function ColorSpace : Color_Space;
+    function ColorSpace : color_space;
     function Bounds : BRect;
-    procedure SetBits(data : Pointer; length : integer; offset : integer;
-                      cs : Color_Space);
-    function GetOverlayRestrictions(restrict : OverlayRestrictions)
-             : Status_t;
+    procedure SetBits(data : Pointer; length : Integer; offset : Integer;
+                      cs : color_space);
+    function GetOverlayRestrictions(restrict : overlay_restrictions)
+             : status_t;
     procedure AddChild(view : BView);
-    function RemoveChild(view : BView) : boolean;
-    function CountChildren : integer;
-    function ChildAt(index : integer) : BView;
+    function RemoveChild(view : BView) : Boolean;
+    function CountChildren : Integer;
+    function ChildAt(index : Integer) : BView;
     function FindView(view_name : PChar) : BView;
     function FindView(point : BPoint) : BView;
-    function Lock : boolean;
+    function Lock : Boolean;
     procedure Unlock;
-    function IsLocked : boolean;
+    function IsLocked : Boolean;
 
-    function Perform(d : Perform_code; arg : Pointer) : Status_t;
+    function Perform(d : perform_code; arg : Pointer) : status_t;
 {
     procedure _ReservedBitmap1;
     procedure _ReservedBitmap2;
@@ -82,9 +92,9 @@ type
     procedure set_bits_24(offset : integer; data : PChar; length : integer);
     procedure set_bits_24_local_gray(offset : integer; data : PChar; len : integer);
     procedure set_bits_24_local_256(offset : integer; data : PByte; len : integer);
-    procedure set_bits_24_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
-    procedure set_bits_8_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
-    procedure set_bits_gray_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
+    procedure set_bits_24_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
+    procedure set_bits_8_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
+    procedure set_bits_gray_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
     function get_server_token : integer;
     procedure InitObject(frame : TRect; depth : TColor_Space; flags : Cardinal; bytesPerRow : integer; screenID : TScreenID);
     procedure AssertPtr;
@@ -104,17 +114,17 @@ type
 }
   end;
 
-function BBitmap_Create(AObject : TBeObject; bounds : TCPlusObject;
-  flags : Cardinal; depth : Color_Space; bytesPerRow : Integer;
-  screenID : Screen_ID) : TCPlusObject; cdecl;
+function BBitmap_Create(AObject : TBeObject; frame : TCPlusObject;
+  flags : Cardinal; depth : color_space; bytes_per_row : Integer;
+  screenID : screen_id) : TCPlusObject; cdecl;
   external BePascalLibName name 'BBitmap_Create';
 
-function BBitmap_Create_1(AObject : TBeObject; bounds : TCPlusObject;
-  depth : Color_Space; accepts_views : boolean; need_contiguous : boolean)
+function BBitmap_Create_1(AObject : TBeObject; frame : TCPlusObject;
+  depth : color_space; accepts_views : Boolean; need_contiguous : Boolean)
   : TCPlusObject; cdecl; external BePascalLibName name 'BBitmap_Create_1';
 
 function BBitmap_Create_2(AObject : TBeObject; source : BBitmap;
-  accepts_views : boolean; need_contiguous : boolean) : TCPlusObject; cdecl;
+  accepts_views : Boolean; need_contiguous : Boolean) : TCPlusObject; cdecl;
   external BePascalLibName name 'BBitmap_Create_2';
 
 function BBitmap_Create_3(AObject : TBeObject; data : TCPlusObject)
@@ -125,21 +135,21 @@ procedure BBitmap_Free(AObject : TCPlusObject); cdecl;
   external BePascalLibName name 'BBitmap_Free';
 
 
-function BBitmap_Instantiate(AObject : TCPlusObject; data : {TMessage}TCPlusObject)
+function BBitmap_Instantiate(AObject : TCPlusObject; data : TCPlusObject)
   : BArchivable; cdecl; external BePascalLibName name 'BBitmap_Instantiate';
 
-function BBitmap_Archive(AObject : TCPlusObject; data : {TMessage}TCPlusObject;
-  deep : boolean) : Status_t; cdecl;
+function BBitmap_Archive(AObject : TCPlusObject; data : TCPlusObject;
+  deep : Boolean) : status_t; cdecl;
   external BePascalLibName name 'BBitmap_Archive';
 
-function BBitmap_InitCheck(AObject : TCPlusObject) : Status_t; cdecl;
+function BBitmap_InitCheck(AObject : TCPlusObject) : status_t; cdecl;
   external BePascalLibName name 'BBitmap_InitCheck';
 
-function BBitmap_IsValid(AObject : TCPlusObject) : boolean; cdecl;
+function BBitmap_IsValid(AObject : TCPlusObject) : Boolean; cdecl;
   external BePascalLibName name 'BBitmap_IsValid';
 
 function BBitmap_LockBits(AObject : TCPlusObject; state : PCardinal)
-  : Status_t; cdecl; external BePascalLibName name 'BBitmap_LockBits';
+  : status_t; cdecl; external BePascalLibName name 'BBitmap_LockBits';
 
 procedure BBitmap_UnlockBits(AObject : TCPlusObject); cdecl;
   external BePascalLibName name 'BBitmap_UnlockBits';
@@ -167,37 +177,37 @@ procedure BBitmap_SetBits(AObject : TCPlusObject; data : Pointer;
   external BePascalLibName name 'BBitmap_SetBits';
 
 function BBitmap_GetOverlayRestrictions(AObject : TCPlusObject;
-  restrict : OverlayRestrictions) : Status_t; cdecl;
+  restrict : overlay_restrictions) : status_t; cdecl;
   external BePascalLibName name 'BBitmap_GetOverlayRestrictions';
 
-procedure BBitmap_AddChild(AObject : TCPlusObject; view : {TView}TCPlusObject); cdecl;
+procedure BBitmap_AddChild(AObject : TCPlusObject; view : TCPlusObject); cdecl;
   external BePascalLibName name 'BBitmap_AddChild';
 
-function BBitmap_RemoveChild(AObject : TCPlusObject; view : {TView}TCPlusObject)
-  : boolean; cdecl; external BePascalLibName name 'BBitmap_RemoveChild';
+function BBitmap_RemoveChild(AObject : TCPlusObject; view : TCPlusObject)
+  : Boolean; cdecl; external BePascalLibName name 'BBitmap_RemoveChild';
 
-function BBitmap_CountChildren(AObject : TCPlusObject) : integer; cdecl;
+function BBitmap_CountChildren(AObject : TCPlusObject) : Integer; cdecl;
   external BePascalLibName name 'BBitmap_CountChildren';
 
-function BBitmap_ChildAt(AObject : TCPlusObject; index : integer) : BView;
+function BBitmap_ChildAt(AObject : TCPlusObject; index : Integer) : BView;
   cdecl; external BePascalLibName name 'BBitmap_ChildAt';
 
 function BBitmap_FindView(AObject : TCPlusObject; view_name : PChar) : BView;
   cdecl; external BePascalLibName name 'BBitmap_FindView';
 
-function BBitmap_FindView(AObject : TCPlusObject; point : BPoint{TCPlusObject})
+function BBitmap_FindView(AObject : TCPlusObject; point : {BPoint}TCPlusObject)
   : BView; cdecl; external BePascalLibName name 'BBitmap_FindView';
 
-function BBitmap_Lock(AObject : TCPlusObject) : boolean; cdecl;
+function BBitmap_Lock(AObject : TCPlusObject) : Boolean; cdecl;
   external BePascalLibName name 'BBitmap_Lock';
 
 procedure BBitmap_Unlock(AObject : TCPlusObject); cdecl;
   external BePascalLibName name 'BBitmap_Unlock';
 
-function BBitmap_IsLocked(AObject : TCPlusObject) : boolean; cdecl;
+function BBitmap_IsLocked(AObject : TCPlusObject) : Boolean; cdecl;
   external BePascalLibName name 'BBitmap_IsLocked';
 
-function BBitmap_Perform(AObject : TCPlusObject; d : Perform_code; arg : Pointer) :  Status_t; cdecl; external BePascalLibName name 'BBitmap_Perform';
+function BBitmap_Perform(AObject : TCPlusObject; d : perform_code; arg : Pointer) :  status_t; cdecl; external BePascalLibName name 'BBitmap_Perform';
 
 {
 procedure BBitmap__ReservedBitmap1(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BBitmap__ReservedBitmap1';
@@ -210,9 +220,9 @@ procedure BBitmap_set_bits(AObject : TCPlusObject; offset : integer; data : PCha
 procedure BBitmap_set_bits_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer); cdecl; external BePascalLibName name 'BBitmap_set_bits_24';
 procedure BBitmap_set_bits_24_local_gray(AObject : TCPlusObject; offset : integer; data : PChar; len : integer); cdecl; external BePascalLibName name 'BBitmap_set_bits_24_local_gray';
 procedure BBitmap_set_bits_24_local_256(AObject : TCPlusObject; offset : integer; data : PByte; len : integer); cdecl; external BePascalLibName name 'BBitmap_set_bits_24_local_256';
-procedure BBitmap_set_bits_24_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_24_24';
-procedure BBitmap_set_bits_8_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_8_24';
-procedure BBitmap_set_bits_gray_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_gray_24';
+procedure BBitmap_set_bits_24_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : Boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_24_24';
+procedure BBitmap_set_bits_8_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : Boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_8_24';
+procedure BBitmap_set_bits_gray_24(AObject : TCPlusObject; offset : integer; data : PChar; length : integer; big_endian_dst : Boolean); cdecl; external BePascalLibName name 'BBitmap_set_bits_gray_24';
 function BBitmap_get_server_token(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BBitmap_get_server_token';
 procedure BBitmap_InitObject(AObject : TCPlusObject; frame : TCPlusObject; depth : TColor_Space; flags : Cardinal; bytesPerRow : integer; screenID : TScreenID); cdecl; external BePascalLibName name 'BBitmap_InitObject';
 procedure BBitmap_AssertPtr(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BBitmap_AssertPtr';
@@ -252,7 +262,7 @@ end;
 //  BBitmap(BRect bounds, color_space depth, bool accepts_views = false,
 //    bool need_contiguous = false);
 constructor BBitmap.Create(frame{bounds} : BRect; depth : Color_Space;
-  accepts_views : boolean; need_contiguous : Boolean);
+  accepts_views : Boolean; need_contiguous : Boolean);
 begin
   CPlusObject := BBitmap_Create_1(Self, frame.CPlusObject, depth,
                                   accepts_views, need_contiguous);
@@ -266,8 +276,7 @@ begin
   CPlusObject := BBitmap_Create_2(Self, source, accepts_views, need_contiguous);
 end;
 
-// BBitmap(BMessage *data);
-constructor BBitmap.Create(data :BMessage);
+constructor BBitmap.Create(data : BMessage);
 begin
   CPlusObject := BBitmap_Create_3(Self, data.CPlusObject);
 end;
@@ -278,27 +287,27 @@ begin
   inherited;
 end;
 
-function BBitmap.Instantiate(data :BMessage) : BArchivable;
+function BBitmap.Instantiate(data : BMessage) : BArchivable;
 begin
   Result := BBitmap_Instantiate(CPlusObject, data.CPlusObject);
 end;
 
-function BBitmap.Archive(data : BMessage; deep : boolean) : Status_t;
+function BBitmap.Archive(data : BMessage; deep : Boolean) : status_t;
 begin
   Result := BBitmap_Archive(CPlusObject, data.CPlusObject, deep);
 end;
 
-function BBitmap.InitCheck : Status_t;
+function BBitmap.InitCheck : status_t;
 begin
   Result := BBitmap_InitCheck(CPlusObject);
 end;
 
-function BBitmap.IsValid : boolean;
+function BBitmap.IsValid : Boolean;
 begin
   Result := BBitmap_IsValid(CPlusObject);
 end;
 
-function BBitmap.LockBits(state : PCardinal) : Status_t;
+function BBitmap.LockBits(state : PCardinal) : status_t;
 begin
   Result := BBitmap_LockBits(CPlusObject, state);
 end;
@@ -308,7 +317,7 @@ begin
   BBitmap_UnlockBits(CPlusObject);
 end;
 
-function BBitmap.Area : Area_ID;
+function BBitmap.Area : area_id;
 begin
   Result := BBitmap_Area(CPlusObject);
 end;
@@ -318,17 +327,17 @@ begin
   Result := BBitmap_Bits(CPlusObject);
 end;
 
-function BBitmap.BitsLength : integer;
+function BBitmap.BitsLength : Integer;
 begin
   Result := BBitmap_BitsLength(CPlusObject);
 end;
 
-function BBitmap.BytesPerRow : integer;
+function BBitmap.BytesPerRow : Integer;
 begin
   Result := BBitmap_BytesPerRow(CPlusObject);
 end;
 
-function BBitmap.ColorSpace : Color_Space;
+function BBitmap.ColorSpace : color_space;
 begin
   Result := BBitmap_ColorSpace(CPlusObject);
 end;
@@ -338,12 +347,12 @@ begin
   Result := BBitmap_Bounds(CPlusObject);
 end;
 
-procedure BBitmap.SetBits(data : Pointer; length : integer; offset : integer; cs : Color_Space);
+procedure BBitmap.SetBits(data : Pointer; length : Integer; offset : Integer; cs : color_space);
 begin
   BBitmap_SetBits(CPlusObject, data, length, offset, cs);
 end;
 
-function BBitmap.GetOverlayRestrictions(restrict : OverlayRestrictions) : Status_t;
+function BBitmap.GetOverlayRestrictions(restrict : overlay_restrictions) : status_t;
 begin
   Result := BBitmap_GetOverlayRestrictions(CPlusObject, restrict);
 end;
@@ -353,17 +362,17 @@ begin
   BBitmap_AddChild(CPlusObject, view.CPlusObject);
 end;
 
-function BBitmap.RemoveChild(view : BView) : boolean;
+function BBitmap.RemoveChild(view : BView) : Boolean;
 begin
   Result := BBitmap_RemoveChild(CPlusObject, view.CPlusObject);
 end;
 
-function BBitmap.CountChildren : integer;
+function BBitmap.CountChildren : Integer;
 begin
   Result := BBitmap_CountChildren(CPlusObject);
 end;
 
-function BBitmap.ChildAt(index : integer) : BView;
+function BBitmap.ChildAt(index : Integer) : BView;
 begin
   Result := BBitmap_ChildAt(CPlusObject, index);
 end;
@@ -378,7 +387,7 @@ begin
   Result := BBitmap_FindView(CPlusObject, point.CPlusObject);
 end;
 
-function BBitmap.Lock : boolean;
+function BBitmap.Lock : Boolean;
 begin
   Result := BBitmap_Lock(CPlusObject);
 end;
@@ -388,17 +397,15 @@ begin
   BBitmap_Unlock(CPlusObject);
 end;
 
-function BBitmap.IsLocked : boolean;
+function BBitmap.IsLocked : Boolean;
 begin
   Result := BBitmap_IsLocked(CPlusObject);
 end;
 
-
-function BBitmap.Perform(d : Perform_code; arg : Pointer) : Status_t;
+function BBitmap.Perform(d : perform_code; arg : Pointer) : status_t;
 begin
   Result := BBitmap_Perform(CPlusObject, d, arg);
 end;
-
 
 {
 procedure TBitmap._ReservedBitmap1;
@@ -451,17 +458,17 @@ begin
   BBitmap_set_bits_24_local_256(CPlusObject, offset, data, len);
 end;
 
-procedure TBitmap.set_bits_24_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
+procedure TBitmap.set_bits_24_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
 begin
   BBitmap_set_bits_24_24(CPlusObject, offset, data, length, big_endian_dst);
 end;
 
-procedure TBitmap.set_bits_8_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
+procedure TBitmap.set_bits_8_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
 begin
   BBitmap_set_bits_8_24(CPlusObject, offset, data, length, big_endian_dst);
 end;
 
-procedure TBitmap.set_bits_gray_24(offset : integer; data : PChar; length : integer; big_endian_dst : boolean);
+procedure TBitmap.set_bits_gray_24(offset : integer; data : PChar; length : integer; big_endian_dst : Boolean);
 begin
   BBitmap_set_bits_gray_24(CPlusObject, offset, data, length, big_endian_dst);
 end;
