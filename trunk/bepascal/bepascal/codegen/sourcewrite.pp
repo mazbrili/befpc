@@ -105,6 +105,11 @@ begin
   FPas := TStringList.Create;  
   FPas.Add(PasLicense);
   FPas.Add('unit ' + LowerCase(FFileName) + ';');
+  FPas.Add('');
+  FPas.Add('interface');
+  FPas.Add('');
+  FPas.Add('uses');
+  FPas.Add('  beobj;');
   FInterfacePas := TStringList.Create;
   FImplementationPas := TStringList.Create;
   FImportFuncsPas := TStringList.Create;

@@ -503,11 +503,13 @@ begin
     else
       Add(Format('function %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]));    
   end;
-  //Body
-    if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+  // Implementation body
+    if IsConstructor then
+      BodyPas := Format('  CPlusObject := %s_%s%s', [Classe.Name, ProcName, SelfParamImpl])      
+    else if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
       BodyPas := Format('  %s_%s%s', [Classe.Name, ProcName, SelfParamImpl])
     else
-      BodyPas := Format('  %s_%s%s', [Classe.Name, ProcName, SelfParamImpl]);
+      BodyPas := Format('  Result := %s_%s%s', [Classe.Name, ProcName, SelfParamImpl]);
 end;
 
 procedure TFunction.Ends;
