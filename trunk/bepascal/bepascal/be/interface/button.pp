@@ -125,7 +125,6 @@ end;
 constructor TButton.Create(frame : TRect; name, aLabel : PChar; message : TMessage; resizingMode, flags : Cardinal);
 begin
   CreatePas;
-  WriteLn('Creation bouton');
   CPlusObject := BButton_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, resizingMode, flags);
 end;
 
@@ -182,7 +181,6 @@ end;
 
 procedure TButton.MessageReceived(msg : TMessage);
 begin
-  WriteLn('Bonjour, ici le bouton !');
 //  BButton_MessageReceived(CPlusObject, msg.CPlusObject);
 end;
 

@@ -97,16 +97,20 @@ end;
 
 procedure TApplication.AppActivated(Active : boolean);
 begin
+{$IFDEF DEBUG}
   WriteLn(Active);
   if Active then
 	WriteLn('Application activée !')
   else
     WriteLn('Application désactivée !');
+{$ENDIF}
 end;
 
 procedure Application_ReadyToRun_hook_func(Application : TApplication); cdecl;
 begin
+{$IFDEF DEBUG}
   WriteLn('Hook ReadyToRun !');
+{$ENDIF}
   if Application <> nil then
     Application.ReadyToRun;
 end;
@@ -115,7 +119,9 @@ procedure Application_MessageReceived_hook_func(Application : TApplication; aMes
 var
   Message : TMessage;
 begin
+{$IFDEF DEBUG}
   WriteLn('Hook MessageReceived !');
+{$ENDIF}
   Message := TMessage.Wrap(aMessage);
   try
     if Application <> nil then
@@ -127,7 +133,9 @@ end;
 
 procedure TApplication.ReadyToRun;
 begin
+{$IFDEF DEBUG}
   WriteLn('Prêt à démarer !');
+{$ENDIF}
 end;
 
 procedure TApplication.ShowCursor;
@@ -153,7 +161,6 @@ end;
   // end TApplication
   
 initialization
-  WriteLn('Initialisation');
   be_app := nil;
   Application_AppActivated_hook := @Application_AppActivated_hook_func;
   Application_ReadyToRun_hook := @Application_ReadyToRun_hook_func;

@@ -358,9 +358,7 @@ function TControl.GetInvoker : TInvoker;
 begin
   if FInvoker = nil then
   begin
-    WriteLn('Before GetInvoker');
     Result := TInvoker.Wrap(CPlusObject);
-    WriteLn('After GetInvoker');    
   end;
   Result := FInvoker;
 end;

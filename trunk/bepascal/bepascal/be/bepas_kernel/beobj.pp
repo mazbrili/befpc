@@ -90,11 +90,13 @@ procedure TBeObject.Debug;
 var
   size : cardinal;
 begin
+{$IFDEF DEBUG}
   size := 0;
   size := SizeOf(Self.ClassType);
   WriteLn('Instance de ' + Self.ClassName + '(' + HexStr(longint(pointer(Self)), 8) + ')' + 
           '(' + IntToStr(size) + ')' +
           ' ');
+{$ENDIF}
 end;
   // Destructeur utilisé pour libérer l'objet pascal sans
   // détruire l'objet C++ correspondant. Utile pour
@@ -103,7 +105,9 @@ end;
   // (cas des messages passés aux fonctions de rappel)
 destructor TBeObject.UnWrap;
 begin
+{$IFDEF DEBUG}
   WriteLn('UnWrap');
+{$ENDIF}
     // On passe CPlusObject à nil pour éviter de libérer
     // l'objet C++ lors de l'appel de free    
   Self.CPlusObject := nil;

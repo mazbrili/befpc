@@ -41,12 +41,10 @@ var
 
 function Archivable_Instantiate_hook_func(from : TCPlusObject) : TCPlusObject;
 begin
-  WriteLn('Bonjour');
 end;
 
 function Archivable_Archive_hook_func(into : TCPlusObject; deep : boolean) : TCPlusObject;
 begin
-  WriteLn('Bonjour');
 end;
 
 initialization

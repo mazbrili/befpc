@@ -235,13 +235,11 @@ end;
 
 procedure TView.WindowActivated(active : boolean);
 begin
-//  WriteLn('WindowActivated in View');
 end;
 
 procedure TView.MessageReceived(aMessage : TMessage);
 begin
   inherited;
-  WriteLn('View.MessageReceived, PASCAL');
 end;
 
 function TView.RemoveSelf : boolean;
