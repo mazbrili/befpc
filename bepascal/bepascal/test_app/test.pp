@@ -21,11 +21,12 @@ program test;
 {$M+}
 
 type
+  TTest = class;
   TObjet = class(TObject)
   private
   public
   end;
-
+  TTest = class(TObject); external;
 var
   obj : TObjet;
 begin

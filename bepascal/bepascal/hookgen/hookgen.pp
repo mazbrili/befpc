@@ -301,7 +301,7 @@ function TFunction.GetCppParams(StartWithComma : boolean) : string;
       if (i > 0) then
         Result := Result + ', ';
       if FParams.Names[i] <> '' then
-        Result := Result + Format('%s%s', [FParams.Values[FParams.Names[i]], FParams.Names[i] ]);
+        Result := Result + Format('%s %s', [FParams.Values[FParams.Names[i]], FParams.Names[i] ]);
     end;
   end;
 begin

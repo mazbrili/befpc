@@ -1,4 +1,4 @@
-{  BePascal - A pascal wrapper around the BeOS API
+/*  BePascal - A pascal wrapper around the BeOS API
     Copyright (C) 2002 Olivier Coursiere
 
     This library is free software; you can redistribute it and/or
@@ -14,34 +14,33 @@
     You should have received a copy of the GNU Library General Public
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-}
+*/
 
-unit os;
+#ifndef _CONTROL_H_
+#define _CONTROL_H_
 
-interface
+#include <beobj.h>
 
-const
-  B_LOW_LATENCY = 5;
-  B_LOW_PRIORITY = 5;
-  B_NORMAL_PRIORITY = 10;
-  B_DISPLAY_PRIORITY = 15;
-  B_URGENT_DISPLAY_PRIORITY = 20;
-  B_REAL_TIME_DISPLAY_PRIORITY = 100;
-  B_URGENT_PRIORITY = 110;
-  B_REAL_TIME_PRIORITY = 120;
+#include "view.h"
 
-const
-  B_OS_NAME_LENGTH = 32;
-  B_PAGE_SIZE = 4096;
-  B_INFINITE_TIMEOUT = 9223372036854775807;
-  
-type
-  TArea_id = Longint;
-  TPort_id = Longint;
-  TSem_id = Longint;
-  TThread_id = Longint;
-  TTeam_id = Longint;
+typedef void (*BControl_SetEnabled_hook) (TPasObject PasObject, bool enabled);
+typedef void (*BControl_SetValue_hook) (TPasObject PasObject, int32 value);
 
-implementation
+class BPControl : public BControl, virtual public BPView
+{
+	public:
+		// <BView_Constructor>
+		BPControl(TPasObject PasObject, 
+		          BRect frame,			
+		          const char *name,
+		          const char *label,
+		          BMessage *message,
+		          uint32 resizeMask,
+		          uint32 flags);
+		BPControl(TPasObject PasObject, BMessage *message);
+		virtual void SetEnabled(bool enabled);
+		virtual void SetValue(int32 value);
+	private:
+};
 
-end.
+#endif /* _CONTROL_H_ */

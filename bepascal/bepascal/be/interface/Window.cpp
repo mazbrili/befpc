@@ -73,6 +73,7 @@ void BWindow_Free(TCPlusObject Window)
 void BWindow_Show(TCPlusObject Window)
 {
 	reinterpret_cast<BWindow*>(Window)->Show();
+	reinterpret_cast<BWindow*>(Window)->UpdateIfNeeded();	
 }
 
 void BWindow_Hide(TCPlusObject Window)

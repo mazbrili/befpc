@@ -128,6 +128,7 @@ void BPView::DetachedFromWindow(void)
 
 void BPView::Draw(BRect updateRect)
 {
+	BView::Draw(updateRect);
 	View_Draw_hook(GetPasObject(), &updateRect);
 }
 

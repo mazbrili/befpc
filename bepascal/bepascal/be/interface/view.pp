@@ -180,6 +180,8 @@ end;
 
 procedure TView.Draw(updateRect : TRect);
 begin
+  WriteLn('Drawing view');
+  
 end;
 
 procedure TView.DrawAfterChildren(updateRect : TRect);
@@ -243,7 +245,10 @@ end;
 
 procedure TView.AddChild(aView, before : TView);
 begin
-  BView_AddChild(Self.CPlusObject, aView.CPlusObject, before.CPlusObject);
+  if before <> nil then
+    BView_AddChild(Self.CPlusObject, aView.CPlusObject, before.CPlusObject)
+  else
+    BView_AddChild(Self.CPlusObject, aView.CPlusObject, nil);
 end;
 
 function TView.RemoveChild(aView : TView) : boolean;
