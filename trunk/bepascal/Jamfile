@@ -80,10 +80,11 @@ ALWAYS zip ;
 rule zip
 {
 	# Make distribution files
-	Depends all : ;
-	Depends all : ;	
+	Depends zip : libbepascal.so libstubgen.so ;
 	MakeDistribs ;
 }
+
+zip zip ;
 
 # Install libbepascal.so in LIBBEPASCAL_INSTALL_DIR (/boot/home/config/lib)
 InstallLib $(LIBBEPASCAL_INSTALL_DIR) : libbepascal.so ;
