@@ -90,7 +90,8 @@ function BMessenger_Team(AObject : TCPlusObject) : TTeam_id; cdecl; external BeP
 //procedure BMessenger_bool extra4(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BMessenger_bool extra4';
 
 var
-  be_app_messenger : TMessenger;
+  be_app_TMessenger : TMessenger;
+  be_app_messengerCPlus : TCPlusObject; cvar; external;
   
 implementation
 
@@ -240,9 +241,9 @@ end;
 //end;
 
 initialization
-  be_app_messenger := nil;
+  be_app_TMessenger := nil;
 
 finalization
-	be_app_messenger := nil;
+	be_app_TMessenger := nil;
 
 end.

@@ -9,6 +9,7 @@
  ***********************************************************************/
 
 #include "Messenger.h"
+#include "Application.h"
 #include <beobj.h>
 
 #if defined(__cplusplus)
@@ -270,6 +271,7 @@ BMessenger_Team(BMessenger *Messenger)
 //{
 //   Messenger->InitData(mime_sig, team, perr);
 //}
+
 
 #if defined(__cplusplus)
 }
