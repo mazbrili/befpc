@@ -483,7 +483,8 @@ begin
     // Import of C functions
   with SourceWriter.ImportFuncsPas do
   begin
-    if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+    if ((ResultType.Typ = '') or (ResultType.Typ = 'void')) and
+        not IsConstructor then
       Add(Format('procedure %s_%s%s', [Classe.Name, ProcName, SelfParam]))
     else
       Add(Format('function %s_%s%s', [Classe.Name, ProcName, SelfParam]));
@@ -491,7 +492,14 @@ begin
   with SourceWriter.ImplementationPas do
   begin
     if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
-      Add(Format('procedure %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]))
+    begin
+      if IsConstructor then
+        Add(Format('constructor %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcNameInObject, EndChar]))
+      else if IsDestructor then
+        Add(Format('destructor %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcNameInObject, EndChar]))
+      else
+        Add(Format('procedure %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]));
+    end
     else
       Add(Format('function %s.%s%s', [CppToPas(Classe.Name + ' *'), ProcName, EndChar]));    
   end;
