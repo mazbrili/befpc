@@ -21,7 +21,7 @@ unit message;
 interface
 
 uses
-  beobj, supportdefs, typeconstants,dataio;
+  beobj, supportdefs, typeconstants, dataio, entry;
   
 const
 	B_NO_SPECIFIER 				= 0;
@@ -59,6 +59,8 @@ type
       function AddDouble(const Name : PChar; aDouble : Double) : Status_t;
       function AddString(const Name : PChar; aString : PChar) : Status_t; 
       function FindString(const Name : PChar; var aString : PChar) : Status_t; 
+      function FindRef(const Name : PChar; var ref : Entry_Ref) : Status_t; 
+      function FindRef(const Name : PChar;aindex: integer; var ref : entry_ref) : Status_t; 
       function AddMessage(const Name : PChar; aMessage : TCPlusObject) : Status_t;	  
       function CountNames(aType : Type_Code) : Integer; 
       function HasSpecifiers : boolean;
@@ -96,6 +98,8 @@ function BMessage_AddFloat(Message : TCPlusObject; const Name : PChar; aFloat : 
 function BMessage_AddDouble(Message : TCPlusObject; const Name : PChar; aDouble : Double) : Status_t; cdecl; external BePascalLibName;
 function BMessage_AddString(Message : TCPlusObject; const Name : PChar; aString : PChar) : Status_t; cdecl; external BePascalLibName;
 function BMessage_FindString(Message : TCPlusObject; const Name : PChar;var aString : PChar) : Status_t; cdecl; external BePascalLibName;
+function BMessage_FindRef(Message : TCPlusObject;const Name : PChar; var ref : entry_ref) : Status_t; cdecl; external BePascalLibName name 'BMessage_FindRef';
+function BMessage_FindRef(Message : TCPlusObject;const Name : PChar;aindex: integer; var ref : entry_ref) : Status_t; cdecl; external BePascalLibName name 'BMessage_FindRef_1';
 function BMessage_AddMessage(Message : TCPlusObject; const Name : PChar; aMessage : TCPlusObject) : Status_t; cdecl; external BePascalLibName;
 function BMessage_CountNames(Message : TCPlusObject; aType : Type_Code) : Integer; cdecl; external BePascalLibName;
 function BMessage_HasSpecifiers(Message : TCPlusObject) : boolean; cdecl; external BePascalLibName;
@@ -204,6 +208,16 @@ end;
 function BMessage.FindString(const Name : PChar;var aString : PChar) : Status_t; 
 begin
   result := BMessage_FindString(CPlusObject, Name, aString);
+end;
+
+function BMessage.FindRef(const Name : PChar; var ref : Entry_Ref) : Status_t; 
+begin
+	result:=BMessage_FindRef(CPlusObject,Name,ref);
+end;
+
+function BMessage.FindRef(const Name : PChar;aindex: integer; var ref : entry_ref) : Status_t;
+begin
+	result:=BMessage_FindRef(CPlusObject,Name,aindex,ref);
 end;
 
 function BMessage.AddMessage(const Name : PChar; aMessage : TCPlusObject) : Status_t;	  

@@ -152,6 +152,17 @@ status_t BMessage_FindString(TCPlusObject message,const char *name, const char *
 }
 
 
+status_t BMessage_FindRef(TCPlusObject message,const char *name, entry_ref *ref) 
+{
+	return reinterpret_cast<BMessage*>(message)->FindRef(name, ref);
+}
+
+status_t BMessage_FindRef_1(TCPlusObject message,const char *name, int32 index, entry_ref *ref)
+{
+	return reinterpret_cast<BMessage*>(message)->FindRef(name,index, ref);
+}
+
+
 status_t BMessage_AddMessage(TCPlusObject message, const char *name, const TCPlusObject amessage)
 {
 	return reinterpret_cast<BMessage*>(message)->AddMessage(name, reinterpret_cast<BMessage*>(amessage));

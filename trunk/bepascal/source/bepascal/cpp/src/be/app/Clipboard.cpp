@@ -15,6 +15,12 @@
 extern "C" {
 #endif
 
+
+const TCPlusObject Get_be_clipboard(void)
+{
+		// Pas très propre ! Si quelqu'un a mieux...
+	return TCPlusObject(be_clipboard);
+}
 /*
  *  Method: BClipboard::BClipboard()
  *   Descr: 
