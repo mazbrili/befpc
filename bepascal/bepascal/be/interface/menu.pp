@@ -56,12 +56,12 @@ type
     procedure AttachedToWindow; override;
     procedure DetachedFromWindow; override;
 
-    function AddItem(item : TMenuItem) : boolean; virtual;    
-    function AddItem(item : TMenuItem; index : integer) : boolean; virtual;
-    function AddItem(item : TMenuItem; frame : TRect) : boolean; virtual;
-    function AddItem(menu : TMenu; index : integer) : boolean; virtual;    
-    function AddItem(menu : TMenu; frame : TRect) : boolean; virtual;
-    function AddItem(menu : TMenu) : boolean; virtual;
+    function AddItem(item : TMenuItem) : boolean;
+    function AddItem(item : TMenuItem; index : integer) : boolean;
+    function AddItem(item : TMenuItem; frame : TRect) : boolean;
+    function AddItem(menu : TMenu; index : integer) : boolean;
+    function AddItem(menu : TMenu; frame : TRect) : boolean;
+    function AddItem(menu : TMenu) : boolean;
 
     function AddList(list : TList; index : integer) : boolean; 
     function AddSeparatorItem : boolean;
