@@ -1,6 +1,6 @@
 {   BePascal - A pascal wrapper around the BeOS API
-    Copyright (C) 2002 Olivier Coursiere
-    					                Eric Jourde
+    Copyright (C) 2002-2003 Olivier Coursiere
+                            Eric Jourde
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -16,29 +16,23 @@
     License along with this library; if not, write to the Free
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 }
-
 program Main;
 
 {$M+}
 uses
-	beobj, application, message, _beep, roster, SysUtils,
-	archivable, handler,  rect, window, view, graphicdefs, dataio, 
-	invoker, messenger, Control, Button,stringview,textcontrol,checkbox,
-	main_window;
+  Application, Message, Roster, Rect, Window,
+  Main_Window;
 	
 type
+
   TMonApplication = class(BApplication)
   public
   	procedure ReadyToRun; override;
-  	function QuitRequested : boolean; override;
+  	function QuitRequested : Boolean; override;
   end;
-  
-  
- 
 
 
-
-function TMonApplication.QuitRequested : boolean;
+function TMonApplication.QuitRequested : Boolean;
 begin
   Result := inherited;
   be_app.Free;
@@ -59,24 +53,20 @@ begin
 end;
 
 
-
 var
   aRect : BRect;
   win : TMyWindow;
-    
 begin
-	TMonApplication.Create;
-	try
-      aRect := BRect.Create(20, 20, 740, 500);
-      win := TMyWindow.Create(aRect, 'BP Demo', B_TITLED_WINDOW, B_NOT_RESIZABLE or B_NOT_ZOOMABLE or B_QUIT_ON_WINDOW_CLOSE, B_CURRENT_WORKSPACE);
-      win.Show;
-      be_app.Run;
-      be_app.HideCursor;  	  
-      be_app.ShowCursor;
-	finally
-	  aRect.Free;
-	  win.Free;
-	end;	
+  TMonApplication.Create;
+  try
+    aRect := BRect.Create(20, 20, 740, 500);
+    win := TMyWindow.Create(aRect, 'BP Demo', B_TITLED_WINDOW, B_NOT_RESIZABLE or B_NOT_ZOOMABLE or B_QUIT_ON_WINDOW_CLOSE, B_CURRENT_WORKSPACE);
+    win.Show;
+    be_app.Run;
+    be_app.HideCursor;  	  
+    be_app.ShowCursor;
+  finally
+    aRect.Free;
+    win.Free;
+  end;	
 end.
-
-
