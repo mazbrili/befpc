@@ -29,7 +29,7 @@ type
   private
   public
     destructor Destroy;override;
-	constructor Create(frame : BRect; name, aLabel,initial : PChar; message : BMessage; resizingMode, flags : Cardinal); virtual;
+	constructor Create(frame : BRect; name, aLabel,initial : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage);override;
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;
@@ -47,7 +47,7 @@ type
     procedure Draw(updateRect : BRect);override;
     procedure MouseDown(where : BPoint);override;
     procedure AttachedToWindow;override;
-    procedure MakeFocus(focusState : boolean);override;
+    procedure MakeFocus(focusState : boolean);
     procedure SetEnabled(state : boolean);
     procedure FrameMoved(new_position : BPoint);override;
     procedure FrameResized(new_width : double; new_height : double);override;
@@ -88,7 +88,7 @@ type
   end;
 
 procedure BTextControl_Free(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextControl_Free';
-function BTextControl_Create(AObject : TBeObject; frame : TCPlusObject; name, aLabel ,initial: PChar; message : TCPlusObject; resizingMode, flags : Cardinal): TCPlusObject; cdecl; external BePascalLibName name 'BTextControl_Create';
+function BTextControl_Create(AObject : TBeObject; frame : TCPlusObject; name, aLabel ,initial: PChar; message : TCPlusObject; sresizingMode, flags : Cardinal): TCPlusObject; cdecl; external BePascalLibName name 'BTextControl_Create';
 function BTextControl_Create(AObject : TBeObject; data : TCPlusObject): TCPlusObject; cdecl; external BePascalLibName name 'BTextControl_Create_1';
 function BTextControl_Instantiate(AObject : TCPlusObject; data : TCPlusObject) : BArchivable; cdecl; external BePascalLibName name 'BTextControl_Instantiate';
 function BTextControl_Archive(AObject : TCPlusObject; data : TCPlusObject; deep : boolean) : Status_t; cdecl; external BePascalLibName name 'BTextControl_Archive';
@@ -155,10 +155,10 @@ begin
   inherited;
 end;
 
-constructor BTextControl.Create(frame : BRect; name, aLabel,initial : PChar; message : BMessage; resizingMode, flags : Cardinal);
+constructor BTextControl.Create(frame : BRect; name, aLabel,initial : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BTextControl_Create(Self, frame.CPlusObject, name, aLabel,initial, message.CPlusObject, resizingMode, flags);
+  CPlusObject := BTextControl_Create(Self, frame.CPlusObject, name, aLabel,initial, message.CPlusObject, sresizingMode, sflags);
 end;
 
 

@@ -76,6 +76,16 @@ void BPoint_Set(TCPlusObject Point, float x, float y)
 	reinterpret_cast<BPoint*>(Point)->Set(x, y);
 }
 
+float BPoint_Get_X(TCPlusObject Point)
+{
+	return reinterpret_cast<BPoint*>(Point)->x;
+}
+
+float BPoint_Get_Y(TCPlusObject Point)
+{
+	return reinterpret_cast<BPoint*>(Point)->y;
+}
+
 #if defined(__cplusplus)
 }
 #endif

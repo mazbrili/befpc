@@ -59,7 +59,7 @@ type
   private
   public
     destructor Destroy;override;
-    constructor Create(frame : BRect; name : Pchar; width : button_width; resizingMode : cardinal; flags : cardinal);virtual;
+    constructor Create(aframe : BRect; name : Pchar; width : button_width; sresizingMode : cardinal; sflags : cardinal);virtual;
     constructor Create(msg : BMessage);virtual;
     function Instantiate( msg: BMessage) : BArchivable;
     function Archive( msg : BMessage; deep : boolean) : Status_t;
@@ -86,7 +86,7 @@ type
     function DrawTabs : BRect;
     procedure DrawBox(selectedTabFrame : BRect);
     function TabFrame(tabIndex : integer) : BRect;
-    procedure SetFlags(flags : Cardinal);
+    procedure SetFlags(sflags : Cardinal);
     procedure SetResizingMode(mode : Cardinal);
     procedure GetPreferredSize(width : double; height : double);
     procedure ResizeToPreferred;override;
@@ -299,10 +299,10 @@ begin
   inherited;
 end;
 
-constructor BTabView.Create( frame : BRect; name : Pchar; width : button_width; resizingMode : cardinal; flags : cardinal);
+constructor BTabView.Create( aframe : BRect; name : Pchar; width : button_width; sresizingMode : cardinal; sflags : cardinal);
 begin
   createPas;
-  CPlusObject := BTabView_Create(Self, frame.CPlusObject, name, Integer(width),resizingMode,flags);
+  CPlusObject := BTabView_Create(Self, aframe.CPlusObject, name, Integer(width),sresizingMode,sflags);
 end;
 
 
@@ -437,9 +437,9 @@ begin
   Result := BTabView_TabFrame(CPlusObject, tabIndex);
 end;
 
-procedure BTabView.SetFlags(flags : Cardinal);
+procedure BTabView.SetFlags(sflags : Cardinal);
 begin
-  BTabView_SetFlags(CPlusObject, flags);
+  BTabView_SetFlags(CPlusObject, sflags);
 end;
 
 procedure BTabView.SetResizingMode(mode : Cardinal);

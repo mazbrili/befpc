@@ -23,14 +23,14 @@ unit View;
 interface
 
 uses
-  beobj, handler, rect, os, application, appdefs, message,
-  graphicdefs;
+  beobj, handler, rect, os, application, appdefs, message,font,SupportDefs,
+  graphicdefs,bitmap,region,picture,cursor,interfacedefs,polygon,shape;
   
 type
-//  TWindow = class(TBeObject);
+
   BView = class(BHandler)
   public
-    constructor Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
+    constructor Create(frame1 : BRect; name : PChar; resizingMode1, flags1 : Cardinal);
     destructor Destroy; override;
     // hook functions
     procedure AllAttached; virtual;
@@ -41,8 +41,6 @@ type
     procedure DrawAfterChildren(updateRect : BRect); virtual;
     procedure FrameMoved(parenBPoint : BPoint); virtual;
     procedure FrameResized(width, height : double); virtual;
-    procedure GetPreferredSize(var width : double; var height : double); virtual;
-    procedure ResizeToPreferred; virtual;
     procedure KeyDown(bytes : PChar; numBytes : integer); virtual;
     procedure KeyUp(bytes : PChar; numBytes : integer); virtual;
     procedure MouseDown(point : BPoint); virtual;
@@ -53,6 +51,7 @@ type
     procedure WindowActivated(active : boolean); virtual;
     procedure MessageReceived(aMessage : BMessage); override;
     // End hook functions
+    
     function RemoveSelf : boolean;
     procedure AddChild(aView, before : BView);
     function RemoveChild(aView : BView) : boolean;
@@ -62,9 +61,166 @@ type
     function PreviousSibling : BView;
 //    function Window : TWindow;
     procedure SetViewColor(rgb_color : RGB_color);
+    procedure SetOrigin(pt : BPoint);
+    procedure SetOrigin(x : double; y : double);
+    
+    // I can't write a function and a procedure with the same name so i decide just to write function  ! why not
+	function ConvertToScreen(pt :BPoint ) : BPoint; 
+	function ConvertFromScreen(pt :BPoint) : BPoint; 
+	function ConvertToScreen(r :BRect) : BRect; 
+	function ConvertFromScreen( r :BRect) :Brect; 
+	function ConvertToParent(pt :BPoint) :BPoint; 
+	function ConvertFromParent(pt :BPoint ) :Bpoint; 
+	function ConvertToParent(r:BRect ) :Brect; 
+	function ConvertFromParent( r : BRect) :BRect; 
+	function LeftTop :BPoint; 
+	
+    procedure BeginRectTracking(startRect : BRect; style : Integer);
+    procedure EndRectTracking;
+    procedure GetMouse(var location : BPoint; var buttons : Integer; checkMessageQueue : boolean);
+    procedure DragMessage( aMessage : BMessage; dragRect : BRect; reply_to : BHandler);
+    procedure DragMessage( aMessage : BMessage; anImage : BBitmap; offset : BPoint; reply_to : BHandler);
+    procedure DragMessage(aMessage : BMessage; anImage : BBitmap; dragMode : Drawing_Mode; offset : BPoint; reply_to : BHandler);
+    function FindView(name : PChar) : BView;
+    function Parent : BView;
+    function Bounds : BRect;
+    function Frame : BRect;
+    procedure GetClippingRegion(region :  BRegion);
+    procedure ConstrainClippingRegion(region :  BRegion);
+	
+    procedure ClipToPicture(picture : BPicture; where : BPoint; ssync : boolean);
+    procedure ClipToInversePicture(picture : BPicture; where : BPoint; ssync : boolean);
+    procedure SetDrawingMode(mode : Drawing_Mode);
+    function DrawingMode : Drawing_Mode;
+    procedure SetBlendingMode(srcAlpha : source_alpha; alphaFunc : alpha_function );
+    procedure GetBlendingMode(srcAlpha : source_alpha; alphaFunc : alpha_function);
+    procedure SetPenSize(size : double);
+    function PenSize : double;
+    procedure SetViewCursor(cursor : BCursor; ssync : boolean);
+ //   procedure SetViewColor(r : byte ; g : byte ; b :byte ; a :byte );
+    function ViewColor : rgb_color;
+    procedure ClearViewBitmap;
+    procedure ClearViewOverlay;
+    procedure SetHighColor(a_color : rgb_color);
+    procedure SetHighColor(r : byte; g : byte; b : byte; a : byte);
+    function HighColor : rgb_color;
+    procedure SetLowColor(a_color : rgb_color);
+    procedure SetLowColor(r :byte ; g :byte ; b : byte; a : byte);
+    function LowColor : rgb_color;
+    procedure SetLineMode(lineCap : cap_mode; lineJoin : join_mode; miterLimit : double);
+    function LineJoinMode : join_mode;
+    function LineCapMode : cap_mode;
+    function LineMiterLimit : double;
+
+    function Origin : BPoint;
+    procedure PushState;
+    procedure PopState;
+    procedure MovePenTo(pt : BPoint);
+    procedure MovePenTo(x : double; y : double);
+    procedure MovePenBy(x : double; y : double);
+    function PenLocation : BPoint;
+    procedure StrokeLine(toPt : BPoint; p : pattern);
+    procedure StrokeLine(pt0 : BPoint; pt1 : BPoint; p : pattern);
+    procedure BeginLineArray(count : integer);
+    procedure AddLine(pt0 : BPoint; pt1 : BPoint; col : rgb_color);
+    procedure EndLineArray;
+    procedure StrokePolygon(aPolygon : BPolygon; closed : boolean; p : pattern);
+    procedure StrokePolygon(ptArray : BPoint; numPts : integer; closed : boolean; p : pattern);
+    procedure StrokePolygon(ptArray : BPoint; numPts : integer; sbounds : BRect; closed : boolean; p : pattern);
+    procedure FillPolygon(aPolygon : BPolygon; p : pattern);
+    procedure FillPolygon(ptArray : BPoint; numPts : integer; p : pattern);
+    procedure FillPolygon(ptArray : BPoint; numPts : integer; sbounds : BRect; p : pattern);
+    procedure StrokeTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; sbounds : BRect; p : pattern);
+    procedure StrokeTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; p : pattern);
+    procedure FillTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; p : pattern);
+    procedure FillTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; sbounds : BRect; p : pattern);
+    procedure StrokeRect(r : BRect; p : pattern);
+    procedure FillRect(r : BRect; p : pattern);
+    procedure FillRegion(a_region :  BRegion; p : pattern);
+    procedure InvertRect(r : BRect);
+    procedure StrokeRoundRect(r : BRect; xRadius : double; yRadius : double; p : pattern);
+    procedure FillRoundRect(r : BRect; xRadius : double; yRadius : double; p : pattern);
+    procedure StrokeEllipse(center : BPoint; xRadius : double; yRadius : double; p : pattern);
+    procedure StrokeEllipse(r : BRect; p : pattern);
+    procedure FillEllipse(center : BPoint; xRadius : double; yRadius : double; p : pattern);
+    procedure FillEllipse(r : BRect; p : pattern);
+    procedure StrokeArc(center : BPoint; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern);
+    procedure StrokeArc(r : BRect; start_angle : double; arc_angle : double; p : pattern);
+    procedure FillArc(center : BPoint; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern);
+    procedure FillArc(r : BRect; start_angle : double; arc_angle : double; p : pattern);
+    procedure StrokeBezier(controlPoints : BPoint; p : pattern);
+    procedure FillBezier(controlPoints : BPoint; p : pattern);
+    procedure StrokeShape(shape : BShape; p : pattern);
+    procedure FillShape(shape : BShape; p : pattern);
+    procedure CopyBits(src : BRect; dst : BRect);
+    procedure DrawBitmapAsync(aBitmap : BBitmap; srcRect : BRect; dstRect : BRect);
+    procedure DrawBitmapAsync(aBitmap : BBitmap);
+    procedure DrawBitmapAsync(aBitmap : BBitmap; where : BPoint);
+    procedure DrawBitmapAsync(aBitmap : BBitmap; dstRect : BRect);
+    procedure DrawBitmap(aBitmap : BBitmap; srcRect : BRect; dstRect : BRect);
+    procedure DrawBitmap(aBitmap : BBitmap);
+    procedure DrawBitmap(aBitmap : BBitmap; where : BPoint);
+    procedure DrawBitmap(aBitmap : BBitmap; dstRect : BRect);
+    procedure DrawChar(aChar : char);
+    procedure DrawChar(aChar : char ; location : BPoint);
+    procedure DrawString(aString : PChar; delta : escapement_delta);
+    procedure DrawString(aString : PChar; location : BPoint; delta : escapement_delta);
+    procedure DrawString(aString : PChar; length : integer; delta : escapement_delta);
+    procedure DrawString(aString : PChar; length : integer; location : BPoint; delta : escapement_delta);
+
+    procedure SetFont(font :  BFont; mask : Integer);
+   procedure GetFont(var font :  BFont);
+    function StringWidth(string1 : PChar) : double;
+    function StringWidth(string1 : PChar; length : integer) : double;
+    procedure GetStringWidths(stringArray : PChar; lengthArray : integer; numStrings : integer; widthArray : double);
+
+    procedure SetFontSize(size : double);
+    procedure ForceFontAliasing(enable : boolean);
+    procedure GetFontHeight(height : font_height);
+    procedure Invalidate(invalRect : BRect);
+    procedure Invalidate(invalRegion : BRegion);
+    procedure Invalidate;
+
+    procedure SetDiskMode(filename : PChar; offset : integer);
+    procedure BeginPicture(a_picture : BPicture);
+    procedure AppendToPicture(a_picture : BPicture);
+    function EndPicture : BPicture;
+    procedure DrawPicture(a_picture : BPicture);
+    procedure DrawPicture(a_picture : BPicture; where : BPoint);
+    procedure DrawPicture(filename : PChar; offset : integer; where : BPoint);
+    procedure DrawPictureAsync(a_picture : BPicture);
+    procedure DrawPictureAsync(a_picture : BPicture; where : BPoint);
+    procedure DrawPictureAsync(filename : PChar; offset : integer; where : BPoint);
+    function SetEventMask(mask : Integer; options : Integer) : status_t;
+    function EventMask : Integer;
+    function SetMouseEventMask(mask : Integer; options :Integer ) : status_t;
+    procedure SetFlags(flags1 :Integer );
+    function GetFlags : Integer;
+    procedure SetResizingMode(mode : Integer);
+    function ResizingMode : Integer;
+    procedure MoveBy(dh : double; dv : double);
+    procedure MoveTo(where : BPoint);
+    procedure MoveTo(x : double; y : double);
+    procedure ResizeBy(dh : double; dv : double);
+    procedure ResizeTo(width : double; height : double);
+    procedure ScrollBy(dh : double; dv : double);
+//    procedure ScrollTo(x : double; y : double);
+    procedure ScrollTo(where : BPoint);
+    procedure MakeFocus(focusState : boolean);
+    function IsFocus : boolean;
     procedure Show;
     procedure Hide;
-    function IsHidden : Boolean;
+    function IsHidden : boolean;
+    function IsHidden(looking_from : BView) : boolean;
+    procedure Flush;
+    procedure Sync;
+    procedure GetPreferredSize(width : double; height : double); virtual;
+    procedure ResizeToPreferred; virtual;
+//    function ScrollBar(posture : orientation) :  BScrollBar;
+    function ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
+    function GetSupportedSuites(data : BMessage) : status_t;
+    function IsPrinting : boolean;
+    procedure SetScale(scale : double);
   end;
 
 function BView_Create(AObject : TObject; frame : TCPlusObject; name : PChar;
@@ -80,9 +236,175 @@ function BView_ChildAt(CPlusObject : TCPlusObject; index : integer) : TCPlusObje
 function BView_Window(CPlusObject : TCPlusObject) : TCPlusObject; cdecl; external BePascalLibName name 'BView_Window';
 procedure BView_Draw(CPlusObject : TCPlusObject; aRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_Draw';
 procedure BView_SeBViewColor(CPlusObject : TCPlusObject; c : RGB_color); cdecl; external BePascalLibName name 'BView_SetViewColor';
-procedure BView_Show(CPlusObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Show';
-procedure BView_Hide(CPlusObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Hide';
-function BView_IsHidden(CPlusObject : TCPlusObject) : Boolean; cdecl; external BePascalLibName name 'BView_IsHidden';
+
+procedure BView_ConvertToScreen(CPlusObject : TCPlusObject; var pt :BPoint) ; cdecl; external BePascalLibName name 'BView_ConvertToScreen';
+function BView_ConvertToScreen_1(CPlusObject : TCPlusObject; pt :BPoint ) : BPoint; cdecl; external BePascalLibName name 'BView_ConvertToScreen_1';
+procedure BView_ConvertFromScreen(CPlusObject : TCPlusObject; var pt :BPoint) ; cdecl; external BePascalLibName name 'BView_ConvertFromScreen';
+function BView_ConvertFromScreen_1(CPlusObject : TCPlusObject; pt :BPoint) : BPoint; cdecl; external BePascalLibName name 'BView_ConvertFromScreen_1';
+procedure BView_ConvertToScreen(CPlusObject : TCPlusObject; var r :BRect) ; cdecl; external BePascalLibName name 'BView_ConvertToScreen_r';
+function BView_ConvertToScreen_1(CPlusObject : TCPlusObject; r :BRect) : BRect; cdecl; external BePascalLibName name 'BView_ConvertToScreen_r_1';
+procedure BView_ConvertFromScreen(CPlusObject : TCPlusObject; var r :BRect) ; cdecl; external BePascalLibName name 'BView_ConvertFromScreen';
+function BView_ConvertFromScreen_1(CPlusObject : TCPlusObject; r :BRect) :Brect; cdecl; external BePascalLibName name 'BView_ConvertFromScreen_1';
+procedure BView_ConvertToParent(CPlusObject : TCPlusObject; var pt :BPoint) ; cdecl; external BePascalLibName name 'BView_ConvertToParent';
+function BView_ConvertToParent_1(CPlusObject : TCPlusObject; pt :BPoint) :BPoint; cdecl; external BePascalLibName name 'BView_ConvertToParent_1';
+procedure BView_ConvertFromParent(CPlusObject : TCPlusObject; var pt :BPoint) ; cdecl; external BePascalLibName name 'BView_ConvertFromParent';
+function BView_ConvertFromParent_1(CPlusObject : TCPlusObject; pt :BPoint ) :Bpoint; cdecl; external BePascalLibName name 'BView_ConvertFromParent_1';
+procedure BView_ConvertToParent(CPlusObject : TCPlusObject; var r :BRect) ; cdecl; external BePascalLibName name 'BView_ConvertToParent_r';
+function BView_ConvertToParent_1(CPlusObject : TCPlusObject; r:BRect ) :Brect; cdecl; external BePascalLibName name 'BView_ConvertToParent_r_1';
+procedure BView_ConvertFromParent(CPlusObject : TCPlusObject; var r :BRect ) ; cdecl; external BePascalLibName name 'BView_ConvertFromParent_r';
+function BView_ConvertFromParent_1(CPlusObject : TCPlusObject; r : BRect) :BRect; cdecl; external BePascalLibName name 'BView_ConvertFromParent_r_1';
+function BView_LeftTop(CPlusObject : TCPlusObject) :BPoint; cdecl; external BePascalLibName name 'BView_LeftTop';
+
+procedure BView_BeginRectTracking(AObject : TCPlusObject; startRect : TCPlusObject; style : Integer); cdecl; external BePascalLibName name 'BView_BeginRectTracking';
+procedure BView_EndRectTracking(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_EndRectTracking';
+procedure BView_GetMouse( AObject : TCPlusObject; var location : TCPlusObject; var buttons : Integer ; checkMessageQueue : boolean); cdecl; external BePascalLibName name 'BView_GetMouse';
+procedure BView_DragMessage(AObject : TCPlusObject; aMessage : TCPlusObject; dragRect : TCPlusObject; reply_to : TCPlusObject); cdecl; external BePascalLibName name 'BView_DragMessage';
+procedure BView_DragMessage(AObject : TCPlusObject; aMessage : TCPlusObject; anImage : TCPlusObject; offset : TCPlusObject; reply_to : TCPlusObject); cdecl; external BePascalLibName name 'BView_DragMessage';
+procedure BView_DragMessage(AObject : TCPlusObject; aMessage : TCPlusObject; anImage : TCPlusObject; dragMode : Drawing_Mode; offset : TCPlusObject; reply_to : TCPlusObject); cdecl; external BePascalLibName name 'BView_DragMessage';
+function BView_FindView(AObject : TCPlusObject; name : PChar) : BView; cdecl; external BePascalLibName name 'BView_FindView';
+function BView_Parent(AObject : TCPlusObject) : BView; cdecl; external BePascalLibName name 'BView_Parent';
+function BView_Bounds(AObject : TCPlusObject) : BRect; cdecl; external BePascalLibName name 'BView_Bounds';
+function BView_Frame(AObject : TCPlusObject) : BRect; cdecl; external BePascalLibName name 'BView_Frame';
+procedure BView_GetClippingRegion(AObject : TCPlusObject; region : TCPlusObject); cdecl; external BePascalLibName name 'BView_GetClippingRegion';
+procedure BView_ConstrainClippingRegion(AObject : TCPlusObject; region : TCPlusObject); cdecl; external BePascalLibName name 'BView_ConstrainClippingRegion';
+
+procedure BView_ClipToPicture(AObject : TCPlusObject; picture : TCPlusObject; where : TCPlusObject; sync : boolean); cdecl; external BePascalLibName name 'BView_ClipToPicture';
+procedure BView_ClipToInversePicture(AObject : TCPlusObject; picture : TCPlusObject; where : TCPlusObject; sync : boolean); cdecl; external BePascalLibName name 'BView_ClipToInversePicture';
+procedure BView_SetDrawingMode(AObject : TCPlusObject; mode : Drawing_Mode); cdecl; external BePascalLibName name 'BView_SetDrawingMode';
+function BView_DrawingMode(AObject : TCPlusObject) : Drawing_Mode; cdecl; external BePascalLibName name 'BView_DrawingMode';
+procedure BView_SetBlendingMode(AObject : TCPlusObject; srcAlpha : source_alpha; alphaFunc : Alpha_Function); cdecl; external BePascalLibName name 'BView_SetBlendingMode';
+procedure BView_GetBlendingMode(AObject : TCPlusObject; srcAlpha : source_alpha; alphaFunc : Alpha_Function); cdecl; external BePascalLibName name 'BView_GetBlendingMode';
+procedure BView_SetPenSize(AObject : TCPlusObject; size : double); cdecl; external BePascalLibName name 'BView_SetPenSize';
+function BView_PenSize(AObject : TCPlusObject) : double; cdecl; external BePascalLibName name 'BView_PenSize';
+procedure BView_SetViewCursor(AObject : TCPlusObject; cursor : BCursor; sync : boolean); cdecl; external BePascalLibName name 'BView_SetViewCursor';
+procedure BView_SetViewColor(AObject : TCPlusObject; c : rgb_color); cdecl; external BePascalLibName name 'BView_SetViewColor';
+//procedure BView_SetViewColor(AObject : TCPlusObject; r : byte; g :byte ; b :byte ; a :byte ); cdecl; external BePascalLibName name 'BView_SetViewColor_1';
+function BView_ViewColor(AObject : TCPlusObject) : rgb_color; cdecl; external BePascalLibName name 'BView_ViewColor';
+procedure BView_ClearViewBitmap(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_ClearViewBitmap';
+procedure BView_ClearViewOverlay(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_ClearViewOverlay';
+procedure BView_SetHighColor(AObject : TCPlusObject; a_color : rgb_color); cdecl; external BePascalLibName name 'BView_SetHighColor';
+procedure BView_SetHighColor(AObject : TCPlusObject; r : byte; g : byte; b : byte; a : byte); cdecl; external BePascalLibName name 'BView_SetHighColor';
+function BView_HighColor(AObject : TCPlusObject) : rgb_color; cdecl; external BePascalLibName name 'BView_HighColor';
+procedure BView_SetLowColor(AObject : TCPlusObject; a_color : rgb_color); cdecl; external BePascalLibName name 'BView_SetLowColor';
+procedure BView_SetLowColor(AObject : TCPlusObject; r : byte; g :byte ; b : byte; a : byte); cdecl; external BePascalLibName name 'BView_SetLowColor';
+function BView_LowColor(AObject : TCPlusObject) : rgb_color; cdecl; external BePascalLibName name 'BView_LowColor';
+procedure BView_SetLineMode(AObject : TCPlusObject; lineCap : cap_mode; lineJoin : join_mode; miterLimit : double); cdecl; external BePascalLibName name 'BView_SetLineMode';
+function BView_LineJoinMode(AObject : TCPlusObject) : join_mode; cdecl; external BePascalLibName name 'BView_LineJoinMode';
+function BView_LineCapMode(AObject : TCPlusObject) : cap_mode; cdecl; external BePascalLibName name 'BView_LineCapMode';
+function BView_LineMiterLimit(AObject : TCPlusObject) : double; cdecl; external BePascalLibName name 'BView_LineMiterLimit';
+procedure BView_SetOrigin(AObject : TCPlusObject; pt : TCPlusObject); cdecl; external BePascalLibName name 'BView_SetOrigin';
+procedure BView_SetOrigin(AObject : TCPlusObject; x : double; y : double); cdecl; external BePascalLibName name 'BView_SetOrigin_1';
+function BView_Origin(AObject : TCPlusObject) : BPoint; cdecl; external BePascalLibName name 'BView_Origin';
+procedure BView_PushState(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_PushState';
+procedure BView_PopState(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_PopState';
+procedure BView_MovePenTo(AObject : TCPlusObject; pt : TCPlusObject); cdecl; external BePascalLibName name 'BView_MovePenTo';
+procedure BView_MovePenTo(AObject : TCPlusObject; x : double; y : double); cdecl; external BePascalLibName name 'BView_MovePenTo_1';
+procedure BView_MovePenBy(AObject : TCPlusObject; x : double; y : double); cdecl; external BePascalLibName name 'BView_MovePenBy';
+function BView_PenLocation(AObject : TCPlusObject) : BPoint; cdecl; external BePascalLibName name 'BView_PenLocation';
+procedure BView_StrokeLine(AObject : TCPlusObject; toPt : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeLine';
+procedure BView_StrokeLine(AObject : TCPlusObject; pt0 : TCPlusObject; pt1 : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeLine_1';
+procedure BView_BeginLineArray(AObject : TCPlusObject; count : integer); cdecl; external BePascalLibName name 'BView_BeginLineArray';
+procedure BView_AddLine(AObject : TCPlusObject; pt0 : TCPlusObject; pt1 : TCPlusObject; col : rgb_color); cdecl; external BePascalLibName name 'BView_AddLine';
+procedure BView_EndLineArray(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_EndLineArray';
+procedure BView_StrokePolygon(AObject : TCPlusObject; aPolygon : BPolygon; closed : boolean; p : pattern); cdecl; external BePascalLibName name 'BView_StrokePolygon';
+procedure BView_StrokePolygon(AObject : TCPlusObject; ptArray : BPoint; numPts : integer; closed : boolean; p : pattern); cdecl; external BePascalLibName name 'BView_StrokePolygon_1';
+procedure BView_StrokePolygon(AObject : TCPlusObject; ptArray : BPoint; numPts : integer; bounds : TCPlusObject; closed : boolean; p : pattern); cdecl; external BePascalLibName name 'BView_StrokePolygon_2';
+procedure BView_FillPolygon(AObject : TCPlusObject; aPolygon : BPolygon; p : pattern); cdecl; external BePascalLibName name 'BView_FillPolygon';
+procedure BView_FillPolygon(AObject : TCPlusObject; ptArray : BPoint; numPts : integer; p : pattern); cdecl; external BePascalLibName name 'BView_FillPolygon_1';
+procedure BView_FillPolygon(AObject : TCPlusObject; ptArray : BPoint; numPts : integer; bounds : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillPolygon_2';
+procedure BView_StrokeTriangle(AObject : TCPlusObject; pt1 : TCPlusObject; pt2 : TCPlusObject; pt3 : TCPlusObject; bounds : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeTriangle';
+procedure BView_StrokeTriangle(AObject : TCPlusObject; pt1 : TCPlusObject; pt2 : TCPlusObject; pt3 : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeTriangle_1';
+procedure BView_FillTriangle(AObject : TCPlusObject; pt1 : TCPlusObject; pt2 : TCPlusObject; pt3 : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillTriangle';
+procedure BView_FillTriangle(AObject : TCPlusObject; pt1 : TCPlusObject; pt2 : TCPlusObject; pt3 : TCPlusObject; bounds : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillTriangle_1';
+procedure BView_StrokeRect(AObject : TCPlusObject; r : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeRect';
+procedure BView_FillRect(AObject : TCPlusObject; r : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillRect';
+procedure BView_FillRegion(AObject : TCPlusObject; a_region : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillRegion';
+procedure BView_InvertRect(AObject : TCPlusObject; r : TCPlusObject); cdecl; external BePascalLibName name 'BView_InvertRect';
+procedure BView_StrokeRoundRect(AObject : TCPlusObject; r : TCPlusObject; xRadius : double; yRadius : double; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeRoundRect';
+procedure BView_FillRoundRect(AObject : TCPlusObject; r : TCPlusObject; xRadius : double; yRadius : double; p : pattern); cdecl; external BePascalLibName name 'BView_FillRoundRect';
+procedure BView_StrokeEllipse(AObject : TCPlusObject; center : TCPlusObject; xRadius : double; yRadius : double; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeEllipse';
+procedure BView_StrokeEllipse(AObject : TCPlusObject; r : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeEllipse_1';
+procedure BView_FillEllipse(AObject : TCPlusObject; center : TCPlusObject; xRadius : double; yRadius : double; p : pattern); cdecl; external BePascalLibName name 'BView_FillEllipse';
+procedure BView_FillEllipse(AObject : TCPlusObject; r : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillEllipse_1';
+procedure BView_StrokeArc(AObject : TCPlusObject; center : TCPlusObject; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeArc';
+procedure BView_StrokeArc(AObject : TCPlusObject; r : TCPlusObject; start_angle : double; arc_angle : double; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeArc_1';
+procedure BView_FillArc(AObject : TCPlusObject; center : TCPlusObject; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern); cdecl; external BePascalLibName name 'BView_FillArc';
+procedure BView_FillArc(AObject : TCPlusObject; r : TCPlusObject; start_angle : double; arc_angle : double; p : pattern); cdecl; external BePascalLibName name 'BView_FillArc_1';
+procedure BView_StrokeBezier(AObject : TCPlusObject; controlPoints : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeBezier';
+procedure BView_FillBezier(AObject : TCPlusObject; controlPoints : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillBezier';
+procedure BView_StrokeShape(AObject : TCPlusObject; shape : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_StrokeShape';
+procedure BView_FillShape(AObject : TCPlusObject; shape : TCPlusObject; p : pattern); cdecl; external BePascalLibName name 'BView_FillShape';
+procedure BView_CopyBits(AObject : TCPlusObject; src : TCPlusObject; dst : TCPlusObject); cdecl; external BePascalLibName name 'BView_CopyBits';
+procedure BView_DrawBitmapAsync(AObject : TCPlusObject; aBitmap : BBitmap; srcRect : TCPlusObject; dstRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmapAsync';
+procedure BView_DrawBitmapAsync(AObject : TCPlusObject; aBitmap : BBitmap); cdecl; external BePascalLibName name 'BView_DrawBitmapAsync_1';
+procedure BView_DrawBitmapAsync(AObject : TCPlusObject; aBitmap : BBitmap; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmapAsync_2';
+//procedure BView_DrawBitmapAsync(AObject : TCPlusObject; aBitmap : BBitmap; dstRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmapAsync_3';
+procedure BView_DrawBitmap(AObject : TCPlusObject; aBitmap : BBitmap; srcRect : TCPlusObject; dstRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmap';
+procedure BView_DrawBitmap(AObject : TCPlusObject; aBitmap : BBitmap); cdecl; external BePascalLibName name 'BView_DrawBitmap_1';
+procedure BView_DrawBitmap(AObject : TCPlusObject; aBitmap : BBitmap; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmap_2';
+//procedure BView_DrawBitmap(AObject : TCPlusObject; aBitmap : BBitmap; dstRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawBitmap_3';
+procedure BView_DrawChar(AObject : TCPlusObject; aChar : char); cdecl; external BePascalLibName name 'BView_DrawChar';
+procedure BView_DrawChar(AObject : TCPlusObject; aChar : char; location : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawChar_1';
+procedure BView_DrawString(AObject : TCPlusObject; aString : PChar; delta : escapement_delta); cdecl; external BePascalLibName name 'BView_DrawString';
+procedure BView_DrawString(AObject : TCPlusObject; aString : PChar; location : TCPlusObject; delta : escapement_delta); cdecl; external BePascalLibName name 'BView_DrawString_1';
+procedure BView_DrawString(AObject : TCPlusObject; aString : PChar; length : integer; delta : escapement_delta); cdecl; external BePascalLibName name 'BView_DrawString_2';
+procedure BView_DrawString(AObject : TCPlusObject; aString : PChar; length : integer; location : TCPlusObject; delta : escapement_delta); cdecl; external BePascalLibName name 'BView_DrawString_3';
+
+procedure BView_SetFont(AObject : TCPlusObject; font :  BFont; mask : Integer); cdecl; external BePascalLibName name 'BView_SetFont';
+procedure BView_GetFont(AObject : TCPlusObject; var font : TCPlusObject); cdecl; external BePascalLibName name 'BView_GetFont';
+//procedure BView_GetFont(AObject : TCPlusObject; font : TCPlusObject); cdecl; external BePascalLibName name 'BView_GetFont_1';
+function BView_StringWidth(AObject : TCPlusObject; string1 : PChar) : double; cdecl; external BePascalLibName name 'BView_StringWidth';
+function BView_StringWidth(AObject : TCPlusObject; string1 : PChar; length : integer) : double; cdecl; external BePascalLibName name 'BView_StringWidth_1';
+procedure BView_GetStringWidths(AObject : TCPlusObject; stringArray : PChar; lengthArray : integer; numStrings : integer; widthArray : double); cdecl; external BePascalLibName name 'BView_GetStringWidths';
+procedure BView_SetFontSize(AObject : TCPlusObject; size : double); cdecl; external BePascalLibName name 'BView_SetFontSize';
+procedure BView_ForceFontAliasing(AObject : TCPlusObject; enable : boolean); cdecl; external BePascalLibName name 'BView_ForceFontAliasing';
+procedure BView_GetFontHeight(AObject : TCPlusObject; height : font_height); cdecl; external BePascalLibName name 'BView_GetFontHeight';
+procedure BView_Invalidate(AObject : TCPlusObject; invalRect : TCPlusObject); cdecl; external BePascalLibName name 'BView_Invalidate';
+procedure BView_Invalidate(AObject : TCPlusObject; invalRegion : BRegion); cdecl; external BePascalLibName name 'BView_Invalidate_1';
+procedure BView_Invalidate(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Invalidate_2';
+
+procedure BView_SetDiskMode(AObject : TCPlusObject; filename : PChar; offset : integer); cdecl; external BePascalLibName name 'BView_SetDiskMode';
+procedure BView_BeginPicture(AObject : TCPlusObject; a_picture : TCPlusObject); cdecl; external BePascalLibName name 'BView_BeginPicture';
+procedure BView_AppendToPicture(AObject : TCPlusObject; a_picture : TCPlusObject); cdecl; external BePascalLibName name 'BView_AppendToPicture';
+function BView_EndPicture(AObject : TCPlusObject) : BPicture; cdecl; external BePascalLibName name 'BView_EndPicture';
+procedure BView_DrawPicture(AObject : TCPlusObject; a_picture : BPicture); cdecl; external BePascalLibName name 'BView_DrawPicture';
+procedure BView_DrawPicture(AObject : TCPlusObject; a_picture : BPicture; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawPicture_1';
+procedure BView_DrawPicture(AObject : TCPlusObject; filename : PChar; offset : integer; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawPicture_2';
+procedure BView_DrawPictureAsync(AObject : TCPlusObject; a_picture : BPicture); cdecl; external BePascalLibName name 'BView_DrawPictureAsync_3';
+procedure BView_DrawPictureAsync(AObject : TCPlusObject; a_picture : BPicture; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawPictureAsync_4';
+procedure BView_DrawPictureAsync(AObject : TCPlusObject; filename : PChar; offset : integer; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_DrawPictureAsync_5';
+function BView_SetEventMask(AObject : TCPlusObject; mask : integer; options : integer) : status_t; cdecl; external BePascalLibName name 'BView_SetEventMask';
+function BView_EventMask(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BView_EventMask';
+function BView_SetMouseEventMask(AObject : TCPlusObject; mask :integer ; options : integer) : status_t; cdecl; external BePascalLibName name 'BView_SetMouseEventMask';
+procedure BView_SetFlags(AObject : TCPlusObject; flags : integer); cdecl; external BePascalLibName name 'BView_SetFlags';
+function BView_Flags(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BView_Flags';
+procedure BView_SetResizingMode(AObject : TCPlusObject; mode : integer); cdecl; external BePascalLibName name 'BView_SetResizingMode';
+function BView_ResizingMode(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BView_ResizingMode';
+procedure BView_MoveBy(AObject : TCPlusObject; dh : double; dv : double); cdecl; external BePascalLibName name 'BView_MoveBy';
+procedure BView_MoveTo(AObject : TCPlusObject; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_MoveTo';
+procedure BView_MoveTo(AObject : TCPlusObject; x : double; y : double); cdecl; external BePascalLibName name 'BView_MoveTo_1';
+procedure BView_ResizeBy(AObject : TCPlusObject; dh : double; dv : double); cdecl; external BePascalLibName name 'BView_ResizeBy';
+procedure BView_ResizeTo(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BView_ResizeTo';
+procedure BView_ScrollBy(AObject : TCPlusObject; dh : double; dv : double); cdecl; external BePascalLibName name 'BView_ScrollBy';
+//procedure BView_ScrollTo(AObject : TCPlusObject; x : double; y : double); cdecl; external BePascalLibName name 'BView_ScrollTo';
+procedure BView_ScrollTo(AObject : TCPlusObject; where : TCPlusObject); cdecl; external BePascalLibName name 'BView_ScrollTo';
+procedure BView_MakeFocus(AObject : TCPlusObject; focusState : boolean); cdecl; external BePascalLibName name 'BView_MakeFocus';
+function BView_IsFocus(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BView_IsFocus';
+procedure BView_Show(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Show';
+procedure BView_Hide(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Hide';
+function BView_IsHidden(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BView_IsHidden';
+function BView_IsHidden(AObject : TCPlusObject; looking_from : BView) : boolean; cdecl; external BePascalLibName name 'BView_IsHidden_1';
+procedure BView_Flush(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Flush';
+procedure BView_Sync(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_Sync';
+procedure BView_GetPreferredSize(AObject : TCPlusObject; width : double; height : double); cdecl; external BePascalLibName name 'BView_GetPreferredSize';
+procedure BView_ResizeToPreferred(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BView_ResizeToPreferred';
+//function BView_ScrollBar(AObject : TCPlusObject; posture : orientation) :  BScrollBar; cdecl; external BePascalLibName name 'BView_ScrollBar';
+function BView_ResolveSpecifier(AObject : TCPlusObject; msg : TCPlusObject; index : integer; specifier : TCPlusObject; form : integer; properti : PChar) : BHandler; cdecl; external BePascalLibName name 'BView_ResolveSpecifier';
+function BView_GetSupportedSuites(AObject : TCPlusObject; data : TCPlusObject) : status_t; cdecl; external BePascalLibName name 'BView_GetSupportedSuites';
+function BView_IsPrinting(AObject : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BView_IsPrinting';
+procedure BView_SetScale(AObject : TCPlusObject; scale : double); cdecl; external BePascalLibName name 'BView_SetScale';
+
+
 
 var
     // resizingMode mask
@@ -125,7 +447,6 @@ const
   B_FONT_ALL				= 255;
   
 implementation
-
 var
   View_AllAttached_hook : Pointer; cvar; external;
   View_AllDetached_hook : Pointer; cvar; external;
@@ -168,10 +489,10 @@ var
   View_WindowActivated_hook}
   
  
-constructor BView.Create(frame : BRect; name : PChar; resizingMode, flags : Cardinal);
+constructor BView.Create(frame1 : BRect; name : PChar; resizingMode1, flags1 : Cardinal);
 begin
   inherited Create;
-  CPlusObject := BView_Create(Self, frame.CPlusObject, name, resizingMode, flags);
+  CPlusObject := BView_Create(Self, frame1.CPlusObject, name, resizingMode1, flags1);
 end;
 
 destructor BView.Destroy;
@@ -215,13 +536,7 @@ procedure BView.FrameResized(width, height : double);
 begin
 end;
 
-procedure BView.GetPreferredSize(var width : double; var height : double);
-begin
-end;
 
-procedure BView.ResizeToPreferred; 
-begin
-end;
 
 procedure BView.KeyDown(bytes : PChar; numBytes : integer);
 begin
@@ -308,20 +623,774 @@ begin
   BView_SeBViewColor(Self.CPlusObject, rgb_color);  
 end;
 
+
+
+function BView.ConvertToScreen(pt :BPoint ) : BPoint; 
+begin
+	result:=BView_ConvertToScreen_1(Self.CPlusObject, pt);
+End;
+
+function BView.ConvertFromScreen(pt :BPoint) : BPoint; 
+begin
+	result:=BView_ConvertFromScreen_1(Self.CPlusObject, pt);
+End;
+function BView.ConvertToScreen(r :BRect) : BRect; 
+begin
+	result:=BView_ConvertToScreen_1(Self.CPlusObject, r);
+End;
+function BView.ConvertFromScreen( r :BRect) :Brect; 
+begin
+	result:=BView_ConvertFromScreen_1(Self.CPlusObject, r);
+End;
+function BView.ConvertToParent(pt :BPoint) :BPoint; 
+begin
+	result:=BView_ConvertToParent_1(Self.CPlusObject, pt);
+End;
+function BView.ConvertFromParent(pt :BPoint ) :Bpoint; 
+begin
+	result:=BView_ConvertFromParent_1(Self.CPlusObject, pt);
+End;
+function BView.ConvertToParent(r:BRect ) :Brect; 
+begin
+	result:=BView_ConvertToParent_1(Self.CPlusObject, r);
+End;
+function BView.ConvertFromParent( r : BRect) :BRect; 
+begin
+	result:=BView_ConvertFromParent_1(Self.CPlusObject, r);
+End;
+function BView.LeftTop :BPoint; 
+begin
+	result:=BView_LeftTop(Self.CPlusObject);
+End;
+
+
+procedure BView.SetOrigin(pt : BPoint);
+begin
+  BView_SetOrigin(CPlusObject, pt.CPlusObject);
+end;
+
+procedure BView.SetOrigin(x : double; y : double);
+begin
+  BView_SetOrigin(CPlusObject, x, y);
+end;
+
+procedure BView.SetFont(font :  BFont; mask : Integer);
+begin
+  BView_SetFont(CPlusObject, font, mask);
+end;
+
+procedure BView.GetFont(var font :  BFont);
+begin
+ // BView_GetFont(CPlusObject, font.CPlusObject);
+end;
+
+
+
+
+function BView.StringWidth(string1 : PChar) : double;
+begin
+  Result := BView_StringWidth(CPlusObject, string1);
+end;
+
+function BView.StringWidth(string1 : PChar; length : integer) : double;
+begin
+  Result := BView_StringWidth(CPlusObject, string1, length);
+end;
+
+procedure BView.GetStringWidths(stringArray : PChar; lengthArray : integer; numStrings : integer; widthArray : double);
+begin
+  BView_GetStringWidths(CPlusObject, stringArray, lengthArray, numStrings, widthArray);
+end;
+
+procedure BView.SetFontSize(size : double);
+begin
+  BView_SetFontSize(CPlusObject, size);
+end;
+
+procedure BView.ForceFontAliasing(enable : boolean);
+begin
+  BView_ForceFontAliasing(CPlusObject, enable);
+end;
+
+procedure BView.GetFontHeight(height : font_height);
+begin
+  BView_GetFontHeight(CPlusObject, height);
+end;
+
+procedure BView.Invalidate(invalRect : BRect);
+begin
+  BView_Invalidate(CPlusObject, invalRect.CPlusObject);
+end;
+
+procedure BView.Invalidate(invalRegion : BRegion);
+begin
+  BView_Invalidate(CPlusObject, invalRegion);
+end;
+
+procedure BView.Invalidate;
+begin
+  BView_Invalidate(CPlusObject);
+end;
+
+procedure BView.SetDiskMode(filename : PChar; offset : integer);
+begin
+  BView_SetDiskMode(CPlusObject, filename, offset);
+end;
+
+procedure BView.BeginPicture(a_picture : BPicture);
+begin
+  BView_BeginPicture(CPlusObject, a_picture.CPlusObject);
+end;
+
+procedure BView.AppendToPicture(a_picture : BPicture);
+begin
+  BView_AppendToPicture(CPlusObject, a_picture.CPlusObject);
+end;
+
+function BView.EndPicture : BPicture;
+begin
+  Result := BView_EndPicture(CPlusObject);
+end;
+
+procedure BView.DrawPicture(a_picture : BPicture);
+begin
+  BView_DrawPicture(CPlusObject, a_picture);
+end;
+
+procedure BView.DrawPicture(a_picture : BPicture; where : BPoint);
+begin
+  BView_DrawPicture(CPlusObject, a_picture, where.CPlusObject);
+end;
+
+procedure BView.DrawPicture(filename : PChar; offset : integer; where : BPoint);
+begin
+  BView_DrawPicture(CPlusObject, filename, offset, where.CPlusObject);
+end;
+
+procedure BView.DrawPictureAsync(a_picture : BPicture);
+begin
+  BView_DrawPictureAsync(CPlusObject, a_picture);
+end;
+
+procedure BView.DrawPictureAsync(a_picture : BPicture; where : BPoint);
+begin
+  BView_DrawPictureAsync(CPlusObject, a_picture, where.CPlusObject);
+end;
+
+procedure BView.DrawPictureAsync(filename : PChar; offset : integer; where : BPoint);
+begin
+  BView_DrawPictureAsync(CPlusObject, filename, offset, where.CPlusObject);
+end;
+
+function BView.SetEventMask(mask : integer; options : integer) : status_t;
+begin
+  Result := BView_SetEventMask(CPlusObject, mask, options);
+end;
+
+function BView.EventMask :integer ;
+begin
+  Result := BView_EventMask(CPlusObject);
+end;
+
+function BView.SetMouseEventMask(mask : integer; options : integer) : status_t;
+begin
+  Result := BView_SetMouseEventMask(CPlusObject, mask, options);
+end;
+
+procedure BView.SetFlags(flags1 : integer);
+begin
+  BView_SetFlags(CPlusObject, flags1);
+end;
+
+function BView.getFlags : integer;
+begin
+ // Result := BView_Flags(CPlusObject);
+end;
+
+procedure BView.SetResizingMode(mode :integer );
+begin
+  BView_SetResizingMode(CPlusObject, mode);
+end;
+
+function BView.ResizingMode : integer;
+begin
+  Result := BView_ResizingMode(CPlusObject);
+end;
+
+procedure BView.MoveBy(dh : double; dv : double);
+begin
+ BView_MoveBy(CPlusObject, dh, dv);
+end;
+
+procedure BView.MoveTo(where : BPoint);
+begin
+  BView_MoveTo(CPlusObject, where.CPlusObject);
+end;
+
+procedure BView.MoveTo(x : double; y : double);
+begin
+ BView_MoveTo(CPlusObject, x, y);
+end;
+
+procedure BView.ResizeBy(dh : double; dv : double);
+begin
+  BView_ResizeBy(CPlusObject, dh, dv);
+end;
+
+procedure BView.ResizeTo(width : double; height : double);
+begin
+  BView_ResizeTo(CPlusObject, width, height);
+end;
+
+procedure BView.ScrollBy(dh : double; dv : double);
+begin
+ BView_ScrollBy(CPlusObject, dh, dv);
+end;
+
+{procedure BView.ScrollTo(x : double; y : double);
+begin
+  BView_ScrollTo(CPlusObject, x, y);
+end;
+}
+procedure BView.ScrollTo(where : BPoint);
+begin
+  BView_ScrollTo(CPlusObject, where.CPlusObject);
+end;
+
+procedure BView.MakeFocus(focusState : boolean);
+begin
+  BView_MakeFocus(CPlusObject, focusState);
+end;
+
+function BView.IsFocus : boolean;
+begin
+ Result := BView_IsFocus(CPlusObject);
+end;
+
 procedure BView.Show;
 begin
-  BView_Show(Self.CPlusObject);  
+  BView_Show(CPlusObject);
 end;
 
 procedure BView.Hide;
 begin
-  BView_Hide(Self.CPlusObject);  
+  BView_Hide(CPlusObject);
 end;
 
-function BView.IsHidden : Boolean;
+function BView.IsHidden : boolean;
 begin
-  Result:=BView_IsHidden(Self.CPlusObject);  
+  Result := BView_IsHidden(CPlusObject);
 end;
+
+function BView.IsHidden(looking_from : BView) : boolean;
+begin
+  Result := BView_IsHidden(CPlusObject, looking_from);
+end;
+
+procedure BView.Flush;
+begin
+  BView_Flush(CPlusObject);
+end;
+
+procedure BView.Sync;
+begin
+  BView_Sync(CPlusObject);
+end;
+
+procedure BView.GetPreferredSize(width : double; height : double);
+begin
+  BView_GetPreferredSize(CPlusObject, width, height);
+end;
+
+procedure BView.ResizeToPreferred;
+begin
+  BView_ResizeToPreferred(CPlusObject);
+end;
+
+{function BView.ScrollBar(posture : orientation) :  BScrollBar;
+begin
+  Result := BView_ScrollBar(CPlusObject, posture);
+end;
+}
+function BView.ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
+begin
+  Result := BView_ResolveSpecifier(CPlusObject, msg.CPlusObject, index, specifier.CPlusObject, form, properti);
+end;
+
+function BView.GetSupportedSuites(data : BMessage) : status_t;
+begin
+  Result := BView_GetSupportedSuites(CPlusObject, data.CPlusObject);
+end;
+
+function BView.IsPrinting : boolean;
+begin
+  Result := BView_IsPrinting(CPlusObject);
+end;
+
+procedure BView.SetScale(scale : double);
+begin
+  BView_SetScale(CPlusObject, scale);
+end;
+
+procedure BView.BeginRectTracking(startRect : BRect; style : Integer);
+begin
+  BView_BeginRectTracking(CPlusObject, startRect.CPlusObject, style);
+end;
+
+procedure BView.EndRectTracking;
+begin
+  BView_EndRectTracking(CPlusObject);
+end;
+
+procedure BView.GetMouse(var location : BPoint; var buttons : Integer ; checkMessageQueue : boolean);
+begin
+//  BView_GetMouse(CPlusObject, location.CPlusObject, buttons, checkMessageQueue);
+end;
+
+procedure BView.DragMessage(aMessage : BMessage; dragRect : BRect; reply_to : BHandler);
+begin
+  BView_DragMessage(CPlusObject, aMessage.CPlusObject, dragRect.CPlusObject, reply_to.CPlusObject);
+end;
+
+procedure BView.DragMessage(aMessage : BMessage; anImage : BBitmap; offset : BPoint; reply_to : BHandler);
+begin
+  BView_DragMessage(CPlusObject, aMessage.CPlusObject, anImage.CPlusObject, offset.CPlusObject, reply_to.CPlusObject);
+end;
+
+procedure BView.DragMessage(aMessage : BMessage; anImage : BBitmap; dragMode : Drawing_Mode; offset : BPoint; reply_to : BHandler);
+begin
+  BView_DragMessage(CPlusObject, aMessage.CPlusObject, anImage.CPlusObject, dragMode, offset.CPlusObject, reply_to.CPlusObject);
+end;
+
+function BView.FindView(name : PChar) : BView;
+begin
+  Result := BView_FindView(CPlusObject, name);
+end;
+
+function BView.Parent : BView;
+begin
+  Result := BView_Parent(CPlusObject);
+end;
+
+function BView.Bounds : BRect;
+begin
+  Result := BView_Bounds(CPlusObject);
+end;
+
+function BView.Frame : BRect;
+begin
+  Result := BView_Frame(CPlusObject);
+end;
+
+
+
+
+procedure BView.GetClippingRegion(region :  BRegion);
+begin
+  BView_GetClippingRegion(CPlusObject, region.CPlusObject);
+end;
+
+procedure BView.ConstrainClippingRegion(region :  BRegion);
+begin
+  BView_ConstrainClippingRegion(CPlusObject, region.CPlusObject);
+end;
+
+procedure BView.ClipToPicture(picture : BPicture; where : BPoint; ssync : boolean);
+begin
+  BView_ClipToPicture(CPlusObject, picture.CPlusObject, where.CPlusObject, ssync);
+end;
+
+procedure BView.ClipToInversePicture(picture : BPicture; where : BPoint; ssync : boolean);
+begin
+  BView_ClipToInversePicture(CPlusObject, picture.CPlusObject, where.CPlusObject, ssync);
+end;
+
+procedure BView.SetDrawingMode(mode : Drawing_Mode);
+begin
+  BView_SetDrawingMode(CPlusObject, mode);
+end;
+
+function BView.DrawingMode : Drawing_Mode;
+begin
+  Result := BView_DrawingMode(CPlusObject);
+end;
+
+procedure BView.SetBlendingMode(srcAlpha : source_alpha; alphaFunc : alpha_function );
+begin
+  BView_SetBlendingMode(CPlusObject, srcAlpha, alphaFunc);
+end;
+
+procedure BView.GetBlendingMode(srcAlpha : source_alpha; alphaFunc : alpha_function);
+begin
+  BView_GetBlendingMode(CPlusObject, srcAlpha, alphaFunc);
+end;
+
+procedure BView.SetPenSize(size : double);
+begin
+  BView_SetPenSize(CPlusObject, size);
+end;
+
+function BView.PenSize : double;
+begin
+  Result := BView_PenSize(CPlusObject);
+end;
+
+procedure BView.SetViewCursor(cursor : BCursor; ssync : boolean);
+begin
+  BView_SetViewCursor(CPlusObject, cursor, ssync);
+end;
+
+
+{procedure BView.SetViewColor(r : byte; g : byte; b : byte; a : byte);
+begin
+  BView_SetViewColor(CPlusObject, r, g, b, a);
+end;
+}
+function BView.ViewColor : rgb_color;
+begin
+  Result := BView_ViewColor(CPlusObject);
+end;
+
+procedure BView.ClearViewBitmap;
+begin
+  BView_ClearViewBitmap(CPlusObject);
+end;
+
+procedure BView.ClearViewOverlay;
+begin
+  BView_ClearViewOverlay(CPlusObject);
+end;
+
+procedure BView.SetHighColor(a_color : rgb_color);
+begin
+  BView_SetHighColor(CPlusObject, a_color);
+end;
+
+procedure BView.SetHighColor(r :byte ; g :byte ; b :byte ; a : byte);
+begin
+  BView_SetHighColor(CPlusObject, r, g, b, a);
+end;
+
+function BView.HighColor : rgb_color;
+begin
+  Result := BView_HighColor(CPlusObject);
+end;
+
+procedure BView.SetLowColor(a_color : rgb_color);
+begin
+  BView_SetLowColor(CPlusObject, a_color);
+end;
+
+procedure BView.SetLowColor(r : byte; g :byte ; b : byte; a :byte );
+begin
+  BView_SetLowColor(CPlusObject, r, g, b, a);
+end;
+
+function BView.LowColor : rgb_color;
+begin
+  Result := BView_LowColor(CPlusObject);
+end;
+
+procedure BView.SetLineMode(lineCap : cap_mode; lineJoin : join_mode; miterLimit : double);
+begin
+  BView_SetLineMode(CPlusObject, lineCap, lineJoin, miterLimit);
+end;
+
+function BView.LineJoinMode : join_mode;
+begin
+  Result := BView_LineJoinMode(CPlusObject);
+end;
+
+function BView.LineCapMode : cap_mode;
+begin
+  Result := BView_LineCapMode(CPlusObject);
+end;
+
+function BView.LineMiterLimit : double;
+begin
+  Result := BView_LineMiterLimit(CPlusObject);
+end;
+
+
+
+
+function BView.Origin : BPoint;
+begin
+  Result := BView_Origin(CPlusObject);
+end;
+
+procedure BView.PushState;
+begin
+  BView_PushState(CPlusObject);
+end;
+
+procedure BView.PopState;
+begin
+  BView_PopState(CPlusObject);
+end;
+
+procedure BView.MovePenTo(pt : BPoint);
+begin
+  BView_MovePenTo(CPlusObject, pt.CPlusObject);
+end;
+
+procedure BView.MovePenTo(x : double; y : double);
+begin
+  BView_MovePenTo(CPlusObject, x, y);
+end;
+
+procedure BView.MovePenBy(x : double; y : double);
+begin
+  BView_MovePenBy(CPlusObject, x, y);
+end;
+
+function BView.PenLocation : BPoint;
+begin
+  Result := BView_PenLocation(CPlusObject);
+end;
+
+procedure BView.StrokeLine(toPt : BPoint; p : pattern);
+begin
+  BView_StrokeLine(CPlusObject, toPt.CPlusObject, p);
+end;
+
+procedure BView.StrokeLine(pt0 : BPoint; pt1 : BPoint; p : pattern);
+begin
+  BView_StrokeLine(CPlusObject, pt0.CPlusObject, pt1.CPlusObject, p);
+end;
+
+procedure BView.BeginLineArray(count : integer);
+begin
+  BView_BeginLineArray(CPlusObject, count);
+end;
+
+procedure BView.AddLine(pt0 : BPoint; pt1 : BPoint; col : rgb_color);
+begin
+  BView_AddLine(CPlusObject, pt0.CPlusObject, pt1.CPlusObject, col);
+end;
+
+procedure BView.EndLineArray;
+begin
+  BView_EndLineArray(CPlusObject);
+end;
+
+procedure BView.StrokePolygon(aPolygon : BPolygon; closed : boolean; p : pattern);
+begin
+  BView_StrokePolygon(CPlusObject, aPolygon, closed, p);
+end;
+
+procedure BView.StrokePolygon(ptArray : BPoint; numPts : integer; closed : boolean; p : pattern);
+begin
+  BView_StrokePolygon(CPlusObject, ptArray, numPts, closed, p);
+end;
+
+procedure BView.StrokePolygon(ptArray : BPoint; numPts : integer; sbounds : BRect; closed : boolean; p : pattern);
+begin
+  BView_StrokePolygon(CPlusObject, ptArray, numPts, sbounds.CPlusObject, closed, p);
+end;
+
+procedure BView.FillPolygon(aPolygon : BPolygon; p : pattern);
+begin
+  BView_FillPolygon(CPlusObject, aPolygon, p);
+end;
+
+procedure BView.FillPolygon(ptArray : BPoint; numPts : integer; p : pattern);
+begin
+  BView_FillPolygon(CPlusObject, ptArray, numPts, p);
+end;
+
+procedure BView.FillPolygon(ptArray : BPoint; numPts : integer; sbounds : BRect; p : pattern);
+begin
+  BView_FillPolygon(CPlusObject, ptArray, numPts, sbounds.CPlusObject, p);
+end;
+
+procedure BView.StrokeTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; sbounds : BRect; p : pattern);
+begin
+  BView_StrokeTriangle(CPlusObject, pt1.CPlusObject, pt2.CPlusObject, pt3.CPlusObject, sbounds.CPlusObject, p);
+end;
+
+procedure BView.StrokeTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; p : pattern);
+begin
+  BView_StrokeTriangle(CPlusObject, pt1.CPlusObject, pt2.CPlusObject, pt3.CPlusObject, p);
+end;
+
+procedure BView.FillTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; p : pattern);
+begin
+  BView_FillTriangle(CPlusObject, pt1.CPlusObject, pt2.CPlusObject, pt3.CPlusObject, p);
+end;
+
+procedure BView.FillTriangle(pt1 : BPoint; pt2 : BPoint; pt3 : BPoint; sbounds : BRect; p : pattern);
+begin
+  BView_FillTriangle(CPlusObject, pt1.CPlusObject, pt2.CPlusObject, pt3.CPlusObject, sbounds.CPlusObject, p);
+end;
+
+procedure BView.StrokeRect(r : BRect; p : pattern);
+begin
+  BView_StrokeRect(CPlusObject, r.CPlusObject, p);
+end;
+
+procedure BView.FillRect(r : BRect; p : pattern);
+begin
+  BView_FillRect(CPlusObject, r.CPlusObject, p);
+end;
+
+procedure BView.FillRegion(a_region :  BRegion; p : pattern);
+begin
+  BView_FillRegion(CPlusObject, a_region.CPlusObject, p);
+end;
+
+procedure BView.InvertRect(r : BRect);
+begin
+  BView_InvertRect(CPlusObject, r.CPlusObject);
+end;
+
+procedure BView.StrokeRoundRect(r : BRect; xRadius : double; yRadius : double; p : pattern);
+begin
+  BView_StrokeRoundRect(CPlusObject, r.CPlusObject, xRadius, yRadius, p);
+end;
+
+procedure BView.FillRoundRect(r : BRect; xRadius : double; yRadius : double; p : pattern);
+begin
+  BView_FillRoundRect(CPlusObject, r.CPlusObject, xRadius, yRadius, p);
+end;
+
+procedure BView.StrokeEllipse(center : BPoint; xRadius : double; yRadius : double; p : pattern);
+begin
+  BView_StrokeEllipse(CPlusObject, center.CPlusObject, xRadius, yRadius, p);
+end;
+
+procedure BView.StrokeEllipse(r : BRect; p : pattern);
+begin
+  BView_StrokeEllipse(CPlusObject, r.CPlusObject, p);
+end;
+
+procedure BView.FillEllipse(center : BPoint; xRadius : double; yRadius : double; p : pattern);
+begin
+  BView_FillEllipse(CPlusObject, center.CPlusObject, xRadius, yRadius, p);
+end;
+
+procedure BView.FillEllipse(r : BRect; p : pattern);
+begin
+  BView_FillEllipse(CPlusObject, r.CPlusObject, p);
+end;
+
+procedure BView.StrokeArc(center : BPoint; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern);
+begin
+  BView_StrokeArc(CPlusObject, center.CPlusObject, xRadius, yRadius, start_angle, arc_angle, p);
+end;
+
+procedure BView.StrokeArc(r : BRect; start_angle : double; arc_angle : double; p : pattern);
+begin
+  BView_StrokeArc(CPlusObject, r.CPlusObject, start_angle, arc_angle, p);
+end;
+
+procedure BView.FillArc(center : BPoint; xRadius : double; yRadius : double; start_angle : double; arc_angle : double; p : pattern);
+begin
+  BView_FillArc(CPlusObject, center.CPlusObject, xRadius, yRadius, start_angle, arc_angle, p);
+end;
+
+procedure BView.FillArc(r : BRect; start_angle : double; arc_angle : double; p : pattern);
+begin
+  BView_FillArc(CPlusObject, r.CPlusObject, start_angle, arc_angle, p);
+end;
+
+procedure BView.StrokeBezier(controlPoints : BPoint; p : pattern);
+begin
+  BView_StrokeBezier(CPlusObject, controlPoints.CPlusObject, p);
+end;
+
+procedure BView.FillBezier(controlPoints : BPoint; p : pattern);
+begin
+  BView_FillBezier(CPlusObject, controlPoints.CPlusObject, p);
+end;
+
+procedure BView.StrokeShape(shape : BShape; p : pattern);
+begin
+  BView_StrokeShape(CPlusObject, shape.CPlusObject, p);
+end;
+
+procedure BView.FillShape(shape : BShape; p : pattern);
+begin
+  BView_FillShape(CPlusObject, shape.CPlusObject, p);
+end;
+
+procedure BView.CopyBits(src : BRect; dst : BRect);
+begin
+  BView_CopyBits(CPlusObject, src.CPlusObject, dst.CPlusObject);
+end;
+
+procedure BView.DrawBitmapAsync(aBitmap : BBitmap; srcRect : BRect; dstRect : BRect);
+begin
+  BView_DrawBitmapAsync(CPlusObject, aBitmap, srcRect.CPlusObject, dstRect.CPlusObject);
+end;
+
+procedure BView.DrawBitmapAsync(aBitmap : BBitmap);
+begin
+  BView_DrawBitmapAsync(CPlusObject, aBitmap);
+end;
+
+procedure BView.DrawBitmapAsync(aBitmap : BBitmap; where : BPoint);
+begin
+  BView_DrawBitmapAsync(CPlusObject, aBitmap, where.CPlusObject);
+end;
+
+procedure BView.DrawBitmapAsync(aBitmap : BBitmap; dstRect : BRect);
+begin
+  BView_DrawBitmapAsync(CPlusObject, aBitmap, dstRect.CPlusObject);
+end;
+
+procedure BView.DrawBitmap(aBitmap : BBitmap; srcRect : BRect; dstRect : BRect);
+begin
+  BView_DrawBitmap(CPlusObject, aBitmap, srcRect.CPlusObject, dstRect.CPlusObject);
+end;
+
+procedure BView.DrawBitmap(aBitmap : BBitmap);
+begin
+  BView_DrawBitmap(CPlusObject, aBitmap);
+end;
+
+procedure BView.DrawBitmap(aBitmap : BBitmap; where : BPoint);
+begin
+  BView_DrawBitmap(CPlusObject, aBitmap, where.CPlusObject);
+end;
+
+procedure BView.DrawBitmap(aBitmap : BBitmap; dstRect : BRect);
+begin
+  BView_DrawBitmap(CPlusObject, aBitmap, dstRect.CPlusObject);
+end;
+
+procedure BView.DrawChar(aChar : char);
+begin
+  BView_DrawChar(CPlusObject, aChar);
+end;
+
+procedure BView.DrawChar(aChar : char; location : BPoint);
+begin
+  BView_DrawChar(CPlusObject, aChar, location.CPlusObject);
+end;
+
+procedure BView.DrawString(aString : PChar; delta : escapement_delta);
+begin
+  BView_DrawString(CPlusObject, aString, delta);
+end;
+
+procedure BView.DrawString(aString : PChar; location : BPoint; delta : escapement_delta);
+begin
+  BView_DrawString(CPlusObject, aString, location.CPlusObject, delta);
+end;
+
+procedure BView.DrawString(aString : PChar; length : integer; delta : escapement_delta);
+begin
+  BView_DrawString(CPlusObject, aString, length, delta);
+end;
+
+procedure BView.DrawString(aString : PChar; length : integer; location : BPoint; delta : escapement_delta);
+begin
+  BView_DrawString(CPlusObject, aString, length, location.CPlusObject, delta);
+end;
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 // Hook functions

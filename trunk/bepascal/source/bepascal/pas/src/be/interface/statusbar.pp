@@ -28,7 +28,7 @@ type
   BStatusBar = class(BView)
   private
   public
-    constructor Create( frame : BRect; 
+    constructor Create( aframe : BRect; 
                                         name : pchar;
 								       alabel : Pchar;
 								       trailing_label : Pchar);virtual;
@@ -113,13 +113,13 @@ function BStatusBar_GetSupportedSuites(AObject : TCPlusObject; data : TCPlusObje
 
 implementation
 
-constructor BStatusBar.Create(frame : BRect; 
+constructor BStatusBar.Create(aframe : BRect; 
                               name : pchar;
                               alabel : Pchar;
                               trailing_label : Pchar);
 begin
   CreatePas;
-  CPlusObject := BStatusBar_Create(Self, frame.CPlusObject, name, alabel, trailing_label);
+  CPlusObject := BStatusBar_Create(Self, aframe.CPlusObject, name, alabel, trailing_label);
 end;
 
 constructor BStatusBar.Create(data : BMessage);

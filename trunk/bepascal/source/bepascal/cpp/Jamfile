@@ -178,6 +178,7 @@ DRIVER_PATH on $(NAME) =  ;
 BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp 
        src/be/app/Application.cpp 
        src/be/app/Clipboard.cpp 
+       src/be/app/Cursor.cpp 
        src/be/app/Handler.cpp 
        src/be/app/Invoker.cpp 
        src/be/app/Looper.cpp 
@@ -208,6 +209,7 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/interface/Screen.cpp        
        src/be/interface/ScrollBar.cpp 
        src/be/interface/ScrollView.cpp 
+       src/be/interface/Shape.cpp 
        src/be/interface/StatusBar.cpp 
        src/be/interface/StringView.cpp 
        src/be/interface/TabView.cpp 
@@ -217,8 +219,11 @@ BeMain libbepascal.so : src/be/bepas_kernel/beobj.cpp
        src/be/interface/Window.cpp 
        src/be/mail/E-mail.cpp
        src/be/storage/Entry.cpp       
+       src/be/storage/File.cpp 
        src/be/storage/FilePanel.cpp 
+       src/be/storage/Node.cpp 
        src/be/storage/Path.cpp
+       src/be/storage/Resources.cpp
        src/be/storage/Volume.cpp 
        src/be/storage/VolumeRoster.cpp 
        src/be/support/Archivable.cpp 

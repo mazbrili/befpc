@@ -45,20 +45,7 @@ type
 //    function InvokeNotify(msg : BMessage; kind : Cardinal) : Status_t;
     function SetTimeout(aTimeout : Bigtime_t) : Status_t;
     function Timeout : Bigtime_t;
-//    function InvokeKind(notify : boolean) : Cardinal;
-//    procedure BeginInvokeNotify(kind : Cardinal);
-//    procedure EndInvokeNotify;
-//    procedure _ReservedInvoker1;
-//    procedure _ReservedInvoker2;
-//    procedure _ReservedInvoker3;
-    constructor Create(aInvoker : BInvoker);
-//    function operator=( : BInvoker) : BInvoker;
-//    procedure BMessage *fMessage;
-//    procedure BMessenger fMessenger;
-//    procedure BHandler *fReplyTo;
-//    procedure uint32 fTimeout;
-//    procedure uint32 fNotifyKind;
-//    procedure uint32 _reserved[2];
+
   end;
 
 function BInvoker_Create(AObject : TBeObject) : TCplusObject; cdecl; external BePascalLibName name 'BInvoker_Create';
@@ -227,10 +214,6 @@ end;
 //  BInvoker__ReservedInvoker3(CPlusObject);
 //end;
 
-constructor BInvoker.Create(ainvoker : BInvoker);
-begin
-  BInvoker_Create(Self, aInvoker);
-end;
 
 //function BInvoker.operator=( : BInvoker) : BInvoker;
 //begin

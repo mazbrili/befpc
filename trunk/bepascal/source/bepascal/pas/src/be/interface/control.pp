@@ -30,7 +30,7 @@ type
     FInvoker : BInvoker;
     function GeBInvoker : BInvoker;
   public
-    constructor Create(frame : TCPlusObject; name, aLabel : PChar; message : TCPlusObject; resizingMode, flags : Cardinal); virtual;
+    constructor Create(aframe : TCPlusObject; name, aLabel : PChar; message : TCPlusObject; sresizingMode, sflags : Cardinal); virtual;
     destructor Destroy; override;
     constructor Create(data : BMessage); virtual;
     function Instantiate(data : BMessage) : BArchivable;
@@ -38,7 +38,7 @@ type
     procedure WindowActivated(state : boolean); override;
     procedure AttachedToWindow; override;
     procedure MessageReceived(msg : BMessage); override;
-    procedure MakeFocus(state : boolean); virtual;
+    procedure MakeFocus(state : boolean); 
     procedure KeyDown(bytes : PChar; numBytes : integer); override;
     procedure MouseDown(pt : BPoint); override;
     procedure MouseUp(pt : BPoint); override;
@@ -94,9 +94,9 @@ procedure BControl_InitData(AObject : TCPlusObject; data : TCplusObject); cdecl;
 
 implementation
 
-constructor BControl.Create(frame : TCPlusObject; name, aLabel : PChar; message : TCPlusObject; resizingMode, flags : Cardinal);
+constructor BControl.Create(aframe : TCPlusObject; name, aLabel : PChar; message : TCPlusObject; sresizingMode, sflags : Cardinal);
 begin
-  CPlusObject := BControl_Create(Self, frame, name, aLabel, message, resizingMode, flags);
+  CPlusObject := BControl_Create(Self, aframe, name, aLabel, message, sresizingMode, sflags);
 end;
 
 destructor BControl.Destroy;

@@ -27,7 +27,7 @@ type
    BStringView = class(BView)
   private
   public
-    constructor Create(bounds : BRect; name : pchar; texte : pchar; resizeflags, flags : cardinal); virtual;
+    constructor Create(abounds : BRect; name : pchar; texte : pchar; resizeflags, sflags : cardinal); virtual;
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;
@@ -36,7 +36,7 @@ type
     procedure SeAlignment(flag :  Alignment);
     function GetAlignment :  Alignment;
     procedure AttachedToWindow; override;
-    procedure Draw(bounds : BRect); override;
+    procedure Draw(abounds : BRect); override;
     procedure MessageReceived(msg : BMessage);override;
     procedure MouseDown(pt : BPoint);override;
     procedure MouseUp(pt : BPoint);override;
@@ -96,10 +96,10 @@ function BStringView_Perform(AObject : TCPlusObject; d : Perform_code; arg : Poi
 
 implementation
 
-constructor  BStringView.Create(bounds : BRect; name : pchar; texte : pchar; resizeflags, flags : cardinal);
+constructor  BStringView.Create(abounds : BRect; name : pchar; texte : pchar; resizeflags, sflags : cardinal);
 begin
   CreatePas;
-  CPlusObject := BStringView_Create(Self,bounds.CPlusObject,name,texte,resizeflags, flags);
+  CPlusObject := BStringView_Create(Self,abounds.CPlusObject,name,texte,resizeflags, sflags);
 end;
 
 destructor  BStringView.Destroy;
@@ -143,9 +143,9 @@ begin
 //  BStringView_AttachedToWindow(CPlusObject);
 end;
 
-procedure  BStringView.Draw(bounds : BRect);
+procedure  BStringView.Draw(abounds : BRect);
 begin
- // BStringView_Draw(CPlusObject, bounds.CPlusObject);
+ // BStringView_Draw(CPlusObject, abounds.CPlusObject);
 end;
 
 procedure  BStringView.MessageReceived(msg : BMessage);

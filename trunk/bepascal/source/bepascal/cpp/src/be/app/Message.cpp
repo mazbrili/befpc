@@ -227,6 +227,11 @@ bool BMessage_WasDropped(TCPlusObject message)
 	return reinterpret_cast<BMessage*>(message)->WasDropped();
 }
 
+status_t BMessage_Unflatten(TCPlusObject message,BDataIO *stream)
+{
+	return reinterpret_cast<BMessage*>(message)->Unflatten(stream);
+}
+
 /***********************************************************************
  *  Method: BMessage::operator=
  *  Params: const BMessage &msg

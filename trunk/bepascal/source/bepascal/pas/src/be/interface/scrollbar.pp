@@ -27,7 +27,7 @@ type
    BScrollBar = class(BView)
   private
   public
-    constructor Create(frame : BRect; name : pchar; atarget : BView; min,max : real; direction : orientation);
+    constructor Create(aframe : BRect; name : pchar; atarget : BView; min,max : real; direction : orientation);
     constructor Create_1(data : BMessage);
     destructor Destroy;override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -102,10 +102,10 @@ function BScrollBar_Perform(AObject : TCPlusObject; d : Perform_code; arg : Poin
 
 implementation
 
-constructor  BScrollBar.Create(frame : BRect; name : pchar; atarget : BView; min,max : real; direction : Orientation);
+constructor  BScrollBar.Create(aframe : BRect; name : pchar; atarget : BView; min,max : real; direction : Orientation);
 begin
    CreatePas;
-  CPlusObject := BScrollBar_Create(Self,frame.CPlusObject, name, target.CPlusObject,min,max, direction );
+  CPlusObject := BScrollBar_Create(Self,aframe.CPlusObject, name, target.CPlusObject,min,max, direction );
 end;
 
 constructor  BScrollBar.Create_1(data : BMessage);

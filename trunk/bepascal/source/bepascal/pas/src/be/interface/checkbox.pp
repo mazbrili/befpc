@@ -27,7 +27,7 @@ type BCheckBox  = class(BControl)
   private
   public
     destructor Destroy;override;
-	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal); virtual;
+	constructor Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal); virtual;
     constructor Create(data : BMessage) ;override;
     function Instantiate(data : BMessage) : BArchivable;
     function Archive(data : BMessage; deep : boolean) : Status_t;
@@ -48,7 +48,7 @@ type BCheckBox  = class(BControl)
     procedure FrameResized(new_width : double; new_height : double);override;
     function ResolveSpecifier(msg : BMessage; index : integer; specifier : BMessage; form : integer; properti : PChar) : BHandler;
     function GetSupportedSuites(data : BMessage) : Status_t;
-    procedure MakeFocus(state : boolean);override;
+    procedure MakeFocus(state : boolean);
     procedure AllAttached;override;
     procedure AllDetached;override;
     function Perform(d : Perform_code; arg : Pointer) : Status_t;
@@ -89,10 +89,10 @@ begin
   inherited;
 end;
 
-constructor BCheckBox.Create(frame : BRect; name, aLabel : PChar; message : BMessage; resizingMode, flags : Cardinal);
+constructor BCheckBox.Create(frame : BRect; name, aLabel : PChar; message : BMessage; sresizingMode, sflags : Cardinal);
 begin
   CreatePas;
-  CPlusObject := BCheckBox_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, resizingMode, flags);
+  CPlusObject := BCheckBox_Create(Self, frame.CPlusObject, name, aLabel, message.CPlusObject, sresizingMode, sflags);
 end;
 
 constructor BCheckBox.Create(data : BMessage) ;

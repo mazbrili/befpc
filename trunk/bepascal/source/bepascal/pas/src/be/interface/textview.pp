@@ -49,8 +49,8 @@ type
    BTextView = class(BView)
   private
   public
-    constructor Create(frame : BRect; name : pchar;atexBRect: BRect ; resizeMask, flags : cardinal); virtual;
-//    constructor Create(bounds : BRect; name : pchar; texte : pchar; resizeflags, flags : cardinal); virtual;
+    constructor Create(aframe : BRect; name : pchar;atexBRect: BRect ; resizeMask, sflags : cardinal); virtual;
+//    constructor Create(bounds : BRect; name : pchar; texte : pchar; resizeflags, sflags : cardinal); virtual;
     constructor Create(data : BMessage);virtual;
     destructor Destroy;override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -318,10 +318,10 @@ procedure BTextView_UnlockWidthBuffer(AObject : TCPlusObject); cdecl; external B
 implementation
 
 
-constructor  BTextView.Create(frame : BRect; name : pchar;atexBRect: BRect ; resizeMask, flags : cardinal); 
+constructor  BTextView.Create(aframe : BRect; name : pchar;atexBRect: BRect ; resizeMask, sflags : cardinal); 
 begin
   CreatePas;
-  CPlusObject := BTextView_Create(Self, 	frame.CplusObject,name,atexBRect.CPlusObject,resizeMask,flags);
+  CPlusObject := BTextView_Create(Self, 	aframe.CplusObject,name,atexBRect.CPlusObject,resizeMask,sflags);
 end;
 
 constructor  BTextView.Create(data : BMessage);

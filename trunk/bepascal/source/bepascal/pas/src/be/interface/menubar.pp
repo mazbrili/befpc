@@ -30,7 +30,7 @@ type
   BMenuBar = class(BMenu)
   private
   public
-    constructor Create(frame : BRect; viewName : PChar; resizingMode : Cardinal; layout : Menu_Layout; resizeToFit : boolean);  
+    constructor Create(aframe : BRect; viewName : PChar; sresizingMode : Cardinal; layout : Menu_Layout; resizeToFit : boolean);  
     constructor Create; override;
     destructor Destroy; override;
     function Instantiate(data : BMessage) : BArchivable;
@@ -85,9 +85,9 @@ procedure BMenuBar_AllDetached(AObject : TCPlusObject); cdecl; external BePascal
 
 implementation
 
-constructor BMenuBar.Create(frame : BRect; viewName : PChar; resizingMode : Cardinal; layout : Menu_Layout; resizeToFit : boolean);
+constructor BMenuBar.Create(aframe : BRect; viewName : PChar; sresizingMode : Cardinal; layout : Menu_Layout; resizeToFit : boolean);
 begin
-  CPlusObject := BMenuBar_Create(Self, frame.CPlusObject, viewName, resizingMode, 0, resizeToFit);
+  CPlusObject := BMenuBar_Create(Self, aframe.CPlusObject, viewName, sresizingMode, 0, resizeToFit);
 end;
 
 constructor BMenuBar.Create;
