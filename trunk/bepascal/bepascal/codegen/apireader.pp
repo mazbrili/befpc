@@ -535,6 +535,13 @@ var
       s := Format('%s%s : %s;', [List.Strings[List.Count - 1], EndChar, CppToPas(ResultType.Typ)]);
       List.Strings[List.Count - 1] := s;
     end
+    else if IsConstructor then
+    begin
+      WriteLn(ResultType.Typ);
+      WriteLn(Name);
+      s := Format('%s%s;', [List.Strings[List.Count - 1], EndChar]);
+      List.Strings[List.Count - 1] := s;    
+    end
     else
       List.Strings[List.Count - 1] := Format('%s%s;', [List.Strings[List.Count - 1], EndChar]);
   end;
@@ -591,6 +598,22 @@ begin
 end;
 
 procedure TParam.Middle;
+  procedure WriteParamImport(List : TStringList);
+  var
+    s : string;
+  begin
+    WriteLn('WriteParamImport');
+    WriteLn(List.Strings[List.Count - 1]);
+    if IsObject then
+    begin
+      WriteLn('IsObject');
+      s := Format('%s%s : %s; ', [List.Strings[List.Count - 1], Name, 'TCPlusObject']);
+    end
+    else
+      s := Format('%s%s : %s; ', [List.Strings[List.Count - 1], Name, CppToPas(Typ)]);
+    List.Strings[List.Count - 1] := s;
+    WriteLn(List.Strings[List.Count - 1]);    
+  end;
   procedure WriteParam(List : TStringList);
   var
     s : string;
@@ -603,7 +626,7 @@ procedure TParam.Middle;
 begin
   WriteLn('Param Middle');
   WriteParam(SourceWriter.InterfacePas);
-  WriteParam(SourceWriter.ImportFuncsPas);
+  WriteParamImport(SourceWriter.ImportFuncsPas);
   WriteParam(SourceWriter.ImplementationPas);
   if IsObject then
     ParentFunction.BodyPas := Format('%s%s.CPlusObject, ', [ParentFunction.BodyPas, Name])
