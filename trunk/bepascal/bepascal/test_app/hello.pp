@@ -36,8 +36,9 @@ type
     aView : TView;
     aButton : TButton;    
   public
-    constructor Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal); override;
+    constructor Create(aFrame : TRect; title : PChar; atype, aFlags, aWorkspaces : Cardinal); override;
     destructor Destroy; override;
+    procedure MessageReceived(amessage : TMessage); override;    
   end;  
   TMonObjet = class(TObject)
   private
@@ -53,7 +54,7 @@ type
 var
   MonObj : TMonObjet;
 
-constructor TMyWindow.Create(frame : TRect; title : PChar; atype, flags, workspaces : Cardinal);
+constructor TMyWindow.Create(aFrame : TRect; title : PChar; atype, aFlags, aWorkspaces : Cardinal);
 var
   aRect, aRect2 : TRect;  
   rgb_color : TRGB_color;
@@ -62,23 +63,24 @@ begin
   inherited;
   aRect := TRect.Create(20, 20, 100, 100);
   try
-    aRect2 := TRect.Create(120, 120, 300, 300);
+    aRect2 := TRect.Create(110, 110, 150, 150);
     try
-      aView := TView.Create(aRect, 'Test', B_FOLLOW_NONE, B_WILL_DRAW);
+      aView := TView.Create(aRect, 'Test', B_FOLLOW_ALL, B_WILL_DRAW);
       rgb_color.red := 255;
       rgb_color.green := 0;
       rgb_color.blue := 0;
       rgb_color.alpha := 0;
       aView.SetViewColor(rgb_color);  
       Self.AddChild(aView, nil);
-      mess := TMessage.Create(100);
-      aButton := TButton.Create(aRect2, 'Test', 'Test', mess, B_FOLLOW_NONE, B_WILL_DRAW);
+      mess := TMessage.Create(77777);
+      aButton := TButton.Create(aRect2, 'Test2', 'Test2', mess, B_FOLLOW_LEFT or B_FOLLOW_TOP, B_WILL_DRAW or B_NAVIGABLE);
+      aButton.SetViewColor(rgb_color);
       WriteLn('before addchild');
       Self.AddChild(aButton, nil);
-      aButton.Invoker.SetTarget(aView, nil);
+      WriteLn('after addchild');          
+//      aButton.Invoker.SetTarget(aView, nil);
       if aButton.IsEnabled then
         WriteLn('Actif');
-      WriteLn('after addchild');    
     finally
       aRect2.Free;
     end;
@@ -92,6 +94,13 @@ begin
 //  aButton.Free;
 //  aView.Free;  
   inherited;
+end;
+
+procedure TMyWindow.MessageReceived(aMessage : TMessage);
+begin
+  inherited;
+  WriteLn('TMyWindow réception');
+  WriteLn(Self.ClassName + '.MessageReceived');
 end;
 
 function TMonApplication.QuitRequested : boolean;

@@ -62,12 +62,30 @@ BPLooper::~BPLooper()
 
 void BPLooper::DispatchMessage(BMessage *message, BHandler *target)
 {
+	DispatchMessage_hookCall(message, target);
+	BLooper::DispatchMessage(message, target);
+}
+
+void BPLooper::DispatchMessage_hookCall(BMessage *message, BHandler *target)
+{
 	Looper_DispatchMessage_hook(GetPasObject(), message, target);
 }
 
 bool BPLooper::QuitRequested(void)
 {
+	QuitRequested_hookCall();
 	return Looper_QuitRequested_hook(GetPasObject());
+}
+
+bool BPLooper::QuitRequested_hookCall(void)
+{
+	return Looper_QuitRequested_hook(GetPasObject());
+}
+
+void BPLooper::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BLooper::MessageReceived(message);
 }
 
 #if defined(__cplusplus)

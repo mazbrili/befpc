@@ -24,10 +24,6 @@
 #include <handler.h>
 #include <beobj.h>
 
-// definition of callback function in BHandler
-
-typedef void (*BHandler_MessageReceived_hook) (TPasObject PasObject, TCPlusObject message);
-
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -43,6 +39,7 @@ BPHandler::BPHandler(TPasObject PasObject, const char *name)
 {
 
 }
+
 BPHandler::BPHandler(TPasObject PasObject, BMessage *archive)
 			: BHandler(archive), BPasObject(PasObject)
 {
@@ -55,7 +52,13 @@ BPHandler::~BPHandler()
 
 void BPHandler::MessageReceived(BMessage *message)
 {
-	Handler_MessageReceived_hook(GetPasObject(), message); 
+	MessageReceived_hookCall(message);
+	BHandler::MessageReceived(message); 
+}
+
+void BPHandler::MessageReceived_hookCall(BMessage *message)
+{
+	Handler_MessageReceived_hook(GetPasObject(), message);
 }
 
 

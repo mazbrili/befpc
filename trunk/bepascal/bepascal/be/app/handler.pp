@@ -39,7 +39,9 @@ var
   
 procedure THandler.MessageReceived(aMessage : TMessage);
 begin
+  WriteLn(ClassName + '.MessageReceived');
   WriteLn('Message reçue');
+  aMessage.PrintToStream;
 end;
 
 procedure Handler_MessageReceived_hook_func(Handler : THandler; aMessage : TCPlusObject); cdecl;

@@ -65,6 +65,24 @@ BPControl::BPControl(TPasObject PasObject, BMessage *message):
 {
 }
 
+void BPControl::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BControl::MessageReceived(message);
+}
+
+void BPControl::Draw(BRect updateRect)
+{
+	BControl::Draw(updateRect);
+	Draw_hookCall(updateRect);
+}
+
+void BPControl::AttachedToWindow(void)
+{
+	BControl::AttachedToWindow();
+	AttachedToWindow_hookCall();
+}
+
 void BPControl::SetEnabled(bool enabled)
 {
 	Control_SetEnabled_hook(GetPasObject(), enabled);

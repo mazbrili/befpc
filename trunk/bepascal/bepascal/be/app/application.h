@@ -46,7 +46,10 @@ class BPApplication : public BApplication, public virtual BPLooper
 		virtual void AppActivated(bool active);
 		virtual void ReadyToRun(void);
 		virtual bool QuitRequested(void);
-		virtual void MessageReceived(BMessage *message);		
+		virtual void MessageReceived(BMessage *message);
+		virtual void DispatchMessage(BMessage *message, BHandler *target);		
+		virtual void AppActivated_hookCall(bool active);
+		virtual void ReadyToRun_hookCall(void);
 	private:
 };
 

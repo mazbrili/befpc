@@ -156,47 +156,47 @@ end;
 
 procedure TControl.WindowActivated(state : boolean);
 begin
-  BControl_WindowActivated(CPlusObject, state);
+//  BControl_WindowActivated(CPlusObject, state);
 end;
 
 procedure TControl.AttachedToWindow;
 begin
-  BControl_AttachedToWindow(CPlusObject);
+//  BControl_AttachedToWindow(CPlusObject);
 end;
 
 procedure TControl.MessageReceived(msg : TMessage);
 begin
-  BControl_MessageReceived(CPlusObject, msg.CPlusObject);
+//  BControl_MessageReceived(CPlusObject, msg.CPlusObject);
 end;
 
 procedure TControl.MakeFocus(state : boolean);
 begin
-  BControl_MakeFocus(CPlusObject, state);
+//  BControl_MakeFocus(CPlusObject, state);
 end;
 
 procedure TControl.KeyDown(bytes : PChar; numBytes : integer);
 begin
-  BControl_KeyDown(CPlusObject, bytes, numBytes);
+//  BControl_KeyDown(CPlusObject, bytes, numBytes);
 end;
 
 procedure TControl.MouseDown(pt : TPoint);
 begin
-  BControl_MouseDown(CPlusObject, pt.CPlusObject);
+//  BControl_MouseDown(CPlusObject, pt.CPlusObject);
 end;
 
 procedure TControl.MouseUp(pt : TPoint);
 begin
-  BControl_MouseUp(CPlusObject, pt.CPlusObject);
+//  BControl_MouseUp(CPlusObject, pt.CPlusObject);
 end;
 
 procedure TControl.MouseMoved(pt : TPoint; code : Cardinal; msg : TMessage);
 begin
-  BControl_MouseMoved(CPlusObject, pt.CPlusObject, code, msg);
+//  BControl_MouseMoved(CPlusObject, pt.CPlusObject, code, msg);
 end;
 
 procedure TControl.DetachedFromWindow;
 begin
-  BControl_DetachedFromWindow(CPlusObject);
+//  BControl_DetachedFromWindow(CPlusObject);
 end;
 
 procedure TControl.SetLabel(text : PChar);
@@ -231,12 +231,12 @@ end;
 
 procedure TControl.GetPreferredSize(width : double; height : double);
 begin
-  BControl_GetPreferredSize(CPlusObject, width, height);
+//  BControl_GetPreferredSize(CPlusObject, width, height);
 end;
 
 procedure TControl.ResizeToPreferred;
 begin
-  BControl_ResizeToPreferred(CPlusObject);
+//  BControl_ResizeToPreferred(CPlusObject);
 end;
 
 function TControl.Invoke(msg : TMessage) : TStatus_t;
@@ -256,12 +256,12 @@ end;
 
 procedure TControl.AllAttached;
 begin
-  BControl_AllAttached(CPlusObject);
+//  BControl_AllAttached(CPlusObject);
 end;
 
 procedure TControl.AllDetached;
 begin
-  BControl_AllDetached(CPlusObject);
+//  BControl_AllDetached(CPlusObject);
 end;
 
 function TControl.Perform(d : TPerform_code; arg : Pointer) : TStatus_t;

@@ -42,7 +42,7 @@ BButton_MakeDefault_hook Button_MakeDefault_hook;
 }
 #endif
 
-class BPButton : public BButton, virtual public BPControl
+class BPButton : public BButton, virtual public BPControl												 
 {
 	public:
 		// <BView_Constructor>
@@ -54,7 +54,29 @@ class BPButton : public BButton, virtual public BPControl
 		          uint32 resizeMask,
 		          uint32 flags);
 		BPButton(TPasObject PasObject, BMessage *archive);
+		virtual void MessageReceived(BMessage *message);
+		virtual void Draw(BRect updateRect);
+		virtual void AttachedToWindow(void);
 		virtual void MakeDefault(bool flag);
+		virtual void WindowActivated(bool active);	
+
+		virtual void AllAttached(void);
+		virtual void AllDetached(void);
+		virtual void DetachedFromWindow(void);
+		virtual void DrawAfterChildren(BRect updateRect);
+		virtual void FrameMoved(BPoint parentPoint);
+		virtual void FrameResized(float width, float height);
+		virtual void GetPreferredSize(float *width, float *height);
+		virtual void ResizeToPreferred(void);
+		virtual void KeyDown(const char *bytes, int32 numBytes);
+		virtual void KeyUp(const char *bytes, int32 numBytes);
+		virtual void MouseDown(BPoint point);
+		virtual void MouseMoved(BPoint point, uint32 transit, const BMessage *message);
+		virtual void MouseUp(BPoint point);
+		virtual void Pulse(void);
+//		virtual void TargetedByScrollView(BScrollView *scroller);
+		virtual void SetEnabled(bool enabled);
+		virtual void SetValue(int32 value);
 	private:
 };
 
@@ -83,11 +105,120 @@ BPButton::BPButton(TPasObject PasObject, BMessage *archive)
           BPHandler(PasObject, archive),
           BPasObject(PasObject)
 {
+
+}
+
+void BPButton::MessageReceived(BMessage *message)
+{
+	MessageReceived_hookCall(message);
+	BButton::MessageReceived(message);
+}
+
+void BPButton::Draw(BRect updateRect)
+{
+	BButton::Draw(updateRect);
+	Draw_hookCall(updateRect);
+}
+
+void BPButton::AttachedToWindow(void)
+{
+	BButton::AttachedToWindow();
+	AttachedToWindow_hookCall();
 }
 
 void BPButton::MakeDefault(bool flag)
 {
-	Button_MakeDefault_hook(GetPasObject(), flag);
+//	Button_MakeDefault_hook(GetPasObject(), flag);
+}
+
+void BPButton::WindowActivated(bool active)
+{
+	BButton::WindowActivated(active);
+}
+
+void BPButton::AllAttached(void)
+{
+	BButton::AllAttached();
+}
+
+void BPButton::AllDetached(void)
+{
+	BButton::AllDetached();
+}
+
+void BPButton::DetachedFromWindow(void)
+{
+	BButton::DetachedFromWindow();
+}
+
+void BPButton::DrawAfterChildren(BRect updateRect)
+{
+	BButton::DrawAfterChildren(updateRect);
+}
+
+void BPButton::FrameMoved(BPoint parentPoint)
+{
+	BButton::FrameMoved(parentPoint);
+}
+
+void BPButton::FrameResized(float width, float height)
+{
+	BButton::FrameResized(width, height);
+}
+
+void BPButton::GetPreferredSize(float *width, float *height)
+{
+	BButton::GetPreferredSize(width, height);
+}
+
+void BPButton::ResizeToPreferred(void)
+{
+	BButton::ResizeToPreferred();
+}
+
+void BPButton::KeyDown(const char *bytes, int32 numBytes)
+{
+	BButton::KeyDown(bytes, numBytes);
+}
+
+void BPButton::KeyUp(const char *bytes, int32 numBytes)
+{
+	BButton::KeyUp(bytes, numBytes);
+}
+
+void BPButton::MouseDown(BPoint point)
+{
+	BButton::MouseDown(point);
+}
+
+void BPButton::MouseMoved(BPoint point, uint32 transit, const BMessage *message)
+{
+	BButton::MouseMoved(point, transit, message);
+}
+
+void BPButton::MouseUp(BPoint point)
+{
+	BButton::MouseUp(point);
+}
+
+void BPButton::Pulse(void)
+{
+	BButton::Pulse();
+}
+
+//void BPButton::TargetedByScrollView(BScrollView *scroller)
+//{
+//	BButton::TargetedByScrollView(scroller);
+//}
+
+void BPButton::SetEnabled(bool enabled)
+{
+	BButton::SetEnabled(enabled);
+}
+
+void BPButton::SetValue(int32 value)
+{
+	BButton::SetValue(value);
 }
 
 #if defined(__cplusplus)

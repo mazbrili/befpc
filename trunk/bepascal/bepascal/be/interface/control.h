@@ -38,6 +38,9 @@ class BPControl : public BControl, virtual public BPView
 		          uint32 resizeMask,
 		          uint32 flags);
 		BPControl(TPasObject PasObject, BMessage *message);
+		virtual void MessageReceived(BMessage *message);
+		virtual void Draw(BRect updateRect);
+		virtual void AttachedToWindow(void);
 		virtual void SetEnabled(bool enabled);
 		virtual void SetValue(int32 value);
 	private:

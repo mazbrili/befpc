@@ -35,8 +35,7 @@ class BPView : public BView, public virtual BPHandler
 			   uint32 resizingMode,
 			   uint32 flags);
 		BPView(TPasObject PasObject, BMessage *archive);
-//		virtual void DispatchMessage(BMessage *message, BHandler *target);
-//		virtual bool QuitRequested(void);
+		virtual void MessageReceived(BMessage *message);
 		virtual void AllAttached(void);
 		virtual void AttachedToWindow(void);
 		virtual void AllDetached(void);
@@ -55,6 +54,8 @@ class BPView : public BView, public virtual BPHandler
 		virtual void Pulse(void);
 //		virtual void TargetedByScrollView(BScrollView *scroller);
 		virtual void WindowActivated(bool active);
+		virtual void Draw_hookCall(BRect updateRect);		
+		virtual void AttachedToWindow_hookCall(void);		
 	private:	
 };
 

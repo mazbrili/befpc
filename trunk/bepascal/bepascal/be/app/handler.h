@@ -23,6 +23,10 @@
 
 #include <beobj.h>
 
+// definition of callback function in BHandler
+
+typedef void (*BHandler_MessageReceived_hook) (TPasObject PasObject, TCPlusObject message);
+
 class BPHandler : public BHandler, public virtual BPasObject
 {
 	public:
@@ -30,6 +34,7 @@ class BPHandler : public BHandler, public virtual BPasObject
 		BPHandler(TPasObject PasObject, BMessage *archive);
 		virtual ~BPHandler(void);
 		virtual void MessageReceived(BMessage *message);		
+		virtual void MessageReceived_hookCall(BMessage *message);				
 	private:
 };
 

@@ -49,6 +49,7 @@ type
     procedure Pulse; virtual;
 //    procedure TargetedByScrollView(scroller : TScrollView); virtual; // Need BScrollView
     procedure WindowActivated(active : boolean); virtual;
+    procedure MessageReceived(aMessage : TMessage); override;
     // End hook functions
     function RemoveSelf : boolean;
     procedure AddChild(aView, before : TView);
@@ -94,16 +95,16 @@ var
 
 const
     // flags
-  B_FULL_UPDATE_ON_RESIZE 	: Cardinal = 31;
-  _B_RESERVED1_ 			: Cardinal = 30;
-  B_WILL_DRAW				: Cardinal = 29;
-  B_PULSE_NEEDED			: Cardinal = 28;
-  B_NAVIGABLE_JUMP			: Cardinal = 27;
-  B_FRAME_EVENTS			: Cardinal = 26;
-  B_NAVIGABLE				: Cardinal = 25;
-  B_SUBPIXEL_PRECISE		: Cardinal = 24;
-  B_DRAW_ON_CHILDREN		: Cardinal = 23;
-  _B_RESERVED7_				: Cardinal = 22;
+  B_FULL_UPDATE_ON_RESIZE 	: Cardinal = $80000000;//31;
+  _B_RESERVED1_ 			: Cardinal = $40000000;//30;
+  B_WILL_DRAW				: Cardinal = $20000000;//29;
+  B_PULSE_NEEDED			: Cardinal = $10000000;//28;
+  B_NAVIGABLE_JUMP			: Cardinal = $08000000;//27;
+  B_FRAME_EVENTS			: Cardinal = $04000000;//26;
+  B_NAVIGABLE				: Cardinal = $02000000;//25;
+  B_SUBPIXEL_PRECISE		: Cardinal = $00800000;//24;
+  B_DRAW_ON_CHILDREN		: Cardinal = $00400000;//23;
+  _B_RESERVED7_				: Cardinal = $00200000;//22;
 
 implementation
 
@@ -234,9 +235,14 @@ end;
 
 procedure TView.WindowActivated(active : boolean);
 begin
-  Writeln('WindowActivated in View');
+//  WriteLn('WindowActivated in View');
 end;
 
+procedure TView.MessageReceived(aMessage : TMessage);
+begin
+  inherited;
+  WriteLn('View.MessageReceived, PASCAL');
+end;
 
 function TView.RemoveSelf : boolean;
 begin

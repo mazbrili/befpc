@@ -74,22 +74,43 @@ BPApplication::BPApplication(TPasObject PasObject, const char *signature,
 
 void BPApplication::AppActivated(bool active)
 {
+	AppActivated_hookCall(active);
+	BApplication::AppActivated(active);
+}
+
+void BPApplication::AppActivated_hookCall(bool active)
+{
 	Application_AppActivated_hook(GetPasObject(), active);	
 }
 
 void BPApplication::ReadyToRun(void)
+{
+	ReadyToRun_hookCall();
+	BApplication::ReadyToRun();
+}
+
+void BPApplication::ReadyToRun_hookCall(void)
 {
 	Application_ReadyToRun_hook(GetPasObject());
 }
 
 bool BPApplication::QuitRequested(void)
 {
-	return BPLooper::QuitRequested();
+	return QuitRequested_hookCall();
+//	return BApplication::QuitRequested();
 } 
 
 void BPApplication::MessageReceived(BMessage *message)
 {
-	BPHandler::MessageReceived(message);
+	MessageReceived_hookCall(message);
+	BApplication::MessageReceived(message);
+}
+
+void BPApplication::DispatchMessage(BMessage *message, BHandler *target)
+{
+	DispatchMessage_hookCall(message, target);
+//	message->PrintToStream();
+	BApplication::DispatchMessage(message, target);
 }
 
 #if defined(__cplusplus)
