@@ -69,7 +69,7 @@
  *  This grammar is only a subset of the real C++ language.
  *
  *  DATE: Thu Aug 15 13:10:06 EDT 1996
- *   $Id: parser.c,v 1.1 2003-09-21 22:46:55 ocoursiere Exp $
+ *   $Id: parser.c,v 1.2 2003-09-23 21:20:49 ocoursiere Exp $
  *
  *  Copyright (c) 1996-1998  Michael John Radwin
  *
@@ -90,6 +90,9 @@
  *  --------------------------------------------------------------------
  * 
  *  $Log: not supported by cvs2svn $
+ *  Revision 1.1  2003/09/21 22:46:55  ocoursiere
+ *  stubgen.so is now include in the build process
+ *
  *  Revision 1.1  2001/11/07 10:06:07  ithamar
  *  Added stubgen to CVS
  *
@@ -192,7 +195,7 @@
  *  };
  *
  *  Error:
- *  stubgen version 2.0-beta $Revision: 1.1 $.
+ *  stubgen version 2.0-beta $Revision: 1.2 $.
  *  parse error at line 4, file test.H:
  *   public:
  *        ^
@@ -388,7 +391,7 @@
  *  grammar - this one is getting cluttered.
  *
  */
-#line 334 "source/tools/stubgen.so/cpp/parser.y"
+#line 337 "source/tools/stubgen.so/cpp/parser.y"
 
 #include "table.h"
 #include "util.h"
@@ -412,7 +415,7 @@ extern int collectMemberInitList();
 /* defined here in parser.y */
 static int error_recovery();
 static int yyerror(char *);
-static const char rcsid[] = "$Id: parser.c,v 1.1 2003-09-21 22:46:55 ocoursiere Exp $";
+static const char rcsid[] = "$Id: parser.c,v 1.2 2003-09-23 21:20:49 ocoursiere Exp $";
 
 /* defined in main.c */
 extern FILE *outfile;
@@ -420,7 +423,7 @@ extern char *currentFile;
 extern int lineno;
 
 
-#line 366 "source/tools/stubgen.so/cpp/parser.y"
+#line 369 "source/tools/stubgen.so/cpp/parser.y"
 typedef union {
   char *string;
   syntaxelem_t *elt;
@@ -596,31 +599,31 @@ static const short yyrhs[] = {    77,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   415,   416,   420,   421,   426,   433,   441,   442,   456,   471,
-   475,   482,   489,   493,   494,   498,   507,   517,   518,   519,
-   520,   524,   525,   526,   534,   542,   550,   559,   568,   576,
-   584,   592,   593,   604,   605,   614,   626,   627,   628,   634,
-   635,   636,   642,   648,   655,   656,   657,   658,   662,   670,
-   682,   683,   695,   696,   700,   709,   718,   729,   742,   743,
-   747,   748,   756,   764,   775,   776,   777,   785,   790,   801,
-   808,   819,   823,   827,   836,   848,   849,   850,   855,   863,
-   872,   882,   893,   906,   907,   909,   909,   916,   918,   927,
-   928,   930,   933,   939,   940,   944,   950,   951,   956,   963,
-   975,   981,   988,   992,  1003,  1015,  1026,  1041,  1051,  1064,
-  1065,  1069,  1070,  1080,  1081,  1092,  1105,  1117,  1129,  1141,
-  1156,  1167,  1175,  1188,  1204,  1205,  1208,  1215,  1223,  1233,
-  1234,  1245,  1246,  1257,  1258,  1262,  1263,  1267,  1268,  1269,
-  1273,  1274,  1275,  1276,  1277,  1278,  1282,  1283,  1284,  1285,
-  1286,  1287,  1288,  1292,  1293,  1294,  1295,  1296,  1297,  1298,
-  1299,  1300,  1301,  1302,  1306,  1307,  1308,  1309,  1310,  1311,
-  1312,  1313,  1314,  1315,  1316,  1317,  1318,  1319,  1320,  1321,
-  1322,  1323,  1324,  1328,  1329,  1333,  1337,  1338,  1345,  1346,
-  1347,  1348,  1358,  1359,  1367,  1375,  1386,  1387,  1395,  1407,
-  1415,  1422,  1432,  1445,  1458,  1472,  1486,  1500,  1513,  1526,
-  1540,  1557,  1558,  1562,  1566,  1567,  1571,  1572,  1576,  1583,
-  1595,  1596,  1611,  1612,  1616,  1617,  1618,  1619,  1623,  1630,
-  1631,  1632,  1633,  1637,  1638,  1639,  1640,  1648,  1655,  1666,
-  1667,  1678,  1679,  1683,  1684,  1695
+   418,   419,   423,   424,   429,   436,   444,   445,   459,   474,
+   478,   485,   492,   496,   497,   501,   510,   520,   521,   522,
+   523,   527,   528,   529,   537,   545,   553,   562,   571,   579,
+   587,   595,   596,   607,   608,   617,   629,   630,   631,   637,
+   638,   639,   645,   651,   658,   659,   660,   661,   665,   673,
+   685,   686,   698,   699,   703,   712,   721,   732,   745,   746,
+   750,   751,   759,   767,   778,   779,   780,   788,   793,   804,
+   811,   822,   826,   830,   839,   851,   852,   853,   858,   866,
+   875,   885,   896,   909,   910,   912,   912,   919,   921,   930,
+   931,   933,   936,   942,   943,   947,   953,   954,   959,   966,
+   978,   984,   991,   995,  1006,  1018,  1029,  1044,  1054,  1067,
+  1068,  1072,  1073,  1083,  1084,  1095,  1108,  1120,  1132,  1144,
+  1159,  1170,  1178,  1191,  1207,  1208,  1211,  1218,  1226,  1236,
+  1237,  1248,  1249,  1260,  1261,  1265,  1266,  1270,  1271,  1272,
+  1276,  1277,  1278,  1279,  1280,  1281,  1285,  1286,  1287,  1288,
+  1289,  1290,  1291,  1295,  1296,  1297,  1298,  1299,  1300,  1301,
+  1302,  1303,  1304,  1305,  1309,  1310,  1311,  1312,  1313,  1314,
+  1315,  1316,  1317,  1318,  1319,  1320,  1321,  1322,  1323,  1324,
+  1325,  1326,  1327,  1331,  1332,  1336,  1340,  1341,  1348,  1349,
+  1350,  1351,  1361,  1362,  1370,  1378,  1389,  1390,  1398,  1410,
+  1418,  1425,  1435,  1448,  1461,  1475,  1489,  1503,  1516,  1529,
+  1543,  1560,  1561,  1565,  1569,  1570,  1574,  1575,  1579,  1586,
+  1598,  1599,  1614,  1615,  1619,  1620,  1621,  1622,  1626,  1633,
+  1634,  1635,  1636,  1640,  1641,  1642,  1643,  1651,  1658,  1669,
+  1670,  1681,  1682,  1686,  1687,  1698
 };
 #endif
 
@@ -1576,14 +1579,14 @@ yyreduce:
   switch (yyn) {
 
 case 4:
-#line 422 "source/tools/stubgen.so/cpp/parser.y"
+#line 425 "source/tools/stubgen.so/cpp/parser.y"
 { 
   log_printf("IGNORING extern \"C\" { ... } block.\n");
   free(yyvsp[-1].string);
 ;
     break;}
 case 5:
-#line 427 "source/tools/stubgen.so/cpp/parser.y"
+#line 430 "source/tools/stubgen.so/cpp/parser.y"
 { 
     yyvsp[0].elt->kind = INLINED_KIND; 
     log_printf("\nBEGIN matched dec : m_f_i rule --");
@@ -1592,7 +1595,7 @@ case 5:
 ;
     break;}
 case 6:
-#line 434 "source/tools/stubgen.so/cpp/parser.y"
+#line 437 "source/tools/stubgen.so/cpp/parser.y"
 { 
     yyvsp[0].elt->kind = SKEL_KIND; 
     log_printf("\nBEGIN matched dec : function_skeleton rule --");
@@ -1602,7 +1605,7 @@ case 6:
 ;
     break;}
 case 8:
-#line 443 "source/tools/stubgen.so/cpp/parser.y"
+#line 446 "source/tools/stubgen.so/cpp/parser.y"
 {
   log_printf("declaration : error.  Attempting to recover...\n");
   yyerrok;
@@ -1615,7 +1618,7 @@ case 8:
 ;
     break;}
 case 9:
-#line 457 "source/tools/stubgen.so/cpp/parser.y"
+#line 460 "source/tools/stubgen.so/cpp/parser.y"
 {
     /* the name of the rule "member_specifier" might be misleading, but
      * this is either a class, struct, union, enum, global var, global
@@ -1632,7 +1635,7 @@ case 9:
 ;
     break;}
 case 11:
-#line 476 "source/tools/stubgen.so/cpp/parser.y"
+#line 479 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), yyvsp[0].string, NULL, IGNORE_KIND);
@@ -1641,7 +1644,7 @@ case 11:
 ;
     break;}
 case 12:
-#line 483 "source/tools/stubgen.so/cpp/parser.y"
+#line 486 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), yyvsp[0].string, NULL, IGNORE_KIND);
@@ -1650,15 +1653,15 @@ case 12:
 ;
     break;}
 case 14:
-#line 493 "source/tools/stubgen.so/cpp/parser.y"
+#line 496 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.flag = 0; ;
     break;}
 case 15:
-#line 494 "source/tools/stubgen.so/cpp/parser.y"
+#line 497 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.flag = 1; ;
     break;}
 case 16:
-#line 499 "source/tools/stubgen.so/cpp/parser.y"
+#line 502 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + (yyvsp[0].flag ? 2 : 0) + 1);
   strcpy(tmp_str, yyvsp[-1].string);
@@ -1669,7 +1672,7 @@ case 16:
 ;
     break;}
 case 17:
-#line 508 "source/tools/stubgen.so/cpp/parser.y"
+#line 511 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + (yyvsp[0].flag ? 2 : 0) + 7);
   sprintf(tmp_str, "const %s%s", yyvsp[-1].string, (yyvsp[0].flag ? " &" : ""));
@@ -1678,23 +1681,23 @@ case 17:
 ;
     break;}
 case 18:
-#line 517 "source/tools/stubgen.so/cpp/parser.y"
-{ free(yyvsp[0].string); ;
-    break;}
-case 19:
-#line 518 "source/tools/stubgen.so/cpp/parser.y"
-{ free(yyvsp[0].string); ;
-    break;}
-case 20:
-#line 519 "source/tools/stubgen.so/cpp/parser.y"
-{ free(yyvsp[0].string); ;
-    break;}
-case 21:
 #line 520 "source/tools/stubgen.so/cpp/parser.y"
 { free(yyvsp[0].string); ;
     break;}
+case 19:
+#line 521 "source/tools/stubgen.so/cpp/parser.y"
+{ free(yyvsp[0].string); ;
+    break;}
+case 20:
+#line 522 "source/tools/stubgen.so/cpp/parser.y"
+{ free(yyvsp[0].string); ;
+    break;}
+case 21:
+#line 523 "source/tools/stubgen.so/cpp/parser.y"
+{ free(yyvsp[0].string); ;
+    break;}
 case 24:
-#line 527 "source/tools/stubgen.so/cpp/parser.y"
+#line 530 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 8);
   strcpy(tmp_str, "struct ");
@@ -1704,7 +1707,7 @@ case 24:
 ;
     break;}
 case 25:
-#line 535 "source/tools/stubgen.so/cpp/parser.y"
+#line 538 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-3].string) + strlen(yyvsp[-1].string) + 3);
   sprintf(tmp_str, "%s<%s>", yyvsp[-3].string, yyvsp[-1].string);
@@ -1714,7 +1717,7 @@ case 25:
 ;
     break;}
 case 26:
-#line 543 "source/tools/stubgen.so/cpp/parser.y"
+#line 546 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-3].string) + strlen(yyvsp[-1].string) + 3);
   sprintf(tmp_str, "%s<%s>", yyvsp[-3].string, yyvsp[-1].string);
@@ -1724,7 +1727,7 @@ case 26:
 ;
     break;}
 case 27:
-#line 551 "source/tools/stubgen.so/cpp/parser.y"
+#line 554 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-4].string) + strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s<%s> %s", yyvsp[-4].string, yyvsp[-2].string, yyvsp[0].string);
@@ -1735,7 +1738,7 @@ case 27:
 ;
     break;}
 case 28:
-#line 560 "source/tools/stubgen.so/cpp/parser.y"
+#line 563 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-4].string) + strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s<%s> %s", yyvsp[-4].string, yyvsp[-2].string, yyvsp[0].string);
@@ -1746,7 +1749,7 @@ case 28:
 ;
     break;}
 case 29:
-#line 569 "source/tools/stubgen.so/cpp/parser.y"
+#line 572 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -1756,7 +1759,7 @@ case 29:
 ;
     break;}
 case 30:
-#line 577 "source/tools/stubgen.so/cpp/parser.y"
+#line 580 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -1766,7 +1769,7 @@ case 30:
 ;
     break;}
 case 31:
-#line 585 "source/tools/stubgen.so/cpp/parser.y"
+#line 588 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 9);
   sprintf(tmp_str, "struct %s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -1776,7 +1779,7 @@ case 31:
 ;
     break;}
 case 33:
-#line 594 "source/tools/stubgen.so/cpp/parser.y"
+#line 597 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -1786,7 +1789,7 @@ case 33:
 ;
     break;}
 case 35:
-#line 606 "source/tools/stubgen.so/cpp/parser.y"
+#line 609 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 8);
   strcpy(tmp_str,"signed ");
@@ -1797,7 +1800,7 @@ case 35:
 ;
     break;}
 case 36:
-#line 615 "source/tools/stubgen.so/cpp/parser.y"
+#line 618 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 10);
   strcpy(tmp_str,"unsigned ");
@@ -1808,7 +1811,7 @@ case 36:
 ;
     break;}
 case 39:
-#line 629 "source/tools/stubgen.so/cpp/parser.y"
+#line 632 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyval.string = strdup("short int");
   free(yyvsp[-1].string);
@@ -1816,7 +1819,7 @@ case 39:
 ;
     break;}
 case 42:
-#line 637 "source/tools/stubgen.so/cpp/parser.y"
+#line 640 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyval.string = strdup("long int");
   free(yyvsp[-1].string);
@@ -1824,7 +1827,7 @@ case 42:
 ;
     break;}
 case 43:
-#line 643 "source/tools/stubgen.so/cpp/parser.y"
+#line 646 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyval.string = strdup("long long");
   free(yyvsp[-1].string);
@@ -1832,7 +1835,7 @@ case 43:
 ;
     break;}
 case 44:
-#line 649 "source/tools/stubgen.so/cpp/parser.y"
+#line 652 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyval.string = strdup("long long int");
   free(yyvsp[-2].string);
@@ -1841,7 +1844,7 @@ case 44:
 ;
     break;}
 case 49:
-#line 663 "source/tools/stubgen.so/cpp/parser.y"
+#line 666 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s::%s", yyvsp[-2].string, yyvsp[0].string);
@@ -1851,7 +1854,7 @@ case 49:
 ;
     break;}
 case 50:
-#line 671 "source/tools/stubgen.so/cpp/parser.y"
+#line 674 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* control-Y programming! */
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
@@ -1862,7 +1865,7 @@ case 50:
 ;
     break;}
 case 52:
-#line 684 "source/tools/stubgen.so/cpp/parser.y"
+#line 687 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 1);
   strcpy(tmp_str,yyvsp[-1].string);
@@ -1873,15 +1876,15 @@ case 52:
 ;
     break;}
 case 53:
-#line 695 "source/tools/stubgen.so/cpp/parser.y"
+#line 698 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("*"); ;
     break;}
 case 54:
-#line 696 "source/tools/stubgen.so/cpp/parser.y"
+#line 699 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("*const "); ;
     break;}
 case 55:
-#line 701 "source/tools/stubgen.so/cpp/parser.y"
+#line 704 "source/tools/stubgen.so/cpp/parser.y"
 { 
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = yyvsp[-1].string;
@@ -1892,7 +1895,7 @@ case 55:
 ;
     break;}
 case 56:
-#line 710 "source/tools/stubgen.so/cpp/parser.y"
+#line 713 "source/tools/stubgen.so/cpp/parser.y"
 { 
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = yyvsp[-1].string;
@@ -1903,7 +1906,7 @@ case 56:
 ;
     break;}
 case 57:
-#line 719 "source/tools/stubgen.so/cpp/parser.y"
+#line 722 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *old_array = yyvsp[-3].arg->array;
   int old_len = old_array ? strlen(old_array) : 0;
@@ -1916,7 +1919,7 @@ case 57:
 ;
     break;}
 case 58:
-#line 730 "source/tools/stubgen.so/cpp/parser.y"
+#line 733 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *old_array = yyvsp[-2].arg->array;
   int old_len = old_array ? strlen(old_array) : 0;
@@ -1928,11 +1931,11 @@ case 58:
 ;
     break;}
 case 60:
-#line 743 "source/tools/stubgen.so/cpp/parser.y"
+#line 746 "source/tools/stubgen.so/cpp/parser.y"
 { free(yyvsp[0].string); yyval.string = yyvsp[-2].string;;
     break;}
 case 62:
-#line 749 "source/tools/stubgen.so/cpp/parser.y"
+#line 752 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -1942,7 +1945,7 @@ case 62:
 ;
     break;}
 case 63:
-#line 757 "source/tools/stubgen.so/cpp/parser.y"
+#line 760 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[-3].string) + strlen(yyvsp[-1].string) + 3);
   sprintf(tmp_str, "%s[%s]", yyvsp[-3].string, yyvsp[-1].string);
@@ -1952,7 +1955,7 @@ case 63:
 ;
     break;}
 case 64:
-#line 765 "source/tools/stubgen.so/cpp/parser.y"
+#line 768 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + 3);
   strcpy(tmp_str, yyvsp[-2].string);
@@ -1962,25 +1965,25 @@ case 64:
 ;
     break;}
 case 66:
-#line 776 "source/tools/stubgen.so/cpp/parser.y"
+#line 779 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.arg = yyvsp[0].arg; ;
     break;}
 case 67:
-#line 778 "source/tools/stubgen.so/cpp/parser.y"
+#line 781 "source/tools/stubgen.so/cpp/parser.y"
 {
   free(yyvsp[0].string);
   yyval.arg = yyvsp[-2].arg;
 ;
     break;}
 case 68:
-#line 786 "source/tools/stubgen.so/cpp/parser.y"
+#line 789 "source/tools/stubgen.so/cpp/parser.y"
 {
   yyval.string = args_to_string(yyvsp[0].arg, 0);
   free_args(yyvsp[0].arg);
 ;
     break;}
 case 69:
-#line 791 "source/tools/stubgen.so/cpp/parser.y"
+#line 794 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s, %s", yyvsp[-2].string, yyvsp[0].string);
@@ -1990,7 +1993,7 @@ case 69:
 ;
     break;}
 case 70:
-#line 802 "source/tools/stubgen.so/cpp/parser.y"
+#line 805 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 2);
   sprintf(tmp_str, "%s;", yyvsp[-1].string);
@@ -1999,7 +2002,7 @@ case 70:
 ;
     break;}
 case 71:
-#line 809 "source/tools/stubgen.so/cpp/parser.y"
+#line 812 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[-1].string) + 3);
   sprintf(tmp_str, "%s\n%s;", yyvsp[-2].string, yyvsp[-1].string);
@@ -2009,19 +2012,19 @@ case 71:
 ;
     break;}
 case 72:
-#line 820 "source/tools/stubgen.so/cpp/parser.y"
+#line 823 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyval.arg = NULL; 
 ;
     break;}
 case 73:
-#line 824 "source/tools/stubgen.so/cpp/parser.y"
+#line 827 "source/tools/stubgen.so/cpp/parser.y"
 {
   yyval.arg = reverse_arg_list(yyvsp[0].arg);
 ;
     break;}
 case 74:
-#line 828 "source/tools/stubgen.so/cpp/parser.y"
+#line 831 "source/tools/stubgen.so/cpp/parser.y"
 {
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = strdup("...");
@@ -2032,7 +2035,7 @@ case 74:
 ;
     break;}
 case 75:
-#line 837 "source/tools/stubgen.so/cpp/parser.y"
+#line 840 "source/tools/stubgen.so/cpp/parser.y"
 {
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = strdup("...");
@@ -2043,21 +2046,21 @@ case 75:
 ;
     break;}
 case 78:
-#line 851 "source/tools/stubgen.so/cpp/parser.y"
+#line 854 "source/tools/stubgen.so/cpp/parser.y"
 {
   yyvsp[0].arg->next = yyvsp[-2].arg;
   yyval.arg = yyvsp[0].arg;
 ;
     break;}
 case 79:
-#line 856 "source/tools/stubgen.so/cpp/parser.y"
+#line 859 "source/tools/stubgen.so/cpp/parser.y"
 { 
   yyvsp[0].arg->next = yyvsp[-2].arg;
   yyval.arg = yyvsp[0].arg;
 ;
     break;}
 case 80:
-#line 864 "source/tools/stubgen.so/cpp/parser.y"
+#line 867 "source/tools/stubgen.so/cpp/parser.y"
 {
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = yyvsp[0].string;
@@ -2068,7 +2071,7 @@ case 80:
 ;
     break;}
 case 81:
-#line 873 "source/tools/stubgen.so/cpp/parser.y"
+#line 876 "source/tools/stubgen.so/cpp/parser.y"
 {
   arg_t *new_arg = (arg_t *) malloc(sizeof(arg_t));
   new_arg->type = yyvsp[-2].string;
@@ -2080,7 +2083,7 @@ case 81:
 ;
     break;}
 case 82:
-#line 883 "source/tools/stubgen.so/cpp/parser.y"
+#line 886 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *old_array = yyvsp[-3].arg->array;
   int old_len = old_array ? strlen(old_array) : 0;
@@ -2093,7 +2096,7 @@ case 82:
 ;
     break;}
 case 83:
-#line 894 "source/tools/stubgen.so/cpp/parser.y"
+#line 897 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *old_array = yyvsp[-2].arg->array;
   int old_len = old_array ? strlen(old_array) : 0;
@@ -2105,11 +2108,11 @@ case 83:
 ;
     break;}
 case 85:
-#line 908 "source/tools/stubgen.so/cpp/parser.y"
+#line 911 "source/tools/stubgen.so/cpp/parser.y"
 { if (collectMemberInitList() != 0) YYERROR; ;
     break;}
 case 87:
-#line 910 "source/tools/stubgen.so/cpp/parser.y"
+#line 913 "source/tools/stubgen.so/cpp/parser.y"
 {
   /* I think this is the correct behavior, but skel_elemcmp is wrong */
   /* $2->templ = $1; */
@@ -2118,11 +2121,11 @@ case 87:
 ;
     break;}
 case 88:
-#line 917 "source/tools/stubgen.so/cpp/parser.y"
+#line 920 "source/tools/stubgen.so/cpp/parser.y"
 { if (collectMemberInitList() != 0) YYERROR; ;
     break;}
 case 89:
-#line 918 "source/tools/stubgen.so/cpp/parser.y"
+#line 921 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* I think this is the correct behavior, but skel_elemcmp is wrong */
   /* $2->templ = $1; */
@@ -2131,11 +2134,11 @@ case 89:
 ;
     break;}
 case 91:
-#line 929 "source/tools/stubgen.so/cpp/parser.y"
+#line 932 "source/tools/stubgen.so/cpp/parser.y"
 { if (collectMemberInitList() != 0) YYERROR; ;
     break;}
 case 93:
-#line 934 "source/tools/stubgen.so/cpp/parser.y"
+#line 937 "source/tools/stubgen.so/cpp/parser.y"
 { 
     yyvsp[-2].elt->const_flag = yyvsp[-1].flag; 
     yyvsp[-2].elt->throw_decl = yyvsp[0].string;
@@ -2143,7 +2146,7 @@ case 93:
 ;
     break;}
 case 96:
-#line 945 "source/tools/stubgen.so/cpp/parser.y"
+#line 948 "source/tools/stubgen.so/cpp/parser.y"
 { 
     yyvsp[-2].elt->const_flag = yyvsp[-1].flag; 
     yyvsp[-2].elt->throw_decl = yyvsp[0].string;
@@ -2151,7 +2154,7 @@ case 96:
 ;
     break;}
 case 99:
-#line 957 "source/tools/stubgen.so/cpp/parser.y"
+#line 960 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-4].string, yyvsp[-3].string, yyvsp[-1].arg, FUNC_KIND);
@@ -2160,7 +2163,7 @@ case 99:
 ;
     break;}
 case 100:
-#line 964 "source/tools/stubgen.so/cpp/parser.y"
+#line 967 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-9].string,
@@ -2174,7 +2177,7 @@ case 100:
 ;
     break;}
 case 102:
-#line 982 "source/tools/stubgen.so/cpp/parser.y"
+#line 985 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-4].string, yyvsp[-3].string, yyvsp[-1].arg, FUNC_KIND);
@@ -2183,7 +2186,7 @@ case 102:
 ;
     break;}
 case 104:
-#line 993 "source/tools/stubgen.so/cpp/parser.y"
+#line 996 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-7].string, (char *)malloc(strlen(yyvsp[-6].string) + strlen(yyvsp[-3].string) + 12),
@@ -2196,7 +2199,7 @@ case 104:
 ;
     break;}
 case 105:
-#line 1004 "source/tools/stubgen.so/cpp/parser.y"
+#line 1007 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2210,7 +2213,7 @@ case 105:
 ;
     break;}
 case 106:
-#line 1016 "source/tools/stubgen.so/cpp/parser.y"
+#line 1019 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-7].string, (char *)malloc(strlen(yyvsp[-6].string) + strlen(yyvsp[-3].string) + 12),
@@ -2223,7 +2226,7 @@ case 106:
 ;
     break;}
 case 107:
-#line 1027 "source/tools/stubgen.so/cpp/parser.y"
+#line 1030 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""),
@@ -2237,7 +2240,7 @@ case 107:
 ;
     break;}
 case 108:
-#line 1042 "source/tools/stubgen.so/cpp/parser.y"
+#line 1045 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(yyvsp[-5].string, (char *)malloc(strlen(yyvsp[-3].string) + 9), 
@@ -2249,7 +2252,7 @@ case 108:
 ;
     break;}
 case 109:
-#line 1052 "source/tools/stubgen.so/cpp/parser.y"
+#line 1055 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), (char *)malloc(strlen(yyvsp[-2].string) + 10),
@@ -2261,19 +2264,19 @@ case 109:
 ;
     break;}
 case 110:
-#line 1064 "source/tools/stubgen.so/cpp/parser.y"
+#line 1067 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.flag = 0; ;
     break;}
 case 111:
-#line 1065 "source/tools/stubgen.so/cpp/parser.y"
+#line 1068 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.flag = 1; ;
     break;}
 case 112:
-#line 1069 "source/tools/stubgen.so/cpp/parser.y"
+#line 1072 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = NULL; ;
     break;}
 case 113:
-#line 1071 "source/tools/stubgen.so/cpp/parser.y"
+#line 1074 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 8);
   sprintf(tmp_str, "throw(%s)", yyvsp[-1].string);
@@ -2282,7 +2285,7 @@ case 113:
 ;
     break;}
 case 115:
-#line 1082 "source/tools/stubgen.so/cpp/parser.y"
+#line 1085 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s, %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2292,7 +2295,7 @@ case 115:
 ;
     break;}
 case 116:
-#line 1093 "source/tools/stubgen.so/cpp/parser.y"
+#line 1096 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), (char *) malloc(strlen(yyvsp[-2].string) + 2),
@@ -2304,7 +2307,7 @@ case 116:
 ;
     break;}
 case 117:
-#line 1106 "source/tools/stubgen.so/cpp/parser.y"
+#line 1109 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2318,7 +2321,7 @@ case 117:
 ;
     break;}
 case 118:
-#line 1118 "source/tools/stubgen.so/cpp/parser.y"
+#line 1121 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2332,7 +2335,7 @@ case 118:
 ;
     break;}
 case 119:
-#line 1130 "source/tools/stubgen.so/cpp/parser.y"
+#line 1133 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2346,7 +2349,7 @@ case 119:
 ;
     break;}
 case 120:
-#line 1142 "source/tools/stubgen.so/cpp/parser.y"
+#line 1145 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2360,7 +2363,7 @@ case 120:
 ;
     break;}
 case 121:
-#line 1157 "source/tools/stubgen.so/cpp/parser.y"
+#line 1160 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), yyvsp[-4].string, yyvsp[-2].arg, FUNC_KIND);
@@ -2370,7 +2373,7 @@ case 121:
 ;
     break;}
 case 122:
-#line 1168 "source/tools/stubgen.so/cpp/parser.y"
+#line 1171 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), yyvsp[-4].string, yyvsp[-2].arg, FUNC_KIND);
@@ -2380,7 +2383,7 @@ case 122:
 ;
     break;}
 case 123:
-#line 1176 "source/tools/stubgen.so/cpp/parser.y"
+#line 1179 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2395,7 +2398,7 @@ case 123:
 ;
     break;}
 case 124:
-#line 1189 "source/tools/stubgen.so/cpp/parser.y"
+#line 1192 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), 
@@ -2410,11 +2413,11 @@ case 124:
 ;
     break;}
 case 125:
-#line 1204 "source/tools/stubgen.so/cpp/parser.y"
+#line 1207 "source/tools/stubgen.so/cpp/parser.y"
 { if (collectInlineDef() != 0) YYERROR; ;
     break;}
 case 127:
-#line 1209 "source/tools/stubgen.so/cpp/parser.y"
+#line 1212 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 10);
   sprintf(tmp_str, "enum { %s }", yyvsp[-1].string);
@@ -2423,7 +2426,7 @@ case 127:
 ;
     break;}
 case 128:
-#line 1216 "source/tools/stubgen.so/cpp/parser.y"
+#line 1219 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-3].string) + strlen(yyvsp[-1].string) + 11);
   sprintf(tmp_str, "enum %s { %s }", yyvsp[-3].string, yyvsp[-1].string);
@@ -2433,7 +2436,7 @@ case 128:
 ;
     break;}
 case 129:
-#line 1224 "source/tools/stubgen.so/cpp/parser.y"
+#line 1227 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 6);
   sprintf(tmp_str, "enum %s", yyvsp[0].string);
@@ -2442,7 +2445,7 @@ case 129:
 ;
     break;}
 case 131:
-#line 1235 "source/tools/stubgen.so/cpp/parser.y"
+#line 1238 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s, %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2452,7 +2455,7 @@ case 131:
 ;
     break;}
 case 133:
-#line 1247 "source/tools/stubgen.so/cpp/parser.y"
+#line 1250 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s=%s", yyvsp[-2].string, yyvsp[0].string);
@@ -2462,171 +2465,171 @@ case 133:
 ;
     break;}
 case 141:
-#line 1273 "source/tools/stubgen.so/cpp/parser.y"
+#line 1276 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("&"); ;
     break;}
 case 142:
-#line 1274 "source/tools/stubgen.so/cpp/parser.y"
+#line 1277 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("*"); ;
     break;}
 case 143:
-#line 1275 "source/tools/stubgen.so/cpp/parser.y"
+#line 1278 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("+"); ;
     break;}
 case 144:
-#line 1276 "source/tools/stubgen.so/cpp/parser.y"
+#line 1279 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("-"); ;
     break;}
 case 145:
-#line 1277 "source/tools/stubgen.so/cpp/parser.y"
+#line 1280 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("~"); ;
     break;}
 case 146:
-#line 1278 "source/tools/stubgen.so/cpp/parser.y"
+#line 1281 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("!"); ;
     break;}
 case 147:
-#line 1282 "source/tools/stubgen.so/cpp/parser.y"
+#line 1285 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("/"); ;
     break;}
 case 148:
-#line 1283 "source/tools/stubgen.so/cpp/parser.y"
+#line 1286 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("%"); ;
     break;}
 case 149:
-#line 1284 "source/tools/stubgen.so/cpp/parser.y"
+#line 1287 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("^"); ;
     break;}
 case 150:
-#line 1285 "source/tools/stubgen.so/cpp/parser.y"
+#line 1288 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("|"); ;
     break;}
 case 151:
-#line 1286 "source/tools/stubgen.so/cpp/parser.y"
+#line 1289 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("<"); ;
     break;}
 case 152:
-#line 1287 "source/tools/stubgen.so/cpp/parser.y"
+#line 1290 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(">"); ;
     break;}
 case 153:
-#line 1288 "source/tools/stubgen.so/cpp/parser.y"
+#line 1291 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(","); ;
     break;}
 case 154:
-#line 1292 "source/tools/stubgen.so/cpp/parser.y"
+#line 1295 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("="); ;
     break;}
 case 155:
-#line 1293 "source/tools/stubgen.so/cpp/parser.y"
+#line 1296 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("*="); ;
     break;}
 case 156:
-#line 1294 "source/tools/stubgen.so/cpp/parser.y"
+#line 1297 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("/="); ;
     break;}
 case 157:
-#line 1295 "source/tools/stubgen.so/cpp/parser.y"
+#line 1298 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("%="); ;
     break;}
 case 158:
-#line 1296 "source/tools/stubgen.so/cpp/parser.y"
+#line 1299 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("+="); ;
     break;}
 case 159:
-#line 1297 "source/tools/stubgen.so/cpp/parser.y"
+#line 1300 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("-="); ;
     break;}
 case 160:
-#line 1298 "source/tools/stubgen.so/cpp/parser.y"
+#line 1301 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("<<="); ;
     break;}
 case 161:
-#line 1299 "source/tools/stubgen.so/cpp/parser.y"
+#line 1302 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(">>="); ;
     break;}
 case 162:
-#line 1300 "source/tools/stubgen.so/cpp/parser.y"
+#line 1303 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("&="); ;
     break;}
 case 163:
-#line 1301 "source/tools/stubgen.so/cpp/parser.y"
+#line 1304 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("^="); ;
     break;}
 case 164:
-#line 1302 "source/tools/stubgen.so/cpp/parser.y"
+#line 1305 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("|="); ;
     break;}
 case 168:
-#line 1309 "source/tools/stubgen.so/cpp/parser.y"
+#line 1312 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(" new"); ;
     break;}
 case 169:
-#line 1310 "source/tools/stubgen.so/cpp/parser.y"
+#line 1313 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(" delete"); ;
     break;}
 case 170:
-#line 1311 "source/tools/stubgen.so/cpp/parser.y"
+#line 1314 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("->"); ;
     break;}
 case 171:
-#line 1312 "source/tools/stubgen.so/cpp/parser.y"
+#line 1315 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("->*"); ;
     break;}
 case 172:
-#line 1313 "source/tools/stubgen.so/cpp/parser.y"
+#line 1316 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("++"); ;
     break;}
 case 173:
-#line 1314 "source/tools/stubgen.so/cpp/parser.y"
+#line 1317 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("--"); ;
     break;}
 case 174:
-#line 1315 "source/tools/stubgen.so/cpp/parser.y"
+#line 1318 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("<<"); ;
     break;}
 case 175:
-#line 1316 "source/tools/stubgen.so/cpp/parser.y"
+#line 1319 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(">>"); ;
     break;}
 case 176:
-#line 1317 "source/tools/stubgen.so/cpp/parser.y"
+#line 1320 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("<="); ;
     break;}
 case 177:
-#line 1318 "source/tools/stubgen.so/cpp/parser.y"
+#line 1321 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup(">="); ;
     break;}
 case 178:
-#line 1319 "source/tools/stubgen.so/cpp/parser.y"
+#line 1322 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("=="); ;
     break;}
 case 179:
-#line 1320 "source/tools/stubgen.so/cpp/parser.y"
+#line 1323 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("!="); ;
     break;}
 case 180:
-#line 1321 "source/tools/stubgen.so/cpp/parser.y"
+#line 1324 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("&&"); ;
     break;}
 case 181:
-#line 1322 "source/tools/stubgen.so/cpp/parser.y"
+#line 1325 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("||"); ;
     break;}
 case 182:
-#line 1323 "source/tools/stubgen.so/cpp/parser.y"
+#line 1326 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("[]"); ;
     break;}
 case 183:
-#line 1324 "source/tools/stubgen.so/cpp/parser.y"
+#line 1327 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("()"); ;
     break;}
 case 185:
-#line 1329 "source/tools/stubgen.so/cpp/parser.y"
+#line 1332 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.string = strdup("{ ... }"); ;
     break;}
 case 188:
-#line 1339 "source/tools/stubgen.so/cpp/parser.y"
+#line 1342 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "-%s", yyvsp[0].string);
@@ -2635,7 +2638,7 @@ case 188:
 ;
     break;}
 case 192:
-#line 1349 "source/tools/stubgen.so/cpp/parser.y"
+#line 1352 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 3);
   sprintf(tmp_str, "(%s)", yyvsp[-1].string);
@@ -2644,7 +2647,7 @@ case 192:
 ;
     break;}
 case 194:
-#line 1360 "source/tools/stubgen.so/cpp/parser.y"
+#line 1363 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s * %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2654,7 +2657,7 @@ case 194:
 ;
     break;}
 case 195:
-#line 1368 "source/tools/stubgen.so/cpp/parser.y"
+#line 1371 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s / %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2664,7 +2667,7 @@ case 195:
 ;
     break;}
 case 196:
-#line 1376 "source/tools/stubgen.so/cpp/parser.y"
+#line 1379 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s %% %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2674,7 +2677,7 @@ case 196:
 ;
     break;}
 case 198:
-#line 1388 "source/tools/stubgen.so/cpp/parser.y"
+#line 1391 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s + %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2684,7 +2687,7 @@ case 198:
 ;
     break;}
 case 199:
-#line 1396 "source/tools/stubgen.so/cpp/parser.y"
+#line 1399 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 4);
   sprintf(tmp_str, "%s - %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2694,7 +2697,7 @@ case 199:
 ;
     break;}
 case 200:
-#line 1408 "source/tools/stubgen.so/cpp/parser.y"
+#line 1411 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-3].string) + strlen(yyvsp[-1].string) + 12);
   sprintf(tmp_str, "union %s { %s }", yyvsp[-3].string, yyvsp[-1].string);
@@ -2704,7 +2707,7 @@ case 200:
 ;
     break;}
 case 201:
-#line 1416 "source/tools/stubgen.so/cpp/parser.y"
+#line 1419 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 11);
   sprintf(tmp_str, "union { %s }", yyvsp[-1].string);
@@ -2713,7 +2716,7 @@ case 201:
 ;
     break;}
 case 202:
-#line 1423 "source/tools/stubgen.so/cpp/parser.y"
+#line 1426 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 7);
   sprintf(tmp_str, "union %s", yyvsp[0].string);
@@ -2722,7 +2725,7 @@ case 202:
 ;
     break;}
 case 203:
-#line 1433 "source/tools/stubgen.so/cpp/parser.y"
+#line 1436 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2737,7 +2740,7 @@ case 203:
 ;
     break;}
 case 204:
-#line 1446 "source/tools/stubgen.so/cpp/parser.y"
+#line 1449 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2752,7 +2755,7 @@ case 204:
 ;
     break;}
 case 205:
-#line 1459 "source/tools/stubgen.so/cpp/parser.y"
+#line 1462 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2768,7 +2771,7 @@ case 205:
 ;
     break;}
 case 206:
-#line 1473 "source/tools/stubgen.so/cpp/parser.y"
+#line 1476 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2784,7 +2787,7 @@ case 206:
 ;
     break;}
 case 207:
-#line 1487 "source/tools/stubgen.so/cpp/parser.y"
+#line 1490 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2800,7 +2803,7 @@ case 207:
 ;
     break;}
 case 208:
-#line 1501 "source/tools/stubgen.so/cpp/parser.y"
+#line 1504 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2815,7 +2818,7 @@ case 208:
 ;
     break;}
 case 209:
-#line 1514 "source/tools/stubgen.so/cpp/parser.y"
+#line 1517 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2830,7 +2833,7 @@ case 209:
 ;
     break;}
 case 210:
-#line 1527 "source/tools/stubgen.so/cpp/parser.y"
+#line 1530 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2846,7 +2849,7 @@ case 210:
 ;
     break;}
 case 211:
-#line 1541 "source/tools/stubgen.so/cpp/parser.y"
+#line 1544 "source/tools/stubgen.so/cpp/parser.y"
 {
   syntaxelem_t *child;
   /* ret_type, name, args, kind */
@@ -2862,19 +2865,19 @@ case 211:
 ;
     break;}
 case 214:
-#line 1562 "source/tools/stubgen.so/cpp/parser.y"
+#line 1565 "source/tools/stubgen.so/cpp/parser.y"
 { free(yyvsp[0].string); ;
     break;}
 case 215:
-#line 1566 "source/tools/stubgen.so/cpp/parser.y"
+#line 1569 "source/tools/stubgen.so/cpp/parser.y"
 { yyvsp[0].elt->kind = IGNORE_KIND; ;
     break;}
 case 217:
-#line 1571 "source/tools/stubgen.so/cpp/parser.y"
+#line 1574 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.elt = NULL; ;
     break;}
 case 219:
-#line 1577 "source/tools/stubgen.so/cpp/parser.y"
+#line 1580 "source/tools/stubgen.so/cpp/parser.y"
 {
   if (yyvsp[0].elt != NULL)
     yyvsp[0].elt->next = NULL;
@@ -2883,7 +2886,7 @@ case 219:
 ;
     break;}
 case 220:
-#line 1584 "source/tools/stubgen.so/cpp/parser.y"
+#line 1587 "source/tools/stubgen.so/cpp/parser.y"
 { 
   if (yyvsp[0].elt != NULL) {
     yyvsp[0].elt->next = yyvsp[-1].elt;
@@ -2894,7 +2897,7 @@ case 220:
 ;
     break;}
 case 222:
-#line 1597 "source/tools/stubgen.so/cpp/parser.y"
+#line 1600 "source/tools/stubgen.so/cpp/parser.y"
 {
   log_printf("member_with_access : error.  Attempting to recover...\n");
   yyerrok;
@@ -2908,23 +2911,23 @@ case 222:
 ;
     break;}
 case 224:
-#line 1612 "source/tools/stubgen.so/cpp/parser.y"
+#line 1615 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.elt = yyvsp[0].elt; ;
     break;}
 case 226:
-#line 1617 "source/tools/stubgen.so/cpp/parser.y"
+#line 1620 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.elt = NULL; ;
     break;}
 case 227:
-#line 1618 "source/tools/stubgen.so/cpp/parser.y"
+#line 1621 "source/tools/stubgen.so/cpp/parser.y"
 { yyvsp[0].elt->kind = INLINED_KIND; yyval.elt = yyvsp[0].elt; ;
     break;}
 case 228:
-#line 1619 "source/tools/stubgen.so/cpp/parser.y"
+#line 1622 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.elt = NULL; ;
     break;}
 case 229:
-#line 1624 "source/tools/stubgen.so/cpp/parser.y"
+#line 1627 "source/tools/stubgen.so/cpp/parser.y"
 { 
   /* ret_type, name, args, kind */
   syntaxelem_t *elem = new_elem(strdup(""), yyvsp[0].string, NULL, IGNORE_KIND);
@@ -2933,26 +2936,26 @@ case 229:
 ;
     break;}
 case 231:
-#line 1631 "source/tools/stubgen.so/cpp/parser.y"
+#line 1634 "source/tools/stubgen.so/cpp/parser.y"
 { yyval.elt = yyvsp[0].elt; ;
     break;}
 case 232:
-#line 1632 "source/tools/stubgen.so/cpp/parser.y"
+#line 1635 "source/tools/stubgen.so/cpp/parser.y"
 { yyvsp[-2].elt->kind = IGNORE_KIND; free(yyvsp[0].string); yyval.elt = yyvsp[-2].elt; ;
     break;}
 case 235:
-#line 1638 "source/tools/stubgen.so/cpp/parser.y"
+#line 1641 "source/tools/stubgen.so/cpp/parser.y"
 { free(yyvsp[0].string); yyval.elt = yyvsp[-1].elt; ;
     break;}
 case 237:
-#line 1641 "source/tools/stubgen.so/cpp/parser.y"
+#line 1644 "source/tools/stubgen.so/cpp/parser.y"
 {
   free(yyvsp[-1].string);
   yyval.elt = yyvsp[-3].elt; 
 ;
     break;}
 case 238:
-#line 1649 "source/tools/stubgen.so/cpp/parser.y"
+#line 1652 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[0].string) + 7);
   sprintf(tmp_str, "class %s", yyvsp[0].string);
@@ -2961,7 +2964,7 @@ case 238:
 ;
     break;}
 case 239:
-#line 1656 "source/tools/stubgen.so/cpp/parser.y"
+#line 1659 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + strlen(yyvsp[0].string) + 2);
   sprintf(tmp_str, "%s %s", yyvsp[-1].string, yyvsp[0].string);
@@ -2971,7 +2974,7 @@ case 239:
 ;
     break;}
 case 241:
-#line 1668 "source/tools/stubgen.so/cpp/parser.y"
+#line 1671 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s, %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2981,7 +2984,7 @@ case 241:
 ;
     break;}
 case 245:
-#line 1685 "source/tools/stubgen.so/cpp/parser.y"
+#line 1688 "source/tools/stubgen.so/cpp/parser.y"
 { 
   char *tmp_str = (char *) malloc(strlen(yyvsp[-2].string) + strlen(yyvsp[0].string) + 3);
   sprintf(tmp_str, "%s, %s", yyvsp[-2].string, yyvsp[0].string);
@@ -2991,7 +2994,7 @@ case 245:
 ;
     break;}
 case 246:
-#line 1696 "source/tools/stubgen.so/cpp/parser.y"
+#line 1699 "source/tools/stubgen.so/cpp/parser.y"
 {
   char *tmp_str = (char *) malloc(strlen(yyvsp[-1].string) + 12);
   sprintf(tmp_str, "template <%s>", yyvsp[-1].string);
@@ -3225,7 +3228,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 1704 "source/tools/stubgen.so/cpp/parser.y"
+#line 1707 "source/tools/stubgen.so/cpp/parser.y"
 
 
 static int yyerror(char *s /*UNUSED*/)
