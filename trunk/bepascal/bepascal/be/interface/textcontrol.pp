@@ -1,22 +1,23 @@
-{   BePascal - A pascal wrapper around the BeOS API                             
-    Copyright (C) 2002 Olivier Coursiere                                        
-                       Eric Jourde                                              
-                                                                                
-    This library is free software; you can redistribute it and/or               
-    modify it under the terms of the GNU Library General Public                 
-    License as published by the Free Software Foundation; either                
-    version 2 of the License, or (at your option) any later version.            
-                                                                                
-    This library is distributed in the hope that it will be useful,             
-    but WITHOUT ANY WARRANTY; without even the implied warranty of              
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU           
-    Library General Public License for more details.                            
-                                                                                
-    You should have received a copy of the GNU Library General Public           
-    License along with this library; if not, write to the Free                  
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA   
-}                                                                               
-unit textcontrol;
+{   BePascal - A pascal wrapper around the BeOS API
+    Copyright (C) 2002 Olivier Coursiere
+                       Eric Jourde
+                       Oscar Lesta
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Library General Public
+    License as published by the Free Software Foundation; either
+    version 2 of the License, or (at your option) any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+    Library General Public License for more details.
+
+    You should have received a copy of the GNU Library General Public
+    License along with this library; if not, write to the Free
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+}
+unit TextControl;
 
 interface
 
@@ -41,8 +42,8 @@ type
     function ModificationMessage : TMessage;
     procedure SetAlignment(alabel :  TAlignment; texte :  TAlignment);
     procedure GetAlignment(alabel : TAlignment; texte : TAlignment);
-    procedure SetDivider(dividing_line : double);
-    function Divider : double;
+    procedure SetDivider(dividing_line : single);
+    function Divider : single;
     procedure Draw(updateRect : TRect);override;
     procedure MouseDown(where : TPoint);override;
     procedure AttachedToWindow;override;
@@ -100,8 +101,8 @@ procedure BTextControl_SetModificationMessage(AObject : TCPlusObject; message : 
 function BTextControl_ModificationMessage(AObject : TCPlusObject) : TMessage; cdecl; external BePascalLibName name 'BTextControl_ModificationMessage';
 procedure BTextControl_SetAlignment(AObject : TCPlusObject; alabel :  TAlignment; texte :  TAlignment); cdecl; external BePascalLibName name 'BTextControl_SetAlignment';
 procedure BTextControl_GetAlignment(AObject : TCPlusObject; alabel : TAlignment; texte : TAlignment); cdecl; external BePascalLibName name 'BTextControl_GetAlignment';
-procedure BTextControl_SetDivider(AObject : TCPlusObject; dividing_line : double); cdecl; external BePascalLibName name 'BTextControl_SetDivider';
-function BTextControl_Divider(AObject : TCPlusObject) : double; cdecl; external BePascalLibName name 'BTextControl_Divider';
+procedure BTextControl_SetDivider(AObject : TCPlusObject; dividing_line : single); cdecl; external BePascalLibName name 'BTextControl_SetDivider';
+function BTextControl_Divider(AObject : TCPlusObject) : single; cdecl; external BePascalLibName name 'BTextControl_Divider';
 procedure BTextControl_Draw(AObject : TCPlusObject; updateRect : TCPlusObject); cdecl; external BePascalLibName name 'BTextControl_Draw';
 procedure BTextControl_MouseDown(AObject : TCPlusObject; where : TCPlusObject); cdecl; external BePascalLibName name 'BTextControl_MouseDown';
 procedure BTextControl_AttachedToWindow(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextControl_AttachedToWindow';
@@ -222,12 +223,12 @@ begin
   BTextControl_GetAlignment(CPlusObject, alabel, texte);
 end;
 
-procedure TTextControl.SetDivider(dividing_line : double);
+procedure TTextControl.SetDivider(dividing_line : single);
 begin
   BTextControl_SetDivider(CPlusObject, dividing_line);
 end;
 
-function TTextControl.Divider : double;
+function TTextControl.Divider : single;
 begin
   Result := BTextControl_Divider(CPlusObject);
 end;
