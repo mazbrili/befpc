@@ -91,14 +91,20 @@ type
   TFunction = class(TNamedItem)
   private
     FResultType : TResultType;
+    FClasse : TClasse;
     function GetParam(Index : integer) : TParam;
   protected
   public
     constructor Create(Node : TDOMNode); override;  
     destructor Destroy; override;
+    function IsConstructor : boolean;
     function IsDestructor : boolean;
+    function HasParams : boolean;
+    procedure Start; override;
+    procedure Ends; override;    
     property ResultType : TResultType read FResultType;
     property Params[Index : integer] : TParam read GetParam;
+    property Classe : TClasse read FClasse;
   end;
   TTypedItem = class(TNamedItem)
   private
@@ -111,6 +117,7 @@ type
   private
   protected
   public
+    procedure Middle; override;
   end;
   TResultType = class(TNode)
   private
@@ -309,6 +316,7 @@ begin
     for i := 0 to Node.ChildNodes.count - 1 do
     begin
       aFunc := TFunction.Create(Node.ChildNodes.Item[i]);
+      aFunc.FClasse := Self;
       WriteLn(aFunc.Name);
       WriteLn('');
       List.AddObject(aFunc.Name, aFunc);
@@ -384,6 +392,11 @@ begin
   inherited;
 end;
 
+function TFunction.IsConstructor : boolean;
+begin
+  Result := (Name = Classe.Name);
+end;
+
 function TFunction.IsDestructor : boolean;
 begin
   Result := (Name[1] = '~');
@@ -394,9 +407,85 @@ begin
   Result := FChildren.Objects[Index] as TParam;
 end;
 
+function TFunction.HasParams : boolean;
+begin
+  Result := (Count > 0);
+end;
+
+procedure TFunction.Start;
+var
+  EndChar : string;
+begin
+  WriteLn('Function Start');
+  if HasParams then
+    EndChar := '('
+  else
+    EndChar := '';
+  with SourceWriter.InterfacePas do
+  begin
+    if IsConstructor then
+      Add(Format('    constructor %s%s', [Name, EndChar]))
+    else if IsDestructor then
+      Add(Format('    destructor %s%s', [Name, EndChar]))
+    else if (ResultType.Typ = '') or (ResultType.Typ = 'void') then
+      Add(Format('    procedure %s%s', [Name, EndChar]))
+    else
+      Add(Format('    function %s%s', [Name, EndChar]));
+  end;
+end;
+
+procedure TFunction.Ends;
+var
+  s : string;
+  EndChar : string;
+begin
+  WriteLn('Function ends');
+  if hasParams then
+  begin
+    EndChar := ')';
+    with SourceWriter.InterfacePas do
+    begin
+      // Delete the last '; '
+      s := Strings[Count - 1];
+      System.Delete(s, Length(s) - 1, 2);
+      Strings[Count - 1] := s;
+    end;
+  end
+  else
+  begin
+    EndChar := '';
+  end;
+  with SourceWriter.InterfacePas do
+  begin
+    if not((ResultType.Typ = '') or (ResultType.Typ = 'void')) then
+    begin
+      WriteLn(ResultType.Typ);
+      WriteLn(Name);
+      s := Format('%s%s : %s;', [Strings[Count - 1], EndChar, CppToPas(ResultType.Typ)]);
+      Strings[Count - 1] := s;
+    end
+    else
+      Strings[Count - 1] := Format('%s%s;', [Strings[Count - 1], EndChar]);
+  end;
+end;
+
 function TTypedItem.GetType : string;
 begin
   Result := FNode.Attributes.GetNamedItem('TYPE').NodeValue;
+end;
+
+procedure TParam.Middle;
+var
+  s : string;
+begin
+  WriteLn('Param Middle');
+  with SourceWriter.InterfacePas do
+  begin
+    WriteLn(Strings[Count - 1]);
+    s := Format('%s%s : %s; ', [Strings[Count - 1], Name, CppToPas(Typ)]);
+    Strings[Count - 1] := s;
+    WriteLn(Strings[Count - 1]);    
+  end;
 end;
 
 function TResultType.GetType : string;

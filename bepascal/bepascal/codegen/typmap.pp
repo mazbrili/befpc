@@ -18,8 +18,8 @@ var
 function CppToPas(CppType : string) : string;
 begin
   Result := aTypMap.Values[CppType];
-  if Result = '' then
-    aTypMap.Values[CppType] := '';
+//  if Result = '' then
+//    aTypMap.Values[CppType] := '';
 end;
 
 function PasToCpp(PasType : string) : string;
@@ -34,6 +34,7 @@ initialization
   aTypMap.Sorted := True;
   
 finalization
+//  WriteLn(aTypMap.Text);
   aTypMap.SaveToFile(TypMapFileName);
   aTypMap.Free;
 
