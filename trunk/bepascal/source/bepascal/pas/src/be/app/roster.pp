@@ -24,7 +24,7 @@ uses
   BeObj, AppDefs, Entry, List, Message, Messenger, OS, StorageDefs, SupportDefs;
 
 type
-  app_info = record
+  app_info = packed record
     thread : thread_id;
     team : team_id;
     port : port_id;
@@ -67,8 +67,8 @@ type
     function TeamFor(var ref : entry_ref) : team_id;
     procedure GetAppList(team_id_list : BList);
     procedure GetAppList(sig : PChar; team_id_list : BList);
-    function GeAppInfo(sig : PChar; var info : app_info) : status_t;
-    function GeAppInfo(var ref : entry_ref; var info : app_info) : status_t;
+    function GetAppInfo(sig : PChar; var info : app_info) : status_t;
+    function GetAppInfo(var ref : entry_ref; var info : app_info) : status_t;
     function GetRunningAppInfo(team : team_id; var info : app_info) : status_t;
     function GetActiveAppInfo(var info : app_info) : status_t;
     function FindApp(mime_type : PChar; var app : entry_ref) : status_t;
@@ -141,8 +141,8 @@ function BRoster_TeamFor(AObject : TCPlusObject; mime_sig : PChar) : team_id; cd
 function BRoster_TeamFor(AObject : TCPlusObject; var ref : entry_ref) : team_id; cdecl; external BePascalLibName name 'BRoster_TeamFor';
 procedure BRoster_GetAppList(AObject : TCPlusObject; team_id_list : TCPlusObject); cdecl; external BePascalLibName name 'BRoster_GetAppList';
 procedure BRoster_GetAppList(AObject : TCPlusObject; sig : PChar; team_id_list : TCPlusObject); cdecl; external BePascalLibName name 'BRoster_GetAppList';
-function BRoster_GeAppInfo(AObject : TCPlusObject; sig : PChar; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetAppInfo';
-function BRoster_GeAppInfo(AObject : TCPlusObject; var ref : entry_ref; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetAppInfo';
+function BRoster_GetAppInfo(AObject : TCPlusObject; sig : PChar; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetAppInfo';
+function BRoster_GetAppInfo(AObject : TCPlusObject; var ref : entry_ref; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetAppInfo';
 function BRoster_GetRunningAppInfo(AObject : TCPlusObject; team : team_id; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetRunningAppInfo';
 function BRoster_GetActiveAppInfo(AObject : TCPlusObject; var info : app_info) : status_t; cdecl; external BePascalLibName name 'BRoster_GetActiveAppInfo';
 function BRoster_FindApp(AObject : TCPlusObject; mime_type : PChar; var app : entry_ref) : status_t; cdecl; external BePascalLibName name 'BRoster_FindApp';
@@ -241,14 +241,14 @@ begin
   BRoster_GetAppList(CPlusObject, sig, team_id_list.CPlusObject);
 end;
 
-function BRoster.GeAppInfo(sig : PChar; var info : app_info) : status_t;
+function BRoster.GetAppInfo(sig : PChar; var info : app_info) : status_t;
 begin
-  Result := BRoster_GeAppInfo(CPlusObject, sig, info);
+  Result := BRoster_GetAppInfo(CPlusObject, sig, info);
 end;
 
-function BRoster.GeAppInfo(var ref : entry_ref; var info : app_info) : status_t;
+function BRoster.GetAppInfo(var ref : entry_ref; var info : app_info) : status_t;
 begin
-  Result := BRoster_GeAppInfo(CPlusObject, ref, info);
+  Result := BRoster_GetAppInfo(CPlusObject, ref, info);
 end;
 
 function BRoster.GetRunningAppInfo(team : team_id; var info : app_info) : status_t;
