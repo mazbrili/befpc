@@ -259,39 +259,37 @@ if ( $(OSPLAT) = X86 )
 {
 	if ( $(TYPE) = DRIVER )
 	{
-		CCFLAGS on $(<) += -D_KERNEL_MODE=1 -no-fpic ;
-		C++FLAGS on $(<) += -D_KERNEL_MODE=1 -no-fpic ;
+		CCFLAGS += -D_KERNEL_MODE=1 -no-fpic ;
+		C++FLAGS += -D_KERNEL_MODE=1 -no-fpic ;
 	}
 	
 	switch $(OPTIMIZE)
 	{
-		case FULL : OPTIMIZER on $(<) = -O3 ;
-		case SOME : OPTIMIZER on $(<) = -O1 ;
-		case NONE : OPTIMIZER on $(<) = -O0 ;
+		case FULL : OPTIMIZER = -O3 ;
+		case SOME : OPTIMIZER = -O1 ;
+		case NONE : OPTIMIZER = -O0 ;
 		# Default to FULL
-		case * : OPTIMIZER on $(<) = -O3 ;
+		case * : OPTIMIZER = -O3 ;
 	}
-	
-	DEBUG = ;
 	
 	if ( $(DEBUGGER) = TRUE )
 	{
-		DEBUG on $(<) += -g ;
-		OPTIMIZER on $(<) = -O0 ;
+		DEBUG += -g ;
+		OPTIMIZER += -O0 ;		
 	}
 	
-	CCFLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
-	C++FLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	CCFLAGS += $(OPTIMIZER) $(DEBUG) ;
+	C++FLAGS += $(OPTIMIZER) $(DEBUG) ;
 	
 	if ( $(WARNINGS) = ALL )
 	{		
-		CCFLAGS on $(<) += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
-		C++FLAGS on $(<) += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
+		CCFLAGS += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
+		C++FLAGS += -Wall -Wno-multichar -Wno-ctor-dtor-privacy ;
 	}
 	else if ( $(WARNINGS) = NONE )
 	{
-		CCFLAGS on $(<) += -w ;
-		C++FLAGS on $(<) += -w ;
+		CCFLAGS += -w ;
+		C++FLAGS += -w ;
 	}
 	
 	LINKFLAGS on $(<) += $(DEBUG) ;
@@ -308,32 +306,32 @@ else if ( $(OSPLAT) = PPC )
 {
 	switch $(OPTIMIZE)
 	{
-		case FULL : OPTIMIZER on $(<) = -O7 ;
-		case SOME : OPTIMIZER on $(<) = -O3 ;
-		case NONE : OPTIMIZER on $(<) = -O0 ;
+		case FULL : OPTIMIZER = -O7 ;
+		case SOME : OPTIMIZER = -O3 ;
+		case NONE : OPTIMIZER = -O0 ;
 		# Default to FULL
-		case * : OPTIMIZER on $(<) = -O7 ;
+		case * : OPTIMIZER = -O7 ;
 	}
 	
-	DEBUG on $(<) = ;
+#	DEBUG on $(<) = ;
 	
 	if ( $(DEBUGGER) = TRUE )
 	{
-		DEBUG on $(<) += -g ;
+		DEBUG = -g ;
 	}
 	
-	CCFLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
-	C++FLAGS on $(<) += $(OPTIMIZER) $(DEBUG) ;
+	CCFLAGS += $(OPTIMIZER) $(DEBUG) ;
+	C++FLAGS += $(OPTIMIZER) $(DEBUG) ;
 	
 	if ( $(WARNINGS) = ALL )
 	{		
-		CCFLAGS on $(<) += -w on -requireprotos ;
-		C++FLAGS on $(<) += -w on -requireprotos ;
+		CCFLAGS += -w on -requireprotos ;
+		C++FLAGS += -w on -requireprotos ;
 	}
 	else if ( $(WARNINGS) = NONE )
 	{
-		CCFLAGS on $(<) += -w off ;
-		C++FLAGS on $(<) += -w off ;
+		CCFLAGS += -w off ;
+		C++FLAGS += -w off ;
 	}
 	
 	# Clear the standard environment variable
@@ -384,8 +382,8 @@ for i in $(LIBPATHS)
 } 
 HDRS += $(SYSTEM_INCLUDE_PATHS) ;
 HDRS on $(<) += $(LOCAL_INCLUDE_PATHS) ;
-CCFLAGS on $(<) += $(COMPILER_FLAGS) ;
-C++FLAGS on $(<) += $(COMPILER_FLAGS) ;
+CCFLAGS += $(COMPILER_FLAGS) ;
+C++FLAGS += $(COMPILER_FLAGS) ;
 LINKFLAGS on $(<) += $(LINKER_FLAGS) ;
 
 # Define some tools
