@@ -20,10 +20,27 @@ unit interfacedefs;
 
 interface
 
+uses graphicdefs,beobj;
+
 type
-TAlignment = (B_ALIGN_LEFT,
+  TAlignment = (B_ALIGN_LEFT,
     B_ALIGN_RIGHT,
     B_ALIGN_CENTER);
+
+
+  Tcolor_which =(Tcolor_nil,
+    B_PANEL_BACKGROUND_COLOR ,
+    B_MENU_BACKGROUND_COLOR ,
+    B_MENU_SELECTION_BACKGROUND_COLOR ,
+    B_MENU_ITEM_TEXT_COLOR ,
+    B_MENU_SELECTED_ITEM_TEXT_COLOR ,
+    B_WINDOW_TAB_COLOR ,
+    B_KEYBOARD_NAVIGATION_COLOR ,
+    B_DESKTOP_COLOR );
+
+
+function ui_color(which : Tcolor_which) : Trgb_color; cdecl; external 'be' name 'ui_color__F11color_which';
+function Ttint_color(color : Trgb_color; which :Tcolor_which) : Trgb_color;cdecl; external 'be' name 'tint_color__FG9rgb_colorf';
 
 implementation
 

@@ -110,6 +110,12 @@ status_t BMessage_AddInt8(TCPlusObject message, const char *name, int8 anInt8)
 	return reinterpret_cast<BMessage*>(message)->AddInt8(name, anInt8);
 }
 
+status_t BMessage_FindInt8(TCPlusObject message,const char *name, int8 *value) 
+{
+	return reinterpret_cast<BMessage*>(message)->FindInt8(name, value);
+}
+
+
 status_t BMessage_AddInt16(TCPlusObject message, const char *name, int16 anInt16)
 {
 	return reinterpret_cast<BMessage*>(message)->AddInt16(name, anInt16);
@@ -139,6 +145,12 @@ status_t BMessage_AddString(TCPlusObject message, const char *name, const char *
 {
 	return reinterpret_cast<BMessage*>(message)->AddString(name, string);
 }
+
+status_t BMessage_FindString(TCPlusObject message,const char *name, const char **str) 
+{
+	return reinterpret_cast<BMessage*>(message)->FindString(name, str);
+}
+
 
 status_t BMessage_AddMessage(TCPlusObject message, const char *name, const TCPlusObject amessage)
 {
