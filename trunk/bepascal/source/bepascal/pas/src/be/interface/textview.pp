@@ -22,7 +22,7 @@ interface
 
 uses
      beobj, view, message, archivable, SupportDefs, rect, list,
-  handler, messenger,interfacedefs,font,graphicdefs;
+  handler, messenger,interfacedefs,font,graphicdefs,clipboard;
 type
   text_run = Record
     offset : LongInt;
@@ -85,12 +85,12 @@ type
     function CountLines : integer;
     function CurrentLine : integer;
     procedure GoToLine(lineNum : integer);
-{    procedure Cut(clipboard : TClipboard);
-    procedure Copy(clipboard : TClipboard);
-    procedure Paste(clipboard : TClipboard);
+    procedure Cut(clipboard : BClipboard);
+    procedure Copy(clipboard : BClipboard);
+    procedure Paste(clipboard : BClipboard);
     procedure Clear;
-    function AcceptsPaste(clipboard : TClipboard) : boolean;
-}   function AcceptsDrop(inMessage : BMessage) : boolean;
+    function AcceptsPaste(clipboard : BClipboard) : boolean;
+//   function AcceptsDrop(inMessage : BMessage) : boolean;
     procedure Select(startOffset : integer; endOffset : integer);
     procedure SelectAll;
 //    procedure GetSelection(outStart : integer; outEnd : integer);
@@ -193,11 +193,11 @@ function BTextView_ByteAt(AObject : TCPlusObject; offset : integer) :  PChar; cd
 function BTextView_CountLines(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BTextView_CountLines';
 function BTextView_CurrentLine(AObject : TCPlusObject) : integer; cdecl; external BePascalLibName name 'BTextView_CurrentLine';
 procedure BTextView_GoToLine(AObject : TCPlusObject; lineNum : integer); cdecl; external BePascalLibName name 'BTextView_GoToLine';
-//procedure BTextView_Cut(AObject : TCPlusObject; clipboard : TClipboard); cdecl; external BePascalLibName name 'BTextView_Cut';
-//procedure BTextView_Copy(AObject : TCPlusObject; clipboard : TClipboard); cdecl; external BePascalLibName name 'BTextView_Copy';
-//procedure BTextView_Paste(AObject : TCPlusObject; clipboard : TClipboard); cdecl; external BePascalLibName name 'BTextView_Paste';
+procedure BTextView_Cut(AObject : TCPlusObject; clipboard : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_Cut';
+procedure BTextView_Copy(AObject : TCPlusObject; clipboard : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_Copy';
+procedure BTextView_Paste(AObject : TCPlusObject; clipboard : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_Paste';
 procedure BTextView_Clear(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_Clear';
-//function BTextView_AcceptsPaste(AObject : TCPlusObject; clipboard : TClipboard) : boolean; cdecl; external BePascalLibName name 'BTextView_AcceptsPaste';
+function BTextView_AcceptsPaste(AObject : TCPlusObject; clipboard : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BTextView_AcceptsPaste';
 function BTextView_AcceptsDrop(AObject : TCPlusObject; inMessage : TCPlusObject) : boolean; cdecl; external BePascalLibName name 'BTextView_AcceptsDrop';
 procedure BTextView_Select(AObject : TCPlusObject; startOffset : integer; endOffset : integer); cdecl; external BePascalLibName name 'BTextView_Select';
 procedure BTextView_SelectAll(AObject : TCPlusObject); cdecl; external BePascalLibName name 'BTextView_SelectAll';
@@ -498,17 +498,18 @@ begin
   BTextView_GoToLine(CPlusObject, lineNum);
 end;
 
-{procedure  BTextView.Cut(clipboard : TClipboard);
+procedure  BTextView.Cut(clipboard : BClipboard);
 begin
   BTextView_Cut(CPlusObject, clipboard.CPlusObject);
 end;
 
-procedure  BTextView.Copy(clipboard : TClipboard);
+procedure  BTextView.Copy(clipboard : BClipboard);
 begin
+	
   BTextView_Copy(CPlusObject, clipboard.CPlusObject);
 end;
 
-procedure  BTextView.Paste(clipboard : TClipboard);
+procedure  BTextView.Paste(clipboard : BClipboard);
 begin
   BTextView_Paste(CPlusObject, clipboard.CPlusObject);
 end;
@@ -518,16 +519,16 @@ begin
   BTextView_Clear(CPlusObject);
 end;
 
-function  BTextView.AcceptsPaste(clipboard : TClipboard) : boolean;
+function  BTextView.AcceptsPaste(clipboard : BClipboard) : boolean;
 begin
   Result := BTextView_AcceptsPaste(CPlusObject, clipboard.CPlusObject);
 end;
-}
-function  BTextView.AcceptsDrop(inMessage : BMessage) : boolean;
+
+{function  BTextView.AcceptsDrop(inMessage : BMessage) : boolean;
 begin
   Result := BTextView_AcceptsDrop(CPlusObject, inMessage);
 end;
-
+}
 procedure  BTextView.Select(startOffset : integer; endOffset : integer);
 begin
   BTextView_Select(CPlusObject, startOffset, endOffset);
