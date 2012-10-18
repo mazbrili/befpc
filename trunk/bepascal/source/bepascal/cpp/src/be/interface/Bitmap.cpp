@@ -288,11 +288,13 @@ BPBitmap::IsLocked(void) const
 	return BBitmap::IsLocked();
 }
 
+#ifndef __HAIKU__
 status_t
 BPBitmap::Perform(perform_code d, void *arg)
 {
 	return BBitmap::Perform(d, arg);
 }
+#endif
 
 /*-------------------------------------------------------------*/
 

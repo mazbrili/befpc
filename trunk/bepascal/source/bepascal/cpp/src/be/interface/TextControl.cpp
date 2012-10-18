@@ -702,12 +702,13 @@ BTextControl_SetFlags(BTextControl *TextControl, uint32 flags)
  * Returns: status_t
  * Effects: 
  ***********************************************************************/
+#ifndef __HAIKU__
 status_t
 BTextControl_Perform(BTextControl *TextControl, perform_code d, void *arg)
 {
    return TextControl->Perform(d, arg);
 }
-
+#endif
 
 /***********************************************************************
  *  Method: BTextControl::_ReservedTextControl1
