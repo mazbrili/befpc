@@ -475,12 +475,14 @@ BScreen_DPMSCapabilites(BScreen *Screen, void)
  * Returns: BPrivateScreen *
  * Effects: 
  ***********************************************************************/
+#ifndef __HAIKU__
+// This class is really private under Haiku
 BPrivateScreen *
 BScreen_private_screen(BScreen *Screen)
 {
    return Screen->private_screen();
 }
-
+#endif
 
 #if defined(__cplusplus)
 }
