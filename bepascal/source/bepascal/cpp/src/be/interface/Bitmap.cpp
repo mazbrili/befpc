@@ -612,13 +612,13 @@ BBitmap_IsLocked(BBitmap *Bitmap)
  *  Method: BBitmap::Perform
  *  Descr:
  */
-
+#ifndef __HAIKU__
 status_t
 BBitmap_Perform(BBitmap *Bitmap, perform_code d, void *arg)
 {
    return Bitmap->Perform(d, arg);
 }
-
+#endif
 
 /*
  *  Method: BBitmap::_ReservedBitmap1
