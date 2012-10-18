@@ -16,8 +16,8 @@
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef _FONT_H_
-#define _FONT_H_
+#ifndef _FONT_H_P
+#define _FONT_H_P
 
 #include "Font.h"
 #include "Rect.h"
@@ -30,4 +30,4 @@ class BPFont : public BFont, public BPasObject
 		BPFont(TPasObject PasObject, const BFont &font);
 };
 
-#endif _FONT_H_ /* _FONT_H_ */
+#endif _FONT_H_P /* _FONT_H_P */
