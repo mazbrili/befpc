@@ -67,7 +67,7 @@ TCPlusObject BRect_Create_4(TPasObject PasObject, BPoint leftTop, BPoint rightBo
 
 void BRect_Free(TCPlusObject rect)
 {
-  delete rect;
+  delete reinterpret_cast<BRect*>(rect);
 }
 
 void BRect_PrintToStream(TCPlusObject rect)
