@@ -58,7 +58,7 @@ TCPlusObject BPoint_Create_3(TPasObject PasObject)
 
 void BPoint_Free(TCPlusObject Point)
 {
-	delete Point;
+	delete reinterpret_cast<BPoint*>(Point);
 }
 
 void BPoint_ConstrainTo(TCPlusObject Point, BRect rect)
