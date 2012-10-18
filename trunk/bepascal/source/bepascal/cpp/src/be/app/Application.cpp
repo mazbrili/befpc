@@ -193,7 +193,7 @@ TCPlusObject BApplication_Create_3(TPasObject PasObject, const char *Signature,
 
 void BApplication_Free(TCPlusObject Application)
 {
-	delete Application;
+	delete reinterpret_cast<BPApplication*>(Application);
 }
 
 void BApplication_HideCursor(TCPlusObject Application)
