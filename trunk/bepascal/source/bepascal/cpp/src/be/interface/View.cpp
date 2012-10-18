@@ -303,7 +303,7 @@ TCPlusObject BView_Create_1(TPasObject PasObject,
 
 void BView_Free(TCPlusObject View)
 {
-	delete View;
+	delete reinterpret_cast<BView*>(View);
 }
 
 /***********************************************************************
