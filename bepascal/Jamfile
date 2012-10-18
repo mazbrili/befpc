@@ -51,7 +51,7 @@ rule MakeDistribs
 	# binary files like libbepascal.so are needed to build bin_bepascal.zip
 	Depends bin_bepascal.zip : libbepascal.so ;
 	# make all distribution files. We recursively add all files 
-	# in those directories except the ones in CVS subdirectories
+	# in those directories except the ones in CVS or svn subdirectories
 	# We also add Jamfiles for building and installing the included
 	# sources
 	MakeZip bin_bepascal.zip :  Readme 
