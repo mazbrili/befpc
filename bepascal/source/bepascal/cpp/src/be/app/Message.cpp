@@ -77,7 +77,7 @@ TCPlusObject BMessage_Create_2(TPasObject PasObject, uint32 what)
 
 void BMessage_Free(TCPlusObject message)
 {
-	delete message;
+	delete reinterpret_cast<BPMessage*>(message);
 }
 
 uint32 BMessage_Getwhat(TCPlusObject message)

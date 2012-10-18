@@ -42,7 +42,7 @@ TCPlusObject BRoster_Create(TPasObject PasObject)
 
 void BRoster_Destroy(TPasObject PasObject)
 {
-	delete PasObject;
+	delete reinterpret_cast<BRoster*>(PasObject);
 }
 
 //status_t BRoster_Broadcast(TCPlusObject Roster, TCPlusObject *message)
