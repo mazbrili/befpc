@@ -67,7 +67,7 @@ actions Lex
 }
 
 # Make a zip file named $(1) that include (recursively) all files in the directory list $(2), except the ones 
-# in the CVS subdirectories
+# in the CVS subdirectories, in cvsignore files, and in svn directories. 
 rule MakeZip 
 {
 	Depends all : $(1) ;
@@ -76,7 +76,7 @@ rule MakeZip
 
 actions MakeZip
 {
-	zip $(DISTRIB_DIR)/$(1) -r $(2) -x \*CVS\* 
+	zip $(DISTRIB_DIR)/$(1) -r $(2) -x \*CVS\* -x \*cvsignore\* -x \*svn\*
 }
 
 ##	OpenBeOS Generic Jamfile Engine v1.0.1
