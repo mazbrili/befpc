@@ -90,7 +90,7 @@ TCPlusObject BWindow_Create_1(TPasObject PasObject,
 
 void BWindow_Free(TCPlusObject Window)
 {
-	delete Window;
+	delete reinterpret_cast<BWindow*>(Window);
 }
 
 void BWindow_Show(TCPlusObject Window)
