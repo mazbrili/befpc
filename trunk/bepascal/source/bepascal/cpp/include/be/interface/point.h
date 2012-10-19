@@ -31,4 +31,4 @@ class BPPoint : public BPoint, public BPasObject
 		BPPoint(TPasObject PasObject);
 };
 
-#endif _POINT_H_ /* _POINT_H_ */
+#endif /* _POINT_H_ */
