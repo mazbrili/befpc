@@ -34,4 +34,4 @@ class BPRect : public BRect, public BPasObject
 		BPRect(TPasObject PasObject, BPoint leftTop, BPoint rightBottom);
 };
 
-#endif _RECT_H_ /* _RECT_H_ */
+#endif /* _RECT_H_ */
