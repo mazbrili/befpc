@@ -379,7 +379,7 @@ BFilePanel_SetHideWhenDone(BFilePanel *FilePanel, bool z)
  * Effects: 
  ***********************************************************************/
 bool
-BFilePanel_HidesWhenDone(BFilePanel *FilePanel, void) 
+BFilePanel_HidesWhenDone(BFilePanel *FilePanel) 
 {
    return FilePanel->HidesWhenDone();
 }

@@ -95,7 +95,7 @@ BVolume_SetTo(BVolume *Volume, dev_t dev)
  *   Descr: 
  */
 void
-BVolume_Unset(BVolume *Volume, void)
+BVolume_Unset(BVolume *Volume)
 {
    Volume->Unset();
 }

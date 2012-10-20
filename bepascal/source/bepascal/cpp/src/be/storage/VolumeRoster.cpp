@@ -95,7 +95,7 @@ BVolumeRoster_StartWatching(BVolumeRoster *VolumeRoster, BMessenger msngr)
  *   Descr: 
  */
 void
-BVolumeRoster_StopWatching(BVolumeRoster *VolumeRoster, void)
+BVolumeRoster_StopWatching(BVolumeRoster *VolumeRoster)
 {
    VolumeRoster->StopWatching();
 }
@@ -106,7 +106,7 @@ BVolumeRoster_StopWatching(BVolumeRoster *VolumeRoster, void)
  *   Descr: 
  */
 BMessenger
-BVolumeRoster_Messenger(BVolumeRoster *VolumeRoster, void) 
+BVolumeRoster_Messenger(BVolumeRoster *VolumeRoster) 
 {
    return VolumeRoster->Messenger();
 }

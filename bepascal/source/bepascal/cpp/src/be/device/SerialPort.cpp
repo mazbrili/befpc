@@ -155,7 +155,7 @@ BSerialPort_SetDataBits(BSerialPort *SerialPort, data_bits numBits)
  *   Descr: 
  */
 data_bits
-BSerialPort_DataBits(BSerialPort *SerialPort, void)
+BSerialPort_DataBits(BSerialPort *SerialPort)
 {
    return SerialPort->DataBits();
 }
@@ -177,7 +177,7 @@ BSerialPort_SetStopBits(BSerialPort *SerialPort, stop_bits numBits)
  *   Descr: 
  */
 stop_bits
-BSerialPort_StopBits(BSerialPort *SerialPort, void)
+BSerialPort_StopBits(BSerialPort *SerialPort)
 {
    return SerialPort->StopBits();
 }
@@ -199,7 +199,7 @@ BSerialPort_SetParityMode(BSerialPort *SerialPort, parity_mode which)
  *   Descr: 
  */
 parity_mode
-BSerialPort_ParityMode(BSerialPort *SerialPort, void)
+BSerialPort_ParityMode(BSerialPort *SerialPort)
 {
    return SerialPort->ParityMode();
 }
@@ -210,7 +210,7 @@ BSerialPort_ParityMode(BSerialPort *SerialPort, void)
  *   Descr: 
  */
 void
-BSerialPort_ClearInput(BSerialPort *SerialPort, void)
+BSerialPort_ClearInput(BSerialPort *SerialPort)
 {
    SerialPort->ClearInput();
 }
@@ -221,7 +221,7 @@ BSerialPort_ClearInput(BSerialPort *SerialPort, void)
  *   Descr: 
  */
 void
-BSerialPort_ClearOutput(BSerialPort *SerialPort, void)
+BSerialPort_ClearOutput(BSerialPort *SerialPort)
 {
    SerialPort->ClearOutput();
 }
