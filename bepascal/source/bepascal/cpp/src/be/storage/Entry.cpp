@@ -51,13 +51,13 @@ BPEntry::BPEntry(TPasObject PasObject)
 {
 }			
 
-BPEntry::BPEntry(TPasObject PasObject,const entry_ref *ref, bool traverse = false)
+BPEntry::BPEntry(TPasObject PasObject,const entry_ref *ref, bool traverse)
 		:BEntry(ref,  traverse),
 		BPasObject(PasObject)
 {
 }			
 
-BPEntry::BPEntry(TPasObject PasObject,const char *path, bool traverse = false)
+BPEntry::BPEntry(TPasObject PasObject,const char *path, bool traverse)
 		:BEntry(path, traverse),
 		BPasObject(PasObject)
 {

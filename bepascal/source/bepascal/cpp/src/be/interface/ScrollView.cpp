@@ -84,12 +84,11 @@ private:
 BPScrollView::BPScrollView(TPasObject PasObject,
 						        const char *name,
 								BView *target,
-								uint32 resizeMask = B_FOLLOW_LEFT |
-													B_FOLLOW_TOP,
-								uint32 flags = 0,
-								bool horizontal = false,
-								bool vertical = false, 
-								border_style border = B_FANCY_BORDER)
+								uint32 resizeMask,
+								uint32 flags,
+								bool horizontal,
+								bool vertical, 
+								border_style border)
           : 
           BScrollView(name,
           		      target,		

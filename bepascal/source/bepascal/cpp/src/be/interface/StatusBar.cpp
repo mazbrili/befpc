@@ -72,8 +72,8 @@ private:
 BPStatusBar::BPStatusBar(TPasObject PasObject,
 						BRect frame,
 								const char *name,
-								const char *label = NULL,
-								const char *trailing_label = NULL)
+								const char *label,
+								const char *trailing_label)
 			:BStatusBar(
 						 frame,
 								name,

@@ -41,7 +41,7 @@ class BPScreen : public BScreen, virtual public BPasObject
 
 
 
-BPScreen::BPScreen(TPasObject PasObject,screen_id id=B_MAIN_SCREEN_ID )
+BPScreen::BPScreen(TPasObject PasObject,screen_id id)
 					:BScreen(id),
 					BPasObject(PasObject)
 					

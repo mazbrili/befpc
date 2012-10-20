@@ -98,8 +98,8 @@ BPCheckBox::BPCheckBox(TPasObject PasObject,
 					  const char *name,
 					  const char *label, 
 					  BMessage *message,
-					  uint32 rmask = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-					  uint32 flags = B_WILL_DRAW | B_NAVIGABLE)
+					  uint32 rmask,
+					  uint32 flags)
 					  :
 					  BCheckBox(frame,name,label,
 					  message,rmask,flags),

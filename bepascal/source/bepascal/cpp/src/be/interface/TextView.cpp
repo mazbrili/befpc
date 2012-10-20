@@ -224,7 +224,7 @@ BPTextView::BPTextView(TPasObject PasObject,
 					   const char	*name,
 					   BRect			textRect,
 					   uint32		resizeMask,
-					   uint32		flags = B_WILL_DRAW | B_PULSE_NEEDED)
+					   uint32		flags)
           : 
           BTextView( frame,
 					name, 

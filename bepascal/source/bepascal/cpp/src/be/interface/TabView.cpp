@@ -75,7 +75,7 @@ virtual void 			DrawLabel(BView* owner, BRect tabFrame);
 virtual void 			DrawTab(BView* owner, BRect tabFrame, tab_position,bool full=true);
 };
 
-BPTab::BPTab(TPasObject PasObject,BView* contents=NULL)
+BPTab::BPTab(TPasObject PasObject,BView* contents)
 	: BTab(contents),
 	BPasObject(PasObject)
 {
@@ -149,11 +149,9 @@ private:
 };
 
 BPTabView::BPTabView(TPasObject PasObject,BRect frame, const char *name,
-							button_width width=B_WIDTH_AS_USUAL,
-							uint32 resizingMode = B_FOLLOW_ALL,
-							uint32 flags = B_FULL_UPDATE_ON_RESIZE |
-								B_WILL_DRAW | B_NAVIGABLE_JUMP |
-								B_FRAME_EVENTS | B_NAVIGABLE)
+							button_width width,
+							uint32 resizingMode,
+							uint32 flags)
 					:BTabView(frame, name,
 							 width,
 							resizingMode,

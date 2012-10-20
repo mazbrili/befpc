@@ -105,10 +105,10 @@ private:
 
 BPBox::BPBox(TPasObject PasObject, 
 			BRect bounds,
-			const char *name = NULL,
-			uint32 resizeFlags = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-			uint32 flags = B_WILL_DRAW | B_FRAME_EVENTS | B_NAVIGABLE_JUMP,
-			border_style border = B_FANCY_BORDER)
+			const char *name,
+			uint32 resizeFlags,
+			uint32 flags,
+			border_style border)
 		:
 		BBox(bounds, name, resizeFlags, flags, border),
 		BPView(PasObject, bounds, name, resizeFlags, flags),

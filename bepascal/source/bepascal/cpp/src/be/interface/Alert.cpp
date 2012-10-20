@@ -120,10 +120,10 @@ BPAlert::BPAlert(TPasObject PasObject,
 				const char *title,
 				const char *text,
 				const char *button1,
-				const char *button2 = NULL,
-				const char *button3 = NULL,
-				button_width width = B_WIDTH_AS_USUAL,
-				alert_type type = B_INFO_ALERT)
+				const char *button2,
+				const char *button3,
+				button_width width,
+				alert_type type)
 		: BAlert(title, text, button1, button2, button3, width, type),
 		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0)
 
@@ -147,7 +147,7 @@ BPAlert::BPAlert(TPasObject PasObject,
 				const char *button3,
 				button_width width,
 				button_spacing spacing,
-				alert_type type = B_INFO_ALERT)
+				alert_type type)
 		: BAlert(title, text, button1, button2, button3, width, spacing, type),
 		BPWindow(PasObject, BRect(), title, B_UNTYPED_WINDOW, 0, 0)
 //		BPLooper(PasObject),

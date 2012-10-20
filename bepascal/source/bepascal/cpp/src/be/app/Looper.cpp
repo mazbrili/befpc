@@ -47,9 +47,9 @@ BLooper_QuitRequested_hook Looper_QuitRequested_hook;
 }
 #endif
 
-BPLooper::BPLooper(TPasObject PasObject, const char *name = NULL,
-                   int32 priority = B_NORMAL_PRIORITY,
-                   int32 portCapacity = B_LOOPER_PORT_DEFAULT_CAPACITY)
+BPLooper::BPLooper(TPasObject PasObject, const char *name,
+                   int32 priority,
+                   int32 portCapacity)
                    : BLooper(name, priority, portCapacity),
                    BPHandler(PasObject, name)
 //                BPasObject(PasObject)

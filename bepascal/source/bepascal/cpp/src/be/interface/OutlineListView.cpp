@@ -82,10 +82,9 @@ BPOutlineListView::BPOutlineListView(TPasObject PasObject,BMessage *data)
 
 BPOutlineListView::BPOutlineListView(TPasObject PasObject,BRect frame,
 							const char * name,
-							list_view_type type = B_SINGLE_SELECTION_LIST,
-							uint32 resizeMask = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-							uint32 flags = B_WILL_DRAW | B_FRAME_EVENTS 
-								| B_NAVIGABLE)
+							list_view_type type,
+							uint32 resizeMask,
+							uint32 flags)
 					:BOutlineListView(frame,name,type,resizeMask,flags),
           BPListView(PasObject, frame,name,type,resizeMask,flags),
 //       BPView(PasObject, frame,name,resizeMask,flags),

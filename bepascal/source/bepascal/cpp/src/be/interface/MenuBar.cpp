@@ -6,8 +6,8 @@
 #include <beobj.h>
 
 BPMenuBar::BPMenuBar(TPasObject PasObject, BRect frame, const char *name, 
-		uint32 resizingMode = B_FOLLOW_LEFT_RIGHT | B_FOLLOW_TOP,
-		menu_layout layout = B_ITEMS_IN_COLUMN, bool resizeToFit = true)
+		uint32 resizingMode,
+		menu_layout layout, bool resizeToFit)
 		:BMenuBar(frame, name, resizingMode, layout, resizeToFit),
 		  BPMenu(PasObject, name, layout),
 //       BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),

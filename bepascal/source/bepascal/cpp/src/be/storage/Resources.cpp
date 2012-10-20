@@ -44,7 +44,7 @@ BPResources::BPResources(TPasObject PasObject)
 		BPasObject(PasObject)
 {
 }			
-BPResources::BPResources(TPasObject PasObject, const BFile *file, bool truncate = false)
+BPResources::BPResources(TPasObject PasObject, const BFile *file, bool truncate)
 		:BResources(file,truncate),
 		BPasObject(PasObject)
 {
