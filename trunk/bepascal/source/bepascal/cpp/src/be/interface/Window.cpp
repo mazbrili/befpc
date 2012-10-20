@@ -43,7 +43,7 @@ BPWindow::BPWindow(TPasObject PasObject,
 				 const char *title,
 				 window_type type,
 				 uint32 flags,
-				 uint32 workspaces = B_CURRENT_WORKSPACE)
+				 uint32 workspaces)
 				 : BWindow(frame, title, type, flags, workspaces),
                  BPLooper(PasObject)
 //              BPHandler(PasObject, title),

@@ -55,7 +55,7 @@ BPArchivable::~BPArchivable(void)
 {
 }
 
-status_t BPArchivable::Archive(BMessage *into, bool deep = true) const 
+status_t BPArchivable::Archive(BMessage *into, bool deep) const 
 {
 	if (GetPasObject() != NULL)
 	{
@@ -69,7 +69,7 @@ status_t BPArchivable::Archive(BMessage *into, bool deep = true) const
 	}
 }
 
-status_t BPArchivable::ArchiveFromPascal(BMessage *into, bool deep = true)
+status_t BPArchivable::ArchiveFromPascal(BMessage *into, bool deep)
 {
 	into->AddString("class", "BPArchivable");
 	return BArchivable::Archive(into, deep);

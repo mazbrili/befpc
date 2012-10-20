@@ -140,8 +140,8 @@ BPBitmap::BPBitmap(TPasObject PasObject,
 					BRect bounds,
 					uint32 flags,
 					color_space depth,
-					int32 bytesPerRow = B_ANY_BYTES_PER_ROW,
-					screen_id screenID = B_MAIN_SCREEN_ID)
+					int32 bytesPerRow,
+					screen_id screenID)
 			: BBitmap(bounds, flags, depth, bytesPerRow, screenID),
 			BPArchivable(PasObject)//,
 //			BPasObject(PasObject)
@@ -152,8 +152,8 @@ BPBitmap::BPBitmap(TPasObject PasObject,
 BPBitmap::BPBitmap(TPasObject PasObject,
 					BRect bounds,
 					color_space depth,
-					bool accepts_views = false,
-					bool need_contiguous = false)
+					bool accepts_views,
+					bool need_contiguous)
 			: BBitmap(bounds, depth, accepts_views, need_contiguous),
 			BPArchivable(PasObject)//,
 //			BPasObject(PasObject)
@@ -163,8 +163,8 @@ BPBitmap::BPBitmap(TPasObject PasObject,
 
 BPBitmap::BPBitmap(TPasObject PasObject,
 					const BBitmap* source,
-					bool accepts_views = false,
-					bool need_contiguous = false)
+					bool accepts_views,
+					bool need_contiguous)
 			: BBitmap(source, accepts_views, need_contiguous),
 			BPArchivable(PasObject)//,
 //			BPasObject(PasObject)
@@ -193,7 +193,7 @@ BPBitmap::IsValid(void) const
 }
 
 status_t
-BPBitmap::LockBits(uint32 *state=NULL)
+BPBitmap::LockBits(uint32 *state)
 {
 	return BBitmap::LockBits(state);
 }

@@ -29,13 +29,13 @@
 #include "menuitem.h"
 #include <beobj.h>
 
-BPMenuItem::BPMenuItem(TPasObject PasObject, const char *label, BMessage *message, char shortcut = 0, uint32 modifiers = 0)
+BPMenuItem::BPMenuItem(TPasObject PasObject, const char *label, BMessage *message, char shortcut, uint32 modifiers)
 		:BMenuItem(label, message, shortcut, modifiers),
 		BPasObject(PasObject)
 {
 }
 
-BPMenuItem::BPMenuItem(TPasObject PasObject, BMenu *submenu, BMessage *message = NULL)
+BPMenuItem::BPMenuItem(TPasObject PasObject, BMenu *submenu, BMessage *message)
 		:BMenuItem(submenu, message),
 		BPasObject(PasObject)
 {

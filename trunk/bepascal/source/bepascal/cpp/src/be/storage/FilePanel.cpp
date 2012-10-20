@@ -50,15 +50,15 @@ public:
 };
 
 BPFilePanel::BPFilePanel(TPasObject PasObject,
-                            file_panel_mode mode = B_OPEN_PANEL,
-							BMessenger *target = 0,
-							const entry_ref *start_directory = 0,
-							uint32 node_flavors = 0,
-							bool allow_multiple_selection = true,
-							BMessage *message = 0, 
-							BRefFilter *reg = 0,
-							bool modal = false,
-							bool hide_when_done = true)
+                            file_panel_mode mode,
+							BMessenger *target,
+							const entry_ref *start_directory,
+							uint32 node_flavors,
+							bool allow_multiple_selection,
+							BMessage *message, 
+							BRefFilter *reg,
+							bool modal,
+							bool hide_when_done)
 			:BFilePanel(mode,target,start_directory,node_flavors,allow_multiple_selection,	message, reg,modal,	hide_when_done ),
 			BPasObject(PasObject)
 {

@@ -17,7 +17,7 @@
 #include "MenuItem.h"
 
 
-BPMenu::BPMenu(TPasObject PasObject, const char *name, menu_layout layout = B_ITEMS_IN_COLUMN)
+BPMenu::BPMenu(TPasObject PasObject, const char *name, menu_layout layout)
 		:BMenu(name, layout),
           BPView(PasObject, BRect(0, 0, 0, 0), "", 0, 0),
           BPHandler(PasObject)

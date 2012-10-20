@@ -51,11 +51,9 @@ BPListView::BPListView(TPasObject PasObject,BMessage *data)
 
 BPListView::BPListView(TPasObject PasObject,BRect frame,
 								const char *name,
-								list_view_type type = B_SINGLE_SELECTION_LIST,
-								uint32 resizeMask = B_FOLLOW_LEFT |
-													B_FOLLOW_TOP,
-								uint32 flags = B_WILL_DRAW | B_FRAME_EVENTS |
-													B_NAVIGABLE)
+								list_view_type type,
+								uint32 resizeMask,
+								uint32 flags)
 					:BListView(frame,name,type,resizeMask,flags),
           BPView(PasObject, BRect(0,0,0,0), name, 0, flags),
           BPHandler(PasObject, name)

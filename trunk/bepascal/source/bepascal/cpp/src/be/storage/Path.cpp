@@ -48,8 +48,8 @@ BPPath::BPPath(TPasObject PasObject)
 {
 }		
 
-BPPath::BPPath(TPasObject PasObject,const char *dir, const char *leaf = NULL,
-							bool normalize = false)
+BPPath::BPPath(TPasObject PasObject,const char *dir, const char *leaf,
+							bool normalize)
 		:BPath(dir, leaf ,normalize),
 		BPasObject(PasObject)
 {

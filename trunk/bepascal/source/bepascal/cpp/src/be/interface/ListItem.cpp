@@ -72,7 +72,7 @@ BPListItem::BPListItem(TPasObject PasObject,BMessage *data)
 {
 }
 
-BPListItem::BPListItem(TPasObject PasObject, uint32 outlineLevel = 0, bool expanded = true)
+BPListItem::BPListItem(TPasObject PasObject, uint32 outlineLevel, bool expanded)
 					:BListItem(outlineLevel,expanded),
 					BPasObject(PasObject)
 {
@@ -83,7 +83,7 @@ void BPListItem::Update(BView *owner, const BFont *font)
     ListItem_Update_hook(GetPasObject(), &owner, &font);
 }
 
-void BPListItem::DrawItem(BView *owner, BRect frame, bool complete = false)
+void BPListItem::DrawItem(BView *owner, BRect frame, bool complete)
 {
 	//BListItem::DrawItem(owner, frame, complete);
     ListItem_DrawItem_hook(GetPasObject(), &owner, &frame, complete);
@@ -104,7 +104,7 @@ class BPStringItem : public BStringItem , virtual  public BPasObject
 	private:
 };
 
-BPStringItem::BPStringItem(TPasObject PasObject,const char *text,uint32 outlineLevel = 0, bool expanded = true)
+BPStringItem::BPStringItem(TPasObject PasObject,const char *text,uint32 outlineLevel, bool expanded)
 				:BStringItem(text,outlineLevel,expanded),
 					//BPListItem(PasObject,outlineLevel,expanded),
 		BPasObject(PasObject)
@@ -118,7 +118,7 @@ BPStringItem::BPStringItem(TPasObject PasObject,BMessage *data)
 {
 }
 
-void BPStringItem::DrawItem(BView *owner, BRect frame, bool complete = false)
+void BPStringItem::DrawItem(BView *owner, BRect frame, bool complete)
 {
 	BStringItem::DrawItem(owner, frame, complete);
     ListString_DrawItem_hook(GetPasObject(), &owner, &frame, complete);

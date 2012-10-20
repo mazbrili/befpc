@@ -118,8 +118,8 @@ BPTextControl::BPTextControl(TPasObject PasObject,
 					  const char *label, 
 					  const char *initial_text, 
 					  BMessage *message,
-					  uint32 rmask = B_FOLLOW_LEFT | B_FOLLOW_TOP,
-					  uint32 flags = B_WILL_DRAW | B_NAVIGABLE)
+					  uint32 rmask,
+					  uint32 flags)
 					  :
 					  BTextControl(frame,name,label,initial_text,
 					  message,rmask,flags),
