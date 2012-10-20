@@ -450,7 +450,7 @@ BScreen_SetDPMS(BScreen *Screen, uint32 dpms_state)
  * Effects: 
  ***********************************************************************/
 uint32
-BScreen_DPMSState(BScreen *Screen, void)
+BScreen_DPMSState(BScreen *Screen)
 {
    return Screen->DPMSState();
 }
@@ -463,7 +463,7 @@ BScreen_DPMSState(BScreen *Screen, void)
  * Effects: 
  ***********************************************************************/
 uint32
-BScreen_DPMSCapabilites(BScreen *Screen, void)
+BScreen_DPMSCapabilites(BScreen *Screen)
 {
    return Screen->DPMSCapabilites();
 }

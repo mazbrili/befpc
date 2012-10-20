@@ -118,7 +118,7 @@ BView* BWindow_ChildAt(BWindow* Window, int32 index)
 	return Window->ChildAt(index);
 }
 
-int32 BWindow_CountChildren(BWindow* Window, void)
+int32 BWindow_CountChildren(BWindow* Window)
 {
 	return Window->CountChildren();
 }

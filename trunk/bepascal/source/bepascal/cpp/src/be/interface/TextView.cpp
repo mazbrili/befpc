@@ -1569,7 +1569,7 @@ BTextView_HideTyping(BTextView *TextView, bool enabled)
  * Effects: 
  ***********************************************************************/
 bool
-BTextView_IsTypingHidden(BTextView *TextView, void) 
+BTextView_IsTypingHidden(BTextView *TextView) 
 {
    return TextView->IsTypingHidden();
 }
