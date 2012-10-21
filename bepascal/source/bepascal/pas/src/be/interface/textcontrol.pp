@@ -63,7 +63,9 @@ type
     procedure AllDetached;override;
     function GetSupportedSuites(data : BMessage) : Status_t;
     procedure SetFlags(flags : Cardinal);
+    {$ifndef HAIKU}    
     function Perform(d : Perform_code; arg : Pointer) : Status_t;
+    {$endif}
   {  procedure _ReservedTextControl1;
     procedure _ReservedTextControl2;
     procedure _ReservedTextControl3;
@@ -325,10 +327,12 @@ begin
   BTextControl_SetFlags(CPlusObject, flags);
 end;
 
+{$ifndef HAIKU}
 function BTextControl.Perform(d : Perform_code; arg : Pointer) : Status_t;
 begin
   Result := BTextControl_Perform(CPlusObject, d, arg);
 end;
+{$endif}
 
 {procedure BTextControl._ReservedTextControl1;
 begin
