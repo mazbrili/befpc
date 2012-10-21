@@ -30,4 +30,4 @@ class BPFont : public BFont, public BPasObject
 		BPFont(TPasObject PasObject, const BFont &font);
 };
 
-#endif _FONT_H_P /* _FONT_H_P */
+#endif /* _FONT_H_P */
