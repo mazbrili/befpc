@@ -80,8 +80,13 @@ typedef struct syntaxelem {
 } syntaxelem_t;
 
 /* defined in table.c */
+#ifdef WIN32
 __declspec(dllexport) void init_tables();
 __declspec(dllexport) void free_tables();
+#else
+void init_tables();
+void free_tables();
+#endif
 
 #ifdef SGDEBUG
 void print_se(syntaxelem_t *);

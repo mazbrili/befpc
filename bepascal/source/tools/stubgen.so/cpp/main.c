@@ -461,7 +461,11 @@ static void scan_existing_skeleton()
   log_printf("done scanning skeleton...\n");
 }
 
+#ifdef WIN32
 __declspec(dllexport) syntaxelem_t * scan(char *infile)
+#else
+syntaxelem_t * scan(char *infile)
+#endif
 {
   extern FILE *yyin;
 
@@ -515,7 +519,11 @@ __declspec(dllexport) syntaxelem_t * scan(char *infile)
   log_printf("done with %s\n", inPath);
 }
 
+#ifdef WIN32
 __declspec(dllexport) void scan_and_generate(FILE *infile)
+#else
+void scan_and_generate(FILE *infile)
+#endif
 {
   extern FILE *yyin;
   
