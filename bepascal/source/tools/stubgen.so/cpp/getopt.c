@@ -74,6 +74,10 @@
 #define getpid() GetCurrentProcessId()
 #endif
 
+#ifdef __HAIKU__
+#include <string.h>
+#endif
+
 #ifndef _
 /* This is for other GNU distributions with internationalized messages.
    When compiling libc, the _ macro is predefined.  */
