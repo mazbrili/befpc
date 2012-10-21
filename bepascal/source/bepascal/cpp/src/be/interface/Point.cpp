@@ -91,4 +91,4 @@ float BPoint_Get_Y(TCPlusObject Point)
 #endif
 
 
-#endif _POINT_CPP_ /* _POINT_CPP_ */
+#endif /* _POINT_CPP_ */

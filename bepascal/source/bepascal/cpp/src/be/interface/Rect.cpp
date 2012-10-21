@@ -434,4 +434,4 @@ BRect_Contains_1
 #endif
 
 
-#endif _RECT_CPP_ /* _RECT_CPP_ */
+#endif /* _RECT_CPP_ */

@@ -338,4 +338,4 @@ BShape_Close(BShape *Shape)
 #endif
 
 
-#endif _SHAPE_CPP_ /* _SHAPE_CPP_ */
+#endif /* _SHAPE_CPP_ */
