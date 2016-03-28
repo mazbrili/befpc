@@ -31,7 +31,10 @@ Depends libstubgen.so : libbepascal.so ;
 
 # set the distribution dir
 DISTRIB_DIR = distrib ;
-LIBBEPASCAL_INSTALL_DIR = /boot/home/config/lib ;
+# Uncomment this line to setup BeOS install directory :
+#LIBBEPASCAL_INSTALL_DIR = /boot/home/config/lib ;
+# For Haiku :
+LIBBEPASCAL_INSTALL_DIR = /boot/home/config/non-packaged/lib ;
 
 # clean SEARCH var when building zip files. if not, some files are imported
 # from source/bepascal/cpp instead, maybe because of the Jam-engine.
