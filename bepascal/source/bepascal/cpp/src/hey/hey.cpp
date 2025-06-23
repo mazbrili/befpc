@@ -556,7 +556,7 @@ Hey(BMessenger* target, char* argv[], int32* argx, int32 argc, BMessage* reply)
 		}
 		result = add_data(&the_message, argv, argx);
 		if (result!=B_OK) {
-			if (result==B_FILE_NOT_FOUND){
+			if (result==B_ENTRY_NOT_FOUND){
 				if (!silent)
 					fprintf(stderr, "File not found!\n");
 			} else {
@@ -600,7 +600,7 @@ add_with(BMessage *to_message, char *argv[], int32 *argx, int32 argc)
 			do {
 				result=add_data(to_message, argv, argx);
 				if (result!=B_OK){
-					if (result==B_FILE_NOT_FOUND){
+					if (result==B_ENTRY_NOT_FOUND){
 						if (!silent)
 							fprintf(stderr, "File not found!\n");
 					} else {
@@ -910,12 +910,12 @@ add_data(BMessage *to_message, char *argv[], int32 *argx)
 		}
 
 		if (get_ref_for_path(valuestring+5, &file_ref)!=B_OK){
-			return B_FILE_NOT_FOUND;
+			return B_ENTRY_NOT_FOUND;
 		}
 
 		// check if the ref is valid
 		BEntry entry;
-		if (entry.SetTo(&file_ref)!=B_OK) return B_FILE_NOT_FOUND;
+		if (entry.SetTo(&file_ref)!=B_OK) return B_ENTRY_NOT_FOUND;
 		//if(!entry.Exists())  return B_FILE_NOT_FOUND;
 
 		// add both ways, refsreceived needs it as "refs" while scripting needs "data"
